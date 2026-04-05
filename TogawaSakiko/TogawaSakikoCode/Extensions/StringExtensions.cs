@@ -1,4 +1,6 @@
-﻿namespace TogawaSakiko.TogawaSakikoCode.Extensions;
+﻿using TogawaSakiko;
+
+namespace TogawaSakiko.TogawaSakikoCode.Extensions;
 
 //Mostly utilities to get asset paths.
 public static class StringExtensions

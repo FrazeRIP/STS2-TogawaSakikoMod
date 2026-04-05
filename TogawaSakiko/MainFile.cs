@@ -1,13 +1,12 @@
-using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Modding;
 
-namespace TogawaSakiko.TogawaSakikoCode;
+namespace TogawaSakiko;
 
 [ModInitializer(nameof(Initialize))]
-public partial class MainFile : Node
+public class MainFile
 {
-    public const string ModId = "TogawaSakiko"; //Used for resource filepath
+    public const string ModId = "TogawaSakiko"; // Used for resource filepath and Harmony ID
 
     public static MegaCrit.Sts2.Core.Logging.Logger Logger { get; } =
         new(ModId, MegaCrit.Sts2.Core.Logging.LogType.Generic);
