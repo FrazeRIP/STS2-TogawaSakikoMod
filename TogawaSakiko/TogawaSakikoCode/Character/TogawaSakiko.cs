@@ -1,10 +1,10 @@
-﻿using BaseLib.Abstracts;
-using TogawaSakiko.TogawaSakikoCode.Extensions;
+using BaseLib.Abstracts;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Models.Relics;
+using TogawaSakiko.TogawaSakikoCode.Cards.Basic;
+using TogawaSakiko.TogawaSakikoCode.Extensions;
+using TogawaSakiko.TogawaSakikoCode.Relics;
 
 namespace TogawaSakiko.TogawaSakikoCode.Character;
 
@@ -15,26 +15,26 @@ public class TogawaSakiko : PlaceholderCharacterModel
     public static readonly Color Color = new("8295a8");
 
     public override Color NameColor => Color;
-    public override CharacterGender Gender => CharacterGender.Neutral;
+    public override CharacterGender Gender => CharacterGender.Female;
     public override int StartingHp => 70;
 
     public override IEnumerable<CardModel> StartingDeck =>
     [
-        ModelDb.Card<StrikeIronclad>(),
-        ModelDb.Card<StrikeIronclad>(),
-        ModelDb.Card<StrikeIronclad>(),
-        ModelDb.Card<StrikeIronclad>(),
-        ModelDb.Card<StrikeIronclad>(),
-        ModelDb.Card<DefendIronclad>(),
-        ModelDb.Card<DefendIronclad>(),
-        ModelDb.Card<DefendIronclad>(),
-        ModelDb.Card<DefendIronclad>(),
-        ModelDb.Card<DefendIronclad>()
+        ModelDb.Card<StrikeTogawaSakiko>(),
+        ModelDb.Card<StrikeTogawaSakiko>(),
+        ModelDb.Card<StrikeTogawaSakiko>(),
+        ModelDb.Card<StrikeTogawaSakiko>(),
+        ModelDb.Card<StrikeTogawaSakiko>(),
+        ModelDb.Card<DefendTogawaSakiko>(),
+        ModelDb.Card<DefendTogawaSakiko>(),
+        ModelDb.Card<DefendTogawaSakiko>(),
+        ModelDb.Card<DefendTogawaSakiko>(),
+        ModelDb.Card<DefendTogawaSakiko>()
     ];
 
     public override IReadOnlyList<RelicModel> StartingRelics =>
     [
-        ModelDb.Relic<BurningBlood>()
+        ModelDb.Relic<StarterRelicTogawaSakiko>()
     ];
 
     public override CardPoolModel CardPool => ModelDb.CardPool<TogawaSakikoCardPool>();
