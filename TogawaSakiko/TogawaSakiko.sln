@@ -1,0 +1,19 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TogawaSakiko", "TogawaSakiko.csproj", "{C8B4E6CF-7946-4F5B-8F3F-75A7A7F5ABA4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8B4E6CF-7946-4F5B-8F3F-75A7A7F5ABA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B4E6CF-7946-4F5B-8F3F-75A7A7F5ABA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8B4E6CF-7946-4F5B-8F3F-75A7A7F5ABA4}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{C8B4E6CF-7946-4F5B-8F3F-75A7A7F5ABA4}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{C8B4E6CF-7946-4F5B-8F3F-75A7A7F5ABA4}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{C8B4E6CF-7946-4F5B-8F3F-75A7A7F5ABA4}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+EndGlobal
