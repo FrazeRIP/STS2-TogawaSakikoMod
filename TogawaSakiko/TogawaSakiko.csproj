@@ -1,11 +1,9 @@
-<Project Sdk="Godot.NET.Sdk/4.5.1" InitialTargets="CheckDependencyPaths">
-    <Import Project=".\local.props" Condition="Exists('.\local.props')"/>
+﻿<Project Sdk="Godot.NET.Sdk/4.5.1" InitialTargets="CheckDependencyPaths">
     <Import Project=".\Sts2PathDiscovery.props"/>
-
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
-        <Nullable>enable</Nullable> <!--Makes code analysis regarding null values stricter.-->
         <ImplicitUsings>true</ImplicitUsings>
+        <Nullable>enable</Nullable> <!--Makes code analysis regarding null values stricter.-->
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <DefaultItemExcludes>packages/**</DefaultItemExcludes>
         <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
@@ -14,15 +12,18 @@
 
     <PropertyGroup>
         <!-- Megadot current version is 4.5.1, and the game won't load your .pck if the Godot version used is newer. -->
-        <!-- MegaDot / Godot 4.5.1 mono executable used for export-pack. Override in local.props. -->
-        <!-- <GodotPath>Path/To/Godot_v4.5.1-stable_mono_win64.exe</GodotPath> -->
+        <!-- MegaDot / Godot 4.5.1 mono executable used for export-pack -->
+        <GodotPath>X:\Projects\SlayTheSpire2\Godot\Godot_v4.5.1-stable_mono_win64\Godot_v4.5.1-stable_mono_win64.exe</GodotPath>
 
-        <!-- Default BaseLib path (override BaselibPath in local.props if your install differs) -->
-        <BaselibPath Condition="'$(BaselibPath)' == ''">$(ModsPath)BaseLib/BaseLib.dll</BaselibPath>
+        <!-- If sts2 is not found automatically, set this manually -->
+        <!-- <Sts2Path>Path/To/SteamLibrary/steamapps/common/Slay the Spire 2</Sts2Path> -->
+
+        <!-- Override managed data folder (default is OS-specific under Sts2Path) -->
+        <!-- <Sts2DataDir>$(Sts2Path)/data_sts2_windows_x86_64</Sts2DataDir> -->
     </PropertyGroup>
 
     <PropertyGroup>
-        <!-- Disable architecture mismatch warning; mods are ideally built for all platforms (MSIL)
+        <!-- Diasble architecture mismatch warning; mods are ideally built for all platforms (MSIL)
              while your local StS2 version will be for your specific platform. -->
         <NoWarn>$(NoWarn);MSB3270</NoWarn>
     </PropertyGroup>
@@ -36,17 +37,14 @@
             <HintPath>$(Sts2DataDir)/sts2.dll</HintPath>
             <Private>false</Private>
         </Reference>
-        <Reference Include="BaseLib">
-            <HintPath>$(BaselibPath)</HintPath>
-            <Private>false</Private>
-        </Reference>
     </ItemGroup>
 
-    <ItemGroup>
+    <ItemGroup Condition="False"> <!--Allows private/protected field references but may (unlikely to) cause errors.-->
         <Publicize Include="sts2" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false"/>
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Alchyr.Sts2.BaseLib" Version="*" PrivateAssets="All"/>
         <PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="All"/>
         <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="*"/>
         <PackageReference Include="BSchneppe.StS2.PckPacker" Version="0.1.1" PrivateAssets="All"/>
@@ -102,7 +100,7 @@
               DestinationFolder="$(ModsPath)/$(MSBuildProjectName)"/>
     </Target>
 
-    <Target Name="GodotPublish" AfterTargets="Publish" Condition="'$(_PckPackerExitCode)' != '0' and '$(GodotPath)' != '' and Exists('$(GodotPath)') and '$(IsInnerGodotExport)' != 'true'">
+    <Target Name="GodotPublish" AfterTargets="Publish" Condition="'$(GodotPath)' != '' and Exists('$(GodotPath)') and '$(IsInnerGodotExport)' != 'true'">
         <Message Text="Exporting Godot .pck to mods folder" Importance="high"/>
         <Exec Command="&quot;$(GodotPath)&quot; --headless --export-pack &quot;BasicExport&quot; &quot;$(ModsPath)$(MSBuildProjectName)/$(MSBuildProjectName).pck&quot;"
               EnvironmentVariables="IsInnerGodotExport=true;MSBUILDDISABLENODEREUSE=1"

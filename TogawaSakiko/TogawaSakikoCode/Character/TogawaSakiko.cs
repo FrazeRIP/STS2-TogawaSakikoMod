@@ -15,7 +15,7 @@ public class TogawaSakiko : PlaceholderCharacterModel
     public static readonly Color Color = new("8295a8");
 
     public override Color NameColor => Color;
-    public override CharacterGender Gender => CharacterGender.Female;
+    public override CharacterGender Gender => CharacterGender.Feminine;
     public override int StartingHp => 70;
 
     public override IEnumerable<CardModel> StartingDeck =>
