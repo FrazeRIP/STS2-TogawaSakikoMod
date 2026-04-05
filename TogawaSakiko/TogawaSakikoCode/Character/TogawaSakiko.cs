@@ -12,7 +12,7 @@ public class TogawaSakiko : PlaceholderCharacterModel
 {
     public const string CharacterId = "TogawaSakiko";
 
-    public static readonly Color Color = new("ffffff");
+    public static readonly Color Color = new("8295a8");
 
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Neutral;

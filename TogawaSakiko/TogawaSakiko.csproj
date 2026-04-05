@@ -70,6 +70,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="TogawaSakikoCode\Cards\Attacks\" />
+        <Folder Include="TogawaSakikoCode\Cards\Powers\" />
+        <Folder Include="TogawaSakikoCode\Cards\Shared\" />
+        <Folder Include="TogawaSakikoCode\Cards\Skills\" />
         <Folder Include="TogawaSakiko\images\card_portraits\big\"/>
         <Folder Include="TogawaSakiko\images\powers\big\"/>
         <Folder Include="TogawaSakiko\images\relics\big\"/>
