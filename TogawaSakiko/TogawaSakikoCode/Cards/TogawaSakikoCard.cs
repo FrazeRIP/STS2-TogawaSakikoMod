@@ -9,9 +9,12 @@ using TogawaSakiko.TogawaSakikoCode.Extensions;
 namespace TogawaSakiko.TogawaSakikoCode.Cards;
 
 [Pool(typeof(TogawaSakikoCardPool))]
-public abstract class TogawaSakikoCard(int cost, CardType type, CardRarity rarity, TargetType target) :
-    ConstructedCardModel(cost, type, rarity, target)
+public abstract class TogawaSakikoCard : ConstructedCardModel
 {
+    protected TogawaSakikoCard(int cost, CardType type, CardRarity rarity, TargetType target,
+        bool showInCardLibrary = true, bool autoAdd = true)
+        : base(cost, type, rarity, target, showInCardLibrary, autoAdd) { }
+
     // Image size:
     // Normal art: 1000x760 (Using 500x380 should also work, it will simply be scaled.)
     // Full art: 606x852
