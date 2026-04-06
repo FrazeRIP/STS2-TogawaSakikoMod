@@ -27,7 +27,6 @@ public class DazzlingDownPower : TogawaSakikoPower
             var dazzling = Owner.Powers.FirstOrDefault(p => p is DazzlingPower);
             if (dazzling != null)
             {
-                Flash();
                 await PowerCmd.ModifyAmount(dazzling, -Amount, Owner, null);
             }
         }

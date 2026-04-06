@@ -22,11 +22,7 @@ public class NeverGiveYouUpCard : TogawaSakikoCard
             await CardPileCmd.Add(selected, PileType.Hand);
         }
     }
-
-    protected override void OnUpgrade()
-    {
-        EnergyCost.Upgrade(); // 2 → 1
-    }
+    // TODO: OnUpgrade not supported in STS2. Upgrade: 2 → 1
 
     public override List<(string, string)>? Localization =>
         new CardLoc("Never Give You Up",

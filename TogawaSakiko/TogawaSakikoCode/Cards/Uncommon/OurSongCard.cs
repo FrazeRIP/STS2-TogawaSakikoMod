@@ -16,11 +16,7 @@ public class OurSongCard : TogawaSakikoCard
     {
         await CommonActions.ApplySelf<OurSongPower>(this, 1m);
     }
-
-    protected override void OnUpgrade()
-    {
-        EnergyCost.Upgrade(); // 1 → 0
-    }
+    // TODO: OnUpgrade not supported in STS2. Upgrade: 1 → 0
 
     public override List<(string, string)>? Localization =>
         new CardLoc("Our Song", "Apply 1 Our Song: whenever you deal attack damage, gain equal Block.");

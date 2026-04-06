@@ -15,11 +15,7 @@ public class CharismaticFormCard : TogawaSakikoCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
     }
-
-    protected override void OnUpgrade()
-    {
-        WithKeywords(CardKeyword.Innate);
-    }
+    // TODO: OnUpgrade not supported in STS2. Upgrade: WithKeywords(CardKeyword.Innate);
 
     public override List<(string, string)>? Localization =>
         new CardLoc("Charismatic Form",

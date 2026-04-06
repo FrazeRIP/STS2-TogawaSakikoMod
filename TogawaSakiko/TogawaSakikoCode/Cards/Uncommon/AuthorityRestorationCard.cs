@@ -27,11 +27,7 @@ public class AuthorityRestorationCard : TogawaSakikoCard
                 await PowerCmd.ModifyAmount(vuln, -1, Owner.Creature, this);
         }
     }
-
-    protected override void OnUpgrade()
-    {
-        EnergyCost.Upgrade(); // 1 → 0
-    }
+    // TODO: OnUpgrade not supported in STS2. Upgrade: 1 → 0
 
     public override List<(string, string)>? Localization =>
         new CardLoc("Authority Restoration", "Remove 1 Vulnerable from all enemies. Exhaust.");

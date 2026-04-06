@@ -30,7 +30,6 @@ public class OurSongPower : TogawaSakikoPower
     {
         if (dealer == Owner && result.DamageDealt > 0 && (props & ValueProp.Move) != 0)
         {
-            Flash();
             await CreatureCmd.GainBlock(Owner, result.DamageDealt, BlockProps.cardUnpowered, null);
         }
     }

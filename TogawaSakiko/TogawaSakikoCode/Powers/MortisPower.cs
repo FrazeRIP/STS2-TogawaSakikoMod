@@ -30,7 +30,6 @@ public class MortisPower : TogawaSakikoPower
     {
         if (target == Owner && result.DamageDealt > 0 && Owner.Player != null)
         {
-            Flash();
             var curse = new MortisCard();
             await CardPileCmd.AddGeneratedCardToCombat(curse, PileType.Draw, addedByPlayer: false);
         }

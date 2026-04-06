@@ -27,7 +27,6 @@ public class CrychicPower : TogawaSakikoPower
     {
         if (Owner == player.Creature)
         {
-            Flash();
             var melody = new MelodyCard();
             await CardPileCmd.AddGeneratedCardToCombat(melody, MegaCrit.Sts2.Core.Entities.Cards.PileType.Hand, addedByPlayer: true);
             await PowerCmd.ModifyAmount(this, -1, Owner, null);

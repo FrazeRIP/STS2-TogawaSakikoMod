@@ -26,7 +26,6 @@ public class SeizeTheFatePower : TogawaSakikoPower
     {
         if (side == CombatSide.Player && Owner.Player != null)
         {
-            Flash();
             await PowerCmd.Apply<HypePower>(Owner, Amount, Owner, null);
         }
     }

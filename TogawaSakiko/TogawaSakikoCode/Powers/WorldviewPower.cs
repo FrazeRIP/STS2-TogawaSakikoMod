@@ -27,7 +27,6 @@ public class WorldviewPower : TogawaSakikoPower
         if (Owner.Player != null && card.Owner == Owner.Player
             && card.Keywords.Contains(CardKeyword.Unplayable))
         {
-            Flash();
             await CardPileCmd.Add(card, PileType.Exhaust);
             await CardPileCmd.Draw(ctx, 1, Owner.Player);
         }

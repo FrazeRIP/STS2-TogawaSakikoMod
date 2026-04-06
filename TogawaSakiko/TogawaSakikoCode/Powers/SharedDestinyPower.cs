@@ -28,7 +28,6 @@ public class SharedDestinyPower : TogawaSakikoPower
         if (power.Owner == Owner && power.Type == PowerType.Buff
             && power != this && amount > 0 && Owner.Player != null)
         {
-            Flash();
             await CardPileCmd.Draw(CombatState!.LastPlayerChoiceContext, Amount, Owner.Player);
         }
     }
