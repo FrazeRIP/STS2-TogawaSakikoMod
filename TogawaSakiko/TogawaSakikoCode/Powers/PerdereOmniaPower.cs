@@ -25,7 +25,7 @@ public class PerdereOmniaPower : TogawaSakikoPower
     public override async Task AfterCardDrawn(PlayerChoiceContext ctx, CardModel card, bool fromHandDraw)
     {
         if (Owner.Player != null && card.Owner == Owner.Player &&
-            (card.EnergyCost.Cost == 0 || card.Keywords.Contains(CardKeyword.Unplayable)))
+            (card.EnergyCost.Canonical == 0 || card.Keywords.Contains(CardKeyword.Unplayable)))
         {
             await CardPileCmd.Add(card, PileType.Exhaust);
             await CardPileCmd.Draw(ctx, 1, Owner.Player);

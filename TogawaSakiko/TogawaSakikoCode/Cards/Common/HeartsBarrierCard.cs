@@ -16,7 +16,7 @@ public class HeartsBarrierCard : TogawaSakikoCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         // Block = deck size
-        int deckSize = Owner.Deck.Count;
+        int deckSize = Owner.Deck.Cards.Count;
         if (IsUpgraded) deckSize += 2;
         await CreatureCmd.GainBlock(Owner.Creature, deckSize, BlockProps.card, play);
     }

@@ -1,8 +1,7 @@
 using BaseLib.Abstracts;
-using MegaCrit.Sts2.Core.Commands;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TogawaSakiko.TogawaSakikoCode.Cards.Uncommon;
 

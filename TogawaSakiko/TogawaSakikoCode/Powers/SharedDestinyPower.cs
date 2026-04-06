@@ -1,6 +1,7 @@
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -25,10 +26,5 @@ public class SharedDestinyPower : TogawaSakikoPower
     public override async Task AfterPowerAmountChanged(
         PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
-        if (power.Owner == Owner && power.Type == PowerType.Buff
-            && power != this && amount > 0 && Owner.Player != null)
-        {
-            await CardPileCmd.Draw(CombatState!.LastPlayerChoiceContext, Amount, Owner.Player);
-        }
     }
 }

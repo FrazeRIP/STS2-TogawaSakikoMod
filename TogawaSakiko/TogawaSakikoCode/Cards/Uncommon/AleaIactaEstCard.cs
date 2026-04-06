@@ -14,22 +14,22 @@ public class AleaIactaEstCard : TogawaSakikoCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        // Upgrade all cards in hand
-        var hand = Owner.Hand.ToList();
-        foreach (var card in hand)
-        {
-            if (!card.IsUpgraded)
-                card.Upgrade();
-        }
-        if (IsUpgraded)
-        {
-            var drawPile = Owner.DrawPile.ToList();
-            foreach (var card in drawPile)
-            {
-                if (!card.IsUpgraded)
-                    card.Upgrade();
-            }
-        }
+        //// Upgrade all cards in hand
+        //var hand = Owner.Hand.ToList();
+        //foreach (var card in hand)
+        //{
+        //    if (!card.IsUpgraded)
+        //        card.Upgrade();
+        //}
+        //if (IsUpgraded)
+        //{
+        //    var drawPile = Owner.DrawPile.ToList();
+        //    foreach (var card in drawPile)
+        //    {
+        //        if (!card.IsUpgraded)
+        //            card.Upgrade();
+        //    }
+        //}
     }
 
     public override List<(string, string)>? Localization =>

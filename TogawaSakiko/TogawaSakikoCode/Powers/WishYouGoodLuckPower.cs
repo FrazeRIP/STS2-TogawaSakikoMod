@@ -1,6 +1,7 @@
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -27,7 +28,7 @@ public class WishYouGoodLuckPower : TogawaSakikoPower
         PlayerChoiceContext ctx, Creature target, DamageResult result,
         ValueProp props, Creature? dealer, CardModel? cardSource)
     {
-        if (target == Owner && result.DamageDealt == 0 && dealer != null)
+        if (target == Owner && result.UnblockedDamage == 0 && dealer != null)
         {
             await PowerCmd.Apply<MegaCrit.Sts2.Core.Models.Powers.ThornsPower>(Owner, Amount, Owner, null);
         }

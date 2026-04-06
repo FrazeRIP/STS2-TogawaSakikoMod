@@ -2,6 +2,7 @@ using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
 using TogawaSakiko.TogawaSakikoCode.Powers;
 
 namespace TogawaSakiko.TogawaSakikoCode.Cards.Uncommon;
@@ -23,7 +24,7 @@ public class PerdereOmniaCard : TogawaSakikoCard
 
     public override async Task AfterCardDrawn(PlayerChoiceContext ctx, CardModel card, bool fromHandDraw)
     {
-        if (card == this && Owner.Player != null)
+        if (card == this && Owner != null)
         {
             int amount = IsUpgraded ? 2 : 1;
             await PowerCmd.Apply<PerdereOmniaPower>(Owner.Creature, amount, Owner.Creature, this);

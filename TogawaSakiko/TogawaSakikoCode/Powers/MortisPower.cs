@@ -1,6 +1,7 @@
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -28,7 +29,7 @@ public class MortisPower : TogawaSakikoPower
         PlayerChoiceContext ctx, Creature target, DamageResult result,
         ValueProp props, Creature? dealer, CardModel? cardSource)
     {
-        if (target == Owner && result.DamageDealt > 0 && Owner.Player != null)
+        if (target == Owner && result.UnblockedDamage > 0 && Owner.Player != null)
         {
             var curse = new MortisCard();
             await CardPileCmd.AddGeneratedCardToCombat(curse, PileType.Draw, addedByPlayer: false);

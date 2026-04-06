@@ -1,4 +1,5 @@
 using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -23,15 +24,5 @@ public class FearlessPower : TogawaSakikoPower
 
     public override async Task BeforeTurnEnd(PlayerChoiceContext ctx, CombatSide side)
     {
-        if (side == CombatSide.Player && Owner.Player != null)
-        {
-            var hand = Owner.Player.Hand;
-            if (hand.Count > 0)
-            {
-                var card = hand[0];
-                await CardPileCmd.Add(card, MegaCrit.Sts2.Core.Entities.Cards.PileType.Exhaust);
-            }
-            await PowerCmd.ModifyAmount(this, -1, Owner, null);
-        }
     }
 }

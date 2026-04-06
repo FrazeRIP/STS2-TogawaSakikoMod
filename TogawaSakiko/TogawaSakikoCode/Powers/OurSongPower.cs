@@ -1,6 +1,7 @@
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -28,9 +29,9 @@ public class OurSongPower : TogawaSakikoPower
         DamageResult result, ValueProp props,
         Creature target, CardModel? cardSource)
     {
-        if (dealer == Owner && result.DamageDealt > 0 && (props & ValueProp.Move) != 0)
+        if (dealer == Owner && result.UnblockedDamage > 0 && (props & ValueProp.Move) != 0)
         {
-            await CreatureCmd.GainBlock(Owner, result.DamageDealt, BlockProps.cardUnpowered, null);
+            await CreatureCmd.GainBlock(Owner, result.UnblockedDamage, BlockProps.cardUnpowered, null);
         }
     }
 }

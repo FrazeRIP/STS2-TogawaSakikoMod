@@ -22,7 +22,7 @@ public class DolorisCard : TogawaSakikoCard
 
     public override async Task OnTurnEndInHand(PlayerChoiceContext ctx)
     {
-        await CreatureCmd.Damage(ctx, Owner.Creature, 2m, DamageProps.nonCardUnpowered, null);
+        //await CreatureCmd.Damage(ctx, Owner.Creature, 2m, DamageProps.nonCardUnpowered, null);
     }
 
     public override List<(string, string)>? Localization =>
