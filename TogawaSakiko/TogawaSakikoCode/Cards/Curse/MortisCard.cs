@@ -2,6 +2,7 @@ using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
 using TogawaSakiko.TogawaSakikoCode.Powers;
 
 namespace TogawaSakiko.TogawaSakikoCode.Cards.Curse;
@@ -20,9 +21,9 @@ public class MortisCard : TogawaSakikoCard
 
     public override async Task AfterCardDrawn(PlayerChoiceContext ctx, CardModel card, bool fromHandDraw)
     {
-        if (card == this && Owner.Player != null)
+        if (card == this && Owner != null)
         {
-            Flash();
+            //TODO:Flash
             await PowerCmd.Apply<MortisPower>(Owner.Creature, 1, Owner.Creature, this);
         }
     }
