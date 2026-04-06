@@ -24,7 +24,6 @@ public class MasksCard : TogawaSakikoCard
         if (dazzling != null && dazzling.Amount >= 2)
         {
             await PowerCmd.ModifyAmount(dazzling, -2, Owner.Creature, this);
-            Flash();
         }
         await CommonActions.ApplySelf<StrengthPower>(this);
     }

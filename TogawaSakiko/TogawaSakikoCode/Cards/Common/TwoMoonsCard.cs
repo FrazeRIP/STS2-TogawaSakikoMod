@@ -19,7 +19,6 @@ public class TwoMoonsCard : TogawaSakikoCard
         var dazzling = Owner.Creature.Powers.FirstOrDefault(p => p is DazzlingPower);
         if (dazzling != null && dazzling.Amount > 0)
         {
-            Flash();
             await CommonActions.CardAttack(this, play).Execute(ctx);
         }
     }

@@ -25,7 +25,6 @@ public class PerdereOmniaCard : TogawaSakikoCard
     {
         if (card == this && Owner.Player != null)
         {
-            Flash();
             int amount = IsUpgraded ? 2 : 1;
             await PowerCmd.Apply<PerdereOmniaPower>(Owner.Creature, amount, Owner.Creature, this);
         }

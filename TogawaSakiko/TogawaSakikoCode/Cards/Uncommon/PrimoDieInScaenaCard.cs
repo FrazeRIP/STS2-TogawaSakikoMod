@@ -20,11 +20,7 @@ public class PrimoDieInScaenaCard : TogawaSakikoCard
     {
         await PowerCmd.Apply<StrengthPower>(Owner.Creature, 1, Owner.Creature, this);
     }
-
-    protected override void OnUpgrade()
-    {
-        WithKeywords(CardKeyword.Innate);
-    }
+    // TODO: OnUpgrade not supported in STS2. Upgrade: WithKeywords(CardKeyword.Innate);
 
     public override List<(string, string)>? Localization =>
         new CardLoc("Primo Die in Scaena",

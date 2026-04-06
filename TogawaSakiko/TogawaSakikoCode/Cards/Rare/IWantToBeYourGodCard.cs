@@ -24,7 +24,6 @@ public class IWantToBeYourGodCard : TogawaSakikoCard
         var dazzling = Owner.Creature.Powers.FirstOrDefault(p => p is DazzlingPower) as DazzlingPower;
         if (dazzling != null && dazzling.Amount > 0)
         {
-            Flash();
             int stacks = dazzling.Amount;
             await PowerCmd.Remove<DazzlingPower>(Owner.Creature);
             await PowerCmd.Apply<StrengthPower>(Owner.Creature, stacks, Owner.Creature, this);

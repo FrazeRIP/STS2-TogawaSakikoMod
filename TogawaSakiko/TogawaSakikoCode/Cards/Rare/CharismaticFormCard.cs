@@ -23,11 +23,7 @@ public class CharismaticFormCard : TogawaSakikoCard
             await PowerCmd.Apply<VulnerablePower>(enemy, DynamicVars.Power<VulnerablePower>().IntValue, Owner.Creature, this);
         }
     }
-
-    protected override void OnUpgrade()
-    {
-        WithKeywords(CardKeyword.Innate);
-    }
+    // TODO: OnUpgrade not supported in STS2. Upgrade: WithKeywords(CardKeyword.Innate);
 
     public override List<(string, string)>? Localization =>
         new CardLoc("Charismatic Form",

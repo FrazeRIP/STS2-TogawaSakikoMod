@@ -20,11 +20,7 @@ public class SymbolIIIWaterCard : TogawaSakikoCard
         var doloris = new DolorisCard();
         await CardPileCmd.AddGeneratedCardToCombat(doloris, PileType.Discard, addedByPlayer: false);
     }
-
-    protected override void OnUpgrade()
-    {
-        EnergyCost.Upgrade(); // 2 → 1
-    }
+    // TODO: OnUpgrade not supported in STS2. Upgrade: 2 → 1
 
     public override List<(string, string)>? Localization =>
         new CardLoc("Symbol III: Water",

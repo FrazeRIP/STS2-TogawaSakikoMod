@@ -21,11 +21,7 @@ public class AsYourHeartDesiresCard : TogawaSakikoCard
     {
         await CommonActions.Draw(this, ctx);
     }
-
-    protected override void OnUpgrade()
-    {
-        EnergyCost.Upgrade(); // 2 → 1
-    }
+    // TODO: OnUpgrade not supported in STS2. Upgrade: 2 → 1
 
     public override List<(string, string)>? Localization =>
         new CardLoc("As Your Heart Desires",

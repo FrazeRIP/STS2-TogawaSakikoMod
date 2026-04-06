@@ -22,7 +22,6 @@ public class TimorisCard : TogawaSakikoCard
     {
         if (card == this && Owner.Player != null)
         {
-            Flash();
             await PowerCmd.Apply<VulnerablePower>(Owner.Creature, 1, Owner.Creature, this);
         }
     }

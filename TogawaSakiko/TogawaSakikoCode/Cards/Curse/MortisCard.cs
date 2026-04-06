@@ -22,7 +22,6 @@ public class MortisCard : TogawaSakikoCard
     {
         if (card == this && Owner.Player != null)
         {
-            Flash();
             await PowerCmd.Apply<MortisPower>(Owner.Creature, 1, Owner.Creature, this);
         }
     }

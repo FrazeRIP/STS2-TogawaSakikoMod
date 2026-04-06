@@ -27,7 +27,6 @@ public class CrueltyPower : TogawaSakikoPower
     {
         if (cardPlay.Card is DesireCard)
         {
-            Flash();
             await CardPileCmd.Draw(ctx, Amount, Owner.Player!);
         }
     }

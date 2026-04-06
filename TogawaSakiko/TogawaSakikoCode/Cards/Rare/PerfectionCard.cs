@@ -20,11 +20,7 @@ public class PerfectionCard : TogawaSakikoCard
                 card.Upgrade();
         }
     }
-
-    protected override void OnUpgrade()
-    {
-        EnergyCost.Upgrade(); // 3 → 2
-    }
+    // TODO: OnUpgrade not supported in STS2. Upgrade: 3 → 2
 
     public override List<(string, string)>? Localization =>
         new CardLoc("Perfection", "Upgrade all cards in your hand. Exhaust.");

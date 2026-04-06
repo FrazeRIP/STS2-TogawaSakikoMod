@@ -29,7 +29,6 @@ public class EndurancePower : TogawaSakikoPower
     {
         if (target == Owner && amount > 0)
         {
-            Flash();
             await CreatureCmd.GainBlock(Owner, Amount, BlockProps.cardUnpowered, null);
         }
     }

@@ -20,11 +20,7 @@ public class HachibouseiDanceCard : TogawaSakikoCard
         await CommonActions.CardAttack(this, play).Execute(ctx);
         await CommonActions.CardBlock(this, play);
     }
-
-    protected override void OnUpgrade()
-    {
-        EnergyCost.Upgrade(); // 4 → 3
-    }
+    // TODO: OnUpgrade not supported in STS2. Upgrade: 4 → 3
 
     public override List<(string, string)>? Localization =>
         new CardLoc("Hachibousei Dance", "Deal !Damage! damage. Gain !Block! Block.");

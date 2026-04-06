@@ -15,16 +15,9 @@ public class WorldviewCard : TogawaSakikoCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         await CommonActions.ApplySelf<WorldviewPower>(this, 1m);
-        if (IsUpgraded)
-        {
-            WithKeywords(CardKeyword.Innate);
-        }
+        // TODO: WithKeywords(CardKeyword.Innate) is a constructor-only fluent call and cannot be applied at runtime.
     }
-
-    protected override void OnUpgrade()
-    {
-        WithKeywords(CardKeyword.Innate);
-    }
+    // TODO: OnUpgrade not supported in STS2. Upgrade: WithKeywords(CardKeyword.Innate);
 
     public override List<(string, string)>? Localization =>
         new CardLoc("Worldview",

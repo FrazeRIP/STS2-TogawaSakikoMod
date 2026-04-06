@@ -29,7 +29,6 @@ public class WishYouGoodLuckPower : TogawaSakikoPower
     {
         if (target == Owner && result.DamageDealt == 0 && dealer != null)
         {
-            Flash();
             await PowerCmd.Apply<MegaCrit.Sts2.Core.Models.Powers.ThornsPower>(Owner, Amount, Owner, null);
         }
     }

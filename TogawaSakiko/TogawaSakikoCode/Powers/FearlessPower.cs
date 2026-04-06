@@ -28,7 +28,6 @@ public class FearlessPower : TogawaSakikoPower
             var hand = Owner.Player.Hand;
             if (hand.Count > 0)
             {
-                Flash();
                 var card = hand[0];
                 await CardPileCmd.Add(card, MegaCrit.Sts2.Core.Entities.Cards.PileType.Exhaust);
             }

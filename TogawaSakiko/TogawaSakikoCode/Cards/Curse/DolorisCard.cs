@@ -22,7 +22,6 @@ public class DolorisCard : TogawaSakikoCard
 
     public override async Task OnTurnEndInHand(PlayerChoiceContext ctx)
     {
-        Flash();
         await CreatureCmd.Damage(ctx, Owner.Creature, 2m, DamageProps.nonCardUnpowered, null);
     }
 
