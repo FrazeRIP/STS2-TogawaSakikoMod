@@ -1,5 +1,22 @@
 # STS2 Mod Development Guide
 
+> Current execution authority: `docs/NATIVE_FIRST_PORT_WORKFLOW.md`. The BaseLib material below documents the preserved legacy port only. The canonical project must compile and run without BaseLib; do not use the legacy examples for new implementation.
+
+## Current Native Checkpoint
+
+- Phase N1 no-BaseLib bootstrap/package: complete; see `docs/PHASE_N1_NATIVE_BOOTSTRAP.md`.
+- Phase N2 playable character vertical slice: complete; see `docs/PHASE_N2_NATIVE_CHARACTER_SLICE.md`.
+- Next phase: N3 shared behavior contracts.
+- Canonical C# source: `TogawaSakiko/NativeCode/**/*.cs` only.
+- Preserved migration reference: `TogawaSakiko/TogawaSakikoCode/**/*.cs`; do not compile or use it as current architecture.
+- Language/runtime: C# targeting .NET 9 and MegaDot `4.5.1.m.14.mono.custom_build`.
+- Runtime assembly dependencies: game-supplied `sts2.dll`, `0Harmony.dll`, and Godot/MegaDot assemblies.
+- External mod dependencies: none. BaseLib must not appear in the canonical assembly, manifest, package, or runtime requirement.
+
+## Preserved BaseLib-Era Reference
+
+Everything below this heading is the original legacy development guide. Keep it for migration evidence only; where it conflicts with the current native workflow or execution records, the native documents are authoritative.
+
 This is a Slay the Spire 2 mod written in C# targeting .NET with Godot. It uses **BaseLib 0.2.6** as the modding framework. All mod content is registered via BaseLib's `CustomContentDictionary` and the `[Pool]` attribute system.
 
 ## Project Structure

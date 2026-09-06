@@ -1,7 +1,16 @@
 {
-  "TOGAWASAKIKO-DEFEND_TOGAWA_SAKIKO.description": "",
-  "TOGAWASAKIKO-DEFEND_TOGAWA_SAKIKO.title": "DefendTogawaSakiko",
-  
-  "TOGAWASAKIKO-STRIKE_TOGAWA_SAKIKO.description": "",
-  "TOGAWASAKIKO-STRIKE_TOGAWA_SAKIKO.title": "StrikeTogawaSakiko"
+  "TOGAWASAKIKO-A_SPLIT_MOMENT_CARD.description": "Gain {Block:diff()} [gold]Block[/gold].\nGain {DazzlingPower:diff()} [gold]Dazzling[/gold].",
+  "TOGAWASAKIKO-A_SPLIT_MOMENT_CARD.title": "A Split Moment",
+  "TOGAWASAKIKO-DEFEND_TOGAWA_SAKIKO.description": "Gain {Block:diff()} [gold]Block[/gold].",
+  "TOGAWASAKIKO-DEFEND_TOGAWA_SAKIKO.title": "Defend",
+  "TOGAWASAKIKO-DESIRE_CARD.description": "Gain {Block:diff()} [gold]Block[/gold].",
+  "TOGAWASAKIKO-DESIRE_CARD.title": "Desire",
+  "TOGAWASAKIKO-SILENT_FAREWELL_CARD.description": "Apply {VulnerablePower:diff()} [gold]Vulnerable[/gold] to ALL enemies.",
+  "TOGAWASAKIKO-SILENT_FAREWELL_CARD.title": "Silent Farewell",
+  "TOGAWASAKIKO-STRIKE_TOGAWA_SAKIKO.description": "Deal {Damage:diff()} damage.",
+  "TOGAWASAKIKO-STRIKE_TOGAWA_SAKIKO.title": "Strike",
+  "TOGAWASAKIKO-THE_MOONLIGHT_SONATA_CARD.description": "Deal {Damage:diff()} damage.\nAt the end of combat, you may remove a card from your [gold]Deck[/gold].",
+  "TOGAWASAKIKO-THE_MOONLIGHT_SONATA_CARD.title": "Moonlight Sonata",
+  "TOGAWASAKIKO-TWO_MOONS_CARD.description": "Deal {Damage:diff()} damage. If you have [gold]Dazzling[/gold], deal {Damage:diff()} damage again.",
+  "TOGAWASAKIKO-TWO_MOONS_CARD.title": "Two Moons"
 }

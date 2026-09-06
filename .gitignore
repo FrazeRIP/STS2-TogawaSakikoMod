@@ -4,3 +4,8 @@ dotnet pack in this folder
 bin/
 obj/
 TogawaSakiko/local.props
+TogawaSakiko/artifacts/
+/artifacts/
+# Godot source metadata is intentionally tracked; do not enable these patterns:
+# TogawaSakiko/**/*.import
+# TogawaSakiko/**/*.uid

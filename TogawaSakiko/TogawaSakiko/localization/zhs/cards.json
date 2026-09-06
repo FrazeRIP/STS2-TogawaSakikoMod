@@ -1,0 +1,16 @@
+{
+  "TOGAWASAKIKO-A_SPLIT_MOMENT_CARD.description": "获得{Block:diff()}点[gold]格挡[/gold]。\n获得{DazzlingPower:diff()}层[gold]闪耀[/gold]。",
+  "TOGAWASAKIKO-A_SPLIT_MOMENT_CARD.title": "小小的瞬间",
+  "TOGAWASAKIKO-DEFEND_TOGAWA_SAKIKO.description": "获得{Block:diff()}点[gold]格挡[/gold]。",
+  "TOGAWASAKIKO-DEFEND_TOGAWA_SAKIKO.title": "防御",
+  "TOGAWASAKIKO-DESIRE_CARD.description": "获得{Block:diff()}点[gold]格挡[/gold]。",
+  "TOGAWASAKIKO-DESIRE_CARD.title": "渴望",
+  "TOGAWASAKIKO-SILENT_FAREWELL_CARD.description": "给予所有敌人{VulnerablePower:diff()}层[gold]易伤[/gold]。",
+  "TOGAWASAKIKO-SILENT_FAREWELL_CARD.title": "不告而别",
+  "TOGAWASAKIKO-STRIKE_TOGAWA_SAKIKO.description": "造成{Damage:diff()}点伤害。",
+  "TOGAWASAKIKO-STRIKE_TOGAWA_SAKIKO.title": "打击",
+  "TOGAWASAKIKO-THE_MOONLIGHT_SONATA_CARD.description": "造成{Damage:diff()}点伤害。\n战斗结束时，你可以从[gold]牌组[/gold]中移除一张牌。",
+  "TOGAWASAKIKO-THE_MOONLIGHT_SONATA_CARD.title": "月光奏鸣曲",
+  "TOGAWASAKIKO-TWO_MOONS_CARD.description": "造成{Damage:diff()}点伤害。如果你有[gold]闪耀[/gold]，则再次造成{Damage:diff()}点伤害。",
+  "TOGAWASAKIKO-TWO_MOONS_CARD.title": "双月"
+}
