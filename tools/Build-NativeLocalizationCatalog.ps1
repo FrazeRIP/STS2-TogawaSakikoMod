@@ -185,21 +185,19 @@ $sourceLanguageProperty = @{
     zhs = "sts1SimplifiedChinese"
 }
 $preservedLiveCardIds = @(
-    "TOGAWASAKIKO-A_SPLIT_MOMENT_CARD",
-    "TOGAWASAKIKO-DEFEND_TOGAWA_SAKIKO",
-    "TOGAWASAKIKO-DESIRE_CARD",
-    "TOGAWASAKIKO-GREETINGS_CARD",
-    "TOGAWASAKIKO-IDEAL_CARD",
-    "TOGAWASAKIKO-MELODY_CARD",
-    "TOGAWASAKIKO-SILENT_FAREWELL_CARD",
-    "TOGAWASAKIKO-STRIKE_TOGAWA_SAKIKO",
-    "TOGAWASAKIKO-THE_MOONLIGHT_SONATA_CARD",
-    "TOGAWASAKIKO-TIREDNESS_CARD",
-    "TOGAWASAKIKO-TWO_MOONS_CARD"
+    $inventory.cards |
+        Where-Object { $null -ne $_.nativeSource } |
+        ForEach-Object { [string]$_.sts2StableId }
 )
 $preservedLivePowerIds = @(
     "TOGAWASAKIKO-DAZZLING_POWER",
-    "TOGAWASAKIKO-HYPE_POWER"
+    "TOGAWASAKIKO-DOLORIS_POWER",
+    "TOGAWASAKIKO-HYPE_POWER",
+    "TOGAWASAKIKO-KINGS_POWER",
+    "TOGAWASAKIKO-MORTIS_POWER",
+    "TOGAWASAKIKO-OBLIVIONIS_POWER",
+    "TOGAWASAKIKO-MONSTER_DIVINITY_POWER",
+    "TOGAWASAKIKO-TIMORIS_POWER"
 )
 $preservedLiveRelicIds = @("TOGAWASAKIKO-STARTER_RELIC_TOGAWA_SAKIKO")
 
@@ -231,6 +229,18 @@ foreach ($language in $languages) {
                 throw "Live localization override is missing for $id ($language)."
             }
             Add-Entry $generated[$language].cards $descriptionKey $existing[$language].cards[$descriptionKey]
+            $extraKeys = @(
+                $existing[$language].cards.Keys |
+                    Where-Object {
+                        $_.StartsWith("$id.", [StringComparison]::Ordinal) -and
+                        $_ -ne $descriptionKey -and
+                        $_ -ne $titleKey
+                    } |
+                    Sort-Object
+            )
+            foreach ($extraKey in $extraKeys) {
+                Add-Entry $generated[$language].cards $extraKey $existing[$language].cards[$extraKey]
+            }
             Add-Entry $generated[$language].cards $titleKey $existing[$language].cards[$titleKey]
             continue
         }
@@ -245,6 +255,20 @@ foreach ($language in $languages) {
             ConvertTo-NativeMarkup ([string]$source.UPGRADE_DESCRIPTION) $language
         } else {
             $null
+        }
+        if ($card.name -eq "HeartsBarrier") {
+            $currentBlock = ConvertTo-NativeMarkup ([string]@($source.EXTENDED_DESCRIPTION)[0]) $language
+            $currentBlock = $currentBlock.Replace('{Block:diff()}', '{CalculatedBlock:diff()}')
+            $normal = "$normal`n$currentBlock"
+            $upgraded = "$upgraded`n$currentBlock"
+        }
+        if ($card.name -eq "SymbolIVEarth") {
+            $currentDamage = ConvertTo-NativeMarkup ([string]@($source.EXTENDED_DESCRIPTION)[0]) $language
+            $currentDamage = $currentDamage.Replace('{Damage:diff()}', '{CalculatedDamage:diff()}')
+            $normal = "$normal`n$currentDamage"
+            if (-not [string]::IsNullOrWhiteSpace($upgraded)) {
+                $upgraded = "$upgraded`n$currentDamage"
+            }
         }
         Add-Entry $generated[$language].cards $descriptionKey (Merge-UpgradeDescription $normal $upgraded)
         Add-Entry $generated[$language].cards $titleKey $title
@@ -282,6 +306,77 @@ foreach ($language in $languages) {
         Add-Entry $generated[$language].powers $descriptionKey $description
         Add-Entry $generated[$language].powers $smartDescriptionKey $description
         Add-Entry $generated[$language].powers $titleKey (ConvertTo-NativeTitle ([string]$source.NAME) $language)
+    }
+
+    $mantraLocalization = if ($language -eq "eng") {
+        [ordered]@{
+            "TOGAWASAKIKO-MANTRA_POWER.description" = "At 10 Mantra, lose 10 Mantra and enter Divinity."
+            "TOGAWASAKIKO-MANTRA_POWER.smartDescription" = "At 10 Mantra, lose 10 Mantra and enter Divinity."
+            "TOGAWASAKIKO-MANTRA_POWER.title" = "Mantra"
+        }
+    } else {
+        [ordered]@{
+            "TOGAWASAKIKO-MANTRA_POWER.description" = "达到10层真言时，失去10层真言并进入神格。"
+            "TOGAWASAKIKO-MANTRA_POWER.smartDescription" = "达到10层真言时，失去10层真言并进入神格。"
+            "TOGAWASAKIKO-MANTRA_POWER.title" = "真言"
+        }
+    }
+    foreach ($key in $mantraLocalization.Keys) {
+        Add-Entry $generated[$language].powers $key $mantraLocalization[$key]
+    }
+
+    $curiosityLocalization = if ($language -eq "eng") {
+        [ordered]@{
+            "TOGAWASAKIKO-CURIOSITY_POWER.description" = "Whenever you play a Power card, gain [blue]{Amount}[/blue] Strength."
+            "TOGAWASAKIKO-CURIOSITY_POWER.smartDescription" = "Whenever you play a Power card, gain [blue]{Amount}[/blue] Strength."
+            "TOGAWASAKIKO-CURIOSITY_POWER.title" = "Curiosity"
+        }
+    } else {
+        [ordered]@{
+            "TOGAWASAKIKO-CURIOSITY_POWER.description" = "每打出1张能力牌，你便获得[blue]{Amount}[/blue]点力量。"
+            "TOGAWASAKIKO-CURIOSITY_POWER.smartDescription" = "每打出1张能力牌，你便获得[blue]{Amount}[/blue]点力量。"
+            "TOGAWASAKIKO-CURIOSITY_POWER.title" = "好奇"
+        }
+    }
+    foreach ($key in $curiosityLocalization.Keys) {
+        Add-Entry $generated[$language].powers $key $curiosityLocalization[$key]
+    }
+
+    $fearlessPrompt = if ($language -eq "eng") {
+        "Choose up to 1 card in your hand to Purge."
+    } else {
+        "选择至多1张手牌并移除。"
+    }
+    Add-Entry $generated[$language].powers "TOGAWASAKIKO-FEARLESS_POWER.selectionScreenPrompt" $fearlessPrompt
+
+    $wishFulfilledPrompt = if ($language -eq "eng") {
+        "Choose a card to Purge."
+    } else {
+        "选择1张卡牌并移除。"
+    }
+    if (-not $generated[$language].cards.Contains("TOGAWASAKIKO-WISH_FULFILLED_CARD.selectionScreenPrompt")) {
+        Add-Entry $generated[$language].cards "TOGAWASAKIKO-WISH_FULFILLED_CARD.selectionScreenPrompt" $wishFulfilledPrompt
+    }
+
+    $rareSelectionPrompts = if ($language -eq "eng") {
+        [ordered]@{
+            "TOGAWASAKIKO-AS_YOUR_HEART_DESIRES_CARD.selectionScreenPrompt" = "Copy and add to your deck."
+            "TOGAWASAKIKO-MASKS_CARD.selectionScreenPrompt" = "Choose a card to turn into a copy of Masks."
+            "TOGAWASAKIKO-PERFECTION_CARD.selectionScreenPrompt" = "Choose a card to add to your hand; it costs 0 energy this turn."
+            "TOGAWASAKIKO-SORA_NO_MUSICA_CARD.selectionScreenPrompt" = "Choose cards to move to the top of the Draw Pile."
+        }
+    } else {
+        [ordered]@{
+            "TOGAWASAKIKO-AS_YOUR_HEART_DESIRES_CARD.selectionScreenPrompt" = "复制并加入卡组。"
+            "TOGAWASAKIKO-MASKS_CARD.selectionScreenPrompt" = "选择一张牌，将其变成假面的复制。"
+            "TOGAWASAKIKO-PERFECTION_CARD.selectionScreenPrompt" = "选择一张牌加入手中，本回合消耗为0能量。"
+            "TOGAWASAKIKO-SORA_NO_MUSICA_CARD.selectionScreenPrompt" = "选择卡牌并移动到抽牌堆顶部。"
+        }
+    }
+    foreach ($key in $rareSelectionPrompts.Keys) {
+        if (-not $generated[$language].cards.Contains($key)) {
+            Add-Entry $generated[$language].cards $key $rareSelectionPrompts[$key]
+        }
     }
 
     foreach ($relic in @($inventory.relics | Sort-Object sts2StableId)) {
@@ -439,10 +534,22 @@ $knownCorrections = @(
         reason = "Provable spelling corrections; behavior and meaning are unchanged."
     },
     [ordered]@{
-        scope = "Simplified Chinese Frail term"
-        source = "脆弱"
-        native = "易伤"
-        reason = "EdgeOfBreakdown applies FrailPower; the native game term is standardized for the eventual Frail hover tip."
+        scope = "Edge of Breakdown English behavior text"
+        source = "Vulnerable"
+        native = "Frail"
+        reason = "The Java implementation applies FrailPower and the Simplified Chinese source says 脆弱, so the English source text is incorrect."
+    },
+    [ordered]@{
+        scope = "Hachibousei Dance base-power terminology"
+        source = "Plated Armor / 多层护甲"
+        native = "Plating / 覆甲"
+        reason = "STS2 renamed and revised the corresponding native base-game power; the port uses PlatingPower and its current localized title."
+    },
+    [ordered]@{
+        scope = "Rhinoceros Beetle dynamic Block token"
+        source = "MagicNumber"
+        native = "CalculatedBlock"
+        reason = "The displayed value is calculated from base Block plus floor(Dazzling / 2), while deliberately bypassing Dexterity."
     },
     [ordered]@{
         scope = "Keyword key alignment"
@@ -463,23 +570,30 @@ $knownCorrections = @(
         reason = "The matching Java classes are abstract bases, not player-facing models."
     },
     [ordered]@{
-        scope = "Inherited power presentation"
-        source = "PlayerFilightPower and MonsterVigorPower have no custom localization"
-        native = "Reuse STS2 Flight and Vigor presentation"
-        reason = "Both STS1 classes inherit the corresponding base-game power."
+        scope = "Custom-enemy compatibility powers"
+        source = "PlayerFilightPower and StrengthUpPower"
+        native = "Excluded"
+        reason = "These models support excluded custom-enemy behavior and no in-scope player card depends on them."
+    },
+    [ordered]@{
+        scope = "Custom world content"
+        source = "Custom act, events, enemies, encounters, intents, and exclusive ending text"
+        native = "Excluded"
+        reason = "These content families are intentionally outside the STS2 port scope and are not emitted into canonical localization."
     }
 )
 
 $pendingSourceFamilyFiles = @(
     "CharacterStrings.json",
-    "EventStrings.json",
-    "MonsterStrings.json",
     "UIStrings.json",
     "OrbStrings.json",
     "CreditStrings.json"
 )
+$outOfScopePendingKeys = @{
+    "CharacterStrings.json" = @('${modID}:AltNeowEvent', '${modID}:AltNeowReward')
+    "UIStrings.json" = @('${modID}:MutsumiAttackIntent', '${modID}:TheOblivion')
+}
 $templateScaffoldKeys = @(
-    '${modID}:EventID',
     '${modID}:OrbID',
     '${modID}:Example'
 )
@@ -489,6 +603,9 @@ foreach ($fileName in $pendingSourceFamilyFiles) {
     $simplifiedChineseSource = Read-Json (Join-Path $sts1LocRoot "zhs/$fileName")
     $englishKeys = @($englishSource.Keys | Sort-Object)
     $simplifiedChineseKeys = @($simplifiedChineseSource.Keys | Sort-Object)
+    $excludedKeys = if ($outOfScopePendingKeys.ContainsKey($fileName)) { $outOfScopePendingKeys[$fileName] } else { @() }
+    $englishKeys = @($englishKeys | Where-Object { $_ -notin $excludedKeys })
+    $simplifiedChineseKeys = @($simplifiedChineseKeys | Where-Object { $_ -notin $excludedKeys })
     $englishOnly = @($englishKeys | Where-Object { -not $simplifiedChineseSource.Contains($_) })
     $simplifiedChineseOnly = @($simplifiedChineseKeys | Where-Object { -not $englishSource.Contains($_) })
     $scaffolds = @($englishKeys | Where-Object { $_ -in $templateScaffoldKeys })
@@ -498,6 +615,7 @@ foreach ($fileName in $pendingSourceFamilyFiles) {
         simplifiedChineseRecordCount = $simplifiedChineseKeys.Count
         englishOnlyKeys = $englishOnly
         simplifiedChineseOnlyKeys = $simplifiedChineseOnly
+        excludedOutOfScopeKeys = $excludedKeys
         templateScaffoldKeys = $scaffolds
         behaviorLinkedRecordCount = $englishKeys.Count - $scaffolds.Count
         status = "Inventoried source only; emit in the phase that implements the owning behavior."
@@ -535,7 +653,7 @@ $md = [System.Text.StringBuilder]::new()
 [void]$md.AppendLine("## Native catalog result")
 [void]$md.AppendLine()
 [void]$md.AppendLine("- Cards: $($generated.eng.cards.Count) keys per language for 95 models.")
-[void]$md.AppendLine("- Powers: $($generated.eng.powers.Count) keys per language for 34 custom-presented models; Flight and Vigor reuse the base game.")
+[void]$md.AppendLine("- Powers: $($generated.eng.powers.Count) keys per language for 25 in-scope player-card-relevant STS1 models plus the native Mantra support model.")
 [void]$md.AppendLine("- Relics: $($generated.eng.relics.Count) keys per language for 11 concrete models.")
 [void]$md.AppendLine("- Potions: $($generated.eng.potions.Count) keys per language for 6 concrete models.")
 [void]$md.AppendLine("- Custom keyword records: $($generated.eng.card_keywords.Count) keys per language.")
@@ -566,7 +684,7 @@ if ($sourceTokenDifferences.Count -eq 0) {
 [void]$md.AppendLine()
 [void]$md.AppendLine("## Deferred source-family inventory")
 [void]$md.AppendLine()
-[void]$md.AppendLine("These files are fully inventoried but deliberately not emitted into the live STS2 localization package before their owning behavior exists.")
+[void]$md.AppendLine("These in-scope source records are inventoried but deliberately not emitted into the live STS2 localization package before their owning behavior exists.")
 [void]$md.AppendLine()
 [void]$md.AppendLine("| STS1 file | English records | zh-Hans records | Behavior-linked | Template scaffolds | Key mismatch |")
 [void]$md.AppendLine("| --- | ---: | ---: | ---: | --- | --- |")
@@ -576,7 +694,7 @@ foreach ($family in $pendingSourceFamilies) {
     [void]$md.AppendLine("| $($family.file) | $($family.englishRecordCount) | $($family.simplifiedChineseRecordCount) | $($family.behaviorLinkedRecordCount) | $scaffoldText | $mismatchCount |")
 }
 [void]$md.AppendLine()
-[void]$md.AppendLine("The three template records are ``EventID``, ``OrbID``, and ``Example``. They are source scaffolding, not missing concrete port models. The remaining records cover Sakiko/alternate-Neow text, the Get Forked transition event, ten monster/act entries, thirteen behavior UI entries, and credits.")
+[void]$md.AppendLine("The two template records are ``OrbID`` and ``Example``. They are source scaffolding, not missing concrete port models. The remaining records cover Sakiko, eleven behavior UI entries, and credits. Event/monster tables and alternate-Neow, custom-intent, and custom-act keys are excluded by scope.")
 [void]$md.AppendLine()
 [void]$md.AppendLine("## Native conversion rules")
 [void]$md.AppendLine()

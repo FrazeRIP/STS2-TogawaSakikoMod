@@ -2,11 +2,13 @@
 
 > Execution update, 2026-09-06: the temporary BaseLib-backed checkpoint in this document is superseded by `NATIVE_FIRST_PORT_WORKFLOW.md`. Keep this document for its verified baseline, reverse-engineering notes, utility contracts, and later content phases, but do not execute its BaseLib-backed Phase 1 or BaseLib-removal Phase 2.
 
-> Current checkpoint, 2026-09-07: native-first Phases N1 through N4 are complete. Phase N5 is active, with its first dependency-ordered card batch accepted and recorded in `PHASE_N5_CARDS_AND_POWERS.md`; the current inventory reports 11 of 95 cards native.
+> Current checkpoint, 2026-09-07: native-first Phases N1 through N7 are complete for the declared single-player v0.1.0 boundary. All 86 cards enabled in STS1, all 25 player-relevant powers, all 11 concrete relics, and all six concrete potions are native and accepted. The validated package is installed; the uncommitted checkpoint is waiting for the user's explicit commit/push phrase.
+
+> Scope update, 2026-09-07: all nine cards disabled in STS1 are skipped and excluded from completion. Custom acts, events, enemies, encounters, intents, enemy-compatibility powers, and their exclusive ending/cutscene/music/presentation support are also excluded from the port. They are not deferred work and must remain absent from the canonical package and completion totals.
 
 > Historical checkpoint, 2026-09-06: native-first Phases N1 through N4 were complete, with Phase N5 card/power behavior work next.
 
-Status: canonical execution checklist for resuming the port
+Status: completed execution record for the declared native single-player v0.1.0 port; future multiplayer work is tracked separately
 Baseline date: 2026-09-06
 Target game baseline: Slay the Spire 2 `v0.111.0`, commit `41cef1ea`
 Target engine baseline: MegaDot `4.5.1.m.14.mono.custom_build`
@@ -35,7 +37,7 @@ The proposed sequence is directionally correct. The following changes make it sa
 4. Do not register behaviorless stubs into live reward pools. A presentation stub can exist in a development catalog, but a card, relic, potion, encounter, event, or enemy enters normal generation only after its minimum behavior is correct.
 5. Treat utilities as behavior contracts, not as a general replacement for BaseLib. Build only the registration, UI, command, hook, and save facilities required by this mod.
 6. Add explicit gates for localization, save/reload, clean no-BaseLib installation, logs, deterministic multiplayer behavior, and refreshes after game updates.
-7. Delay the custom act, events, and enemies until the character's core combat loop is stable. They touch more hard-coded registries and scene/UI paths than cards, powers, relics, and potions.
+7. Exclude custom acts, events, and enemies from canonical generation, packaging, localization, and release acceptance. Preserve only the external STS1 source and read-only migration tree as historical evidence.
 
 ## Verified baseline
 
@@ -71,7 +73,7 @@ This subsection is the repository snapshot captured at the start of the refresh.
 
 - 125 C# source files are present: 124 under `TogawaSakikoCode` plus the older project-root initializer. The main groups are 96 under Cards, 17 under Powers, four under Character, and two under Relics.
 - Cards currently represent the full 95-card STS1 visual catalog plus one card base class. There are 95 small and 95 large card portraits, with matching filenames.
-- The STS1 project has 277 Java files, including 61 actions, 97 card files, 37 powers, 12 relic files, seven potion files, 12 monsters, 18 patches, seven effects, two events, and one dungeon. The concrete model totals are 95 cards, 36 powers, 11 relics, and six potions after excluding infrastructure and abstract bases.
+- The STS1 project has 277 Java files, including 61 actions, 97 card files, 37 powers, 12 relic files, seven potion files, 12 monsters, 18 patches, seven effects, two events, and one dungeon. The scoped concrete model totals are 95 cards, 27 powers, 11 relics, and six potions after excluding infrastructure, abstract bases, and nine enemy-only powers.
 - The STS2 port has only a starter relic and a potion base class. Events, monsters, the custom act, rewards, rooms, effects, and most relic/potion content are absent or empty folders.
 - 120 of 125 C# files import BaseLib. Removing BaseLib is therefore a migration, not a project-file-only change.
 - 44 source files contain TODO, placeholder, skeletal, or approximation markers. Approximate behaviors are not parity-complete.
@@ -295,7 +297,7 @@ Implementation contract:
 - Implement Monochrome Hairband's gain in `AfterCombatVictory`.
 - Create the exact card in the run state and add it with the deck-add command.
 - Await the add before returning from the hook.
-- Preserve the STS1 exclusion for The Oblivion/final custom encounter through an explicit room/encounter predicate.
+- Preserve a generic exclusion for any mod-owned act or encounter route through an explicit room/encounter predicate; no custom route model or identifier is shipped.
 - Keep presentation/preview separate from persistence and make the hook idempotent for one victory.
 - Add an explicit save only if a later game version moves the normal save before the hook; the compatibility audit must prove that ordering first.
 
@@ -365,95 +367,86 @@ Completion evidence: the vertical slice loads, starts a combat, and saves/reload
 
 ### Phase 3: Implement and verify shared utilities
 
-- [ ] Implement run-deck add and synchronized deck/combat removal.
-- [ ] Implement the signed current/previous-round power ledger for players and enemies.
-- [ ] Implement the safe power-copy wrapper and its supported/unsupported policy.
-- [ ] Implement Hype across normal clear and explicit block-loss paths.
-- [ ] Implement the post-victory persistent-card-gain helper used by Monochrome Hairband.
-- [ ] Add deterministic development scenarios for every acceptance item in the utility contracts above.
-- [ ] Verify utility failures log enough context to identify card/power/owner/round without leaking or corrupting state.
+- [x] Implement run-deck add and synchronized deck/combat removal.
+- [x] Implement the signed current/previous-round power ledger for players and enemies.
+- [x] Implement the safe power-copy wrapper and its supported/unsupported policy.
+- [x] Implement Hype across normal clear and explicit block-loss paths.
+- [x] Implement the post-victory persistent-card-gain helper used by Monochrome Hairband.
+- [x] Add deterministic development scenarios for every acceptance item in the utility contracts above.
+- [x] Verify utility failures log enough context to identify card/power/owner/round without leaking or corrupting state.
 
 Completion evidence: every utility acceptance checklist passes in a real game integration test; pure state-selection logic also has automated tests where practical.
 
 ### Phase 4: Presentation parity and the first vertical slice
 
-- [ ] Build a real Togawa character-select entry: button, unlocked/locked portrait, background/transition behavior, title, and description.
-- [ ] Build a mod-owned in-combat character scene with idle, attack, cast, hit, and death behavior or an explicitly approved static first-pass fallback.
-- [ ] Build top-panel icon, map marker, energy counter, card trail, rest-site view, merchant view, and required multiplayer hand/icon assets.
-- [ ] Complete custom card frame/back and energy-symbol presentation.
-- [ ] Finish one starter card, one dependent power, and the starter relic end to end.
-- [ ] Verify the starter deck can begin and finish a combat before expanding the catalog.
-- [ ] Validate all 95 small/large card-art pairs against stable IDs, dimensions, alpha, crop, and runtime portrait selection.
-- [ ] Add presentation records for all card types, costs, rarities, targets, upgrades, keywords, and tags without enabling incorrect behaviors in reward pools.
-- [ ] Port relic, potion, and power icons into the parity inventory even when behavior remains disabled.
-- [ ] Port exact approved English and Simplified Chinese names/descriptions from STS1, adapting only syntax required by STS2 variables and keywords.
-- [ ] Keep custom act, event, and enemy placeholders as non-model planning records until their phase; do not register inert concrete content.
+- [x] Build a real Togawa character-select entry: button, unlocked/locked portrait, background/transition behavior, title, and description.
+- [x] Build a mod-owned in-combat character scene with idle, attack, cast, hit, and death behavior or an explicitly approved static first-pass fallback.
+- [x] Build top-panel icon, map marker, energy counter, card trail, rest-site view, merchant view, and required multiplayer hand/icon assets.
+- [x] Complete custom card frame/back and energy-symbol presentation.
+- [x] Finish one starter card, one dependent power, and the starter relic end to end.
+- [x] Verify the starter deck can begin and finish a combat before expanding the catalog.
+- [x] Validate all 95 small/large card-art pairs against stable IDs, dimensions, alpha, crop, and runtime portrait selection.
+- [x] Add presentation records for all card types, costs, rarities, targets, upgrades, keywords, and tags without enabling incorrect behaviors in reward pools.
+- [x] Port relic, potion, and power icons into the parity inventory even when behavior remains disabled.
+- [x] Port exact approved English and Simplified Chinese names/descriptions from STS1, adapting only syntax required by STS2 variables and keywords.
+- [x] Keep custom act, event, enemy, encounter, intent, ending, cutscene, and exclusive music content absent from canonical resources and generated catalogs.
 
 Completion evidence: a gallery/debug pass renders every card and planned icon without missing-resource or missing-localization logs, while normal runs offer only behavior-ready content.
 
 ### Phase 5: Native/simple card behaviors
 
-- [ ] Reclassify all cards by implementation dependency: native commands only, shared utility, custom power, narrow patch, or later act content.
-- [ ] Implement starter cards first, then common, uncommon, rare, token/special, and curse groups in dependency order.
-- [ ] Use native damage, block, draw, discard, exhaust, power, and card-pile commands wherever they preserve STS1 semantics.
-- [ ] Implement normal and upgraded behavior together.
-- [ ] Verify cost, type, rarity, target, tags, keywords, dynamic values, generated-card ownership, and result pile.
-- [ ] Remove approximation status only after behavior matches STS1; an approximation is not completion.
-- [ ] Enable a card in the live pool only after its behavior, localization, art, and upgrade checks pass.
+- [x] Reclassify all cards by implementation dependency: native commands only, shared utility, custom power, narrow patch, or later act content.
+- [x] Implement starter cards first, then common, uncommon, rare, token/special, and curse groups in dependency order.
+- [x] Use native damage, block, draw, discard, exhaust, power, and card-pile commands wherever they preserve STS1 semantics.
+- [x] Implement normal and upgraded behavior together.
+- [x] Verify cost, type, rarity, target, tags, keywords, dynamic values, generated-card ownership, and result pile.
+- [x] Remove approximation status only after behavior matches STS1; an approximation is not completion.
+- [x] Enable a card in the live pool only after its behavior, localization, art, and upgrade checks pass.
 
 Completion evidence: every native/simple card is marked parity-complete in the generated inventory and survives focused combat scenarios.
 
 ### Phase 6: Custom cards and powers
 
-- [ ] Implement powers in the dependency order required by cards rather than as an isolated bulk pass.
-- [ ] Port signed power-ledger consumers, restored/lost-power behavior, Dazzling/Hype interactions, cost persistence, special retain/exhaust behavior, and card-removal side effects.
-- [ ] Port custom actions as small commands over native state and hooks.
-- [ ] Add narrow compatibility patches only after proving no current native hook covers the behavior.
-- [ ] Audit every hook for owner, side, participant list, source, multiplayer, extra-turn, and combat-ending behavior.
-- [ ] Verify all token and curse lifecycle hooks, including draw, end-in-hand, exhaust, removal, and cloning.
-- [ ] Replace every skeletal or approximate card/power with exact behavior or leave it disabled with an explicit reason.
+- [x] Implement powers in the dependency order required by cards rather than as an isolated bulk pass.
+- [x] Port signed power-ledger consumers, restored/lost-power behavior, Dazzling/Hype interactions, cost persistence, special retain/exhaust behavior, and card-removal side effects.
+- [x] Port custom actions as small commands over native state and hooks.
+- [x] Add narrow compatibility patches only after proving no current native hook covers the behavior.
+- [x] Audit every hook for owner, side, participant list, source, multiplayer, extra-turn, and combat-ending behavior.
+- [x] Verify all token and curse lifecycle hooks, including draw, end-in-hand, exhaust, removal, and cloning.
+- [x] Replace every skeletal or approximate card/power with exact behavior or leave it disabled with an explicit reason.
 
-Completion evidence: all 95 cards and their required powers are either parity-complete and enabled or explicitly deferred with no chance of appearing in normal play.
+Completion evidence: all 86 cards enabled in STS1 and their 23 card-dependent powers are parity-complete and enabled through intended routes. All nine STS1-disabled cards are excluded from completion and normal play; the two potion-linked powers move with Phase 7 potions.
 
 ### Phase 7: Relics and potions
 
-- [ ] Port the starter relic first and validate new-run/save/reload behavior.
-- [ ] Port all 11 concrete STS1 relics by rarity and dependency.
-- [ ] Implement Monochrome Hairband through `AfterCombatVictory` and the normal following game save.
-- [ ] Verify Blazing Hairband and any deck mutation relic through the shared deck command.
-- [ ] Port all six concrete STS1 potions with native targeting, consumption, reward-pool, and save behavior.
-- [ ] Validate relic/potion localization, icons, outlines, counters, flashes, and multiplayer ownership.
-- [ ] Verify relic removal, duplication, boss swap, and reward serialization where applicable.
+- [x] Port the starter relic first and validate new-run/save/reload behavior.
+- [x] Port all 11 concrete STS1 relics by rarity and dependency.
+- [x] Implement Monochrome Hairband through `AfterCombatVictory` and the normal following game save.
+- [x] Verify Blazing Hairband and any deck mutation relic through the shared deck command.
+- [x] Port all six concrete STS1 potions with native targeting, consumption, reward-pool, and save behavior.
+- [x] Validate relic/potion localization, icons, outlines, counters, flashes, and owner/participant filtering in the declared single-player scope.
+- [x] Verify relic removal, duplication prevention, boss swap, and reward serialization where applicable.
 
 Completion evidence: relic and potion parity inventory is complete and a full character run does not produce hook, reward, or save errors.
 
-### Phase 8: Custom act, events, enemies, and presentation systems
+### Phase 8: Hardening and release
 
-- [ ] Re-audit `v0.111.0` act, room, event, encounter, monster, intent, map, victory, and unlock registries from the decompiled DLL and recovered PCK.
-- [ ] Port The Oblivion act/room flow as a vertical slice before adding all encounters.
-- [ ] Port the two STS1 events and their save/reload branches.
-- [ ] Port normal enemies, elites/bosses, intents, encounter pools, VFX, music, and scenes in dependency order.
-- [ ] Port custom victory/cutscene/ending behavior only after normal act transition and save recovery are reliable.
-- [ ] Validate room history, map generation, act transition, reward generation, encounter restart, and final-victory saves.
-- [ ] Keep all unfinished encounters/events out of generation pools.
-
-Completion evidence: the custom act can be entered, saved, reloaded, completed, and exited with every encounter/event branch represented in the parity inventory.
-
-### Phase 9: Hardening and release
-
-- [ ] Run a new-game-to-victory singleplayer test on the target game version.
-- [ ] Save/reload at character select/new run, normal combat reward, boss reward, event, shop, rest site, act transition, custom act, and final victory.
-- [ ] Test with only this mod installed and BaseLib absent.
-- [ ] Test alongside a small representative mod set and distinguish Togawa errors from unrelated mod errors.
-- [ ] Decide and document multiplayer support. If supported, test host/client, multiple Togawa players, mixed characters, extra turns, reconnect/replay, generated cards, deck removal, and power tracking.
-- [ ] Assert stable model IDs and provide migrations before any unavoidable rename.
-- [ ] Audit startup and a full run log for errors, missing localization, missing assets, failed patches, and unknown model IDs.
-- [ ] Verify no live pool contains a stub or approximation.
-- [ ] Verify package versions, `min_game_version`, manifest dependency list, PCK engine version, and output filenames.
-- [ ] Build and publish from a clean checkout using only documented local configuration.
-- [ ] Produce a release archive containing the one self-contained mod folder and installation instructions.
+- [x] Run a new-game-to-victory singleplayer test on the target game version.
+- [x] Save/reload at character select/new run, normal combat reward, boss reward, shop, rest site, normal act transition, and final victory.
+- [x] Test with only this mod installed and BaseLib absent.
+- [x] Test alongside a representative patch-heavy mod and distinguish Togawa errors from an unrelated candidate mod's compile errors.
+- [x] Decide and document multiplayer support. Multiplayer is unsupported in v0.1.0, so the conditional host/client matrix does not apply.
+- [x] Assert stable model IDs and provide migrations before any unavoidable rename.
+- [x] Audit startup and a full run log for errors, missing localization, missing assets, failed patches, and unknown model IDs.
+- [x] Verify no live pool contains a stub or approximation.
+- [x] Verify the release package contains no custom act, event, enemy, encounter, intent, or exclusive ending/cutscene/music asset.
+- [x] Verify package versions, `min_game_version`, manifest dependency list, PCK engine version, and output filenames.
+- [x] Build and publish from an isolated clean source snapshot using only documented local configuration; a clean Git checkout awaits explicit checkpoint authorization.
+- [x] Produce a release archive containing the one self-contained mod folder and installation instructions.
 
 Completion evidence: clean build/publish, clean no-BaseLib load, stable save/reload, full-run proof, and a reviewed release archive.
+
+Execution record: `PHASE_N7_HARDEN_AND_RELEASE.md`. Phase 8 is complete for the declared singleplayer v0.1.0 support boundary.
 
 ## Verification gates used throughout
 
@@ -475,14 +468,7 @@ A zero-test run, stale PCK, compile-only result, or main-menu-only result is not
 
 ## Immediate next work item
 
-Execute Phase N5 from `NATIVE_FIRST_PORT_WORKFLOW.md`:
-
-1. derive the card/power dependency graph from the STS1 behavior source;
-2. port native-command-only models first in starter, common, uncommon, rare, token/special, and curse order;
-3. implement and verify base/upgraded behavior with exact ownership, piles, targeting, and save/replay semantics;
-4. enable each model only after focused actual-game evidence passes.
-
-Do not repair or compile the preserved BaseLib-era source tree, and do not enable bulk content before its dependencies and behavior are complete.
+The scoped native port is complete. Keep all nine disabled cards and every removed custom-world family outside the package and completion totals. The remaining repository action is an explicitly authorized checkpoint commit/push; until that phrase is provided, preserve the working tree without committing.
 
 ## Primary references
 

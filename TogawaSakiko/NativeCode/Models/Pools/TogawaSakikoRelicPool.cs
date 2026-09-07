@@ -1,6 +1,7 @@
 using Godot;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Unlocks;
+using TogawaSakiko.NativeCode.Models.Relics;
 
 namespace TogawaSakiko.NativeCode.Models.Pools;
 
@@ -17,6 +18,7 @@ public sealed class TogawaSakikoRelicPool : RelicPoolModel
 
     public override IEnumerable<RelicModel> GetUnlockedRelics(UnlockState unlockState)
     {
-        return Array.Empty<RelicModel>();
+        return AllRelics.Where(relic =>
+            relic is not StarterRelicTogawaSakiko and not TheThirdMovement);
     }
 }

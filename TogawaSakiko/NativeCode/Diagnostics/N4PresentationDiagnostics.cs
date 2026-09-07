@@ -18,8 +18,8 @@ internal static class N4PresentationDiagnostics
 {
     public const string CatalogPath = "res://TogawaSakiko/diagnostics/n4_presentation_catalog.json";
     public const string CharacterManifestPath = "res://TogawaSakiko/diagnostics/n4_character_presentation_manifest.json";
-    public const int ExpectedTextureCount = 373;
-    public const int ExpectedAudioCount = 58;
+    public const int ExpectedTextureCount = 336;
+    public const int ExpectedAudioCount = 52;
     public const int ExpectedResourceCount = 10;
     public const int ExpectedLocalizationFileCount = 15;
 

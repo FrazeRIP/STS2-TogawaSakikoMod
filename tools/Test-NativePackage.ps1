@@ -55,10 +55,88 @@ if ('BaseLib' -in $assemblyReferences) {
     throw 'TogawaSakiko.dll still references BaseLib.'
 }
 
+$forbiddenRuntimeTypeNames = @(
+    'GetForked',
+    'TheOblivion',
+    'AltNeowEvent',
+    'AltNeowReward',
+    'MutsumiAttackIntent',
+    'ChihayaAnonBoss',
+    'MisumiUikaBoss',
+    'NagasakiSoyoBoss',
+    'NyamuDrumMinion',
+    'ShiinaTakiBoss',
+    'TakamatsuTomoriBoss',
+    'WakabaMutsumiBoss',
+    'YahataUmiriBoss',
+    'YuutenjiNyamuBoss',
+    'EarnestCryPower',
+    'ForwardResolvePower',
+    'MonsterVigorPower',
+    'PlayerFilightPower',
+    'RestlessIdealPower',
+    'SilentWoundPower',
+    'StrengthUpPower',
+    'TemporalLongingPower',
+    'UnclaimedPromisePower',
+    'UnfadingYearningPower',
+    'VoicedGazePower'
+)
+$assemblyText = [System.Text.Encoding]::Latin1.GetString([System.IO.File]::ReadAllBytes($assemblyPath))
+$foundForbiddenAssemblyTokens = @(
+    $forbiddenRuntimeTypeNames |
+        Where-Object { $assemblyText.IndexOf($_, [System.StringComparison]::OrdinalIgnoreCase) -ge 0 }
+)
+if ($foundForbiddenAssemblyTokens.Count -gt 0) {
+    throw "DLL contains out-of-scope act/event/enemy model types: $($foundForbiddenAssemblyTokens -join ', ')"
+}
+
 $pckPath = Join-Path $resolvedPackagePath 'TogawaSakiko.pck'
 $pckLength = (Get-Item -LiteralPath $pckPath).Length
 if ($pckLength -le 0) {
     throw 'TogawaSakiko.pck is empty.'
+}
+
+$forbiddenPckTokens = @(
+    '/audio/cutscene/',
+    '/audio/music/',
+    '/images/character/cutscene/',
+    '/images/character/ending/',
+    '/images/events/',
+    '/images/intents/',
+    '/images/monsters/',
+    '/images/ui/map/boss/',
+    'THE_OBLIVION',
+    'AltNeow',
+    'GetForked',
+    'MutsumiAttackIntent',
+    'ChihayaAnonBoss',
+    'MisumiUikaBoss',
+    'NagasakiSoyoBoss',
+    'NyamuDrumMinion',
+    'ShiinaTakiBoss',
+    'TakamatsuTomoriBoss',
+    'WakabaMutsumiBoss',
+    'YahataUmiriBoss',
+    'YuutenjiNyamuBoss',
+    'MonsterVigorPower',
+    'earnestcrypower.png',
+    'forwardresolvepower.png',
+    'restlessidealpower.png',
+    'silentwoundpower.png',
+    'strengthuppower.png',
+    'temporallongingpower.png',
+    'unclaimedpromisepower.png',
+    'unfadingyearningpower.png',
+    'voicedgazepower.png'
+)
+$pckText = [System.Text.Encoding]::Latin1.GetString([System.IO.File]::ReadAllBytes($pckPath))
+$foundForbiddenTokens = @(
+    $forbiddenPckTokens |
+        Where-Object { $pckText.IndexOf($_, [System.StringComparison]::OrdinalIgnoreCase) -ge 0 }
+)
+if ($foundForbiddenTokens.Count -gt 0) {
+    throw "PCK contains out-of-scope act/event/enemy content: $($foundForbiddenTokens -join ', ')"
 }
 
 [pscustomobject]@{
@@ -68,6 +146,8 @@ if ($pckLength -le 0) {
     MinimumGameVersion = $manifest.min_game_version
     Dependencies = @($manifest.dependencies).Count
     AssemblyReferencesBaseLib = ('BaseLib' -in $assemblyReferences)
+    ExcludedAssemblyTypes = $foundForbiddenAssemblyTokens.Count
+    ExcludedContentTokens = $foundForbiddenTokens.Count
     PckBytes = $pckLength
     Files = ($actualNames | Sort-Object) -join ', '
 }

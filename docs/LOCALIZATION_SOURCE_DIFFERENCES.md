@@ -4,8 +4,8 @@
 
 ## Native catalog result
 
-- Cards: 190 keys per language for 95 models.
-- Powers: 102 keys per language for 34 custom-presented models; Flight and Vigor reuse the base game.
+- Cards: 197 keys per language for 95 models.
+- Powers: 82 keys per language for 25 in-scope player-card-relevant STS1 models plus the native Mantra support model.
 - Relics: 34 keys per language for 11 concrete models.
 - Potions: 12 keys per language for 6 concrete models.
 - Custom keyword records: 28 keys per language.
@@ -17,11 +17,14 @@
 | --- | --- | --- | --- |
 | English card title | Mas?uerade Rhapsody Re?uest | Masquerade Rhapsody Request | The class, art filename, and related relic consistently establish the corrupted letters as q. |
 | English spelling | repalce / begining / enemires / apperance | replace / beginning / enemies / appearance | Provable spelling corrections; behavior and meaning are unchanged. |
-| Simplified Chinese Frail term | 脆弱 | 易伤 | EdgeOfBreakdown applies FrailPower; the native game term is standardized for the eventual Frail hover tip. |
+| Edge of Breakdown English behavior text | Vulnerable | Frail | The Java implementation applies FrailPower and the Simplified Chinese source says 脆弱, so the English source text is incorrect. |
+| Hachibousei Dance base-power terminology | Plated Armor / 多层护甲 | Plating / 覆甲 | STS2 renamed and revised the corresponding native base-game power; the port uses PlatingPower and its current localized title. |
+| Rhinoceros Beetle dynamic Block token | MagicNumber | CalculatedBlock | The displayed value is calculated from base Block plus floor(Dazzling / 2), while deliberately bypassing Dexterity. |
 | Keyword key alignment | English Purge versus Simplified Chinese Remove | TOGAWASAKIKO-PURGE | Both records describe the same permanent deck-removal mechanic. |
 | English upgraded Symbol keyword | Missing | Synthesized Symbol+ entry | Simplified Chinese and upgraded AveMujica behavior prove the upgraded keyword exists; English text is derived from the five upgraded Symbol card names. |
 | Abstract localization scaffolding | RelicID and PotionID | Excluded | The matching Java classes are abstract bases, not player-facing models. |
-| Inherited power presentation | PlayerFilightPower and MonsterVigorPower have no custom localization | Reuse STS2 Flight and Vigor presentation | Both STS1 classes inherit the corresponding base-game power. |
+| Custom-enemy compatibility powers | PlayerFilightPower and StrengthUpPower | Excluded | These models support excluded custom-enemy behavior and no in-scope player card depends on them. |
+| Custom world content | Custom act, events, enemies, encounters, intents, and exclusive ending text | Excluded | These content families are intentionally outside the STS2 port scope and are not emitted into canonical localization. |
 
 ## Source-language dynamic-token differences
 
@@ -33,18 +36,16 @@ These are source facts, not automatically treated as errors. The eventual model 
 
 ## Deferred source-family inventory
 
-These files are fully inventoried but deliberately not emitted into the live STS2 localization package before their owning behavior exists.
+These in-scope source records are inventoried but deliberately not emitted into the live STS2 localization package before their owning behavior exists.
 
 | STS1 file | English records | zh-Hans records | Behavior-linked | Template scaffolds | Key mismatch |
 | --- | ---: | ---: | ---: | --- | --- |
-| CharacterStrings.json | 3 | 3 | 3 | None | 0 |
-| EventStrings.json | 2 | 2 | 1 | ${modID}:EventID | 0 |
-| MonsterStrings.json | 10 | 10 | 10 | None | 0 |
-| UIStrings.json | 14 | 14 | 13 | ${modID}:Example | 0 |
+| CharacterStrings.json | 1 | 1 | 1 | None | 0 |
+| UIStrings.json | 12 | 12 | 11 | ${modID}:Example | 0 |
 | OrbStrings.json | 1 | 1 | 0 | ${modID}:OrbID | 0 |
 | CreditStrings.json | 3 | 3 | 3 | None | 0 |
 
-The three template records are `EventID`, `OrbID`, and `Example`. They are source scaffolding, not missing concrete port models. The remaining records cover Sakiko/alternate-Neow text, the Get Forked transition event, ten monster/act entries, thirteen behavior UI entries, and credits.
+The two template records are `OrbID` and `Example`. They are source scaffolding, not missing concrete port models. The remaining records cover Sakiko, eleven behavior UI entries, and credits. Event/monster tables and alternate-Neow, custom-intent, and custom-act keys are excluded by scope.
 
 ## Native conversion rules
 

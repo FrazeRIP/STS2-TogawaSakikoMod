@@ -590,24 +590,7 @@ def main() -> None:
         language: load_json(recovered_game_root / "localization" / language / "powers.json")
         for language in ("eng", "zhs")
     }
-    base_modifier_loc = {
-        language: load_json(recovered_game_root / "localization" / language / "modifiers.json")
-        for language in ("eng", "zhs")
-    }
-    inherited_power_presentations = {
-        "MonsterVigorPower": {
-            "path": recovered_game_root / "images" / "powers" / "vigor_power.png",
-            "dimensions": (256, 256),
-            "eng": base_power_loc["eng"]["VIGOR_POWER.title"],
-            "zhs": base_power_loc["zhs"]["VIGOR_POWER.title"],
-        },
-        "PlayerFilightPower": {
-            "path": recovered_game_root / "images" / "packed" / "modifiers" / "flight.png",
-            "dimensions": (80, 80),
-            "eng": base_modifier_loc["eng"]["FLIGHT.title"],
-            "zhs": base_modifier_loc["zhs"]["FLIGHT.title"],
-        },
-    }
+    inherited_power_presentations: dict[str, dict[str, Any]] = {}
 
     counts = {
         "cards": len(inventory["cards"]),
@@ -617,7 +600,7 @@ def main() -> None:
         "presentation": len(inventory["presentationFiles"]),
         "characterPresentation": len(character_manifest.get("assets", [])),
     }
-    expected = {"cards": 95, "powers": 36, "relics": 11, "potions": 6, "presentation": 68, "characterPresentation": 12}
+    expected = {"cards": 95, "powers": 25, "relics": 11, "potions": 6, "presentation": 49, "characterPresentation": 12}
     if counts != expected:
         raise ValueError(f"Parity inventory count drift: expected {expected}, found {counts}")
 

@@ -11,7 +11,8 @@ internal static class CharacterRegistryPatch
 {
     private static void Postfix(ref IEnumerable<CharacterModel> __result)
     {
-        if (NativeSmokeTrace.ModelDbInitialized && NativeSmokeTrace.Enabled)
+        if (NativeSmokeTrace.ModelDbInitialized &&
+            (NativeSmokeTrace.Enabled || NativeSmokeTrace.N7FullRunEnabled))
         {
             __result = [ModelDb.Character<SakikoCharacter>()];
             return;

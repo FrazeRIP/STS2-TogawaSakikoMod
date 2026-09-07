@@ -1,51 +1,151 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "baseline": {
     "targetGame": "Slay the Spire 2 v0.111.0 (41cef1ea)",
     "sourceOfTruth": "STS1 Java and resources",
     "repositoryRoot": "X:\\Projects\\SlayTheSpire2\\0REPO\\STS2-TogawaSakikoMod",
     "sts1Root": "X:\\Projects\\SlayTheSpire2\\0REPO\\STS1-TogawaSakikoMod",
     "generatedPlaceholder": "TogawaSakiko/TogawaSakiko/images/placeholders/missing_content.png",
-    "placeholderPolicy": "Use source/exemplar slot dimensions and a stable destination filename so final art can replace it without code changes."
+    "placeholderPolicy": "Use source/exemplar slot dimensions and a stable destination filename so final art can replace it without code changes.",
+    "scopePolicy": "The nine cards disabled in STS1, custom acts, events, enemies, encounters, intents, enemy-compatibility powers, and their exclusive ending/audio/presentation support are intentionally excluded from this port.",
+    "excludedContentFamilies": [
+      "STS1-disabled cards",
+      "acts",
+      "events",
+      "enemies",
+      "encounters",
+      "intents",
+      "enemy-compatibility powers",
+      "custom endings"
+    ],
+    "excludedPowerModels": [
+      "EarnestCryPower",
+      "ForwardResolvePower",
+      "MonsterVigorPower",
+      "PlayerFilightPower",
+      "RestlessIdealPower",
+      "SilentWoundPower",
+      "StrengthUpPower",
+      "TemporalLongingPower",
+      "UnclaimedPromisePower",
+      "UnfadingYearningPower",
+      "VoicedGazePower"
+    ],
+    "excludedJavaDomains": [
+      "events",
+      "intents",
+      "monsters",
+      "rooms",
+      "scenes",
+      "screens"
+    ],
+    "excludedJavaItems": {
+      "patches": [
+        "AltNeowPatch",
+        "CreditPatch",
+        "CutscenePatch",
+        "ForkEventPatch",
+        "GraveCardPatch",
+        "MusicMasterPatch",
+        "TheEndGoToTheOblivionEventPatch",
+        "TheOblivionMonsterPatch",
+        "UnremoveablePatcher"
+      ],
+      "rewards": [
+        "AltNeowReward"
+      ],
+      "modifiers": [
+        "SelfRetainModifier",
+        "UnremoveableModifier"
+      ],
+      "actions": [
+        "AddCardsFromDiscardedToHandAction",
+        "AreTheseLyricsAction",
+        "AuthorityRestorationAction",
+        "ChooseCardGainSelfRetainAction",
+        "LoseBlockForEveryoneThenAttackAction",
+        "MakeCardUnremoveableAction",
+        "MutsumiAttackAmountChangeEvent",
+        "NumbersAndFacesAction",
+        "RefreshMonsterIntentAction",
+        "TemporalLongingAction",
+        "TrueWaitAction"
+      ]
+    },
+    "excludedAudioPrefixes": [
+      "cutscene/",
+      "music/"
+    ],
+    "excludedPresentationPrefixes": [
+      "character/cutscene/",
+      "character/ending/",
+      "events/",
+      "intents/",
+      "monsters/",
+      "ui/map/boss/",
+      "ui/map/bossOutline/"
+    ],
+    "excludedLocalizationTables": [
+      "EventStrings.json",
+      "MonsterStrings.json"
+    ],
+    "excludedLocalizationKeys": {
+      "UIStrings.json": [
+        "${modID}:MutsumiAttackIntent",
+        "${modID}:TheOblivion"
+      ],
+      "CharacterStrings.json": [
+        "${modID}:AltNeowEvent",
+        "${modID}:AltNeowReward"
+      ],
+      "PowerStrings.json": [
+        "${modID}:StrengthUpPower"
+      ]
+    }
   },
   "summary": {
     "cards": {
       "sts1": 95,
       "enabledInSts1": 86,
       "disabledInSts1": 9,
-      "native": 11,
-      "missingNative": 84,
+      "native": 86,
+      "missingNative": 0,
+      "excluded": 9,
+      "excludedWithNativeCompatibilityModel": 2,
       "originalArtPairs": 94,
       "generatedPlaceholderPairs": 1,
       "missingOrWrongArtPairs": 0
     },
     "powers": {
-      "sts1": 36,
-      "native": 2,
-      "missingNative": 34,
-      "customArtPairs": 34,
-      "baseGamePresentation": 2,
-      "missingSts1Localization": 2
+      "sts1": 25,
+      "native": 25,
+      "missingNative": 0,
+      "customArtPairs": 25,
+      "baseGamePresentation": 0,
+      "missingSts1Localization": 0
     },
     "relics": {
       "sts1Concrete": 11,
-      "native": 1,
-      "missingNative": 10
+      "native": 11,
+      "missingNative": 0
     },
     "potions": {
       "sts1Concrete": 6,
-      "native": 0,
-      "missingNative": 6
+      "native": 6,
+      "missingNative": 0
     },
     "audio": {
-      "sourceFiles": 58,
-      "copiedToSts2": 58,
+      "sourceFiles": 52,
+      "copiedToSts2": 52,
       "missingFromSts2": 0,
-      "wiredInNativeCode": 3
+      "activeInScopeSourceFiles": 38,
+      "activeInScopeWired": 38,
+      "activeInScopeMissingNativeRoute": 0,
+      "registeredButMissingFromSts1Source": 1
     },
     "presentation": {
-      "nonCardPowerRelicSourcePngs": 68,
-      "copiedAtSameRelativePath": 68,
+      "nonCardPowerRelicSourcePngs": 49,
+      "copiedAtSameRelativePath": 49,
       "notCopiedAtSameRelativePath": 0
     }
   },
@@ -61,8 +161,8 @@
       "sts1Id": "togawasakikomod:Accomplice",
       "sts2Type": "AccompliceCard",
       "sts2StableId": "TOGAWASAKIKO-ACCOMPLICE_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/AccompliceCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/AccompliceCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/Accomplice.java",
       "customImports": [
@@ -107,9 +207,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "AleaIactaEst",
@@ -122,8 +220,8 @@
       "sts1Id": "togawasakikomod:AleaIactaEst",
       "sts2Type": "AleaIactaEstCard",
       "sts2StableId": "TOGAWASAKIKO-ALEA_IACTA_EST_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/AleaIactaEstCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/AleaIactaEstCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/AleaIactaEst.java",
       "customImports": [
@@ -166,9 +264,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Amoris",
@@ -181,8 +277,8 @@
       "sts1Id": "togawasakikomod:Amoris",
       "sts2Type": "AmorisCard",
       "sts2StableId": "TOGAWASAKIKO-AMORIS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/AmorisCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Curse/AmorisCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Curses/Amoris.java",
       "customImports": [
@@ -222,9 +318,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Angles",
@@ -237,8 +331,8 @@
       "sts1Id": "togawasakikomod:Angles",
       "sts2Type": "AnglesCard",
       "sts2StableId": "TOGAWASAKIKO-ANGLES_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/AnglesCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/AnglesCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/Angles.java",
       "customImports": [
@@ -279,9 +373,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "AreTheseLyrics",
@@ -294,7 +386,7 @@
       "sts1Id": "togawasakikomod:AreTheseLyrics",
       "sts2Type": "AreTheseLyricsCard",
       "sts2StableId": "TOGAWASAKIKO-ARE_THESE_LYRICS_CARD",
-      "portStatus": "Legacy evidence only",
+      "portStatus": "Excluded",
       "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/AreTheseLyricsCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/AreTheseLyrics.java",
@@ -345,7 +437,7 @@
       },
       "differences": [
         "native behavior missing",
-        "disabled in STS1; must stay out of normal pools"
+        "disabled in STS1; excluded from the port by scope policy"
       ]
     },
     {
@@ -418,8 +510,8 @@
       "sts1Id": "togawasakikomod:AsYourHeartDesires",
       "sts2Type": "AsYourHeartDesiresCard",
       "sts2StableId": "TOGAWASAKIKO-AS_YOUR_HEART_DESIRES_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/AsYourHeartDesiresCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/AsYourHeartDesiresCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/AsYourHeartDesires.java",
       "customImports": [
@@ -463,9 +555,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "AuthorityRestoration",
@@ -478,7 +568,7 @@
       "sts1Id": "togawasakikomod:AuthorityRestoration",
       "sts2Type": "AuthorityRestorationCard",
       "sts2StableId": "TOGAWASAKIKO-AUTHORITY_RESTORATION_CARD",
-      "portStatus": "Legacy evidence only",
+      "portStatus": "Excluded",
       "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/AuthorityRestorationCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/AuthorityRestoration.java",
@@ -526,7 +616,7 @@
       },
       "differences": [
         "native behavior missing",
-        "disabled in STS1; must stay out of normal pools"
+        "disabled in STS1; excluded from the port by scope policy"
       ]
     },
     {
@@ -540,8 +630,8 @@
       "sts1Id": "togawasakikomod:AveMujica",
       "sts2Type": "AveMujicaCard",
       "sts2StableId": "TOGAWASAKIKO-AVE_MUJICA_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/AveMujicaCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/AveMujicaCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/AveMujica.java",
       "customImports": [
@@ -587,9 +677,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "BandInvitation",
@@ -602,8 +690,8 @@
       "sts1Id": "togawasakikomod:BandInvitation",
       "sts2Type": "BandInvitationCard",
       "sts2StableId": "TOGAWASAKIKO-BAND_INVITATION_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/BandInvitationCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/BandInvitationCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/BandInvitation.java",
       "customImports": [
@@ -653,9 +741,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "BlackAndWhiteKeys",
@@ -668,8 +754,8 @@
       "sts1Id": "togawasakikomod:BlackAndWhiteKeys",
       "sts2Type": "BlackAndWhiteKeysCard",
       "sts2StableId": "TOGAWASAKIKO-BLACK_AND_WHITE_KEYS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/BlackAndWhiteKeysCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/BlackAndWhiteKeysCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/BlackAndWhiteKeys.java",
       "customImports": [
@@ -711,9 +797,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "BlackBirthday",
@@ -726,8 +810,8 @@
       "sts1Id": "togawasakikomod:BlackBirthday",
       "sts2Type": "BlackBirthdayCard",
       "sts2StableId": "TOGAWASAKIKO-BLACK_BIRTHDAY_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/BlackBirthdayCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/BlackBirthdayCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/BlackBirthday.java",
       "customImports": [
@@ -768,9 +852,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "BlackKeys",
@@ -783,8 +865,8 @@
       "sts1Id": "togawasakikomod:BlackKeys",
       "sts2Type": "BlackKeysCard",
       "sts2StableId": "TOGAWASAKIKO-BLACK_KEYS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/BlackKeysCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Token/BlackKeysCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Powers/BlackKeys.java",
       "customImports": [
@@ -826,9 +908,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "BudgetBento",
@@ -841,8 +921,8 @@
       "sts1Id": "togawasakikomod:BudgetBento",
       "sts2Type": "BudgetBentoCard",
       "sts2StableId": "TOGAWASAKIKO-BUDGET_BENTO_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/BudgetBentoCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/BudgetBentoCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/BudgetBento.java",
       "customImports": [
@@ -885,9 +965,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Carefree",
@@ -900,8 +978,8 @@
       "sts1Id": "togawasakikomod:Carefree",
       "sts2Type": "CarefreeCard",
       "sts2StableId": "TOGAWASAKIKO-CAREFREE_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Excluded",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/CarefreeCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/CarefreeCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/Carefree.java",
       "customImports": [
@@ -947,8 +1025,7 @@
         "requiredLarge": "500x380"
       },
       "differences": [
-        "native behavior missing",
-        "disabled in STS1; must stay out of normal pools"
+        "disabled in STS1; excluded from the port by scope policy"
       ]
     },
     {
@@ -962,8 +1039,8 @@
       "sts1Id": "togawasakikomod:CharismaticForm",
       "sts2Type": "CharismaticFormCard",
       "sts2StableId": "TOGAWASAKIKO-CHARISMATIC_FORM_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/CharismaticFormCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/CharismaticFormCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Powers/CharismaticForm.java",
       "customImports": [
@@ -1008,9 +1085,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "ChoirSChoir",
@@ -1023,8 +1098,8 @@
       "sts1Id": "togawasakikomod:ChoirSChoir",
       "sts2Type": "ChoirSChoirCard",
       "sts2StableId": "TOGAWASAKIKO-CHOIR_S_CHOIR_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/ChoirSChoirCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/ChoirSChoirCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/ChoirSChoir.java",
       "customImports": [
@@ -1066,9 +1141,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "ClockOut",
@@ -1081,8 +1154,8 @@
       "sts1Id": "togawasakikomod:ClockOut",
       "sts2Type": "ClockOutCard",
       "sts2StableId": "TOGAWASAKIKO-CLOCK_OUT_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/ClockOutCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/ClockOutCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/ClockOut.java",
       "customImports": [
@@ -1128,9 +1201,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "CountingStars",
@@ -1143,8 +1214,8 @@
       "sts1Id": "togawasakikomod:CountingStars",
       "sts2Type": "CountingStarsCard",
       "sts2StableId": "TOGAWASAKIKO-COUNTING_STARS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/CountingStarsCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/CountingStarsCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/CountingStars.java",
       "customImports": [
@@ -1188,9 +1259,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "CrucifixX",
@@ -1203,8 +1272,8 @@
       "sts1Id": "togawasakikomod:CrucifixX",
       "sts2Type": "CrucifixXCard",
       "sts2StableId": "TOGAWASAKIKO-CRUCIFIX_X_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/CrucifixXCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/CrucifixXCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/CrucifixX.java",
       "customImports": [
@@ -1245,9 +1314,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Cruelty",
@@ -1260,8 +1327,8 @@
       "sts1Id": "togawasakikomod:Cruelty",
       "sts2Type": "CrueltyCard",
       "sts2StableId": "TOGAWASAKIKO-CRUELTY_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/CrueltyCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/CrueltyCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Powers/Cruelty.java",
       "customImports": [
@@ -1306,9 +1373,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Crychic",
@@ -1321,8 +1386,8 @@
       "sts1Id": "togawasakikomod:Crychic",
       "sts2Type": "CrychicCard",
       "sts2StableId": "TOGAWASAKIKO-CRYCHIC_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/CrychicCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/CrychicCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/Crychic.java",
       "customImports": [
@@ -1365,9 +1430,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Curiosity",
@@ -1380,8 +1443,8 @@
       "sts1Id": "togawasakikomod:Curiosity",
       "sts2Type": "CuriosityCard",
       "sts2StableId": "TOGAWASAKIKO-CURIOSITY_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/CuriosityCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/CuriosityCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Powers/Curiosity.java",
       "customImports": [
@@ -1421,9 +1484,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "DarkHeaven",
@@ -1436,8 +1497,8 @@
       "sts1Id": "togawasakikomod:DarkHeaven",
       "sts2Type": "DarkHeavenCard",
       "sts2StableId": "TOGAWASAKIKO-DARK_HEAVEN_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/DarkHeavenCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/DarkHeavenCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/DarkHeaven.java",
       "customImports": [
@@ -1478,9 +1539,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Daten",
@@ -1493,8 +1552,8 @@
       "sts1Id": "togawasakikomod:Daten",
       "sts2Type": "DatenCard",
       "sts2StableId": "TOGAWASAKIKO-DATEN_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/DatenCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/DatenCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/Daten.java",
       "customImports": [
@@ -1535,9 +1594,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Defend",
@@ -1659,8 +1716,8 @@
       "sts1Id": "togawasakikomod:DesuWa",
       "sts2Type": "DesuWaCard",
       "sts2StableId": "TOGAWASAKIKO-DESU_WA_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/DesuWaCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/DesuWaCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/DesuWa.java",
       "customImports": [
@@ -1704,9 +1761,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Doloris",
@@ -1719,8 +1774,8 @@
       "sts1Id": "togawasakikomod:Doloris",
       "sts2Type": "DolorisCard",
       "sts2StableId": "TOGAWASAKIKO-DOLORIS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/DolorisCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Curse/DolorisCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Curses/Doloris.java",
       "customImports": [
@@ -1762,9 +1817,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "EdgeOfBreakdown",
@@ -1777,8 +1830,8 @@
       "sts1Id": "togawasakikomod:EdgeOfBreakdown",
       "sts2Type": "EdgeOfBreakdownCard",
       "sts2StableId": "TOGAWASAKIKO-EDGE_OF_BREAKDOWN_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/EdgeOfBreakdownCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/EdgeOfBreakdownCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/EdgeOfBreakdown.java",
       "customImports": [
@@ -1822,9 +1875,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Endurance",
@@ -1837,8 +1888,8 @@
       "sts1Id": "togawasakikomod:Endurance",
       "sts2Type": "EnduranceCard",
       "sts2StableId": "TOGAWASAKIKO-ENDURANCE_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/EnduranceCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/EnduranceCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Powers/Endurance.java",
       "customImports": [
@@ -1882,9 +1933,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Ether",
@@ -1897,8 +1946,8 @@
       "sts1Id": "togawasakikomod:Ether",
       "sts2Type": "EtherCard",
       "sts2StableId": "TOGAWASAKIKO-ETHER_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/EtherCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/EtherCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/Ether.java",
       "customImports": [
@@ -1942,9 +1991,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "FallenFlowers",
@@ -1957,8 +2004,8 @@
       "sts1Id": "togawasakikomod:FallenFlowers",
       "sts2Type": "FallenFlowersCard",
       "sts2StableId": "TOGAWASAKIKO-FALLEN_FLOWERS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/FallenFlowersCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/FallenFlowersCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/FallenFlowers.java",
       "customImports": [
@@ -2002,9 +2049,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Fearless",
@@ -2017,8 +2062,8 @@
       "sts1Id": "togawasakikomod:Fearless",
       "sts2Type": "FearlessCard",
       "sts2StableId": "TOGAWASAKIKO-FEARLESS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/FearlessCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/FearlessCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Powers/Fearless.java",
       "customImports": [
@@ -2063,9 +2108,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "GeorgetteMeGeorgetteYou",
@@ -2078,8 +2121,8 @@
       "sts1Id": "togawasakikomod:GeorgetteMeGeorgetteYou",
       "sts2Type": "GeorgetteMeGeorgetteYouCard",
       "sts2StableId": "TOGAWASAKIKO-GEORGETTE_ME_GEORGETTE_YOU_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/GeorgetteMeGeorgetteYouCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/GeorgetteMeGeorgetteYouCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/GeorgetteMeGeorgetteYou.java",
       "customImports": [
@@ -2125,9 +2168,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Greetings",
@@ -2197,8 +2238,8 @@
       "sts1Id": "togawasakikomod:HachibouseiDance",
       "sts2Type": "HachibouseiDanceCard",
       "sts2StableId": "TOGAWASAKIKO-HACHIBOUSEI_DANCE_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/HachibouseiDanceCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/HachibouseiDanceCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/HachibouseiDance.java",
       "customImports": [
@@ -2239,9 +2280,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "HeartsBarrier",
@@ -2254,8 +2293,8 @@
       "sts1Id": "togawasakikomod:HeartsBarrier",
       "sts2Type": "HeartsBarrierCard",
       "sts2StableId": "TOGAWASAKIKO-HEARTS_BARRIER_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/HeartsBarrierCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/HeartsBarrierCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/HeartsBarrier.java",
       "customImports": [
@@ -2307,9 +2346,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Ideal",
@@ -2376,8 +2413,8 @@
       "sts1Id": "togawasakikomod:ImprisonedXII",
       "sts2Type": "ImprisonedXIICard",
       "sts2StableId": "TOGAWASAKIKO-IMPRISONED_XI_I_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/ImprisonedXIICard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/ImprisonedXIICard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/ImprisonedXII.java",
       "customImports": [
@@ -2427,9 +2464,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "InnerCry",
@@ -2442,8 +2477,8 @@
       "sts1Id": "togawasakikomod:InnerCry",
       "sts2Type": "InnerCryCard",
       "sts2StableId": "TOGAWASAKIKO-INNER_CRY_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/InnerCryCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/InnerCryCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/InnerCry.java",
       "customImports": [
@@ -2486,9 +2521,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "IWantToBeYourGod",
@@ -2501,7 +2534,7 @@
       "sts1Id": "togawasakikomod:IWantToBeYourGod",
       "sts2Type": "IWantToBeYourGodCard",
       "sts2StableId": "TOGAWASAKIKO-I_WANT_TO_BE_YOUR_GOD_CARD",
-      "portStatus": "Legacy evidence only",
+      "portStatus": "Excluded",
       "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/IWantToBeYourGodCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/IWantToBeYourGod.java",
@@ -2546,7 +2579,7 @@
       },
       "differences": [
         "native behavior missing",
-        "disabled in STS1; must stay out of normal pools"
+        "disabled in STS1; excluded from the port by scope policy"
       ]
     },
     {
@@ -2560,8 +2593,8 @@
       "sts1Id": "togawasakikomod:Kao",
       "sts2Type": "KaoCard",
       "sts2StableId": "TOGAWASAKIKO-KAO_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/KaoCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/KaoCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/Kao.java",
       "customImports": [
@@ -2602,9 +2635,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "KillKiSS",
@@ -2617,8 +2648,8 @@
       "sts1Id": "togawasakikomod:KillKiSS",
       "sts2Type": "KillKiSSCard",
       "sts2StableId": "TOGAWASAKIKO-KILL_KI_SS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/KillKiSSCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/KillKiSSCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/KillKiSS.java",
       "customImports": [
@@ -2660,9 +2691,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Kindness",
@@ -2675,8 +2704,8 @@
       "sts1Id": "togawasakikomod:Kindness",
       "sts2Type": "KindnessCard",
       "sts2StableId": "TOGAWASAKIKO-KINDNESS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/KindnessCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Token/KindnessCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Powers/Kindness.java",
       "customImports": [
@@ -2717,9 +2746,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Kings",
@@ -2732,8 +2759,8 @@
       "sts1Id": "togawasakikomod:Kings",
       "sts2Type": "KingsCard",
       "sts2StableId": "TOGAWASAKIKO-KINGS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/KingsCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/KingsCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/Kings.java",
       "customImports": [
@@ -2776,9 +2803,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Masks",
@@ -2791,8 +2816,8 @@
       "sts1Id": "togawasakikomod:Masks",
       "sts2Type": "MasksCard",
       "sts2StableId": "TOGAWASAKIKO-MASKS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/MasksCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/MasksCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Powers/Masks.java",
       "customImports": [
@@ -2839,9 +2864,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "MasqueradeRhapsodyRequest",
@@ -2854,8 +2877,8 @@
       "sts1Id": "togawasakikomod:MasqueradeRhapsodyRequest",
       "sts2Type": "MasqueradeRhapsodyRequestCard",
       "sts2StableId": "TOGAWASAKIKO-MASQUERADE_RHAPSODY_REQUEST_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/MasqueradeRhapsodyRequestCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/MasqueradeRhapsodyRequestCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/MasqueradeRhapsodyRequest.java",
       "customImports": [
@@ -2895,9 +2918,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Melody",
@@ -2964,8 +2985,8 @@
       "sts1Id": "togawasakikomod:MementoMori",
       "sts2Type": "MementoMoriCard",
       "sts2StableId": "TOGAWASAKIKO-MEMENTO_MORI_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/MementoMoriCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/MementoMoriCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/MementoMori.java",
       "customImports": [
@@ -3010,9 +3031,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Mortis",
@@ -3025,8 +3044,8 @@
       "sts1Id": "togawasakikomod:Mortis",
       "sts2Type": "MortisCard",
       "sts2StableId": "TOGAWASAKIKO-MORTIS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/MortisCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Curse/MortisCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Curses/Mortis.java",
       "customImports": [
@@ -3068,9 +3087,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "NeverGiveYouUp",
@@ -3083,7 +3100,7 @@
       "sts1Id": "togawasakikomod:NeverGiveYouUp",
       "sts2Type": "NeverGiveYouUpCard",
       "sts2StableId": "TOGAWASAKIKO-NEVER_GIVE_YOU_UP_CARD",
-      "portStatus": "Legacy evidence only",
+      "portStatus": "Excluded",
       "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/NeverGiveYouUpCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/NeverGiveYouUp.java",
@@ -3128,7 +3145,7 @@
       },
       "differences": [
         "native behavior missing",
-        "disabled in STS1; must stay out of normal pools"
+        "disabled in STS1; excluded from the port by scope policy"
       ]
     },
     {
@@ -3142,7 +3159,7 @@
       "sts1Id": "togawasakikomod:NumbersAndFaces",
       "sts2Type": "NumbersAndFacesCard",
       "sts2StableId": "TOGAWASAKIKO-NUMBERS_AND_FACES_CARD",
-      "portStatus": "Legacy evidence only",
+      "portStatus": "Excluded",
       "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/NumbersAndFacesCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Powers/NumbersAndFaces.java",
@@ -3187,7 +3204,7 @@
       },
       "differences": [
         "native behavior missing",
-        "disabled in STS1; must stay out of normal pools"
+        "disabled in STS1; excluded from the port by scope policy"
       ]
     },
     {
@@ -3201,8 +3218,8 @@
       "sts1Id": "togawasakikomod:Oblivionis",
       "sts2Type": "OblivionisCard",
       "sts2StableId": "TOGAWASAKIKO-OBLIVIONIS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/OblivionisCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Curse/OblivionisCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Curses/Oblivionis.java",
       "customImports": [
@@ -3243,9 +3260,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "OurSong",
@@ -3258,8 +3273,8 @@
       "sts1Id": "togawasakikomod:OurSong",
       "sts2Type": "OurSongCard",
       "sts2StableId": "TOGAWASAKIKO-OUR_SONG_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/OurSongCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/OurSongCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/OurSong.java",
       "customImports": [
@@ -3303,9 +3318,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Passion",
@@ -3318,7 +3331,7 @@
       "sts1Id": "togawasakikomod:Passion",
       "sts2Type": "PassionCard",
       "sts2StableId": "TOGAWASAKIKO-PASSION_CARD",
-      "portStatus": "Legacy evidence only",
+      "portStatus": "Excluded",
       "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/PassionCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Powers/Passion.java",
@@ -3362,7 +3375,7 @@
       },
       "differences": [
         "native behavior missing",
-        "disabled in STS1; must stay out of normal pools"
+        "disabled in STS1; excluded from the port by scope policy"
       ]
     },
     {
@@ -3376,8 +3389,8 @@
       "sts1Id": "togawasakikomod:PerdereOmnia",
       "sts2Type": "PerdereOmniaCard",
       "sts2StableId": "TOGAWASAKIKO-PERDERE_OMNIA_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/PerdereOmniaCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/PerdereOmniaCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/PerdereOmnia.java",
       "customImports": [
@@ -3422,9 +3435,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Perfection",
@@ -3437,8 +3448,8 @@
       "sts1Id": "togawasakikomod:Perfection",
       "sts2Type": "PerfectionCard",
       "sts2StableId": "TOGAWASAKIKO-PERFECTION_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/PerfectionCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/PerfectionCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/Perfection.java",
       "customImports": [
@@ -3482,9 +3493,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "PhantomOfMutsumi",
@@ -3497,8 +3506,8 @@
       "sts1Id": "togawasakikomod:PhantomOfMutsumi",
       "sts2Type": "PhantomOfMutsumiCard",
       "sts2StableId": "TOGAWASAKIKO-PHANTOM_OF_MUTSUMI_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/PhantomOfMutsumiCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/PhantomOfMutsumiCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/PhantomOfMutsumi.java",
       "customImports": [
@@ -3546,9 +3555,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "PhantomOfSakiko",
@@ -3561,8 +3568,8 @@
       "sts1Id": "togawasakikomod:PhantomOfSakiko",
       "sts2Type": "PhantomOfSakikoCard",
       "sts2StableId": "TOGAWASAKIKO-PHANTOM_OF_SAKIKO_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/PhantomOfSakikoCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/PhantomOfSakikoCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/PhantomOfSakiko.java",
       "customImports": [
@@ -3607,9 +3614,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "PhantomOfSoyo",
@@ -3622,8 +3627,8 @@
       "sts1Id": "togawasakikomod:PhantomOfSoyo",
       "sts2Type": "PhantomOfSoyoCard",
       "sts2StableId": "TOGAWASAKIKO-PHANTOM_OF_SOYO_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/PhantomOfSoyoCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/PhantomOfSoyoCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/PhantomOfSoyo.java",
       "customImports": [
@@ -3671,9 +3676,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "PhantomOfTaki",
@@ -3686,8 +3689,8 @@
       "sts1Id": "togawasakikomod:PhantomOfTaki",
       "sts2Type": "PhantomOfTakiCard",
       "sts2StableId": "TOGAWASAKIKO-PHANTOM_OF_TAKI_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/PhantomOfTakiCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/PhantomOfTakiCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/PhantomOfTaki.java",
       "customImports": [
@@ -3735,9 +3738,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "PhantomOfTomori",
@@ -3750,8 +3751,8 @@
       "sts1Id": "togawasakikomod:PhantomOfTomori",
       "sts2Type": "PhantomOfTomoriCard",
       "sts2StableId": "TOGAWASAKIKO-PHANTOM_OF_TOMORI_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/PhantomOfTomoriCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/PhantomOfTomoriCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/PhantomOfTomori.java",
       "customImports": [
@@ -3799,9 +3800,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Pride",
@@ -3814,8 +3813,8 @@
       "sts1Id": "togawasakikomod:Pride",
       "sts2Type": "PrideCard",
       "sts2StableId": "TOGAWASAKIKO-PRIDE_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/PrideCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/PrideCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/Pride.java",
       "customImports": [
@@ -3861,9 +3860,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "PrimoDieInScaena",
@@ -3876,8 +3873,8 @@
       "sts1Id": "togawasakikomod:PrimoDieInScaena",
       "sts2Type": "PrimoDieInScaenaCard",
       "sts2StableId": "TOGAWASAKIKO-PRIMO_DIE_IN_SCAENA_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/PrimoDieInScaenaCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/PrimoDieInScaenaCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/PrimoDieInScaena.java",
       "customImports": [
@@ -3923,9 +3920,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Protection",
@@ -3938,8 +3933,8 @@
       "sts1Id": "togawasakikomod:Protection",
       "sts2Type": "ProtectionCard",
       "sts2StableId": "TOGAWASAKIKO-PROTECTION_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/ProtectionCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Token/ProtectionCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Powers/Protection.java",
       "customImports": [
@@ -3980,9 +3975,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "QuaerereLumina",
@@ -3995,8 +3988,8 @@
       "sts1Id": "togawasakikomod:QuaerereLumina",
       "sts2Type": "QuaerereLuminaCard",
       "sts2StableId": "TOGAWASAKIKO-QUAERERE_LUMINA_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/QuaerereLuminaCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/QuaerereLuminaCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/QuaerereLumina.java",
       "customImports": [
@@ -4037,9 +4030,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Radiance",
@@ -4052,8 +4043,8 @@
       "sts1Id": "togawasakikomod:Radiance",
       "sts2Type": "RadianceCard",
       "sts2StableId": "TOGAWASAKIKO-RADIANCE_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/RadianceCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Token/RadianceCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Powers/Radiance.java",
       "customImports": [
@@ -4094,9 +4085,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "RaiseTheBet",
@@ -4109,7 +4098,7 @@
       "sts1Id": "togawasakikomod:RaiseTheBet",
       "sts2Type": "RaiseTheBetCard",
       "sts2StableId": "TOGAWASAKIKO-RAISE_THE_BET_CARD",
-      "portStatus": "Legacy evidence only",
+      "portStatus": "Excluded",
       "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/RaiseTheBetCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/RaiseTheBet.java",
@@ -4154,7 +4143,7 @@
       },
       "differences": [
         "native behavior missing",
-        "disabled in STS1; must stay out of normal pools"
+        "disabled in STS1; excluded from the port by scope policy"
       ]
     },
     {
@@ -4168,8 +4157,8 @@
       "sts1Id": "togawasakikomod:RhinocerosBeetle",
       "sts2Type": "RhinocerosBeetleCard",
       "sts2StableId": "TOGAWASAKIKO-RHINOCEROS_BEETLE_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/RhinocerosBeetleCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/RhinocerosBeetleCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/RhinocerosBeetle.java",
       "customImports": [
@@ -4213,9 +4202,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "SeizeTheFate",
@@ -4228,8 +4215,8 @@
       "sts1Id": "togawasakikomod:SeizeTheFate",
       "sts2Type": "SeizeTheFateCard",
       "sts2StableId": "TOGAWASAKIKO-SEIZE_THE_FATE_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/SeizeTheFateCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/SeizeTheFateCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Powers/SeizeTheFate.java",
       "customImports": [
@@ -4275,9 +4262,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "SharedDestiny",
@@ -4290,8 +4275,8 @@
       "sts1Id": "togawasakikomod:SharedDestiny",
       "sts2Type": "SharedDestinyCard",
       "sts2StableId": "TOGAWASAKIKO-SHARED_DESTINY_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/SharedDestinyCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/SharedDestinyCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Powers/SharedDestiny.java",
       "customImports": [
@@ -4335,9 +4320,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "SilentFarewell",
@@ -4404,8 +4387,8 @@
       "sts1Id": "togawasakikomod:SoraNoMusica",
       "sts2Type": "SoraNoMusicaCard",
       "sts2StableId": "TOGAWASAKIKO-SORA_NO_MUSICA_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/SoraNoMusicaCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/SoraNoMusicaCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/SoraNoMusica.java",
       "customImports": [
@@ -4447,9 +4430,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "SpringSunlight",
@@ -4462,8 +4443,8 @@
       "sts1Id": "togawasakikomod:SpringSunlight",
       "sts2Type": "SpringSunlightCard",
       "sts2StableId": "TOGAWASAKIKO-SPRING_SUNLIGHT_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/SpringSunlightCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/SpringSunlightCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/SpringSunlight.java",
       "customImports": [
@@ -4503,9 +4484,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "StayElegance",
@@ -4518,8 +4497,8 @@
       "sts1Id": "togawasakikomod:StayElegance",
       "sts2Type": "StayEleganceCard",
       "sts2StableId": "TOGAWASAKIKO-STAY_ELEGANCE_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/StayEleganceCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/StayEleganceCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/StayElegance.java",
       "customImports": [
@@ -4562,9 +4541,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Strike",
@@ -4632,8 +4609,8 @@
       "sts1Id": "togawasakikomod:SymbolIFire",
       "sts2Type": "SymbolIFireCard",
       "sts2StableId": "TOGAWASAKIKO-SYMBOL_I_FIRE_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/SymbolIFireCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/SymbolIFireCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/SymbolIFire.java",
       "customImports": [
@@ -4677,9 +4654,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "SymbolIIAir",
@@ -4692,8 +4667,8 @@
       "sts1Id": "togawasakikomod:SymbolIIAir",
       "sts2Type": "SymbolIIAirCard",
       "sts2StableId": "TOGAWASAKIKO-SYMBOL_II_AIR_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/SymbolIIAirCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/SymbolIIAirCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/SymbolIIAir.java",
       "customImports": [
@@ -4736,9 +4711,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "SymbolIIIWater",
@@ -4751,8 +4724,8 @@
       "sts1Id": "togawasakikomod:SymbolIIIWater",
       "sts2Type": "SymbolIIIWaterCard",
       "sts2StableId": "TOGAWASAKIKO-SYMBOL_II_I_WATER_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/SymbolIIIWaterCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/SymbolIIIWaterCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/SymbolIIIWater.java",
       "customImports": [
@@ -4795,9 +4768,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "SymbolIVEarth",
@@ -4810,8 +4781,8 @@
       "sts1Id": "togawasakikomod:SymbolIVEarth",
       "sts2Type": "SymbolIVEarthCard",
       "sts2StableId": "TOGAWASAKIKO-SYMBOL_IV_EARTH_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/SymbolIVEarthCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/SymbolIVEarthCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/SymbolIVEarth.java",
       "customImports": [
@@ -4860,9 +4831,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "TheGirlWithFlaxenHair",
@@ -4875,8 +4844,8 @@
       "sts1Id": "togawasakikomod:TheGirlWithFlaxenHair",
       "sts2Type": "TheGirlWithFlaxenHairCard",
       "sts2StableId": "TOGAWASAKIKO-THE_GIRL_WITH_FLAXEN_HAIR_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/TheGirlWithFlaxenHairCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/TheGirlWithFlaxenHairCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/TheGirlWithFlaxenHair.java",
       "customImports": [
@@ -4920,9 +4889,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "TheMoonlightSonata",
@@ -4991,8 +4958,8 @@
       "sts1Id": "togawasakikomod:Timoris",
       "sts2Type": "TimorisCard",
       "sts2StableId": "TOGAWASAKIKO-TIMORIS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/TimorisCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Curse/TimorisCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Curses/Timoris.java",
       "customImports": [
@@ -5033,9 +5000,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Tiredness",
@@ -5160,8 +5125,8 @@
       "sts1Id": "togawasakikomod:Utopia",
       "sts2Type": "UtopiaCard",
       "sts2StableId": "TOGAWASAKIKO-UTOPIA_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/UtopiaCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/UtopiaCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/Utopia.java",
       "customImports": [
@@ -5201,9 +5166,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Veritas",
@@ -5216,8 +5179,8 @@
       "sts1Id": "togawasakikomod:Veritas",
       "sts2Type": "VeritasCard",
       "sts2StableId": "TOGAWASAKIKO-VERITAS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/VeritasCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/VeritasCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/Veritas.java",
       "customImports": [
@@ -5258,9 +5221,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Voice",
@@ -5273,8 +5234,8 @@
       "sts1Id": "togawasakikomod:Voice",
       "sts2Type": "VoiceCard",
       "sts2StableId": "TOGAWASAKIKO-VOICE_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/VoiceCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Token/VoiceCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Powers/Voice.java",
       "customImports": [
@@ -5315,9 +5276,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Weakness",
@@ -5330,8 +5289,8 @@
       "sts1Id": "togawasakikomod:Weakness",
       "sts2Type": "WeaknessCard",
       "sts2StableId": "TOGAWASAKIKO-WEAKNESS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Excluded",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/WeaknessCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Curse/WeaknessCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Curses/Weakness.java",
       "customImports": [
@@ -5373,9 +5332,8 @@
         "requiredLarge": "500x380"
       },
       "differences": [
-        "native behavior missing",
         "STS1 original art missing",
-        "disabled in STS1; must stay out of normal pools"
+        "disabled in STS1; excluded from the port by scope policy"
       ]
     },
     {
@@ -5389,8 +5347,8 @@
       "sts1Id": "togawasakikomod:WhiteKeys",
       "sts2Type": "WhiteKeysCard",
       "sts2StableId": "TOGAWASAKIKO-WHITE_KEYS_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/WhiteKeysCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Token/WhiteKeysCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Powers/WhiteKeys.java",
       "customImports": [
@@ -5432,9 +5390,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "WishFulfilled",
@@ -5447,8 +5403,8 @@
       "sts1Id": "togawasakikomod:WishFulfilled",
       "sts2Type": "WishFulfilledCard",
       "sts2StableId": "TOGAWASAKIKO-WISH_FULFILLED_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/WishFulfilledCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/WishFulfilledCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/WishFulfilled.java",
       "customImports": [
@@ -5494,9 +5450,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "WishToBecomeHuman",
@@ -5509,8 +5463,8 @@
       "sts1Id": "togawasakikomod:WishToBecomeHuman",
       "sts2Type": "WishToBecomeHumanCard",
       "sts2StableId": "TOGAWASAKIKO-WISH_TO_BECOME_HUMAN_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/WishToBecomeHumanCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/WishToBecomeHumanCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Attacks/WishToBecomeHuman.java",
       "customImports": [
@@ -5555,9 +5509,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "WishYouGoodLuck",
@@ -5570,8 +5522,8 @@
       "sts1Id": "togawasakikomod:WishYouGoodLuck",
       "sts2Type": "WishYouGoodLuckCard",
       "sts2StableId": "TOGAWASAKIKO-WISH_YOU_GOOD_LUCK_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/WishYouGoodLuckCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/WishYouGoodLuckCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Powers/WishYouGoodLuck.java",
       "customImports": [
@@ -5615,9 +5567,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "Worldview",
@@ -5630,8 +5580,8 @@
       "sts1Id": "togawasakikomod:Worldview",
       "sts2Type": "WorldviewCard",
       "sts2StableId": "TOGAWASAKIKO-WORLDVIEW_CARD",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/WorldviewCard.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Rare/WorldviewCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Powers/Worldview.java",
       "customImports": [
@@ -5678,9 +5628,7 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     }
   ],
   "powers": [
@@ -5688,8 +5636,8 @@
       "name": "CharismaticFormPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-CHARISMATIC_FORM_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/CharismaticFormPower.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/CharismaticFormPower.java",
       "inheritsBasePresentation": false,
@@ -5717,16 +5665,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "CrueltyPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-CRUELTY_POWER",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/CrueltyPower.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/CrueltyPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/CrueltyPower.java",
       "inheritsBasePresentation": false,
@@ -5756,16 +5702,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "CrychicPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-CRYCHIC_POWER",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/CrychicPower.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/CrychicPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/CrychicPower.java",
       "inheritsBasePresentation": false,
@@ -5793,16 +5737,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "DazzlingDownPower",
       "group": "debuffs",
       "sts2StableId": "TOGAWASAKIKO-DAZZLING_DOWN_POWER",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/DazzlingDownPower.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/DazzlingDownPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/debuffs/DazzlingDownPower.java",
       "inheritsBasePresentation": false,
@@ -5832,9 +5774,7 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "DazzlingPower",
@@ -5877,8 +5817,8 @@
       "name": "DolorisPower",
       "group": "debuffs",
       "sts2StableId": "TOGAWASAKIKO-DOLORIS_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/DolorisPower.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/powers/debuffs/DolorisPower.java",
       "inheritsBasePresentation": false,
@@ -5906,55 +5846,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
-    },
-    {
-      "name": "EarnestCryPower",
-      "group": "monsters",
-      "sts2StableId": "TOGAWASAKIKO-EARNEST_CRY_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
-      "legacyEvidence": null,
-      "sts1Source": "src/main/java/togawasakikomod/powers/monsters/EarnestCryPower.java",
-      "inheritsBasePresentation": false,
-      "localization": {
-        "sts1English": {
-          "NAME": "Earnest Cry",
-          "DESCRIPTIONS": [
-            "#rUnclonable. NL At end of turn, gain #b",
-            " #yMantra and #b1 #yEarnest #yCry."
-          ]
-        },
-        "sts1SimplifiedChinese": {
-          "NAME": "真心的呐喊",
-          "DESCRIPTIONS": [
-            "#r无法复制。 NL 回合结束时，获得 #b",
-            " 层 #y真言 并获得一层 #y真心的呐喊 。"
-          ]
-        },
-        "nativeComplete": true
-      },
-      "art": {
-        "status": "Original",
-        "sts1Small": "src/main/resources/togawasakikomod/images/powers/EarnestCryPower.png",
-        "sts1Large": "src/main/resources/togawasakikomod/images/powers/large/EarnestCryPower.png",
-        "sts2Small": "TogawaSakiko/TogawaSakiko/images/powers/earnestcrypower.png",
-        "sts2Large": "TogawaSakiko/TogawaSakiko/images/powers/big/earnestcrypower.png",
-        "requiredSmall": "32x32",
-        "requiredLarge": "84x84"
-      },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "EndurancePower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-ENDURANCE_POWER",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/EndurancePower.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/EndurancePower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/EndurancePower.java",
       "inheritsBasePresentation": false,
@@ -5984,16 +5883,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "FearlessPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-FEARLESS_POWER",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/FearlessPower.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/FearlessPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/FearlessPower.java",
       "inheritsBasePresentation": false,
@@ -6023,55 +5920,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
-    },
-    {
-      "name": "ForwardResolvePower",
-      "group": "monsters",
-      "sts2StableId": "TOGAWASAKIKO-FORWARD_RESOLVE_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
-      "legacyEvidence": null,
-      "sts1Source": "src/main/java/togawasakikomod/powers/monsters/ForwardResolvePower.java",
-      "inheritsBasePresentation": false,
-      "localization": {
-        "sts1English": {
-          "NAME": "Forward Resolve",
-          "DESCRIPTIONS": [
-            "#rUnclonable. NL Whenever attacked, gain #b",
-            " #yVigor."
-          ]
-        },
-        "sts1SimplifiedChinese": {
-          "NAME": "前进的决意",
-          "DESCRIPTIONS": [
-            "#r无法复制。 NL 每当受到攻击时，获得 #b",
-            " #y活力 。"
-          ]
-        },
-        "nativeComplete": true
-      },
-      "art": {
-        "status": "Original",
-        "sts1Small": "src/main/resources/togawasakikomod/images/powers/ForwardResolvePower.png",
-        "sts1Large": "src/main/resources/togawasakikomod/images/powers/large/ForwardResolvePower.png",
-        "sts2Small": "TogawaSakiko/TogawaSakiko/images/powers/forwardresolvepower.png",
-        "sts2Large": "TogawaSakiko/TogawaSakiko/images/powers/big/forwardresolvepower.png",
-        "requiredSmall": "32x32",
-        "requiredLarge": "84x84"
-      },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "FreshlySqueezedCucumberPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/FreshlySqueezedCucumberPower.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/FreshlySqueezedCucumberPower.java",
       "inheritsBasePresentation": false,
@@ -6101,16 +5957,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "GirlOfSpringPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-GIRL_OF_SPRING_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/GirlOfSpringPower.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/GirlOfSpringPower.java",
       "inheritsBasePresentation": false,
@@ -6140,16 +5994,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "GodsCreationPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-GODS_CREATION_POWER",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/GodsCreationPower.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/GodsCreationPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/GodsCreationPower.java",
       "inheritsBasePresentation": false,
@@ -6179,9 +6031,7 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "HypePower",
@@ -6222,8 +6072,8 @@
       "name": "KingsPower",
       "group": "debuffs",
       "sts2StableId": "TOGAWASAKIKO-KINGS_POWER",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/KingsPower.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/KingsPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/debuffs/KingsPower.java",
       "inheritsBasePresentation": false,
@@ -6251,16 +6101,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "MonsterDivinityPower",
       "group": "monsters",
       "sts2StableId": "TOGAWASAKIKO-MONSTER_DIVINITY_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/MonsterDivinityPower.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/powers/monsters/MonsterDivinityPower.java",
       "inheritsBasePresentation": false,
@@ -6288,44 +6136,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
-    },
-    {
-      "name": "MonsterVigorPower",
-      "group": "monsters",
-      "sts2StableId": "TOGAWASAKIKO-MONSTER_VIGOR_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
-      "legacyEvidence": null,
-      "sts1Source": "src/main/java/togawasakikomod/powers/monsters/MonsterVigorPower.java",
-      "inheritsBasePresentation": true,
-      "localization": {
-        "sts1English": null,
-        "sts1SimplifiedChinese": null,
-        "nativeComplete": false
-      },
-      "art": {
-        "status": "Reuse base-game power",
-        "sts1Small": null,
-        "sts1Large": null,
-        "sts2Small": "TogawaSakiko/TogawaSakiko/images/powers/monstervigorpower.png",
-        "sts2Large": "TogawaSakiko/TogawaSakiko/images/powers/big/monstervigorpower.png",
-        "requiredSmall": "32x32",
-        "requiredLarge": "84x84"
-      },
-      "differences": [
-        "native behavior missing",
-        "inherits base-game localization"
-      ]
+      "differences": []
     },
     {
       "name": "MortisPower",
       "group": "debuffs",
       "sts2StableId": "TOGAWASAKIKO-MORTIS_POWER",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/MortisPower.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/MortisPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/debuffs/MortisPower.java",
       "inheritsBasePresentation": false,
@@ -6353,16 +6171,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "OblivionisPower",
       "group": "debuffs",
       "sts2StableId": "TOGAWASAKIKO-OBLIVIONIS_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/OblivionisPower.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/powers/debuffs/OblivionisPower.java",
       "inheritsBasePresentation": false,
@@ -6390,16 +6206,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "OurSongPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-OUR_SONG_POWER",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/OurSongPower.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/OurSongPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/OurSongPower.java",
       "inheritsBasePresentation": false,
@@ -6427,16 +6241,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "PerdereOmniaPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-PERDERE_OMNIA_POWER",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/PerdereOmniaPower.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/PerdereOmniaPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/PerdereOmniaPower.java",
       "inheritsBasePresentation": false,
@@ -6466,44 +6278,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
-    },
-    {
-      "name": "PlayerFilightPower",
-      "group": "buffs",
-      "sts2StableId": "TOGAWASAKIKO-PLAYER_FILIGHT_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
-      "legacyEvidence": null,
-      "sts1Source": "src/main/java/togawasakikomod/powers/buffs/PlayerFilightPower.java",
-      "inheritsBasePresentation": true,
-      "localization": {
-        "sts1English": null,
-        "sts1SimplifiedChinese": null,
-        "nativeComplete": false
-      },
-      "art": {
-        "status": "Reuse base-game power",
-        "sts1Small": null,
-        "sts1Large": null,
-        "sts2Small": "TogawaSakiko/TogawaSakiko/images/powers/playerfilightpower.png",
-        "sts2Large": "TogawaSakiko/TogawaSakiko/images/powers/big/playerfilightpower.png",
-        "requiredSmall": "32x32",
-        "requiredLarge": "84x84"
-      },
-      "differences": [
-        "native behavior missing",
-        "inherits base-game localization"
-      ]
+      "differences": []
     },
     {
       "name": "PridePower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-PRIDE_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/PridePower.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/PridePower.java",
       "inheritsBasePresentation": false,
@@ -6533,16 +6315,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "PrimoDieInScaenaPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-PRIMO_DIE_IN_SCAENA_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/PrimoDieInScaenaPower.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/PrimoDieInScaenaPower.java",
       "inheritsBasePresentation": false,
@@ -6572,55 +6352,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
-    },
-    {
-      "name": "RestlessIdealPower",
-      "group": "monsters",
-      "sts2StableId": "TOGAWASAKIKO-RESTLESS_IDEAL_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
-      "legacyEvidence": null,
-      "sts1Source": "src/main/java/togawasakikomod/powers/monsters/RestlessIdealPower.java",
-      "inheritsBasePresentation": false,
-      "localization": {
-        "sts1English": {
-          "NAME": "Restless Ideal",
-          "DESCRIPTIONS": [
-            "#rUnclonable. NL Whenever deal damage, shuffle #b",
-            " #yNormality to your discard pile."
-          ]
-        },
-        "sts1SimplifiedChinese": {
-          "NAME": "躁动的理想",
-          "DESCRIPTIONS": [
-            "#r无法复制。 NL 每当造成伤害时，在弃牌堆中加入 #b",
-            " 张 #y凡庸 。"
-          ]
-        },
-        "nativeComplete": true
-      },
-      "art": {
-        "status": "Original",
-        "sts1Small": "src/main/resources/togawasakikomod/images/powers/RestlessIdealPower.png",
-        "sts1Large": "src/main/resources/togawasakikomod/images/powers/large/RestlessIdealPower.png",
-        "sts2Small": "TogawaSakiko/TogawaSakiko/images/powers/restlessidealpower.png",
-        "sts2Large": "TogawaSakiko/TogawaSakiko/images/powers/big/restlessidealpower.png",
-        "requiredSmall": "32x32",
-        "requiredLarge": "84x84"
-      },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "SeizeTheFatePower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-SEIZE_THE_FATE_POWER",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/SeizeTheFatePower.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/SeizeTheFatePower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/SeizeTheFatePower.java",
       "inheritsBasePresentation": false,
@@ -6650,16 +6389,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "SharedDestinyPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-SHARED_DESTINY_POWER",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/SharedDestinyPower.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/SharedDestinyPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/SharedDestinyPower.java",
       "inheritsBasePresentation": false,
@@ -6689,131 +6426,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
-    },
-    {
-      "name": "SilentWoundPower",
-      "group": "monsters",
-      "sts2StableId": "TOGAWASAKIKO-SILENT_WOUND_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
-      "legacyEvidence": null,
-      "sts1Source": "src/main/java/togawasakikomod/powers/monsters/SilentWoundPower.java",
-      "inheritsBasePresentation": false,
-      "localization": {
-        "sts1English": {
-          "NAME": "Silent Wound",
-          "DESCRIPTIONS": [
-            "#rUnclonable. NL Whenever you play #b1 card, gain #b",
-            " #yPlated #yArmor ."
-          ]
-        },
-        "sts1SimplifiedChinese": {
-          "NAME": "沉默的创口",
-          "DESCRIPTIONS": [
-            "#r无法复制。 NL 每当你打出 #b1 张牌，获得 #b",
-            " 层 #y多重护甲 。"
-          ]
-        },
-        "nativeComplete": true
-      },
-      "art": {
-        "status": "Original",
-        "sts1Small": "src/main/resources/togawasakikomod/images/powers/SilentWoundPower.png",
-        "sts1Large": "src/main/resources/togawasakikomod/images/powers/large/SilentWoundPower.png",
-        "sts2Small": "TogawaSakiko/TogawaSakiko/images/powers/silentwoundpower.png",
-        "sts2Large": "TogawaSakiko/TogawaSakiko/images/powers/big/silentwoundpower.png",
-        "requiredSmall": "32x32",
-        "requiredLarge": "84x84"
-      },
-      "differences": [
-        "native behavior missing"
-      ]
-    },
-    {
-      "name": "StrengthUpPower",
-      "group": "buffs",
-      "sts2StableId": "TOGAWASAKIKO-STRENGTH_UP_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
-      "legacyEvidence": null,
-      "sts1Source": "src/main/java/togawasakikomod/powers/buffs/StrengthUpPower.java",
-      "inheritsBasePresentation": false,
-      "localization": {
-        "sts1English": {
-          "NAME": "Strength Up",
-          "DESCRIPTIONS": [
-            "At the start of your turn, convert all #yStrength #yUp into #yStrength."
-          ]
-        },
-        "sts1SimplifiedChinese": {
-          "NAME": "力量上升",
-          "DESCRIPTIONS": [
-            "回合开始时将所有 #y力量上升 转化为等量层数的 #y力量 。"
-          ]
-        },
-        "nativeComplete": true
-      },
-      "art": {
-        "status": "Original",
-        "sts1Small": "src/main/resources/togawasakikomod/images/powers/StrengthUpPower.png",
-        "sts1Large": "src/main/resources/togawasakikomod/images/powers/large/StrengthUpPower.png",
-        "sts2Small": "TogawaSakiko/TogawaSakiko/images/powers/strengthuppower.png",
-        "sts2Large": "TogawaSakiko/TogawaSakiko/images/powers/big/strengthuppower.png",
-        "requiredSmall": "32x32",
-        "requiredLarge": "84x84"
-      },
-      "differences": [
-        "native behavior missing"
-      ]
-    },
-    {
-      "name": "TemporalLongingPower",
-      "group": "monsters",
-      "sts2StableId": "TOGAWASAKIKO-TEMPORAL_LONGING_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
-      "legacyEvidence": null,
-      "sts1Source": "src/main/java/togawasakikomod/powers/monsters/TemporalLongingPower.java",
-      "inheritsBasePresentation": false,
-      "localization": {
-        "sts1English": {
-          "NAME": "Temporal Longing",
-          "DESCRIPTIONS": [
-            "#rUnclonable. NL Whenever you play #b10 cards, all enemies regain buffs they obtained since last turn. NL Some actions become stronger as turns pass. NL (Current turn: #y",
-            " )"
-          ]
-        },
-        "sts1SimplifiedChinese": {
-          "NAME": "溯时的思念",
-          "DESCRIPTIONS": [
-            "#r无法复制。 NL 每当你打出 #b10 张牌，使所有敌人重新获得所有自上回合起获得的正面效果。 NL 部分行动会随着回合数加强。 NL （当前回合数： #y",
-            " )"
-          ]
-        },
-        "nativeComplete": true
-      },
-      "art": {
-        "status": "Original",
-        "sts1Small": "src/main/resources/togawasakikomod/images/powers/TemporalLongingPower.png",
-        "sts1Large": "src/main/resources/togawasakikomod/images/powers/large/TemporalLongingPower.png",
-        "sts2Small": "TogawaSakiko/TogawaSakiko/images/powers/temporallongingpower.png",
-        "sts2Large": "TogawaSakiko/TogawaSakiko/images/powers/big/temporallongingpower.png",
-        "requiredSmall": "32x32",
-        "requiredLarge": "84x84"
-      },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "TimorisPower",
       "group": "debuffs",
       "sts2StableId": "TOGAWASAKIKO-TIMORIS_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/TimorisPower.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/powers/debuffs/TimorisPower.java",
       "inheritsBasePresentation": false,
@@ -6841,127 +6461,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
-    },
-    {
-      "name": "UnclaimedPromisePower",
-      "group": "monsters",
-      "sts2StableId": "TOGAWASAKIKO-UNCLAIMED_PROMISE_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
-      "legacyEvidence": null,
-      "sts1Source": "src/main/java/togawasakikomod/powers/monsters/UnclaimedPromisePower.java",
-      "inheritsBasePresentation": false,
-      "localization": {
-        "sts1English": {
-          "NAME": "Unclaimed Promise",
-          "DESCRIPTIONS": [
-            "#rUnclonable. NL On even-numbered turns, gain #b1 stack of #yIntangible, then you lose #b1 stack of #yIntangible."
-          ]
-        },
-        "sts1SimplifiedChinese": {
-          "NAME": "未得的承诺",
-          "DESCRIPTIONS": [
-            "#r无法复制。 NL 在偶数回合获得 #b1 层 #y无实体 ,并使你失去 #b1 层 #y无实体 。"
-          ]
-        },
-        "nativeComplete": true
-      },
-      "art": {
-        "status": "Original",
-        "sts1Small": "src/main/resources/togawasakikomod/images/powers/UnclaimedPromisePower.png",
-        "sts1Large": "src/main/resources/togawasakikomod/images/powers/large/UnclaimedPromisePower.png",
-        "sts2Small": "TogawaSakiko/TogawaSakiko/images/powers/unclaimedpromisepower.png",
-        "sts2Large": "TogawaSakiko/TogawaSakiko/images/powers/big/unclaimedpromisepower.png",
-        "requiredSmall": "32x32",
-        "requiredLarge": "84x84"
-      },
-      "differences": [
-        "native behavior missing"
-      ]
-    },
-    {
-      "name": "UnfadingYearningPower",
-      "group": "monsters",
-      "sts2StableId": "TOGAWASAKIKO-UNFADING_YEARNING_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
-      "legacyEvidence": null,
-      "sts1Source": "src/main/java/togawasakikomod/powers/monsters/UnfadingYearningPower.java",
-      "inheritsBasePresentation": false,
-      "localization": {
-        "sts1English": {
-          "NAME": "Unfading Yearning",
-          "DESCRIPTIONS": [
-            "#rUnclonable. NL Upon you change facing direction, changes her intent."
-          ]
-        },
-        "sts1SimplifiedChinese": {
-          "NAME": "不熄的热望",
-          "DESCRIPTIONS": [
-            "#r无法复制。 NL 你的朝向改变时，改变行动意图。"
-          ]
-        },
-        "nativeComplete": true
-      },
-      "art": {
-        "status": "Original",
-        "sts1Small": "src/main/resources/togawasakikomod/images/powers/UnfadingYearningPower.png",
-        "sts1Large": "src/main/resources/togawasakikomod/images/powers/large/UnfadingYearningPower.png",
-        "sts2Small": "TogawaSakiko/TogawaSakiko/images/powers/unfadingyearningpower.png",
-        "sts2Large": "TogawaSakiko/TogawaSakiko/images/powers/big/unfadingyearningpower.png",
-        "requiredSmall": "32x32",
-        "requiredLarge": "84x84"
-      },
-      "differences": [
-        "native behavior missing"
-      ]
-    },
-    {
-      "name": "VoicedGazePower",
-      "group": "monsters",
-      "sts2StableId": "TOGAWASAKIKO-VOICED_GAZE_POWER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
-      "legacyEvidence": null,
-      "sts1Source": "src/main/java/togawasakikomod/powers/monsters/VoicedGazePower.java",
-      "inheritsBasePresentation": false,
-      "localization": {
-        "sts1English": {
-          "NAME": "Voiced Gaze",
-          "DESCRIPTIONS": [
-            "#rUnclonable. NL Whenever you play #b12 cards, end your turn and gain #b2 #yStrength."
-          ]
-        },
-        "sts1SimplifiedChinese": {
-          "NAME": "蕴声的凝视",
-          "DESCRIPTIONS": [
-            "#r无法复制。 NL 每当你打出 #b12 张牌，强制结束你的回合并获得 #b2 点 #y力量 。"
-          ]
-        },
-        "nativeComplete": true
-      },
-      "art": {
-        "status": "Original",
-        "sts1Small": "src/main/resources/togawasakikomod/images/powers/VoicedGazePower.png",
-        "sts1Large": "src/main/resources/togawasakikomod/images/powers/large/VoicedGazePower.png",
-        "sts2Small": "TogawaSakiko/TogawaSakiko/images/powers/voicedgazepower.png",
-        "sts2Large": "TogawaSakiko/TogawaSakiko/images/powers/big/voicedgazepower.png",
-        "requiredSmall": "32x32",
-        "requiredLarge": "84x84"
-      },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "WishYouGoodLuckPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-WISH_YOU_GOOD_LUCK_POWER",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/WishYouGoodLuckPower.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/WishYouGoodLuckPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/WishYouGoodLuckPower.java",
       "inheritsBasePresentation": false,
@@ -6991,16 +6498,14 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "WorldviewPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-WORLDVIEW_POWER",
-      "portStatus": "Legacy evidence only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/WorldviewPower.cs",
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/WorldviewPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/WorldviewPower.java",
       "inheritsBasePresentation": false,
@@ -7028,9 +6533,7 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     }
   ],
   "relics": [
@@ -7039,8 +6542,8 @@
       "tier": "BOSS",
       "sts2Type": "BlazingHairband",
       "sts2StableId": "TOGAWASAKIKO-BLAZING_HAIRBAND",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Relics/BlazingHairband.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/relics/BlazingHairband.java",
       "localization": {
@@ -7070,17 +6573,15 @@
         "requiredIcon": "128x128",
         "requiredBig": "256x256"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "ColorfulNotebook",
       "tier": "COMMON",
       "sts2Type": "ColorfulNotebook",
       "sts2StableId": "TOGAWASAKIKO-COLORFUL_NOTEBOOK",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Relics/ColorfulNotebook.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/relics/ColorfulNotebook.java",
       "localization": {
@@ -7108,17 +6609,15 @@
         "requiredIcon": "128x128",
         "requiredBig": "256x256"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "CuteAnimalBandAid",
       "tier": "COMMON",
       "sts2Type": "CuteAnimalBandAid",
       "sts2StableId": "TOGAWASAKIKO-CUTE_ANIMAL_BAND_AID",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Relics/CuteAnimalBandAid.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/relics/CuteAnimalBandAid.java",
       "localization": {
@@ -7146,17 +6645,15 @@
         "requiredIcon": "128x128",
         "requiredBig": "256x256"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "FountainDrink",
       "tier": "COMMON",
       "sts2Type": "FountainDrink",
       "sts2StableId": "TOGAWASAKIKO-FOUNTAIN_DRINK",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Relics/FountainDrink.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/relics/FountainDrink.java",
       "localization": {
@@ -7184,17 +6681,15 @@
         "requiredIcon": "128x128",
         "requiredBig": "256x256"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "GoldenPocketWatch",
       "tier": "UNCOMMON",
       "sts2Type": "GoldenPocketWatch",
       "sts2StableId": "TOGAWASAKIKO-GOLDEN_POCKET_WATCH",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Relics/GoldenPocketWatch.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/relics/GoldenPocketWatch.java",
       "localization": {
@@ -7222,17 +6717,15 @@
         "requiredIcon": "128x128",
         "requiredBig": "256x256"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "MasqueradeMask",
       "tier": "RARE",
       "sts2Type": "MasqueradeMask",
       "sts2StableId": "TOGAWASAKIKO-MASQUERADE_MASK",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Relics/MasqueradeMask.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/relics/MasqueradeMask.java",
       "localization": {
@@ -7260,9 +6753,7 @@
         "requiredIcon": "128x128",
         "requiredBig": "256x256"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "MonochromeHairband",
@@ -7307,8 +6798,8 @@
       "tier": "SHOP",
       "sts2Type": "TheCompass",
       "sts2StableId": "TOGAWASAKIKO-THE_COMPASS",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Relics/TheCompass.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/relics/TheCompass.java",
       "localization": {
@@ -7336,17 +6827,15 @@
         "requiredIcon": "128x128",
         "requiredBig": "256x256"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "TheDoll",
       "tier": "UNCOMMON",
       "sts2Type": "TheDoll",
       "sts2StableId": "TOGAWASAKIKO-THE_DOLL",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Relics/TheDoll.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/relics/TheDoll.java",
       "localization": {
@@ -7374,17 +6863,15 @@
         "requiredIcon": "128x128",
         "requiredBig": "256x256"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "TheThirdMovement",
       "tier": "SPECIAL",
       "sts2Type": "TheThirdMovement",
       "sts2StableId": "TOGAWASAKIKO-THE_THIRD_MOVEMENT",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Relics/TheThirdMovement.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/relics/TheThirdMovement.java",
       "localization": {
@@ -7414,17 +6901,15 @@
         "requiredIcon": "128x128",
         "requiredBig": "256x256"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "WarmthInfusedPorcelainCup",
       "tier": "BOSS",
       "sts2Type": "WarmthInfusedPorcelainCup",
       "sts2StableId": "TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Relics/WarmthInfusedPorcelainCup.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/relics/WarmthInfusedPorcelainCup.java",
       "localization": {
@@ -7452,9 +6937,7 @@
         "requiredIcon": "128x128",
         "requiredBig": "256x256"
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     }
   ],
   "potions": [
@@ -7463,8 +6946,8 @@
       "rarity": "UNCOMMON",
       "size": "MOON",
       "sts2StableId": "TOGAWASAKIKO-CHOCOLATE_MILK_JELLY",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Potions/ChocolateMilkJelly.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/potions/ChocolateMilkJelly.java",
       "localization": {
@@ -7500,17 +6983,15 @@
           }
         ]
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "EarlGreyTea",
       "rarity": "COMMON",
       "size": "MOON",
       "sts2StableId": "TOGAWASAKIKO-EARL_GREY_TEA",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Potions/EarlGreyTea.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/potions/EarlGreyTea.java",
       "localization": {
@@ -7546,17 +7027,15 @@
           }
         ]
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "FreshlySqueezedCucumber",
       "rarity": "UNCOMMON",
       "size": "MOON",
       "sts2StableId": "TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Potions/FreshlySqueezedCucumber.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/potions/FreshlySqueezedCucumber.java",
       "localization": {
@@ -7592,17 +7071,15 @@
           }
         ]
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "HallucinationPotion",
       "rarity": "COMMON",
       "size": "MOON",
       "sts2StableId": "TOGAWASAKIKO-HALLUCINATION_POTION",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Potions/HallucinationPotion.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/potions/HallucinationPotion.java",
       "localization": {
@@ -7644,17 +7121,15 @@
           }
         ]
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "MatchaParfait",
       "rarity": "UNCOMMON",
       "size": "MOON",
       "sts2StableId": "TOGAWASAKIKO-MATCHA_PARFAIT",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Potions/MatchaParfait.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/potions/MatchaParfait.java",
       "localization": {
@@ -7690,17 +7165,15 @@
           }
         ]
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     },
     {
       "name": "OrangeMilkJelly",
       "rarity": "UNCOMMON",
       "size": "MOON",
       "sts2StableId": "TOGAWASAKIKO-ORANGE_MILK_JELLY",
-      "portStatus": "STS1 source only",
-      "nativeSource": null,
+      "portStatus": "Native",
+      "nativeSource": "TogawaSakiko/NativeCode/Models/Potions/OrangeMilkJelly.cs",
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/potions/OrangeMilkJelly.java",
       "localization": {
@@ -7736,320 +7209,313 @@
           }
         ]
       },
-      "differences": [
-        "native behavior missing"
-      ]
+      "differences": []
     }
   ],
   "domains": [
     {
       "domain": "actions",
-      "count": 61,
+      "count": 50,
       "items": [
         {
           "name": "AccompliceAction",
           "source": "src/main/java/togawasakikomod/Actions/AccompliceAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "AccompliceCard.OnPlay"
         },
         {
           "name": "AddBackLostPowersAction",
           "source": "src/main/java/togawasakikomod/Actions/AddBackLostPowersAction.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "AddCardsFromDiscardedToHandAction",
-          "source": "src/main/java/togawasakikomod/Actions/AddCardsFromDiscardedToHandAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "LostPowerRestorationCommand"
         },
         {
           "name": "AddCardToDeckEXAction",
           "source": "src/main/java/togawasakikomod/Actions/AddCardToDeckEXAction.java",
+          "sourceStatus": "Active",
           "nativeEquivalent": "PersistentDeckMutation.AddCanonicalAsync"
         },
         {
           "name": "AdjustCostAction",
           "source": "src/main/java/togawasakikomod/Actions/AdjustCostAction.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "AreTheseLyricsAction",
-          "source": "src/main/java/togawasakikomod/Actions/AreTheseLyricsAction.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "AuthorityRestorationAction",
-          "source": "src/main/java/togawasakikomod/Actions/AuthorityRestorationAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "ChoirSChoirCard"
         },
         {
           "name": "AveMujicaAction",
           "source": "src/main/java/togawasakikomod/Actions/AveMujicaAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "AveMujicaCard.OnPlay"
         },
         {
           "name": "BandInvitationAction",
           "source": "src/main/java/togawasakikomod/Actions/BandInvitationAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "BandInvitationCard.OnPlay"
         },
         {
           "name": "BlackBirthdayAction",
           "source": "src/main/java/togawasakikomod/Actions/BlackBirthdayAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "BlackBirthdayCard.OnPlay"
         },
         {
           "name": "BodySlamEXAction",
           "source": "src/main/java/togawasakikomod/Actions/BodySlamEXAction.java",
+          "sourceStatus": "InactiveInSts1",
           "nativeEquivalent": null
         },
         {
           "name": "CharismaticIntangibleAction",
           "source": "src/main/java/togawasakikomod/Actions/CharismaticIntangibleAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "CharismaticFormPower"
         },
         {
           "name": "ChooseCardAndRemoveFormDiscardPileAction",
           "source": "src/main/java/togawasakikomod/Actions/ChooseCardAndRemoveFormDiscardPileAction.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "ChooseCardGainSelfRetainAction",
-          "source": "src/main/java/togawasakikomod/Actions/ChooseCardGainSelfRetainAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "EdgeOfBreakdownCard.OnPlay + SakikoPurgeCommand"
         },
         {
           "name": "ChooseExistCardAndAddToDeckAction",
           "source": "src/main/java/togawasakikomod/Actions/ChooseExistCardAndAddToDeckAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "AsYourHeartDesiresCard + PersistentDeckMutation"
         },
         {
           "name": "CountingStarsAction",
           "source": "src/main/java/togawasakikomod/Actions/CountingStarsAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "CountingStarsCard.OnPlay"
         },
         {
           "name": "CricifuxXAction",
           "source": "src/main/java/togawasakikomod/Actions/CricifuxXAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "CrucifixXCard.OnPlay"
         },
         {
           "name": "CrychicAction",
           "source": "src/main/java/togawasakikomod/Actions/CrychicAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "CrychicCard.OnPlay"
         },
         {
           "name": "DatenAction",
           "source": "src/main/java/togawasakikomod/Actions/DatenAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "DatenCard.OnPlay + SakikoPurgeCommand"
         },
         {
           "name": "DazzlingDamageAction",
           "source": "src/main/java/togawasakikomod/Actions/DazzlingDamageAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "DazzlingPower.AfterPowerAmountChanged"
         },
         {
           "name": "DesuWaAction",
           "source": "src/main/java/togawasakikomod/Actions/DesuWaAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "DesuWaCard.OnPlay"
         },
         {
           "name": "EtherAction",
           "source": "src/main/java/togawasakikomod/Actions/EtherAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "EtherCard.OnPlay"
         },
         {
           "name": "ExhaustCardFromDrawPileAction",
           "source": "src/main/java/togawasakikomod/Actions/ExhaustCardFromDrawPileAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "MementoMoriCard.OnPlay + CardCmd.Exhaust"
         },
         {
           "name": "ForcePlayCardAction",
           "source": "src/main/java/togawasakikomod/Actions/ForcePlayCardAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "CardCmd.AutoPlay"
         },
         {
           "name": "HeartsBarrierAction",
           "source": "src/main/java/togawasakikomod/Actions/HeartsBarrierAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "HeartsBarrierCard.OnPlay"
         },
         {
           "name": "IncreaseMiscDamageAction",
           "source": "src/main/java/togawasakikomod/Actions/IncreaseMiscDamageAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "Saved card state in native card models"
         },
         {
           "name": "KillGainPurgeRewardAction",
           "source": "src/main/java/togawasakikomod/Actions/KillGainPurgeRewardAction.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "LoseBlockForEveryoneThenAttackAction",
-          "source": "src/main/java/togawasakikomod/Actions/LoseBlockForEveryoneThenAttackAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "TheMoonlightSonataCard + SakikoPurgeCommand"
         },
         {
           "name": "MakeCardInDiscardPileAction",
           "source": "src/main/java/togawasakikomod/Actions/MakeCardInDiscardPileAction.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "MakeCardUnremoveableAction",
-          "source": "src/main/java/togawasakikomod/Actions/MakeCardUnremoveableAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "PersistentDeckMutation.AddCanonicalWithCombatCopyAsync"
         },
         {
           "name": "MakeTempCardOnTopOfDeckAction",
           "source": "src/main/java/togawasakikomod/Actions/MakeTempCardOnTopOfDeckAction.java",
+          "sourceStatus": "InactiveInSts1",
           "nativeEquivalent": null
         },
         {
           "name": "ManualSaveGameAction",
           "source": "src/main/java/togawasakikomod/Actions/ManualSaveGameAction.java",
+          "sourceStatus": "InactiveInSts1",
           "nativeEquivalent": null
         },
         {
           "name": "MaskAction",
           "source": "src/main/java/togawasakikomod/Actions/MaskAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "MasksCard.OnPlay"
         },
         {
           "name": "MatchaParfaitAction",
           "source": "src/main/java/togawasakikomod/Actions/MatchaParfaitAction.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "MutsumiAttackAmountChangeEvent",
-          "source": "src/main/java/togawasakikomod/Actions/MutsumiAttackAmountChangeEvent.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "NumbersAndFacesAction",
-          "source": "src/main/java/togawasakikomod/Actions/NumbersAndFacesAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "MatchaParfait.Use"
         },
         {
           "name": "PerfectionAction",
           "source": "src/main/java/togawasakikomod/Actions/PerfectionAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "PerfectionCard.OnPlay"
         },
         {
           "name": "PirdeAction",
           "source": "src/main/java/togawasakikomod/Actions/PirdeAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "PrideCard.OnPlay + PridePower"
         },
         {
           "name": "PlayAudioAction",
           "source": "src/main/java/togawasakikomod/Actions/PlayAudioAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "SakikoAudioCmd.TryPlayCardVoice"
         },
         {
           "name": "PurgeRewardAction",
           "source": "src/main/java/togawasakikomod/Actions/PurgeRewardAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "SakikoPurgeCommand.AddPurgeRewards"
         },
         {
           "name": "RandomCardToHandByIDAction",
           "source": "src/main/java/togawasakikomod/Actions/RandomCardToHandByIDAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "KillKiSSCard.OnPlay + CardPileCmd.Add"
         },
         {
           "name": "RandomCardToHandByTypeAction",
           "source": "src/main/java/togawasakikomod/Actions/RandomCardToHandByTypeAction.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "RefreshMonsterIntentAction",
-          "source": "src/main/java/togawasakikomod/Actions/RefreshMonsterIntentAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "PrideCard/DesuWaCard native selection"
         },
         {
           "name": "RemoveAddedLostPowersAction",
           "source": "src/main/java/togawasakikomod/Actions/RemoveAddedLostPowersAction.java",
+          "sourceStatus": "InactiveInSts1",
           "nativeEquivalent": null
         },
         {
           "name": "RemoveCardFromDeckAction",
           "source": "src/main/java/togawasakikomod/Actions/RemoveCardFromDeckAction.java",
+          "sourceStatus": "Active",
           "nativeEquivalent": "PersistentDeckMutation.RemoveExactAsync"
         },
         {
           "name": "RemoveCardFromDrawPileAction",
           "source": "src/main/java/togawasakikomod/Actions/RemoveCardFromDrawPileAction.java",
+          "sourceStatus": "Active",
           "nativeEquivalent": "PersistentDeckRemovalGameAction"
         },
         {
           "name": "RemoveCardFromHandAction",
           "source": "src/main/java/togawasakikomod/Actions/RemoveCardFromHandAction.java",
+          "sourceStatus": "Active",
           "nativeEquivalent": "PersistentDeckRemovalGameAction"
         },
         {
           "name": "RemoveRandomCardAction",
           "source": "src/main/java/togawasakikomod/Actions/RemoveRandomCardAction.java",
+          "sourceStatus": "InactiveInSts1",
           "nativeEquivalent": null
         },
         {
           "name": "ReplaceCardAction",
           "source": "src/main/java/togawasakikomod/Actions/ReplaceCardAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "PersistentDeckMutation remove/add sequence"
         },
         {
           "name": "SeizeTheFateAction",
           "source": "src/main/java/togawasakikomod/Actions/SeizeTheFateAction.java",
+          "sourceStatus": "InactiveInSts1",
           "nativeEquivalent": null
         },
         {
           "name": "ShowAndExhaustCardAction",
           "source": "src/main/java/togawasakikomod/Actions/ShowAndExhaustCardAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "CardCmd.Exhaust"
         },
         {
           "name": "SoraNoMusicaAction",
           "source": "src/main/java/togawasakikomod/Actions/SoraNoMusicaAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "SoraNoMusicaCard.OnPlay"
         },
         {
           "name": "StealStrengthAction",
           "source": "src/main/java/togawasakikomod/Actions/StealStrengthAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "DarkHeavenCard.OnPlay"
         },
         {
           "name": "SymbolIFireAction",
           "source": "src/main/java/togawasakikomod/Actions/SymbolIFireAction.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "TemporalLongingAction",
-          "source": "src/main/java/togawasakikomod/Actions/TemporalLongingAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "SymbolIFireCard.OnPlay"
         },
         {
           "name": "TheMoonlightSonataAction",
           "source": "src/main/java/togawasakikomod/Actions/TheMoonlightSonataAction.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "TrueWaitAction",
-          "source": "src/main/java/togawasakikomod/Actions/TrueWaitAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "TheMoonlightSonataCard.OnPlay"
         },
         {
           "name": "UpgradeAllCardInDrawPileAction",
           "source": "src/main/java/togawasakikomod/Actions/UpgradeAllCardInDrawPileAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "AleaIactaEstCard.OnPlay"
         },
         {
           "name": "VeritasAction",
           "source": "src/main/java/togawasakikomod/Actions/VeritasAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "VeritasCard.OnPlay"
         },
         {
           "name": "WishFulfilledAction",
           "source": "src/main/java/togawasakikomod/Actions/WishFulfilledAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "WishFulfilledCard.OnPlay + SakikoPurgeCommand"
         },
         {
           "name": "WishToBecomeHumanAction",
           "source": "src/main/java/togawasakikomod/Actions/WishToBecomeHumanAction.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "WishToBecomeHumanCard.OnPlay"
         }
       ]
     },
@@ -8060,269 +7526,121 @@
         {
           "name": "DazzlingAttackEffect",
           "source": "src/main/java/togawasakikomod/effects/DazzlingAttackEffect.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "SakikoDazzlingImpactVfxNode"
         },
         {
           "name": "EnemyDivinityParticleEffect",
           "source": "src/main/java/togawasakikomod/effects/EnemyDivinityParticleEffect.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "MonsterDivinityPower mechanics; ambient source particles intentionally omitted"
         },
         {
           "name": "EnemyStanceAuraEffect",
           "source": "src/main/java/togawasakikomod/effects/EnemyStanceAuraEffect.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "MonsterDivinityPower mechanics; ambient source aura intentionally omitted"
         },
         {
           "name": "MusicPulseAttackEffect",
           "source": "src/main/java/togawasakikomod/effects/MusicPulseAttackEffect.java",
+          "sourceStatus": "InactiveInSts1",
           "nativeEquivalent": null
         },
         {
           "name": "ShowAndExhaustCardEffect",
           "source": "src/main/java/togawasakikomod/effects/ShowAndExhaustCardEffect.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "CardCmd.Exhaust native presentation"
         },
         {
           "name": "ShowCardAndAddToDiscardPileEffect2",
           "source": "src/main/java/togawasakikomod/effects/ShowCardAndAddToDiscardPileEffect2.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "CardPileCmd.Add native presentation"
         },
         {
           "name": "ShowCardAndObtainEffect2",
           "source": "src/main/java/togawasakikomod/effects/ShowCardAndObtainEffect2.java",
-          "nativeEquivalent": null
-        }
-      ]
-    },
-    {
-      "domain": "events",
-      "count": 2,
-      "items": [
-        {
-          "name": "AltNeowEvent",
-          "source": "src/main/java/togawasakikomod/events/AltNeowEvent.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "TheOblivionEvent",
-          "source": "src/main/java/togawasakikomod/events/TheOblivionEvent.java",
-          "nativeEquivalent": null
-        }
-      ]
-    },
-    {
-      "domain": "intents",
-      "count": 1,
-      "items": [
-        {
-          "name": "MutsumiAttackIntent",
-          "source": "src/main/java/togawasakikomod/intents/MutsumiAttackIntent.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "PersistentDeckMutation + CardCmd.PreviewCardPileAdd"
         }
       ]
     },
     {
       "domain": "modifiers",
-      "count": 2,
-      "items": [
-        {
-          "name": "SelfRetainModifier",
-          "source": "src/main/java/togawasakikomod/modifiers/SelfRetainModifier.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "UnremoveableModifier",
-          "source": "src/main/java/togawasakikomod/modifiers/UnremoveableModifier.java",
-          "nativeEquivalent": null
-        }
-      ]
-    },
-    {
-      "domain": "monsters",
-      "count": 12,
-      "items": [
-        {
-          "name": "ChihayaAnonBoss",
-          "source": "src/main/java/togawasakikomod/monsters/oblivion/bosses/mygo/ChihayaAnonBoss.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "FinalBossMonster",
-          "source": "src/main/java/togawasakikomod/monsters/oblivion/bosses/FinalBossMonster.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "MisumiUikaBoss",
-          "source": "src/main/java/togawasakikomod/monsters/oblivion/bosses/avemujica/MisumiUikaBoss.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "NagasakiSoyoBoss",
-          "source": "src/main/java/togawasakikomod/monsters/oblivion/bosses/mygo/NagasakiSoyoBoss.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "NyamuDrumMinion",
-          "source": "src/main/java/togawasakikomod/monsters/oblivion/minions/NyamuDrumMinion.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "ShiinaTakiBoss",
-          "source": "src/main/java/togawasakikomod/monsters/oblivion/bosses/mygo/ShiinaTakiBoss.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "SurroundedMonster",
-          "source": "src/main/java/togawasakikomod/monsters/SurroundedMonster.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "TakamatsuTomoriBoss",
-          "source": "src/main/java/togawasakikomod/monsters/oblivion/bosses/mygo/TakamatsuTomoriBoss.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "TheOblivionMonsterGroup",
-          "source": "src/main/java/togawasakikomod/monsters/oblivion/TheOblivionMonsterGroup.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "WakabaMutsumiBoss",
-          "source": "src/main/java/togawasakikomod/monsters/oblivion/bosses/avemujica/WakabaMutsumiBoss.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "YahataUmiriBoss",
-          "source": "src/main/java/togawasakikomod/monsters/oblivion/bosses/avemujica/YahataUmiriBoss.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "YuutenjiNyamuBoss",
-          "source": "src/main/java/togawasakikomod/monsters/oblivion/bosses/avemujica/YuutenjiNyamuBoss.java",
-          "nativeEquivalent": null
-        }
-      ]
+      "count": 0,
+      "items": []
     },
     {
       "domain": "patches",
-      "count": 18,
+      "count": 9,
       "items": [
-        {
-          "name": "AltNeowPatch",
-          "source": "src/main/java/togawasakikomod/patches/AltNeowPatch.java",
-          "nativeEquivalent": null
-        },
         {
           "name": "BlockEventPatch",
           "source": "src/main/java/togawasakikomod/patches/BlockEventPatch.java",
+          "sourceStatus": "Active",
           "nativeEquivalent": "HypePower + HypeExplicitBlockLossPatch"
-        },
-        {
-          "name": "CreditPatch",
-          "source": "src/main/java/togawasakikomod/patches/CreditPatch.java",
-          "nativeEquivalent": null
         },
         {
           "name": "CustomEnumPatch",
           "source": "src/main/java/togawasakikomod/patches/CustomEnumPatch.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "CutscenePatch",
-          "source": "src/main/java/togawasakikomod/patches/CutscenePatch.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "ForkEventPatch",
-          "source": "src/main/java/togawasakikomod/patches/actlikeit/ForkEventPatch.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "Native model IDs, target types, keywords, and RewardType.RemoveCard"
         },
         {
           "name": "FreeAttackPowerReducePatch",
           "source": "src/main/java/togawasakikomod/patches/FreeAttackPowerReducePatch.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "GraveCardPatch",
-          "source": "src/main/java/togawasakikomod/patches/GraveCardPatch.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "Native FreeAttackPower command semantics"
         },
         {
           "name": "MonsterMantraPatch",
           "source": "src/main/java/togawasakikomod/patches/MonsterMantraPatch.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "MusicMasterPatch",
-          "source": "src/main/java/togawasakikomod/patches/MusicMasterPatch.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "MantraPower + MonsterDivinityPower"
         },
         {
           "name": "ObtainRewardEventPatch",
           "source": "src/main/java/togawasakikomod/patches/ObtainRewardEventPatch.java",
+          "sourceStatus": "Active",
           "nativeEquivalent": "StarterRelicTogawaSakiko.AfterCombatVictory"
         },
         {
           "name": "ReducedPowerRecorderPatch",
           "source": "src/main/java/togawasakikomod/patches/ReducedPowerRecorderPatch.java",
+          "sourceStatus": "Active",
           "nativeEquivalent": "PowerChangeLedgerService"
         },
         {
           "name": "RemoveCursedRelatedRelicsPatch",
           "source": "src/main/java/togawasakikomod/patches/RemoveCursedRelatedRelicsPatch.java",
+          "sourceStatus": "InactiveInSts1",
           "nativeEquivalent": null
         },
         {
           "name": "ScryCallbackPatch",
           "source": "src/main/java/togawasakikomod/patches/ScryCallbackPatch.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "TheEndGoToTheOblivionEventPatch",
-          "source": "src/main/java/togawasakikomod/patches/TheEndGoToTheOblivionEventPatch.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "TheOblivionMonsterPatch",
-          "source": "src/main/java/togawasakikomod/patches/TheOblivionMonsterPatch.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "UnremoveablePatcher",
-          "source": "src/main/java/togawasakikomod/patches/UnremoveablePatcher.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "QuaerereLuminaCard native selection callback"
         },
         {
           "name": "WarmthInfusedPorcelainCupPatch",
           "source": "src/main/java/togawasakikomod/patches/WarmthInfusedPorcelainCupPatch.java",
+          "sourceStatus": "InactiveInSts1",
           "nativeEquivalent": null
         }
       ]
     },
     {
       "domain": "rewards",
-      "count": 2,
-      "items": [
-        {
-          "name": "AltNeowReward",
-          "source": "src/main/java/togawasakikomod/rewards/AltNeowReward.java",
-          "nativeEquivalent": null
-        },
-        {
-          "name": "PurgeReward",
-          "source": "src/main/java/togawasakikomod/rewards/PurgeReward.java",
-          "nativeEquivalent": null
-        }
-      ]
-    },
-    {
-      "domain": "rooms",
       "count": 1,
       "items": [
         {
-          "name": "TheOblivionEventRoom",
-          "source": "src/main/java/togawasakikomod/rooms/TheOblivionEventRoom.java",
-          "nativeEquivalent": null
+          "name": "PurgeReward",
+          "source": "src/main/java/togawasakikomod/rewards/PurgeReward.java",
+          "sourceStatus": "Active",
+          "nativeEquivalent": "Native RewardType.RemoveCard + SakikoPurgeCommand"
         }
       ]
     },
@@ -8333,33 +7651,13 @@
         {
           "name": "KingsSaveable",
           "source": "src/main/java/togawasakikomod/saveable/KingsSaveable.java",
-          "nativeEquivalent": null
+          "sourceStatus": "Active",
+          "nativeEquivalent": "KingsRewardState"
         },
         {
           "name": "MasqueradeSaveable",
           "source": "src/main/java/togawasakikomod/saveable/MasqueradeSaveable.java",
-          "nativeEquivalent": null
-        }
-      ]
-    },
-    {
-      "domain": "scenes",
-      "count": 1,
-      "items": [
-        {
-          "name": "TheOblivionScene",
-          "source": "src/main/java/togawasakikomod/scenes/TheOblivionScene.java",
-          "nativeEquivalent": null
-        }
-      ]
-    },
-    {
-      "domain": "screens",
-      "count": 1,
-      "items": [
-        {
-          "name": "SpeicialVictoryScreen",
-          "source": "src/main/java/togawasakikomod/screens/SpeicialVictoryScreen.java",
+          "sourceStatus": "InactiveInSts1",
           "nativeEquivalent": null
         }
       ]
@@ -8367,410 +7665,532 @@
   ],
   "audio": [
     {
-      "relativePath": "cutscene/ending1.wav",
-      "usage": "Ending cutscene",
-      "copiedToSts2": true,
-      "sts2Path": "TogawaSakiko/TogawaSakiko/audio/cutscene/ending1.wav",
-      "wiredInNativeCode": false
-    },
-    {
-      "relativePath": "cutscene/ending2.wav",
-      "usage": "Ending cutscene",
-      "copiedToSts2": true,
-      "sts2Path": "TogawaSakiko/TogawaSakiko/audio/cutscene/ending2.wav",
-      "wiredInNativeCode": false
-    },
-    {
-      "relativePath": "cutscene/ending3.wav",
-      "usage": "Ending cutscene",
-      "copiedToSts2": true,
-      "sts2Path": "TogawaSakiko/TogawaSakiko/audio/cutscene/ending3.wav",
-      "wiredInNativeCode": false
-    },
-    {
-      "relativePath": "music/GMGU_Short.mp3",
-      "usage": "Custom music",
-      "copiedToSts2": true,
-      "sts2Path": "TogawaSakiko/TogawaSakiko/audio/music/GMGU_Short.mp3",
-      "wiredInNativeCode": false
-    },
-    {
-      "relativePath": "music/GMGU.ogg",
-      "usage": "Custom music",
-      "copiedToSts2": true,
-      "sts2Path": "TogawaSakiko/TogawaSakiko/audio/music/GMGU.ogg",
-      "wiredInNativeCode": false
-    },
-    {
-      "relativePath": "music/Haruhikage.ogg",
-      "usage": "Custom music",
-      "copiedToSts2": true,
-      "sts2Path": "TogawaSakiko/TogawaSakiko/audio/music/Haruhikage.ogg",
-      "wiredInNativeCode": false
-    },
-    {
       "relativePath": "sakiko/Accomplice.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/accomplice.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Amoris.wav",
-      "usage": "Registered STS1 voice; no direct card call found",
+      "usage": "Registered in STS1 but no active call exists",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/amoris.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": false,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Preserved source asset; no active STS1 route"
     },
     {
       "relativePath": "sakiko/AreTheseLyrics.wav",
-      "usage": "Direct card voice",
+      "usage": "Disabled-card voice; excluded",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/aretheselyrics.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": false,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Excluded with its disabled card"
     },
     {
       "relativePath": "sakiko/ASplitMoment.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/asplitmoment.wav",
-      "wiredInNativeCode": true
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/AsYourHeartDesires.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/asyourheartdesires.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/AuthorityRestoration.wav",
-      "usage": "Direct card voice",
+      "usage": "Disabled-card voice; excluded",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/authorityrestoration.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": false,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Excluded with its disabled card"
     },
     {
       "relativePath": "sakiko/AveMujica.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/avemujica.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/BandInvitation.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/bandinvitation.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Carefree.wav",
-      "usage": "Direct card voice",
+      "usage": "Disabled-card voice; excluded",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/carefree.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Excluded with its disabled card"
     },
     {
       "relativePath": "sakiko/ClockOut.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/clockout.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/CountingStars.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/countingstars.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Cruelty.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/cruelty.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/DesuWa.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/desuwa.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Doloris.wav",
-      "usage": "Registered STS1 voice; no direct card call found",
+      "usage": "Registered in STS1 but no active call exists",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/doloris.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": false,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Preserved source asset; no active STS1 route"
     },
     {
       "relativePath": "sakiko/EdgeOfBreakdown.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/edgeofbreakdown.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Endurance.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/endurance.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/FallenFlowers.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/fallenflowers.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Fearless.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/fearless.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/General1.wav",
-      "usage": "Character voice",
+      "usage": "Registered in STS1 but no active call exists",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/general1.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": false,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Preserved source asset; no active STS1 route"
     },
     {
       "relativePath": "sakiko/General2.wav",
-      "usage": "Character voice",
+      "usage": "Registered in STS1 but no active call exists",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/general2.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": false,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Preserved source asset; no active STS1 route"
     },
     {
       "relativePath": "sakiko/Greetings.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/greetings.wav",
-      "wiredInNativeCode": true
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/HeartsBarrier.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/heartsbarrier.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Hurt1.wav",
-      "usage": "Character voice",
+      "usage": "Active hurt voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/hurt1.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Hurt2.wav",
-      "usage": "Character voice",
+      "usage": "Active hurt voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/hurt2.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Hurt3.wav",
-      "usage": "Character voice",
+      "usage": "Registered but unreachable because the STS1 random upper bound is exclusive",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/hurt3.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Preserved, intentionally unreachable like STS1"
     },
     {
       "relativePath": "sakiko/InnerCry.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/innercry.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Intro.wav",
-      "usage": "Character voice",
+      "usage": "Active character-select voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/intro.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Masks.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/masks.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/MasqueradeRhapsodyRequest.wav",
-      "usage": "Registered STS1 voice; no direct card call found",
+      "usage": "Registered in STS1 but no active call exists",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/masqueraderhapsodyrequest.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": false,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Preserved source asset; no active STS1 route"
     },
     {
       "relativePath": "sakiko/Mortis.wav",
-      "usage": "Registered STS1 voice; no direct card call found",
+      "usage": "Registered in STS1 but no active call exists",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/mortis.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": false,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Preserved source asset; no active STS1 route"
     },
     {
       "relativePath": "sakiko/Oblivionis.wav",
-      "usage": "Registered STS1 voice; no direct card call found",
+      "usage": "Registered in STS1 but no active call exists",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/oblivionis.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": false,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Preserved source asset; no active STS1 route"
     },
     {
       "relativePath": "sakiko/Others1.wav",
-      "usage": "Character voice",
+      "usage": "Registered in STS1 but no active call exists",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/others1.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": false,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Preserved source asset; no active STS1 route"
     },
     {
       "relativePath": "sakiko/OurSong.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/oursong.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/PerdereOmnia.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/perdereomnia.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Perfection.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/perfection.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/PhantomOfMutsumi.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/phantomofmutsumi.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/PhantomOfSoyo.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/phantomofsoyo.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/PhantomOfTaki.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/phantomoftaki.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/PhantomOfTomori.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/phantomoftomori.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Pride.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/pride.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/PrimoDieInScaena.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/primodieinscaena.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/RhinocerosBeetle.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/rhinocerosbeetle.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/SharedDestiny.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/shareddestiny.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/StayElegance.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/stayelegance.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/TheGirlWithFlaxenHair.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/thegirlwithflaxenhair.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Timoris.wav",
-      "usage": "Registered STS1 voice; no direct card call found",
+      "usage": "Registered in STS1 but no active call exists",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/timoris.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": false,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Preserved source asset; no active STS1 route"
     },
     {
       "relativePath": "sakiko/Tiredness.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/tiredness.wav",
-      "wiredInNativeCode": true
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/WishToBecomeHuman.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/wishtobecomehuman.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/WishYouGoodLuck.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/wishyougoodluck.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "sakiko/Worldview.wav",
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/worldview.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "vfx/DazzlingAttackEffect.wav",
-      "usage": "Custom VFX",
+      "usage": "Active Dazzling VFX sound",
+      "activeInScope": true,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/vfx/DazzlingAttackEffect.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": true,
+      "nativeBehavior": "Wired"
     },
     {
       "relativePath": "vfx/MusicPulseAttackEffect.wav",
-      "usage": "Custom VFX",
+      "usage": "Registered in STS1 but its VFX is never instantiated",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/vfx/MusicPulseAttackEffect.wav",
-      "wiredInNativeCode": false
+      "referencedInNativeCode": true,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Preserved, intentionally inactive like STS1"
+    }
+  ],
+  "missingRegisteredSourceAudio": [
+    {
+      "relativePath": "sakiko/WishFulfilled.wav",
+      "registeredInSts1": true,
+      "calledByEnabledCard": true,
+      "difference": "Referenced and registered by STS1, but the source audio file is absent; no placeholder audio was fabricated."
     }
   ],
   "presentationFiles": [
@@ -8857,36 +8277,6 @@
       "dimensions": "430x94",
       "copiedAtSameRelativePath": true,
       "nativePath": "images/character/corpse.png"
-    },
-    {
-      "relativePath": "character/cutscene/ending1.png",
-      "dimensions": "1920x1200",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/character/cutscene/ending1.png"
-    },
-    {
-      "relativePath": "character/cutscene/ending2.png",
-      "dimensions": "1920x1200",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/character/cutscene/ending2.png"
-    },
-    {
-      "relativePath": "character/cutscene/ending3.png",
-      "dimensions": "1920x1200",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/character/cutscene/ending3.png"
-    },
-    {
-      "relativePath": "character/ending/true_ending_text.png",
-      "dimensions": "1920x1080",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/character/ending/true_ending_text.png"
-    },
-    {
-      "relativePath": "character/ending/true_ending.png",
-      "dimensions": "1920x1080",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/character/ending/true_ending.png"
     },
     {
       "relativePath": "character/energyorb/cover.png",
@@ -8997,82 +8387,10 @@
       "nativePath": "images/character/shoulder2.png"
     },
     {
-      "relativePath": "events/Fork.png",
-      "dimensions": "600x600",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/events/Fork.png"
-    },
-    {
-      "relativePath": "intents/large/MutsumiAttackIntent.png",
-      "dimensions": "128x128",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/intents/large/MutsumiAttackIntent.png"
-    },
-    {
-      "relativePath": "intents/MutsumiAttackIntent.png",
-      "dimensions": "64x64",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/intents/MutsumiAttackIntent.png"
-    },
-    {
       "relativePath": "missing.png",
       "dimensions": "32x32",
       "copiedAtSameRelativePath": true,
       "nativePath": "images/missing.png"
-    },
-    {
-      "relativePath": "monsters/ChihayaAnonBoss.png",
-      "dimensions": "512x512",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/monsters/ChihayaAnonBoss.png"
-    },
-    {
-      "relativePath": "monsters/MisumiUikaBoss.png",
-      "dimensions": "512x512",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/monsters/MisumiUikaBoss.png"
-    },
-    {
-      "relativePath": "monsters/NagasakiSoyoBoss.png",
-      "dimensions": "512x512",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/monsters/NagasakiSoyoBoss.png"
-    },
-    {
-      "relativePath": "monsters/NyamuDrumMinion.png",
-      "dimensions": "512x512",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/monsters/NyamuDrumMinion.png"
-    },
-    {
-      "relativePath": "monsters/ShiinaTakiBoss.png",
-      "dimensions": "512x512",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/monsters/ShiinaTakiBoss.png"
-    },
-    {
-      "relativePath": "monsters/TakamatsuTomoriBoss.png",
-      "dimensions": "512x512",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/monsters/TakamatsuTomoriBoss.png"
-    },
-    {
-      "relativePath": "monsters/WakabaMutsumiBoss.png",
-      "dimensions": "512x512",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/monsters/WakabaMutsumiBoss.png"
-    },
-    {
-      "relativePath": "monsters/YahataUmiriBoss.png",
-      "dimensions": "512x512",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/monsters/YahataUmiriBoss.png"
-    },
-    {
-      "relativePath": "monsters/YuutenjiNyamuBoss.png",
-      "dimensions": "512x512",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/monsters/YuutenjiNyamuBoss.png"
     },
     {
       "relativePath": "potions/ChocolateMilkJelly/container.png",
@@ -9153,18 +8471,6 @@
       "nativePath": "images/potions/orangemilkjelly/outline.png"
     },
     {
-      "relativePath": "ui/map/boss/TheOblivion.png",
-      "dimensions": "512x512",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/ui/map/boss/TheOblivion.png"
-    },
-    {
-      "relativePath": "ui/map/bossOutline/TheOblivion.png",
-      "dimensions": "512x512",
-      "copiedAtSameRelativePath": true,
-      "nativePath": "images/ui/map/bossOutline/TheOblivion.png"
-    },
-    {
       "relativePath": "ui/purgeReward.png",
       "dimensions": "128x128",
       "copiedAtSameRelativePath": true,
@@ -9195,8 +8501,8 @@
     },
     {
       "sourceTable": "CharacterStrings.json",
-      "englishEntries": 3,
-      "simplifiedChineseEntries": 3,
+      "englishEntries": 1,
+      "simplifiedChineseEntries": 1,
       "englishOnlyKeys": [],
       "simplifiedChineseOnlyKeys": [],
       "nativeDestination": "characters.json",
@@ -9206,15 +8512,6 @@
       "sourceTable": "CreditStrings.json",
       "englishEntries": 3,
       "simplifiedChineseEntries": 3,
-      "englishOnlyKeys": [],
-      "simplifiedChineseOnlyKeys": [],
-      "nativeDestination": null,
-      "nativeTableExists": false
-    },
-    {
-      "sourceTable": "EventStrings.json",
-      "englishEntries": 2,
-      "simplifiedChineseEntries": 2,
       "englishOnlyKeys": [],
       "simplifiedChineseOnlyKeys": [],
       "nativeDestination": null,
@@ -9233,15 +8530,6 @@
       ],
       "nativeDestination": "card_keywords.json",
       "nativeTableExists": true
-    },
-    {
-      "sourceTable": "MonsterStrings.json",
-      "englishEntries": 10,
-      "simplifiedChineseEntries": 10,
-      "englishOnlyKeys": [],
-      "simplifiedChineseOnlyKeys": [],
-      "nativeDestination": null,
-      "nativeTableExists": false
     },
     {
       "sourceTable": "OrbStrings.json",
@@ -9263,8 +8551,8 @@
     },
     {
       "sourceTable": "PowerStrings.json",
-      "englishEntries": 34,
-      "simplifiedChineseEntries": 34,
+      "englishEntries": 33,
+      "simplifiedChineseEntries": 33,
       "englishOnlyKeys": [],
       "simplifiedChineseOnlyKeys": [],
       "nativeDestination": "powers.json",
@@ -9281,8 +8569,8 @@
     },
     {
       "sourceTable": "UIStrings.json",
-      "englishEntries": 14,
-      "simplifiedChineseEntries": 14,
+      "englishEntries": 12,
+      "simplifiedChineseEntries": 12,
       "englishOnlyKeys": [],
       "simplifiedChineseOnlyKeys": [],
       "nativeDestination": null,

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "baseline": "Slay the Spire 2 v0.111.0 (41cef1ea)",
-  "textureCount": 373,
-  "audioCount": 58,
+  "textureCount": 336,
+  "audioCount": 52,
   "resourceCount": 10,
   "localizationFileCount": 15,
   "textures": [
@@ -1826,24 +1826,6 @@
     },
     {
       "ownerType": "power",
-      "owner": "TOGAWASAKIKO-EARNEST_CRY_POWER",
-      "slot": "small",
-      "path": "res://TogawaSakiko/images/powers/earnestcrypower.png",
-      "width": 32,
-      "height": 32,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-EARNEST_CRY_POWER",
-      "slot": "large",
-      "path": "res://TogawaSakiko/images/powers/big/earnestcrypower.png",
-      "width": 84,
-      "height": 84,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
       "owner": "TOGAWASAKIKO-ENDURANCE_POWER",
       "slot": "small",
       "path": "res://TogawaSakiko/images/powers/endurancepower.png",
@@ -1874,24 +1856,6 @@
       "owner": "TOGAWASAKIKO-FEARLESS_POWER",
       "slot": "large",
       "path": "res://TogawaSakiko/images/powers/big/fearlesspower.png",
-      "width": 84,
-      "height": 84,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-FORWARD_RESOLVE_POWER",
-      "slot": "small",
-      "path": "res://TogawaSakiko/images/powers/forwardresolvepower.png",
-      "width": 32,
-      "height": 32,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-FORWARD_RESOLVE_POWER",
-      "slot": "large",
-      "path": "res://TogawaSakiko/images/powers/big/forwardresolvepower.png",
       "width": 84,
       "height": 84,
       "sourceStatus": "Original"
@@ -2114,24 +2078,6 @@
     },
     {
       "ownerType": "power",
-      "owner": "TOGAWASAKIKO-RESTLESS_IDEAL_POWER",
-      "slot": "small",
-      "path": "res://TogawaSakiko/images/powers/restlessidealpower.png",
-      "width": 32,
-      "height": 32,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-RESTLESS_IDEAL_POWER",
-      "slot": "large",
-      "path": "res://TogawaSakiko/images/powers/big/restlessidealpower.png",
-      "width": 84,
-      "height": 84,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
       "owner": "TOGAWASAKIKO-SEIZE_THE_FATE_POWER",
       "slot": "small",
       "path": "res://TogawaSakiko/images/powers/seizethefatepower.png",
@@ -2168,60 +2114,6 @@
     },
     {
       "ownerType": "power",
-      "owner": "TOGAWASAKIKO-SILENT_WOUND_POWER",
-      "slot": "small",
-      "path": "res://TogawaSakiko/images/powers/silentwoundpower.png",
-      "width": 32,
-      "height": 32,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-SILENT_WOUND_POWER",
-      "slot": "large",
-      "path": "res://TogawaSakiko/images/powers/big/silentwoundpower.png",
-      "width": 84,
-      "height": 84,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-STRENGTH_UP_POWER",
-      "slot": "small",
-      "path": "res://TogawaSakiko/images/powers/strengthuppower.png",
-      "width": 32,
-      "height": 32,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-STRENGTH_UP_POWER",
-      "slot": "large",
-      "path": "res://TogawaSakiko/images/powers/big/strengthuppower.png",
-      "width": 84,
-      "height": 84,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-TEMPORAL_LONGING_POWER",
-      "slot": "small",
-      "path": "res://TogawaSakiko/images/powers/temporallongingpower.png",
-      "width": 32,
-      "height": 32,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-TEMPORAL_LONGING_POWER",
-      "slot": "large",
-      "path": "res://TogawaSakiko/images/powers/big/temporallongingpower.png",
-      "width": 84,
-      "height": 84,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
       "owner": "TOGAWASAKIKO-TIMORIS_POWER",
       "slot": "small",
       "path": "res://TogawaSakiko/images/powers/timorispower.png",
@@ -2234,60 +2126,6 @@
       "owner": "TOGAWASAKIKO-TIMORIS_POWER",
       "slot": "large",
       "path": "res://TogawaSakiko/images/powers/big/timorispower.png",
-      "width": 84,
-      "height": 84,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-UNCLAIMED_PROMISE_POWER",
-      "slot": "small",
-      "path": "res://TogawaSakiko/images/powers/unclaimedpromisepower.png",
-      "width": 32,
-      "height": 32,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-UNCLAIMED_PROMISE_POWER",
-      "slot": "large",
-      "path": "res://TogawaSakiko/images/powers/big/unclaimedpromisepower.png",
-      "width": 84,
-      "height": 84,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-UNFADING_YEARNING_POWER",
-      "slot": "small",
-      "path": "res://TogawaSakiko/images/powers/unfadingyearningpower.png",
-      "width": 32,
-      "height": 32,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-UNFADING_YEARNING_POWER",
-      "slot": "large",
-      "path": "res://TogawaSakiko/images/powers/big/unfadingyearningpower.png",
-      "width": 84,
-      "height": 84,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-VOICED_GAZE_POWER",
-      "slot": "small",
-      "path": "res://TogawaSakiko/images/powers/voicedgazepower.png",
-      "width": 32,
-      "height": 32,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "power",
-      "owner": "TOGAWASAKIKO-VOICED_GAZE_POWER",
-      "slot": "large",
-      "path": "res://TogawaSakiko/images/powers/big/voicedgazepower.png",
       "width": 84,
       "height": 84,
       "sourceStatus": "Original"
@@ -2870,51 +2708,6 @@
     },
     {
       "ownerType": "presentation",
-      "owner": "character/cutscene/ending1.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/character/cutscene/ending1.png",
-      "width": 1920,
-      "height": 1200,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "character/cutscene/ending2.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/character/cutscene/ending2.png",
-      "width": 1920,
-      "height": 1200,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "character/cutscene/ending3.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/character/cutscene/ending3.png",
-      "width": 1920,
-      "height": 1200,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "character/ending/true_ending_text.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/character/ending/true_ending_text.png",
-      "width": 1920,
-      "height": 1080,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "character/ending/true_ending.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/character/ending/true_ending.png",
-      "width": 1920,
-      "height": 1080,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
       "owner": "character/energyorb/cover.png",
       "slot": "source",
       "path": "res://TogawaSakiko/images/character/energyorb/cover.png",
@@ -3077,137 +2870,11 @@
     },
     {
       "ownerType": "presentation",
-      "owner": "events/Fork.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/events/Fork.png",
-      "width": 600,
-      "height": 600,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "intents/large/MutsumiAttackIntent.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/intents/large/MutsumiAttackIntent.png",
-      "width": 128,
-      "height": 128,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "intents/MutsumiAttackIntent.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/intents/MutsumiAttackIntent.png",
-      "width": 64,
-      "height": 64,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
       "owner": "missing.png",
       "slot": "source",
       "path": "res://TogawaSakiko/images/missing.png",
       "width": 32,
       "height": 32,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "monsters/ChihayaAnonBoss.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/monsters/ChihayaAnonBoss.png",
-      "width": 512,
-      "height": 512,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "monsters/MisumiUikaBoss.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/monsters/MisumiUikaBoss.png",
-      "width": 512,
-      "height": 512,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "monsters/NagasakiSoyoBoss.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/monsters/NagasakiSoyoBoss.png",
-      "width": 512,
-      "height": 512,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "monsters/NyamuDrumMinion.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/monsters/NyamuDrumMinion.png",
-      "width": 512,
-      "height": 512,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "monsters/ShiinaTakiBoss.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/monsters/ShiinaTakiBoss.png",
-      "width": 512,
-      "height": 512,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "monsters/TakamatsuTomoriBoss.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/monsters/TakamatsuTomoriBoss.png",
-      "width": 512,
-      "height": 512,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "monsters/WakabaMutsumiBoss.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/monsters/WakabaMutsumiBoss.png",
-      "width": 512,
-      "height": 512,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "monsters/YahataUmiriBoss.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/monsters/YahataUmiriBoss.png",
-      "width": 512,
-      "height": 512,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "monsters/YuutenjiNyamuBoss.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/monsters/YuutenjiNyamuBoss.png",
-      "width": 512,
-      "height": 512,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "ui/map/boss/TheOblivion.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/ui/map/boss/TheOblivion.png",
-      "width": 512,
-      "height": 512,
-      "sourceStatus": "Original"
-    },
-    {
-      "ownerType": "presentation",
-      "owner": "ui/map/bossOutline/TheOblivion.png",
-      "slot": "source",
-      "path": "res://TogawaSakiko/images/ui/map/bossOutline/TheOblivion.png",
-      "width": 512,
-      "height": 512,
       "sourceStatus": "Original"
     },
     {
@@ -3365,30 +3032,6 @@
     }
   ],
   "audio": [
-    {
-      "usage": "Ending cutscene",
-      "path": "res://TogawaSakiko/audio/cutscene/ending1.wav"
-    },
-    {
-      "usage": "Ending cutscene",
-      "path": "res://TogawaSakiko/audio/cutscene/ending2.wav"
-    },
-    {
-      "usage": "Ending cutscene",
-      "path": "res://TogawaSakiko/audio/cutscene/ending3.wav"
-    },
-    {
-      "usage": "Custom music",
-      "path": "res://TogawaSakiko/audio/music/GMGU_Short.mp3"
-    },
-    {
-      "usage": "Custom music",
-      "path": "res://TogawaSakiko/audio/music/GMGU.ogg"
-    },
-    {
-      "usage": "Custom music",
-      "path": "res://TogawaSakiko/audio/music/Haruhikage.ogg"
-    },
     {
       "usage": "Direct card voice",
       "path": "res://TogawaSakiko/audio/sakiko/accomplice.wav"

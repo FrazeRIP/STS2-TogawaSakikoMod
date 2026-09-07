@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using TogawaSakiko.NativeCode.Models.Powers;
 
 namespace TogawaSakiko.NativeCode.Commands;
 
@@ -50,12 +51,22 @@ public static class PowerCopyCommand
     private static readonly HashSet<Type> ResetSafeInternalStatePowers =
     [
         typeof(StranglePower),
-        typeof(OblivionPower)
+        typeof(OblivionPower),
+        typeof(CuriosityPower),
+        typeof(OurSongPower),
+        typeof(SharedDestinyPower)
     ];
 
     public static PowerCopyCompatibility GetCompatibility(PowerModel source)
     {
         ArgumentNullException.ThrowIfNull(source);
+
+        if (source is MonsterDivinityPower)
+        {
+            return new PowerCopyCompatibility(
+                false,
+                "Divinity is a temporary stance marker and must be entered through SakikoStanceCmd.");
+        }
 
         if (source is ITemporaryPower)
         {

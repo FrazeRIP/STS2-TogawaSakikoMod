@@ -186,6 +186,83 @@ $javaRoot = Join-Path $Sts1Root "src/main/java/togawasakikomod"
 $sts1ResourceRoot = Join-Path $Sts1Root "src/main/resources/togawasakikomod"
 $nativeResourceRoot = Join-Path $repoRoot "TogawaSakiko/TogawaSakiko"
 
+$outOfScopePowerNames = @(
+    "EarnestCryPower",
+    "ForwardResolvePower",
+    "MonsterVigorPower",
+    "PlayerFilightPower",
+    "RestlessIdealPower",
+    "SilentWoundPower",
+    "StrengthUpPower",
+    "TemporalLongingPower",
+    "UnclaimedPromisePower",
+    "UnfadingYearningPower",
+    "VoicedGazePower"
+)
+$outOfScopeDomainItems = @{
+    actions = @(
+        "AddCardsFromDiscardedToHandAction",
+        "AreTheseLyricsAction",
+        "AuthorityRestorationAction",
+        "ChooseCardGainSelfRetainAction",
+        "LoseBlockForEveryoneThenAttackAction",
+        "MakeCardUnremoveableAction",
+        "MutsumiAttackAmountChangeEvent",
+        "NumbersAndFacesAction",
+        "RefreshMonsterIntentAction",
+        "TemporalLongingAction",
+        "TrueWaitAction"
+    )
+    modifiers = @(
+        "SelfRetainModifier",
+        "UnremoveableModifier"
+    )
+    patches = @(
+        "AltNeowPatch",
+        "CreditPatch",
+        "CutscenePatch",
+        "ForkEventPatch",
+        "GraveCardPatch",
+        "MusicMasterPatch",
+        "TheEndGoToTheOblivionEventPatch",
+        "TheOblivionMonsterPatch",
+        "UnremoveablePatcher"
+    )
+    rewards = @("AltNeowReward")
+}
+$inactiveDomainItems = @{
+    actions = @(
+        "BodySlamEXAction",
+        "MakeTempCardOnTopOfDeckAction",
+        "ManualSaveGameAction",
+        "RemoveAddedLostPowersAction",
+        "RemoveRandomCardAction",
+        "SeizeTheFateAction"
+    )
+    effects = @("MusicPulseAttackEffect")
+    patches = @(
+        "RemoveCursedRelatedRelicsPatch",
+        "WarmthInfusedPorcelainCupPatch"
+    )
+    saveable = @("MasqueradeSaveable")
+}
+$outOfScopeAudioPrefixes = @("cutscene/", "music/")
+$outOfScopePresentationPrefixes = @(
+    "character/cutscene/",
+    "character/ending/",
+    "events/",
+    "intents/",
+    "monsters/",
+    "ui/map/boss/",
+    "ui/map/bossOutline/"
+)
+$outOfScopeLocalizationTables = @("EventStrings.json", "MonsterStrings.json")
+$outOfScopeLocalizationKeysByFile = @{
+    "CharacterStrings.json" = @('${modID}:AltNeowEvent', '${modID}:AltNeowReward')
+    "PowerStrings.json" = @('${modID}:StrengthUpPower')
+    "UIStrings.json" = @('${modID}:MutsumiAttackIntent', '${modID}:TheOblivion')
+}
+
 $sts1Loc = @{}
 foreach ($language in @("eng", "zhs")) {
     $sts1Loc[$language] = @{}
@@ -296,7 +373,7 @@ foreach ($file in $cardFiles) {
     if (-not ($originalSmall -and $originalLarge)) { $differences.Add("STS1 original art missing") }
     if ($artStatus -eq "Missing") { $differences.Add("STS2 art missing") }
     if ($artStatus -eq "Resolution mismatch") { $differences.Add("STS2 art resolution mismatch") }
-    if (-not $enabled) { $differences.Add("disabled in STS1; must stay out of normal pools") }
+    if (-not $enabled) { $differences.Add("disabled in STS1; excluded from the port by scope policy") }
 
     $relativeParts = (Get-RelativePathNormalized $cardRoot $file.FullName).Split("/")
     $deck = if ($relativeParts.Length -gt 1) { $relativeParts[0] } else { "Unknown" }
@@ -312,7 +389,7 @@ foreach ($file in $cardFiles) {
         sts1Id = "togawasakikomod:$name"
         sts2Type = $sts2Type
         sts2StableId = $stableId
-        portStatus = Get-PortStatus $native $legacy
+        portStatus = if ($enabled) { Get-PortStatus $native $legacy } else { "Excluded" }
         nativeSource = if ($native) { $nativeCards[$sts2Type] } else { $null }
         legacyEvidence = if ($legacy) { $legacyCards[$sts2Type] } else { $null }
         sts1Source = Get-RelativePathNormalized $Sts1Root $file.FullName
@@ -339,11 +416,11 @@ foreach ($file in $cardFiles) {
     }
 }
 
-$inheritedPowerPresentation = @("PlayerFilightPower", "MonsterVigorPower")
+$inheritedPowerPresentation = @()
 $powers = @()
 $powerRoot = Join-Path $javaRoot "powers"
 $powerFiles = Get-ChildItem -LiteralPath $powerRoot -Recurse -File -Filter "*.java" |
-    Where-Object BaseName -ne "BasePower" |
+    Where-Object { $_.BaseName -ne "BasePower" -and $_.BaseName -notin $outOfScopePowerNames } |
     Sort-Object BaseName
 
 foreach ($file in $powerFiles) {
@@ -545,6 +622,20 @@ foreach ($file in $potionFiles) {
 }
 
 $directCardVoiceKeys = @($cards.directVoiceKeys | ForEach-Object { $_ } | Sort-Object -Unique)
+$enabledDirectCardVoiceKeys = @(
+    $cards |
+        Where-Object enabledInSts1 |
+        ForEach-Object directVoiceKeys |
+        ForEach-Object { $_ } |
+        Sort-Object -Unique
+)
+$disabledDirectCardVoiceKeys = @(
+    $cards |
+        Where-Object { -not $_.enabledInSts1 } |
+        ForEach-Object directVoiceKeys |
+        ForEach-Object { $_ } |
+        Sort-Object -Unique
+)
 $nativeCodeText = ((Get-ChildItem -LiteralPath (Join-Path $repoRoot "TogawaSakiko/NativeCode") -Recurse -File -Filter "*.cs" |
     ForEach-Object { Get-Content -Raw -Encoding UTF8 -LiteralPath $_.FullName }) -join "`n")
 $nativeCardVoiceKeys = @(
@@ -565,57 +656,148 @@ if (Test-Path -LiteralPath $nativeAudioRoot) {
 
 foreach ($file in Get-ChildItem -LiteralPath $sourceAudioRoot -Recurse -File | Sort-Object FullName) {
     $relative = Get-RelativePathNormalized $sourceAudioRoot $file.FullName
+    if (@($outOfScopeAudioPrefixes | Where-Object { $relative.StartsWith($_, [System.StringComparison]::OrdinalIgnoreCase) }).Count -gt 0) {
+        continue
+    }
     $lookup = $relative.ToLowerInvariant()
     $present = $nativeAudioByRelativeLower.ContainsKey($lookup)
     $stem = $file.BaseName
     $usage = if ($relative.StartsWith("sakiko/", [System.StringComparison]::OrdinalIgnoreCase)) {
-        if ($stem -in $directCardVoiceKeys) { "Direct card voice" }
-        elseif ($stem -match '^(Intro|Hurt\d+|General\d+|Others\d+)$') { "Character voice" }
-        else { "Registered STS1 voice; no direct card call found" }
-    } elseif ($relative.StartsWith("cutscene/", [System.StringComparison]::OrdinalIgnoreCase)) {
-        "Ending cutscene"
-    } elseif ($relative.StartsWith("music/", [System.StringComparison]::OrdinalIgnoreCase)) {
-        "Custom music"
+        if ($stem -in $disabledDirectCardVoiceKeys) { "Disabled-card voice; excluded" }
+        elseif ($stem -in $enabledDirectCardVoiceKeys) { "Active card voice" }
+        elseif ($stem -eq "Intro") { "Active character-select voice" }
+        elseif ($stem -in @("Hurt1", "Hurt2")) { "Active hurt voice" }
+        elseif ($stem -eq "Hurt3") { "Registered but unreachable because the STS1 random upper bound is exclusive" }
+        else { "Registered in STS1 but no active call exists" }
     } else {
-        "Custom VFX"
+        if ($stem -eq "DazzlingAttackEffect") { "Active Dazzling VFX sound" }
+        else { "Registered in STS1 but its VFX is never instantiated" }
     }
+    $activeInScope = ($stem -in $enabledDirectCardVoiceKeys) -or
+        ($stem -in @("Intro", "Hurt1", "Hurt2", "DazzlingAttackEffect"))
     $nativeReference = $nativeCodeText.Contains("audio/" + $relative.Replace("\", "/"), [System.StringComparison]::OrdinalIgnoreCase) -or
         $nativeCodeText.Contains("audio\\" + $relative.Replace("/", "\"), [System.StringComparison]::OrdinalIgnoreCase) -or
         ($relative.StartsWith("sakiko/", [System.StringComparison]::OrdinalIgnoreCase) -and
             $nativeCardVoiceKeys -contains $stem)
+    $nativeBehavior = if ($activeInScope -and $nativeReference) {
+        "Wired"
+    } elseif ($activeInScope) {
+        "Missing native route"
+    } elseif ($stem -in $disabledDirectCardVoiceKeys) {
+        "Excluded with its disabled card"
+    } elseif ($stem -eq "Hurt3") {
+        "Preserved, intentionally unreachable like STS1"
+    } elseif ($stem -eq "MusicPulseAttackEffect") {
+        "Preserved, intentionally inactive like STS1"
+    } else {
+        "Preserved source asset; no active STS1 route"
+    }
 
     $audio += [ordered]@{
         relativePath = $relative
         usage = $usage
+        activeInScope = $activeInScope
         copiedToSts2 = $present
         sts2Path = if ($present) { "TogawaSakiko/TogawaSakiko/audio/" + $nativeAudioByRelativeLower[$lookup] } else { "TogawaSakiko/TogawaSakiko/audio/$relative" }
-        wiredInNativeCode = $nativeReference
+        referencedInNativeCode = $nativeReference
+        wiredInNativeCode = $activeInScope -and $nativeReference
+        nativeBehavior = $nativeBehavior
     }
 }
+
+$sts1BootstrapSource = Remove-JavaComments (
+    Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $javaRoot "TogawaSakikoMod.java"))
+$registeredAudioPaths = @(
+    [regex]::Matches($sts1BootstrapSource, 'audioPath\s*\(\s*"([^"]+)"\s*\)') |
+        ForEach-Object { $_.Groups[1].Value.Replace("\", "/") } |
+        Sort-Object -Unique
+)
+$missingRegisteredSourceAudio = @(
+    foreach ($relative in $registeredAudioPaths) {
+        if (@($outOfScopeAudioPrefixes | Where-Object { $relative.StartsWith($_, [System.StringComparison]::OrdinalIgnoreCase) }).Count -gt 0 -or
+            (Test-Path -LiteralPath (Join-Path $sourceAudioRoot $relative) -PathType Leaf)) {
+            continue
+        }
+
+        $stem = [System.IO.Path]::GetFileNameWithoutExtension($relative)
+        [ordered]@{
+            relativePath = $relative
+            registeredInSts1 = $true
+            calledByEnabledCard = $stem -in $enabledDirectCardVoiceKeys
+            difference = "Referenced and registered by STS1, but the source audio file is absent; no placeholder audio was fabricated."
+        }
+    }
+)
 
 $domainDefinitions = [ordered]@{
     actions = "Actions"
     effects = "effects"
-    events = "events"
-    intents = "intents"
     modifiers = "modifiers"
-    monsters = "monsters"
     patches = "patches"
     rewards = "rewards"
-    rooms = "rooms"
     saveable = "saveable"
-    scenes = "scenes"
-    screens = "screens"
 }
 
 $sharedContractMappings = @{
+    "AccompliceAction" = "AccompliceCard.OnPlay"
+    "AddBackLostPowersAction" = "LostPowerRestorationCommand"
     "AddCardToDeckEXAction" = "PersistentDeckMutation.AddCanonicalAsync"
+    "AdjustCostAction" = "ChoirSChoirCard"
+    "AveMujicaAction" = "AveMujicaCard.OnPlay"
+    "BandInvitationAction" = "BandInvitationCard.OnPlay"
+    "BlackBirthdayAction" = "BlackBirthdayCard.OnPlay"
+    "CharismaticIntangibleAction" = "CharismaticFormPower"
+    "ChooseCardAndRemoveFormDiscardPileAction" = "EdgeOfBreakdownCard.OnPlay + SakikoPurgeCommand"
+    "ChooseExistCardAndAddToDeckAction" = "AsYourHeartDesiresCard + PersistentDeckMutation"
+    "CountingStarsAction" = "CountingStarsCard.OnPlay"
+    "CricifuxXAction" = "CrucifixXCard.OnPlay"
+    "CrychicAction" = "CrychicCard.OnPlay"
+    "DatenAction" = "DatenCard.OnPlay + SakikoPurgeCommand"
+    "DazzlingDamageAction" = "DazzlingPower.AfterPowerAmountChanged"
+    "DesuWaAction" = "DesuWaCard.OnPlay"
+    "EtherAction" = "EtherCard.OnPlay"
+    "ExhaustCardFromDrawPileAction" = "MementoMoriCard.OnPlay + CardCmd.Exhaust"
+    "ForcePlayCardAction" = "CardCmd.AutoPlay"
+    "HeartsBarrierAction" = "HeartsBarrierCard.OnPlay"
+    "IncreaseMiscDamageAction" = "Saved card state in native card models"
+    "KillGainPurgeRewardAction" = "TheMoonlightSonataCard + SakikoPurgeCommand"
+    "MakeCardInDiscardPileAction" = "PersistentDeckMutation.AddCanonicalWithCombatCopyAsync"
+    "MaskAction" = "MasksCard.OnPlay"
+    "MatchaParfaitAction" = "MatchaParfait.Use"
+    "PerfectionAction" = "PerfectionCard.OnPlay"
+    "PirdeAction" = "PrideCard.OnPlay + PridePower"
+    "PlayAudioAction" = "SakikoAudioCmd.TryPlayCardVoice"
+    "PurgeRewardAction" = "SakikoPurgeCommand.AddPurgeRewards"
+    "RandomCardToHandByIDAction" = "KillKiSSCard.OnPlay + CardPileCmd.Add"
+    "RandomCardToHandByTypeAction" = "PrideCard/DesuWaCard native selection"
     "RemoveCardFromDeckAction" = "PersistentDeckMutation.RemoveExactAsync"
     "RemoveCardFromDrawPileAction" = "PersistentDeckRemovalGameAction"
     "RemoveCardFromHandAction" = "PersistentDeckRemovalGameAction"
+    "ReplaceCardAction" = "PersistentDeckMutation remove/add sequence"
+    "ShowAndExhaustCardAction" = "CardCmd.Exhaust"
+    "SoraNoMusicaAction" = "SoraNoMusicaCard.OnPlay"
+    "StealStrengthAction" = "DarkHeavenCard.OnPlay"
+    "SymbolIFireAction" = "SymbolIFireCard.OnPlay"
+    "TheMoonlightSonataAction" = "TheMoonlightSonataCard.OnPlay"
+    "UpgradeAllCardInDrawPileAction" = "AleaIactaEstCard.OnPlay"
+    "VeritasAction" = "VeritasCard.OnPlay"
+    "WishFulfilledAction" = "WishFulfilledCard.OnPlay + SakikoPurgeCommand"
+    "WishToBecomeHumanAction" = "WishToBecomeHumanCard.OnPlay"
+    "DazzlingAttackEffect" = "SakikoDazzlingImpactVfxNode"
+    "EnemyDivinityParticleEffect" = "MonsterDivinityPower mechanics; ambient source particles intentionally omitted"
+    "EnemyStanceAuraEffect" = "MonsterDivinityPower mechanics; ambient source aura intentionally omitted"
+    "ShowAndExhaustCardEffect" = "CardCmd.Exhaust native presentation"
+    "ShowCardAndAddToDiscardPileEffect2" = "CardPileCmd.Add native presentation"
+    "ShowCardAndObtainEffect2" = "PersistentDeckMutation + CardCmd.PreviewCardPileAdd"
     "ReducedPowerRecorderPatch" = "PowerChangeLedgerService"
     "BlockEventPatch" = "HypePower + HypeExplicitBlockLossPatch"
+    "CustomEnumPatch" = "Native model IDs, target types, keywords, and RewardType.RemoveCard"
+    "FreeAttackPowerReducePatch" = "Native FreeAttackPower command semantics"
+    "MonsterMantraPatch" = "MantraPower + MonsterDivinityPower"
     "ObtainRewardEventPatch" = "StarterRelicTogawaSakiko.AfterCombatVictory"
+    "ScryCallbackPatch" = "QuaerereLuminaCard native selection callback"
+    "PurgeReward" = "Native RewardType.RemoveCard + SakikoPurgeCommand"
+    "KingsSaveable" = "KingsRewardState"
 }
 
 $domains = @()
@@ -624,9 +806,18 @@ foreach ($domain in $domainDefinitions.Keys) {
     $items = @()
     if (Test-Path -LiteralPath $directory) {
         foreach ($file in Get-ChildItem -LiteralPath $directory -Recurse -File -Filter "*.java" | Sort-Object BaseName) {
+            if ($outOfScopeDomainItems.ContainsKey($domain) -and $file.BaseName -in $outOfScopeDomainItems[$domain]) {
+                continue
+            }
+            $sourceStatus = if ($inactiveDomainItems.ContainsKey($domain) -and $file.BaseName -in $inactiveDomainItems[$domain]) {
+                "InactiveInSts1"
+            } else {
+                "Active"
+            }
             $items += [ordered]@{
                 name = $file.BaseName
                 source = Get-RelativePathNormalized $Sts1Root $file.FullName
+                sourceStatus = $sourceStatus
                 nativeEquivalent = if ($sharedContractMappings.ContainsKey($file.BaseName)) { $sharedContractMappings[$file.BaseName] } else { $null }
             }
         }
@@ -647,6 +838,9 @@ foreach ($file in Get-ChildItem -LiteralPath $sourceImageRoot -Recurse -File -Fi
     if ($relative.StartsWith("cards/") -or $relative.StartsWith("powers/") -or $relative.StartsWith("relics/")) {
         continue
     }
+    if (@($outOfScopePresentationPrefixes | Where-Object { $relative.StartsWith($_, [System.StringComparison]::OrdinalIgnoreCase) }).Count -gt 0) {
+        continue
+    }
     $lookup = $relative.ToLowerInvariant()
     $dimensions = Get-PngDimensions $file.FullName
     $sourcePresentationFiles += [ordered]@{
@@ -660,10 +854,18 @@ foreach ($file in Get-ChildItem -LiteralPath $sourceImageRoot -Recurse -File -Fi
 $localizationTables = @()
 $allLocalizationFileNames = @($sts1Loc.eng.Keys + $sts1Loc.zhs.Keys | Sort-Object -Unique)
 foreach ($fileName in $allLocalizationFileNames) {
+    if ($fileName -in $outOfScopeLocalizationTables) {
+        continue
+    }
     $engMap = $sts1Loc.eng[$fileName]
     $zhsMap = $sts1Loc.zhs[$fileName]
     $engKeys = @(Get-Sts1LocalizationKeys $engMap)
     $zhsKeys = @(Get-Sts1LocalizationKeys $zhsMap)
+    if ($outOfScopeLocalizationKeysByFile.ContainsKey($fileName)) {
+        $excludedKeys = $outOfScopeLocalizationKeysByFile[$fileName]
+        $engKeys = @($engKeys | Where-Object { $_ -notin $excludedKeys })
+        $zhsKeys = @($zhsKeys | Where-Object { $_ -notin $excludedKeys })
+    }
     $engOnly = @($engKeys | Where-Object { -not (Test-Sts1LocalizationContainsKey $zhsMap $_) })
     $zhsOnly = @($zhsKeys | Where-Object { -not (Test-Sts1LocalizationContainsKey $engMap $_) })
     $nativeFileName = switch ($fileName) {
@@ -677,8 +879,8 @@ foreach ($fileName in $allLocalizationFileNames) {
     }
     $localizationTables += [ordered]@{
         sourceTable = $fileName
-        englishEntries = $engMap.Count
-        simplifiedChineseEntries = $zhsMap.Count
+        englishEntries = $engKeys.Count
+        simplifiedChineseEntries = $zhsKeys.Count
         englishOnlyKeys = $engOnly
         simplifiedChineseOnlyKeys = $zhsOnly
         nativeDestination = $nativeFileName
@@ -689,7 +891,7 @@ foreach ($fileName in $allLocalizationFileNames) {
 }
 
 if ($cards.Count -ne 95) { throw "Expected 95 STS1 card models, found $($cards.Count)." }
-if ($powers.Count -ne 36) { throw "Expected 36 STS1 power models, found $($powers.Count)." }
+if ($powers.Count -ne 25) { throw "Expected 25 in-scope STS1 power models, found $($powers.Count)." }
 if ($relics.Count -ne 11) { throw "Expected 11 concrete STS1 relics, found $($relics.Count)." }
 if ($potions.Count -ne 6) { throw "Expected 6 concrete STS1 potions, found $($potions.Count)." }
 
@@ -699,7 +901,9 @@ $summary = [ordered]@{
         enabledInSts1 = @($cards | Where-Object enabledInSts1).Count
         disabledInSts1 = @($cards | Where-Object { -not $_.enabledInSts1 }).Count
         native = @($cards | Where-Object portStatus -eq "Native").Count
-        missingNative = @($cards | Where-Object portStatus -ne "Native").Count
+        missingNative = @($cards | Where-Object { $_.enabledInSts1 -and $_.portStatus -ne "Native" }).Count
+        excluded = @($cards | Where-Object portStatus -eq "Excluded").Count
+        excludedWithNativeCompatibilityModel = @($cards | Where-Object { -not $_.enabledInSts1 -and $null -ne $_.nativeSource }).Count
         originalArtPairs = @($cards | Where-Object { $_.art.status -eq "Original" }).Count
         generatedPlaceholderPairs = @($cards | Where-Object { $_.art.status -eq "Generated placeholder" }).Count
         missingOrWrongArtPairs = @($cards | Where-Object { $_.art.status -in @("Missing", "Resolution mismatch") }).Count
@@ -726,7 +930,10 @@ $summary = [ordered]@{
         sourceFiles = $audio.Count
         copiedToSts2 = @($audio | Where-Object copiedToSts2).Count
         missingFromSts2 = @($audio | Where-Object { -not $_.copiedToSts2 }).Count
-        wiredInNativeCode = @($audio | Where-Object wiredInNativeCode).Count
+        activeInScopeSourceFiles = @($audio | Where-Object activeInScope).Count
+        activeInScopeWired = @($audio | Where-Object { $_.activeInScope -and $_.wiredInNativeCode }).Count
+        activeInScopeMissingNativeRoute = @($audio | Where-Object { $_.activeInScope -and -not $_.wiredInNativeCode }).Count
+        registeredButMissingFromSts1Source = $missingRegisteredSourceAudio.Count
     }
     presentation = [ordered]@{
         nonCardPowerRelicSourcePngs = $sourcePresentationFiles.Count
@@ -736,7 +943,7 @@ $summary = [ordered]@{
 }
 
 $inventory = [ordered]@{
-    schemaVersion = 1
+    schemaVersion = 2
     baseline = [ordered]@{
         targetGame = "Slay the Spire 2 v0.111.0 (41cef1ea)"
         sourceOfTruth = "STS1 Java and resources"
@@ -744,6 +951,15 @@ $inventory = [ordered]@{
         sts1Root = $Sts1Root
         generatedPlaceholder = "TogawaSakiko/TogawaSakiko/images/placeholders/missing_content.png"
         placeholderPolicy = "Use source/exemplar slot dimensions and a stable destination filename so final art can replace it without code changes."
+        scopePolicy = "The nine cards disabled in STS1, custom acts, events, enemies, encounters, intents, enemy-compatibility powers, and their exclusive ending/audio/presentation support are intentionally excluded from this port."
+        excludedContentFamilies = @("STS1-disabled cards", "acts", "events", "enemies", "encounters", "intents", "enemy-compatibility powers", "custom endings")
+        excludedPowerModels = $outOfScopePowerNames
+        excludedJavaDomains = @("events", "intents", "monsters", "rooms", "scenes", "screens")
+        excludedJavaItems = $outOfScopeDomainItems
+        excludedAudioPrefixes = $outOfScopeAudioPrefixes
+        excludedPresentationPrefixes = $outOfScopePresentationPrefixes
+        excludedLocalizationTables = $outOfScopeLocalizationTables
+        excludedLocalizationKeys = $outOfScopeLocalizationKeysByFile
     }
     summary = $summary
     cards = $cards
@@ -752,6 +968,7 @@ $inventory = [ordered]@{
     potions = $potions
     domains = $domains
     audio = $audio
+    missingRegisteredSourceAudio = $missingRegisteredSourceAudio
     presentationFiles = $sourcePresentationFiles
     localizationTables = $localizationTables
 }
@@ -767,11 +984,13 @@ $md = [System.Text.StringBuilder]::new()
 [void]$md.AppendLine()
 [void]$md.AppendLine("Baseline: Slay the Spire 2 ``v0.111.0`` / ``41cef1ea``. Behavior and player-facing source truth: the STS1 project. Stable STS2 IDs follow the preserved ``TOGAWASAKIKO-`` policy.")
 [void]$md.AppendLine()
+[void]$md.AppendLine("Scope boundary: the nine cards disabled in STS1 are skipped and excluded from completion. Custom acts, events, enemies, encounters, intents, enemy-compatibility powers, and their exclusive ending/audio/presentation support are also excluded and must not be copied, packaged, localized, registered, or counted toward completion.")
+[void]$md.AppendLine()
 [void]$md.AppendLine("## Scope totals and current gap")
 [void]$md.AppendLine()
 Add-MarkdownTable $md @("Domain", "STS1 concrete", "Native now", "Missing native", "Important correction") @(
-    @("Cards", $summary.cards.sts1, $summary.cards.native, $summary.cards.missingNative, "$($summary.cards.disabledInSts1) are explicitly disabled in STS1"),
-    @("Powers", $summary.powers.sts1, $summary.powers.native, $summary.powers.missingNative, "34 custom-presented + 2 base-game-derived"),
+    @("Cards", $summary.cards.enabledInSts1, $summary.cards.native, $summary.cards.missingNative, "$($summary.cards.disabledInSts1) STS1-disabled cards are excluded"),
+    @("Powers", $summary.powers.sts1, $summary.powers.native, $summary.powers.missingNative, "25 player-card-relevant models"),
     @("Relics", $summary.relics.sts1Concrete, $summary.relics.native, $summary.relics.missingNative, "11 concrete, not 12; BaseRelic is abstract scaffolding"),
     @("Potions", $summary.potions.sts1Concrete, $summary.potions.native, $summary.potions.missingNative, "6 concrete, not 7; BasePotion is abstract scaffolding")
 )
@@ -781,7 +1000,7 @@ Add-MarkdownTable $md @("Domain", "STS1 concrete", "Native now", "Missing native
 [void]$md.AppendLine("- STS1 contains 11 concrete relics and 6 concrete potions. The older workflow counts included each abstract base class.")
 [void]$md.AppendLine("- ``Weakness`` exists as a disabled card and has localization, but the STS1 project has no small or large portrait for it.")
 [void]$md.AppendLine("- STS1 card portraits require 250x190 small art and 500x380 large art. A same-size 250x190 duplicate in ``big/`` is not a valid large pair.")
-[void]$md.AppendLine("- ``PlayerFilightPower`` and ``MonsterVigorPower`` intentionally subclass base-game Flight/Vigor and have neither custom localization nor custom icons in STS1. Their port should explicitly reuse the corresponding STS2 base-game presentation.")
+[void]$md.AppendLine("- Eleven enemy-only or custom-enemy compatibility powers are excluded with the custom enemy content, including ``PlayerFilightPower`` and ``StrengthUpPower``. ``MonsterDivinityPower`` remains in scope because player cards apply it to ordinary enemies.")
 [void]$md.AppendLine("- Existing C# under ``TogawaSakikoCode`` is migration evidence only. Its simplified behavior and BaseLib assumptions are not parity evidence.")
 [void]$md.AppendLine()
 [void]$md.AppendLine("## Placeholder contract")
@@ -837,21 +1056,30 @@ Add-MarkdownTable $md @("STS1 potion", "Rarity", "Shape", "Port", "64x64 layers"
 [void]$md.AppendLine()
 $domainRows = [System.Collections.Generic.List[object[]]]::new()
 foreach ($domain in $domains) {
-    $ported = @($domain.items | Where-Object { $null -ne $_.nativeEquivalent }).Count
-    $missingNames = @($domain.items | Where-Object { $null -eq $_.nativeEquivalent } | ForEach-Object name)
-    $domainRows.Add([object[]]@($domain.domain, $domain.count, $ported, $(if ($missingNames.Count -gt 0) { $missingNames -join ", " } else { "-" })))
+    $activeItems = @($domain.items | Where-Object sourceStatus -eq "Active")
+    $ported = @($activeItems | Where-Object { $null -ne $_.nativeEquivalent }).Count
+    $inactiveNames = @($domain.items | Where-Object sourceStatus -eq "InactiveInSts1" | ForEach-Object name)
+    $missingNames = @($activeItems | Where-Object { $null -eq $_.nativeEquivalent } | ForEach-Object name)
+    $notes = @()
+    if ($missingNames.Count -gt 0) { $notes += "Needs mapping: $($missingNames -join ', ')" }
+    if ($inactiveNames.Count -gt 0) { $notes += "Inactive STS1 source: $($inactiveNames -join ', ')" }
+    $domainRows.Add([object[]]@($domain.domain, $activeItems.Count, $ported, $(if ($notes.Count -gt 0) { $notes -join '; ' } else { "-" })))
 }
-Add-MarkdownTable $md @("Domain", "STS1 files", "Mapped native contract", "Still needs native review/port") $domainRows
+Add-MarkdownTable $md @("Domain", "Active STS1 files", "Mapped native contract", "Notes") $domainRows
 
 [void]$md.AppendLine("## Audio")
 [void]$md.AppendLine()
-[void]$md.AppendLine("Source audio: $($summary.audio.sourceFiles). Copied into STS2: $($summary.audio.copiedToSts2). Missing from STS2: $($summary.audio.missingFromSts2). Wired by canonical native code: $($summary.audio.wiredInNativeCode).")
+[void]$md.AppendLine("Source audio: $($summary.audio.sourceFiles). Copied into STS2: $($summary.audio.copiedToSts2). Active in-scope source files wired: $($summary.audio.activeInScopeWired)/$($summary.audio.activeInScopeSourceFiles). STS1 registrations whose source file is absent: $($summary.audio.registeredButMissingFromSts1Source).")
 [void]$md.AppendLine()
 $audioRows = [System.Collections.Generic.List[object[]]]::new()
 foreach ($item in $audio) {
-    $audioRows.Add([object[]]@($item.relativePath, $item.usage, $(if ($item.copiedToSts2) { "Present" } else { "Missing" }), $(if ($item.wiredInNativeCode) { "Wired" } else { "Not wired" })))
+    $audioRows.Add([object[]]@($item.relativePath, $item.usage, $(if ($item.copiedToSts2) { "Present" } else { "Missing" }), $item.nativeBehavior))
 }
 Add-MarkdownTable $md @("STS1 audio", "STS1 use", "STS2 asset", "Native behavior") $audioRows
+[void]$md.AppendLine()
+foreach ($item in $missingRegisteredSourceAudio) {
+    [void]$md.AppendLine("- ``$($item.relativePath)``: $($item.difference)")
+}
 
 [void]$md.AppendLine("## Localization tables")
 [void]$md.AppendLine()
@@ -881,11 +1109,10 @@ Add-MarkdownTable $md @("STS1 image", "Source dimensions", "STS2", "Planned/nati
 [void]$md.AppendLine("## Execution order")
 [void]$md.AppendLine()
 [void]$md.AppendLine("1. Repair exact-resolution presentation assets and native EN/zh-Hans catalogs while keeping behaviorless models out of pools.")
-[void]$md.AppendLine("2. Port the 34 custom-presented powers and the card dependency graph; explicitly map the two inherited base-game powers.")
-[void]$md.AppendLine("3. Port and enable cards in starter/common/uncommon/rare/token/curse order, preserving the nine STS1-disabled exclusions.")
+[void]$md.AppendLine("2. Port the 25 player-card-relevant powers and the card dependency graph.")
+[void]$md.AppendLine("3. Port and enable the 86 STS1-enabled cards in starter/common/uncommon/rare/token/curse order; skip all nine STS1-disabled cards.")
 [void]$md.AppendLine("4. Port the remaining ten relics and all six potions through native commands and pools.")
-[void]$md.AppendLine("5. Port the custom act, events, monsters, rewards, VFX, music, cutscene, and save branches after the character combat loop is complete.")
-[void]$md.AppendLine("6. Run clean package, EN/zh-Hans, save/reload, full-run, vanilla, log, and declared multiplayer gates before release.")
+[void]$md.AppendLine("5. Run clean package, EN/zh-Hans, save/reload, full-run, vanilla, log, and declared multiplayer gates before release.")
 [void]$md.AppendLine()
 [void]$md.AppendLine("The machine-readable companion ``docs/FULL_PORT_PARITY_INVENTORY.json`` retains exact STS1 localization records, source paths, dependencies, destination paths, and per-item differences.")
 
@@ -893,10 +1120,10 @@ Add-MarkdownTable $md @("STS1 image", "Source dimensions", "STS2", "Planned/nati
 [System.IO.File]::WriteAllText($outputMarkdownPath, $md.ToString(), [System.Text.UTF8Encoding]::new($false))
 
 Write-Host "Parity inventory generated."
-Write-Host "Cards: $($summary.cards.native)/$($summary.cards.sts1) native; art gaps or mismatches: $($summary.cards.missingOrWrongArtPairs)."
+Write-Host "Cards: $($summary.cards.native)/$($summary.cards.enabledInSts1) in-scope native; $($summary.cards.excluded) disabled cards excluded; art gaps or mismatches: $($summary.cards.missingOrWrongArtPairs)."
 Write-Host "Powers: $($summary.powers.native)/$($summary.powers.sts1) native."
 Write-Host "Relics: $($summary.relics.native)/$($summary.relics.sts1Concrete) native."
 Write-Host "Potions: $($summary.potions.native)/$($summary.potions.sts1Concrete) native."
-Write-Host "Audio: $($summary.audio.copiedToSts2)/$($summary.audio.sourceFiles) copied; $($summary.audio.wiredInNativeCode) wired."
+Write-Host "Audio: $($summary.audio.copiedToSts2)/$($summary.audio.sourceFiles) copied; $($summary.audio.activeInScopeWired)/$($summary.audio.activeInScopeSourceFiles) active routes wired; $($summary.audio.registeredButMissingFromSts1Source) registered source file missing."
 Write-Host "JSON: $outputJsonPath"
 Write-Host "Markdown: $outputMarkdownPath"

@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using TogawaSakiko.NativeCode.Commands;
+using TogawaSakiko.NativeCode.Content;
 using TogawaSakiko.NativeCode.Models.Cards;
 using TogawaSakiko.NativeCode.Models.Relics;
 using TogawaSakiko.NativeCode.Patches;
@@ -94,8 +95,9 @@ internal static class N3PureContractTests
     private static void TestHairbandExclusion()
     {
         Require(StarterRelicTogawaSakiko.IsEligibleVictory("ACT1", "CULTIST"), "eligible Hairband victory was rejected");
-        Require(!StarterRelicTogawaSakiko.IsEligibleVictory(StarterRelicTogawaSakiko.OblivionEntry, "CULTIST"), "Oblivion act was not excluded");
-        Require(!StarterRelicTogawaSakiko.IsEligibleVictory("ACT1", StarterRelicTogawaSakiko.OblivionEntry), "Oblivion encounter was not excluded");
+        string excludedRoute = NativeStableIds.EntryPrefix + "OUT_OF_SCOPE_ROUTE";
+        Require(!StarterRelicTogawaSakiko.IsEligibleVictory(excludedRoute, "CULTIST"), "mod-owned act route was not excluded");
+        Require(!StarterRelicTogawaSakiko.IsEligibleVictory("ACT1", excludedRoute), "mod-owned encounter route was not excluded");
     }
 
     private static PowerChangeEvent Event(

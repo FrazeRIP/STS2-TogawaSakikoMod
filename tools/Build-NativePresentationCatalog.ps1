@@ -235,10 +235,10 @@ $presetLines[$matchingIndexes[0]] = $replacementLine
 [System.IO.File]::WriteAllLines($exportPresetFile, $presetLines, [System.Text.UTF8Encoding]::new($false))
 
 if (@($inventory.cards).Count -ne 95) { throw "Expected 95 card records." }
-if (@($inventory.powers | Where-Object { -not $_.inheritsBasePresentation }).Count -ne 34) { throw "Expected 34 custom-presented power records." }
+if (@($inventory.powers | Where-Object { -not $_.inheritsBasePresentation }).Count -ne 25) { throw "Expected 25 in-scope player-card-relevant power records." }
 if (@($inventory.relics).Count -ne 11) { throw "Expected 11 relic records." }
 if (@($inventory.potions).Count -ne 6) { throw "Expected 6 potion records." }
-if ($audioByPath.Count -ne 58) { throw "Expected 58 audio resources, found $($audioByPath.Count)." }
+if ($audioByPath.Count -ne 52) { throw "Expected 52 in-scope audio resources, found $($audioByPath.Count)." }
 
 Write-Host "Native presentation catalog generated."
 Write-Host "Textures: $($texturesByPath.Count); audio: $($audioByPath.Count); resources: $($resourcesByPath.Count); localization files: $($localizationResources.Count)."

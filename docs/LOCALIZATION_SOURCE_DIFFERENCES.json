@@ -5,13 +5,28 @@
     "sts1Localization": "X:\\Projects\\SlayTheSpire2\\0REPO\\STS1-TogawaSakikoMod\\src\\main\\resources\\togawasakikomod\\localization"
   },
   "generatedCountsPerLanguage": {
-    "cards": 190,
-    "powers": 102,
+    "cards": 197,
+    "powers": 82,
     "relics": 34,
     "potions": 12,
     "cardKeywords": 28
   },
   "sourceKeywordKeys": {
+    "eng": [
+      "{modID}:DazzlingPower",
+      "{modID}:DolorisPower",
+      "{modID}:GodsCreationPower",
+      "{modID}:HypePower",
+      "{modID}:KingsPower",
+      "{modID}:MortisPower",
+      "{modID}:OblivionisPower",
+      "{modID}:Phantoms",
+      "{modID}:Phantoms+",
+      "{modID}:Purge",
+      "{modID}:Symbol",
+      "{modID}:TimorisPower",
+      "{modID}:Unremoveable"
+    ],
     "zhs": [
       "{modID}:DazzlingPower",
       "{modID}:DolorisPower",
@@ -25,21 +40,6 @@
       "{modID}:Remove",
       "{modID}:Symbol",
       "{modID}:Symbol+",
-      "{modID}:TimorisPower",
-      "{modID}:Unremoveable"
-    ],
-    "eng": [
-      "{modID}:DazzlingPower",
-      "{modID}:DolorisPower",
-      "{modID}:GodsCreationPower",
-      "{modID}:HypePower",
-      "{modID}:KingsPower",
-      "{modID}:MortisPower",
-      "{modID}:OblivionisPower",
-      "{modID}:Phantoms",
-      "{modID}:Phantoms+",
-      "{modID}:Purge",
-      "{modID}:Symbol",
       "{modID}:TimorisPower",
       "{modID}:Unremoveable"
     ]
@@ -68,10 +68,22 @@
       "reason": "Provable spelling corrections; behavior and meaning are unchanged."
     },
     {
-      "scope": "Simplified Chinese Frail term",
-      "source": "脆弱",
-      "native": "易伤",
-      "reason": "EdgeOfBreakdown applies FrailPower; the native game term is standardized for the eventual Frail hover tip."
+      "scope": "Edge of Breakdown English behavior text",
+      "source": "Vulnerable",
+      "native": "Frail",
+      "reason": "The Java implementation applies FrailPower and the Simplified Chinese source says 脆弱, so the English source text is incorrect."
+    },
+    {
+      "scope": "Hachibousei Dance base-power terminology",
+      "source": "Plated Armor / 多层护甲",
+      "native": "Plating / 覆甲",
+      "reason": "STS2 renamed and revised the corresponding native base-game power; the port uses PlatingPower and its current localized title."
+    },
+    {
+      "scope": "Rhinoceros Beetle dynamic Block token",
+      "source": "MagicNumber",
+      "native": "CalculatedBlock",
+      "reason": "The displayed value is calculated from base Block plus floor(Dazzling / 2), while deliberately bypassing Dexterity."
     },
     {
       "scope": "Keyword key alignment",
@@ -92,55 +104,47 @@
       "reason": "The matching Java classes are abstract bases, not player-facing models."
     },
     {
-      "scope": "Inherited power presentation",
-      "source": "PlayerFilightPower and MonsterVigorPower have no custom localization",
-      "native": "Reuse STS2 Flight and Vigor presentation",
-      "reason": "Both STS1 classes inherit the corresponding base-game power."
+      "scope": "Custom-enemy compatibility powers",
+      "source": "PlayerFilightPower and StrengthUpPower",
+      "native": "Excluded",
+      "reason": "These models support excluded custom-enemy behavior and no in-scope player card depends on them."
+    },
+    {
+      "scope": "Custom world content",
+      "source": "Custom act, events, enemies, encounters, intents, and exclusive ending text",
+      "native": "Excluded",
+      "reason": "These content families are intentionally outside the STS2 port scope and are not emitted into canonical localization."
     }
   ],
   "pendingSourceFamilies": [
     {
       "file": "CharacterStrings.json",
-      "englishRecordCount": 3,
-      "simplifiedChineseRecordCount": 3,
+      "englishRecordCount": 1,
+      "simplifiedChineseRecordCount": 1,
       "englishOnlyKeys": [],
       "simplifiedChineseOnlyKeys": [],
-      "templateScaffoldKeys": [],
-      "behaviorLinkedRecordCount": 3,
-      "status": "Inventoried source only; emit in the phase that implements the owning behavior."
-    },
-    {
-      "file": "EventStrings.json",
-      "englishRecordCount": 2,
-      "simplifiedChineseRecordCount": 2,
-      "englishOnlyKeys": [],
-      "simplifiedChineseOnlyKeys": [],
-      "templateScaffoldKeys": [
-        "${modID}:EventID"
+      "excludedOutOfScopeKeys": [
+        "${modID}:AltNeowEvent",
+        "${modID}:AltNeowReward"
       ],
+      "templateScaffoldKeys": [],
       "behaviorLinkedRecordCount": 1,
       "status": "Inventoried source only; emit in the phase that implements the owning behavior."
     },
     {
-      "file": "MonsterStrings.json",
-      "englishRecordCount": 10,
-      "simplifiedChineseRecordCount": 10,
-      "englishOnlyKeys": [],
-      "simplifiedChineseOnlyKeys": [],
-      "templateScaffoldKeys": [],
-      "behaviorLinkedRecordCount": 10,
-      "status": "Inventoried source only; emit in the phase that implements the owning behavior."
-    },
-    {
       "file": "UIStrings.json",
-      "englishRecordCount": 14,
-      "simplifiedChineseRecordCount": 14,
+      "englishRecordCount": 12,
+      "simplifiedChineseRecordCount": 12,
       "englishOnlyKeys": [],
       "simplifiedChineseOnlyKeys": [],
+      "excludedOutOfScopeKeys": [
+        "${modID}:MutsumiAttackIntent",
+        "${modID}:TheOblivion"
+      ],
       "templateScaffoldKeys": [
         "${modID}:Example"
       ],
-      "behaviorLinkedRecordCount": 13,
+      "behaviorLinkedRecordCount": 11,
       "status": "Inventoried source only; emit in the phase that implements the owning behavior."
     },
     {
@@ -149,6 +153,7 @@
       "simplifiedChineseRecordCount": 1,
       "englishOnlyKeys": [],
       "simplifiedChineseOnlyKeys": [],
+      "excludedOutOfScopeKeys": null,
       "templateScaffoldKeys": [
         "${modID}:OrbID"
       ],
@@ -161,6 +166,7 @@
       "simplifiedChineseRecordCount": 3,
       "englishOnlyKeys": [],
       "simplifiedChineseOnlyKeys": [],
+      "excludedOutOfScopeKeys": null,
       "templateScaffoldKeys": [],
       "behaviorLinkedRecordCount": 3,
       "status": "Inventoried source only; emit in the phase that implements the owning behavior."

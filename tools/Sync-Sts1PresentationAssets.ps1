@@ -16,6 +16,27 @@ $sourceRoot = Join-Path $Sts1Root "src/main/resources/togawasakikomod"
 $sourceJavaRoot = Join-Path $Sts1Root "src/main/java/togawasakikomod"
 $destinationRoot = [System.IO.Path]::GetFullPath((Join-Path $repoRoot "TogawaSakiko/TogawaSakiko"))
 $placeholderMaster = Join-Path $destinationRoot "images/placeholders/missing_content.png"
+$outOfScopeImagePrefixes = @(
+    "character/cutscene/",
+    "character/ending/",
+    "events/",
+    "intents/",
+    "monsters/",
+    "ui/map/boss/",
+    "ui/map/bossOutline/"
+)
+$outOfScopeAudioPrefixes = @("cutscene/", "music/")
+$outOfScopePowerAssetStems = @(
+    "earnestcrypower",
+    "forwardresolvepower",
+    "restlessidealpower",
+    "silentwoundpower",
+    "strengthuppower",
+    "temporallongingpower",
+    "unclaimedpromisepower",
+    "unfadingyearningpower",
+    "voicedgazepower"
+)
 
 foreach ($requiredPath in @($sourceRoot, $sourceJavaRoot, $destinationRoot, $placeholderMaster)) {
     if (-not (Test-Path -LiteralPath $requiredPath)) {
@@ -45,6 +66,15 @@ function Copy-PresentationFile([string]$Source, [string]$Destination) {
     $safeDestination = Assert-DestinationPath $Destination
     Ensure-ParentDirectory $safeDestination
     Copy-Item -LiteralPath $Source -Destination $safeDestination -Force
+}
+
+function Remove-OutOfScopeDestination([string]$RelativePath) {
+    $safeDestination = Assert-DestinationPath (Join-Path $destinationRoot $RelativePath)
+    if (Test-Path -LiteralPath $safeDestination) {
+        Remove-Item -LiteralPath $safeDestination -Recurse -Force
+        return 1
+    }
+    return 0
 }
 
 function Get-PngDimensions([string]$Path) {
@@ -127,6 +157,31 @@ function Get-Sts2CardTypeName([string]$Sts1Name) {
     }
 }
 
+$removedOutOfScopePaths = 0
+foreach ($relativePath in @(
+    "audio/cutscene",
+    "audio/music",
+    "images/character/cutscene",
+    "images/character/ending",
+    "images/events",
+    "images/intents",
+    "images/monsters",
+    "images/ui/map/boss",
+    "images/ui/map/bossOutline"
+)) {
+    $removedOutOfScopePaths += Remove-OutOfScopeDestination $relativePath
+}
+foreach ($assetStem in $outOfScopePowerAssetStems) {
+    foreach ($relativePath in @(
+        "images/powers/$assetStem.png",
+        "images/powers/$assetStem.png.import",
+        "images/powers/big/$assetStem.png",
+        "images/powers/big/$assetStem.png.import"
+    )) {
+        $removedOutOfScopePaths += Remove-OutOfScopeDestination $relativePath
+    }
+}
+
 $cardSourceRoot = Join-Path $sourceJavaRoot "cards"
 $cardFiles = Get-ChildItem -LiteralPath $cardSourceRoot -Recurse -File -Filter "*.java" |
     Where-Object { $_.BaseName -notin @("BaseCard", "CustomTags") } |
@@ -184,6 +239,9 @@ foreach ($sourceFile in Get-ChildItem -LiteralPath $otherImageSourceRoot -Recurs
     if ($relative.StartsWith("cards/") -or $relative.StartsWith("powers/") -or $relative.StartsWith("relics/")) {
         continue
     }
+    if (@($outOfScopeImagePrefixes | Where-Object { $relative.StartsWith($_, [System.StringComparison]::OrdinalIgnoreCase) }).Count -gt 0) {
+        continue
+    }
 
     $destinationRelative = $relative
     if ($relative.StartsWith("potions/", [System.StringComparison]::OrdinalIgnoreCase)) {
@@ -199,6 +257,9 @@ $audioSourceRoot = Join-Path $sourceRoot "audio"
 $audioCount = 0
 foreach ($sourceFile in Get-ChildItem -LiteralPath $audioSourceRoot -Recurse -File | Sort-Object FullName) {
     $relative = [System.IO.Path]::GetRelativePath($audioSourceRoot, $sourceFile.FullName).Replace("\", "/")
+    if (@($outOfScopeAudioPrefixes | Where-Object { $relative.StartsWith($_, [System.StringComparison]::OrdinalIgnoreCase) }).Count -gt 0) {
+        continue
+    }
     $parts = $relative.Split("/")
     if ($parts[0].Equals("sakiko", [System.StringComparison]::OrdinalIgnoreCase)) {
         $relative = "sakiko/$($parts[1].ToLowerInvariant())"
@@ -225,4 +286,5 @@ Write-Host "Card pairs: $originalCardPairs original, $placeholderCardPairs gener
 Write-Host "Original large portraits normalized to 500x380: $resizedOriginals."
 Write-Host "Other source PNGs copied: $otherImageCount."
 Write-Host "Audio files copied: $audioCount."
+Write-Host "Out-of-scope act/event/enemy paths removed: $removedOutOfScopePaths."
 Write-Host "Weakness placeholders: 250x190 and 500x380, using final destination filenames."

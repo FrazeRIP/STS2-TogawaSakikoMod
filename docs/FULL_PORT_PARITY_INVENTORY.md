@@ -4,14 +4,16 @@
 
 Baseline: Slay the Spire 2 `v0.111.0` / `41cef1ea`. Behavior and player-facing source truth: the STS1 project. Stable STS2 IDs follow the preserved `TOGAWASAKIKO-` policy.
 
+Scope boundary: the nine cards disabled in STS1 are skipped and excluded from completion. Custom acts, events, enemies, encounters, intents, enemy-compatibility powers, and their exclusive ending/audio/presentation support are also excluded and must not be copied, packaged, localized, registered, or counted toward completion.
+
 ## Scope totals and current gap
 
 | Domain | STS1 concrete | Native now | Missing native | Important correction |
 | --- | --- | --- | --- | --- |
-| Cards | 95 | 11 | 84 | 9 are explicitly disabled in STS1 |
-| Powers | 36 | 2 | 34 | 34 custom-presented + 2 base-game-derived |
-| Relics | 11 | 1 | 10 | 11 concrete, not 12; BaseRelic is abstract scaffolding |
-| Potions | 6 | 0 | 6 | 6 concrete, not 7; BasePotion is abstract scaffolding |
+| Cards | 86 | 86 | 0 | 9 STS1-disabled cards are excluded |
+| Powers | 25 | 25 | 0 | 25 player-card-relevant models |
+| Relics | 11 | 11 | 0 | 11 concrete, not 12; BaseRelic is abstract scaffolding |
+| Potions | 6 | 6 | 0 | 6 concrete, not 7; BasePotion is abstract scaffolding |
 
 ## Corrections to earlier port assumptions
 
@@ -19,7 +21,7 @@ Baseline: Slay the Spire 2 `v0.111.0` / `41cef1ea`. Behavior and player-facing s
 - STS1 contains 11 concrete relics and 6 concrete potions. The older workflow counts included each abstract base class.
 - `Weakness` exists as a disabled card and has localization, but the STS1 project has no small or large portrait for it.
 - STS1 card portraits require 250x190 small art and 500x380 large art. A same-size 250x190 duplicate in `big/` is not a valid large pair.
-- `PlayerFilightPower` and `MonsterVigorPower` intentionally subclass base-game Flight/Vigor and have neither custom localization nor custom icons in STS1. Their port should explicitly reuse the corresponding STS2 base-game presentation.
+- Eleven enemy-only or custom-enemy compatibility powers are excluded with the custom enemy content, including `PlayerFilightPower` and `StrengthUpPower`. `MonsterDivinityPower` remains in scope because player cards apply it to ordinary enemies.
 - Existing C# under `TogawaSakikoCode` is migration evidence only. Its simplified behavior and BaseLib assumptions are not parity evidence.
 
 ## Placeholder contract
@@ -30,267 +32,244 @@ The generated master placeholder is `res://TogawaSakiko/images/placeholders/miss
 
 | # | STS1 card | Deck | Type / rarity / cost | STS1 pool | Port | Art | Direct voice | Stable STS2 ID | Missing or different |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Accomplice | SakikoDeck | SKILL / COMMON / 2 | Enabled | Legacy evidence only | Original | Accomplice | TOGAWASAKIKO-ACCOMPLICE_CARD | native behavior missing |
-| 2 | AleaIactaEst | SakikoDeck | SKILL / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-ALEA_IACTA_EST_CARD | native behavior missing |
-| 3 | Amoris | SpecialDeck | CURSE / CURSE / -2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-AMORIS_CARD | native behavior missing |
-| 4 | Angles | SakikoDeck | ATTACK / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-ANGLES_CARD | native behavior missing |
-| 5 | AreTheseLyrics | SakikoDeck | SKILL / UNCOMMON / 1 | Disabled | Legacy evidence only | Original | AreTheseLyrics | TOGAWASAKIKO-ARE_THESE_LYRICS_CARD | native behavior missing; disabled in STS1; must stay out of normal pools |
+| 1 | Accomplice | SakikoDeck | SKILL / COMMON / 2 | Enabled | Native | Original | Accomplice | TOGAWASAKIKO-ACCOMPLICE_CARD |  |
+| 2 | AleaIactaEst | SakikoDeck | SKILL / UNCOMMON / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-ALEA_IACTA_EST_CARD |  |
+| 3 | Amoris | SpecialDeck | CURSE / CURSE / -2 | Enabled | Native | Original | - | TOGAWASAKIKO-AMORIS_CARD |  |
+| 4 | Angles | SakikoDeck | ATTACK / UNCOMMON / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-ANGLES_CARD |  |
+| 5 | AreTheseLyrics | SakikoDeck | SKILL / UNCOMMON / 1 | Disabled | Excluded | Original | AreTheseLyrics | TOGAWASAKIKO-ARE_THESE_LYRICS_CARD | native behavior missing; disabled in STS1; excluded from the port by scope policy |
 | 6 | ASplitMoment | SakikoDeck | SKILL / COMMON / 0 | Enabled | Native | Original | ASplitMoment | TOGAWASAKIKO-A_SPLIT_MOMENT_CARD |  |
-| 7 | AsYourHeartDesires | SakikoDeck | SKILL / RARE / 2 | Enabled | Legacy evidence only | Original | AsYourHeartDesires | TOGAWASAKIKO-AS_YOUR_HEART_DESIRES_CARD | native behavior missing |
-| 8 | AuthorityRestoration | SakikoDeck | SKILL / UNCOMMON / 1 | Disabled | Legacy evidence only | Original | AuthorityRestoration | TOGAWASAKIKO-AUTHORITY_RESTORATION_CARD | native behavior missing; disabled in STS1; must stay out of normal pools |
-| 9 | AveMujica | SakikoDeck | ATTACK / RARE / 2 | Enabled | Legacy evidence only | Original | AveMujica | TOGAWASAKIKO-AVE_MUJICA_CARD | native behavior missing |
-| 10 | BandInvitation | SakikoDeck | SKILL / RARE / 0 | Enabled | Legacy evidence only | Original | BandInvitation | TOGAWASAKIKO-BAND_INVITATION_CARD | native behavior missing |
-| 11 | BlackAndWhiteKeys | SakikoDeck | SKILL / UNCOMMON / 0 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-BLACK_AND_WHITE_KEYS_CARD | native behavior missing |
-| 12 | BlackBirthday | SakikoDeck | ATTACK / RARE / 2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-BLACK_BIRTHDAY_CARD | native behavior missing |
-| 13 | BlackKeys | SpecialDeck | POWER / SPECIAL / -2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-BLACK_KEYS_CARD | native behavior missing |
-| 14 | BudgetBento | SakikoDeck | SKILL / COMMON / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-BUDGET_BENTO_CARD | native behavior missing |
-| 15 | Carefree | SakikoDeck | SKILL / COMMON / 1 | Disabled | Legacy evidence only | Original | Carefree | TOGAWASAKIKO-CAREFREE_CARD | native behavior missing; disabled in STS1; must stay out of normal pools |
-| 16 | CharismaticForm | SakikoDeck | POWER / RARE / 3 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-CHARISMATIC_FORM_CARD | native behavior missing |
-| 17 | ChoirSChoir | SakikoDeck | ATTACK / UNCOMMON / 3 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-CHOIR_S_CHOIR_CARD | native behavior missing |
-| 18 | ClockOut | SakikoDeck | SKILL / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | ClockOut | TOGAWASAKIKO-CLOCK_OUT_CARD | native behavior missing |
-| 19 | CountingStars | SakikoDeck | SKILL / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | CountingStars | TOGAWASAKIKO-COUNTING_STARS_CARD | native behavior missing |
-| 20 | CrucifixX | SakikoDeck | ATTACK / UNCOMMON / -1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-CRUCIFIX_X_CARD | native behavior missing |
-| 21 | Cruelty | SakikoDeck | POWER / RARE / 0 | Enabled | Legacy evidence only | Original | Cruelty | TOGAWASAKIKO-CRUELTY_CARD | native behavior missing |
-| 22 | Crychic | SakikoDeck | SKILL / RARE / -1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-CRYCHIC_CARD | native behavior missing |
-| 23 | Curiosity | SakikoDeck | POWER / UNCOMMON / 2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-CURIOSITY_CARD | native behavior missing |
-| 24 | DarkHeaven | SakikoDeck | ATTACK / COMMON / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-DARK_HEAVEN_CARD | native behavior missing |
-| 25 | Daten | SakikoDeck | ATTACK / COMMON / 2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-DATEN_CARD | native behavior missing |
+| 7 | AsYourHeartDesires | SakikoDeck | SKILL / RARE / 2 | Enabled | Native | Original | AsYourHeartDesires | TOGAWASAKIKO-AS_YOUR_HEART_DESIRES_CARD |  |
+| 8 | AuthorityRestoration | SakikoDeck | SKILL / UNCOMMON / 1 | Disabled | Excluded | Original | AuthorityRestoration | TOGAWASAKIKO-AUTHORITY_RESTORATION_CARD | native behavior missing; disabled in STS1; excluded from the port by scope policy |
+| 9 | AveMujica | SakikoDeck | ATTACK / RARE / 2 | Enabled | Native | Original | AveMujica | TOGAWASAKIKO-AVE_MUJICA_CARD |  |
+| 10 | BandInvitation | SakikoDeck | SKILL / RARE / 0 | Enabled | Native | Original | BandInvitation | TOGAWASAKIKO-BAND_INVITATION_CARD |  |
+| 11 | BlackAndWhiteKeys | SakikoDeck | SKILL / UNCOMMON / 0 | Enabled | Native | Original | - | TOGAWASAKIKO-BLACK_AND_WHITE_KEYS_CARD |  |
+| 12 | BlackBirthday | SakikoDeck | ATTACK / RARE / 2 | Enabled | Native | Original | - | TOGAWASAKIKO-BLACK_BIRTHDAY_CARD |  |
+| 13 | BlackKeys | SpecialDeck | POWER / SPECIAL / -2 | Enabled | Native | Original | - | TOGAWASAKIKO-BLACK_KEYS_CARD |  |
+| 14 | BudgetBento | SakikoDeck | SKILL / COMMON / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-BUDGET_BENTO_CARD |  |
+| 15 | Carefree | SakikoDeck | SKILL / COMMON / 1 | Disabled | Excluded | Original | Carefree | TOGAWASAKIKO-CAREFREE_CARD | disabled in STS1; excluded from the port by scope policy |
+| 16 | CharismaticForm | SakikoDeck | POWER / RARE / 3 | Enabled | Native | Original | - | TOGAWASAKIKO-CHARISMATIC_FORM_CARD |  |
+| 17 | ChoirSChoir | SakikoDeck | ATTACK / UNCOMMON / 3 | Enabled | Native | Original | - | TOGAWASAKIKO-CHOIR_S_CHOIR_CARD |  |
+| 18 | ClockOut | SakikoDeck | SKILL / UNCOMMON / 1 | Enabled | Native | Original | ClockOut | TOGAWASAKIKO-CLOCK_OUT_CARD |  |
+| 19 | CountingStars | SakikoDeck | SKILL / UNCOMMON / 1 | Enabled | Native | Original | CountingStars | TOGAWASAKIKO-COUNTING_STARS_CARD |  |
+| 20 | CrucifixX | SakikoDeck | ATTACK / UNCOMMON / -1 | Enabled | Native | Original | - | TOGAWASAKIKO-CRUCIFIX_X_CARD |  |
+| 21 | Cruelty | SakikoDeck | POWER / RARE / 0 | Enabled | Native | Original | Cruelty | TOGAWASAKIKO-CRUELTY_CARD |  |
+| 22 | Crychic | SakikoDeck | SKILL / RARE / -1 | Enabled | Native | Original | - | TOGAWASAKIKO-CRYCHIC_CARD |  |
+| 23 | Curiosity | SakikoDeck | POWER / UNCOMMON / 2 | Enabled | Native | Original | - | TOGAWASAKIKO-CURIOSITY_CARD |  |
+| 24 | DarkHeaven | SakikoDeck | ATTACK / COMMON / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-DARK_HEAVEN_CARD |  |
+| 25 | Daten | SakikoDeck | ATTACK / COMMON / 2 | Enabled | Native | Original | - | TOGAWASAKIKO-DATEN_CARD |  |
 | 26 | Defend | SakikoDeck | SKILL / BASIC / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-DEFEND_TOGAWA_SAKIKO |  |
 | 27 | Desire | SpecialDeck | SKILL / SPECIAL / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-DESIRE_CARD |  |
-| 28 | DesuWa | SakikoDeck | SKILL / COMMON / 0 | Enabled | Legacy evidence only | Original | DesuWa | TOGAWASAKIKO-DESU_WA_CARD | native behavior missing |
-| 29 | Doloris | SpecialDeck | CURSE / CURSE / -2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-DOLORIS_CARD | native behavior missing |
-| 30 | EdgeOfBreakdown | SakikoDeck | SKILL / COMMON / 1 | Enabled | Legacy evidence only | Original | EdgeOfBreakdown | TOGAWASAKIKO-EDGE_OF_BREAKDOWN_CARD | native behavior missing |
-| 31 | Endurance | SakikoDeck | POWER / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | Endurance | TOGAWASAKIKO-ENDURANCE_CARD | native behavior missing |
-| 32 | Ether | SakikoDeck | ATTACK / RARE / 2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-ETHER_CARD | native behavior missing |
-| 33 | FallenFlowers | SakikoDeck | SKILL / UNCOMMON / 2 | Enabled | Legacy evidence only | Original | FallenFlowers | TOGAWASAKIKO-FALLEN_FLOWERS_CARD | native behavior missing |
-| 34 | Fearless | SakikoDeck | POWER / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | Fearless | TOGAWASAKIKO-FEARLESS_CARD | native behavior missing |
-| 35 | GeorgetteMeGeorgetteYou | SakikoDeck | ATTACK / COMMON / 0 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-GEORGETTE_ME_GEORGETTE_YOU_CARD | native behavior missing |
+| 28 | DesuWa | SakikoDeck | SKILL / COMMON / 0 | Enabled | Native | Original | DesuWa | TOGAWASAKIKO-DESU_WA_CARD |  |
+| 29 | Doloris | SpecialDeck | CURSE / CURSE / -2 | Enabled | Native | Original | - | TOGAWASAKIKO-DOLORIS_CARD |  |
+| 30 | EdgeOfBreakdown | SakikoDeck | SKILL / COMMON / 1 | Enabled | Native | Original | EdgeOfBreakdown | TOGAWASAKIKO-EDGE_OF_BREAKDOWN_CARD |  |
+| 31 | Endurance | SakikoDeck | POWER / UNCOMMON / 1 | Enabled | Native | Original | Endurance | TOGAWASAKIKO-ENDURANCE_CARD |  |
+| 32 | Ether | SakikoDeck | ATTACK / RARE / 2 | Enabled | Native | Original | - | TOGAWASAKIKO-ETHER_CARD |  |
+| 33 | FallenFlowers | SakikoDeck | SKILL / UNCOMMON / 2 | Enabled | Native | Original | FallenFlowers | TOGAWASAKIKO-FALLEN_FLOWERS_CARD |  |
+| 34 | Fearless | SakikoDeck | POWER / UNCOMMON / 1 | Enabled | Native | Original | Fearless | TOGAWASAKIKO-FEARLESS_CARD |  |
+| 35 | GeorgetteMeGeorgetteYou | SakikoDeck | ATTACK / COMMON / 0 | Enabled | Native | Original | - | TOGAWASAKIKO-GEORGETTE_ME_GEORGETTE_YOU_CARD |  |
 | 36 | Greetings | SakikoDeck | SKILL / UNCOMMON / 0 | Enabled | Native | Original | Greetings | TOGAWASAKIKO-GREETINGS_CARD |  |
-| 37 | HachibouseiDance | SakikoDeck | ATTACK / UNCOMMON / 4 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-HACHIBOUSEI_DANCE_CARD | native behavior missing |
-| 38 | HeartsBarrier | SakikoDeck | SKILL / COMMON / 2 | Enabled | Legacy evidence only | Original | HeartsBarrier | TOGAWASAKIKO-HEARTS_BARRIER_CARD | native behavior missing |
+| 37 | HachibouseiDance | SakikoDeck | ATTACK / UNCOMMON / 4 | Enabled | Native | Original | - | TOGAWASAKIKO-HACHIBOUSEI_DANCE_CARD |  |
+| 38 | HeartsBarrier | SakikoDeck | SKILL / COMMON / 2 | Enabled | Native | Original | HeartsBarrier | TOGAWASAKIKO-HEARTS_BARRIER_CARD |  |
 | 39 | Ideal | SpecialDeck | POWER / SPECIAL / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-IDEAL_CARD |  |
-| 40 | ImprisonedXII | SakikoDeck | ATTACK / RARE / 3 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-IMPRISONED_XI_I_CARD | native behavior missing |
-| 41 | InnerCry | SakikoDeck | SKILL / COMMON / 1 | Enabled | Legacy evidence only | Original | InnerCry | TOGAWASAKIKO-INNER_CRY_CARD | native behavior missing |
-| 42 | IWantToBeYourGod | SakikoDeck | ATTACK / RARE / 2 | Disabled | Legacy evidence only | Original | - | TOGAWASAKIKO-I_WANT_TO_BE_YOUR_GOD_CARD | native behavior missing; disabled in STS1; must stay out of normal pools |
-| 43 | Kao | SakikoDeck | ATTACK / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-KAO_CARD | native behavior missing |
-| 44 | KillKiSS | SakikoDeck | ATTACK / COMMON / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-KILL_KI_SS_CARD | native behavior missing |
-| 45 | Kindness | SpecialDeck | POWER / SPECIAL / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-KINDNESS_CARD | native behavior missing |
-| 46 | Kings | SakikoDeck | ATTACK / COMMON / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-KINGS_CARD | native behavior missing |
-| 47 | Masks | SakikoDeck | POWER / RARE / 1 | Enabled | Legacy evidence only | Original | Masks | TOGAWASAKIKO-MASKS_CARD | native behavior missing |
-| 48 | MasqueradeRhapsodyRequest | SakikoDeck | ATTACK / COMMON / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-MASQUERADE_RHAPSODY_REQUEST_CARD | native behavior missing |
+| 40 | ImprisonedXII | SakikoDeck | ATTACK / RARE / 3 | Enabled | Native | Original | - | TOGAWASAKIKO-IMPRISONED_XI_I_CARD |  |
+| 41 | InnerCry | SakikoDeck | SKILL / COMMON / 1 | Enabled | Native | Original | InnerCry | TOGAWASAKIKO-INNER_CRY_CARD |  |
+| 42 | IWantToBeYourGod | SakikoDeck | ATTACK / RARE / 2 | Disabled | Excluded | Original | - | TOGAWASAKIKO-I_WANT_TO_BE_YOUR_GOD_CARD | native behavior missing; disabled in STS1; excluded from the port by scope policy |
+| 43 | Kao | SakikoDeck | ATTACK / UNCOMMON / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-KAO_CARD |  |
+| 44 | KillKiSS | SakikoDeck | ATTACK / COMMON / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-KILL_KI_SS_CARD |  |
+| 45 | Kindness | SpecialDeck | POWER / SPECIAL / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-KINDNESS_CARD |  |
+| 46 | Kings | SakikoDeck | ATTACK / COMMON / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-KINGS_CARD |  |
+| 47 | Masks | SakikoDeck | POWER / RARE / 1 | Enabled | Native | Original | Masks | TOGAWASAKIKO-MASKS_CARD |  |
+| 48 | MasqueradeRhapsodyRequest | SakikoDeck | ATTACK / COMMON / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-MASQUERADE_RHAPSODY_REQUEST_CARD |  |
 | 49 | Melody | SpecialDeck | ATTACK / SPECIAL / 0 | Enabled | Native | Original | - | TOGAWASAKIKO-MELODY_CARD |  |
-| 50 | MementoMori | SakikoDeck | ATTACK / RARE / 2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-MEMENTO_MORI_CARD | native behavior missing |
-| 51 | Mortis | SpecialDeck | CURSE / CURSE / -2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-MORTIS_CARD | native behavior missing |
-| 52 | NeverGiveYouUp | SakikoDeck | SKILL / UNCOMMON / 2 | Disabled | Legacy evidence only | Original | - | TOGAWASAKIKO-NEVER_GIVE_YOU_UP_CARD | native behavior missing; disabled in STS1; must stay out of normal pools |
-| 53 | NumbersAndFaces | SakikoDeck | POWER / UNCOMMON / 1 | Disabled | Legacy evidence only | Original | - | TOGAWASAKIKO-NUMBERS_AND_FACES_CARD | native behavior missing; disabled in STS1; must stay out of normal pools |
-| 54 | Oblivionis | SpecialDeck | CURSE / CURSE / -2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-OBLIVIONIS_CARD | native behavior missing |
-| 55 | OurSong | SakikoDeck | SKILL / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | OurSong | TOGAWASAKIKO-OUR_SONG_CARD | native behavior missing |
-| 56 | Passion | SakikoDeck | POWER / UNCOMMON / 1 | Disabled | Legacy evidence only | Original | - | TOGAWASAKIKO-PASSION_CARD | native behavior missing; disabled in STS1; must stay out of normal pools |
-| 57 | PerdereOmnia | SakikoDeck | SKILL / UNCOMMON / -2 | Enabled | Legacy evidence only | Original | PerdereOmnia | TOGAWASAKIKO-PERDERE_OMNIA_CARD | native behavior missing |
-| 58 | Perfection | SakikoDeck | SKILL / RARE / 3 | Enabled | Legacy evidence only | Original | Perfection | TOGAWASAKIKO-PERFECTION_CARD | native behavior missing |
-| 59 | PhantomOfMutsumi | SakikoDeck | ATTACK / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | PhantomOfMutsumi | TOGAWASAKIKO-PHANTOM_OF_MUTSUMI_CARD | native behavior missing |
-| 60 | PhantomOfSakiko | SakikoDeck | ATTACK / COMMON / 2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-PHANTOM_OF_SAKIKO_CARD | native behavior missing |
-| 61 | PhantomOfSoyo | SakikoDeck | ATTACK / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | PhantomOfSoyo | TOGAWASAKIKO-PHANTOM_OF_SOYO_CARD | native behavior missing |
-| 62 | PhantomOfTaki | SakikoDeck | ATTACK / COMMON / 2 | Enabled | Legacy evidence only | Original | PhantomOfTaki | TOGAWASAKIKO-PHANTOM_OF_TAKI_CARD | native behavior missing |
-| 63 | PhantomOfTomori | SakikoDeck | ATTACK / COMMON / 2 | Enabled | Legacy evidence only | Original | PhantomOfTomori | TOGAWASAKIKO-PHANTOM_OF_TOMORI_CARD | native behavior missing |
-| 64 | Pride | SakikoDeck | SKILL / RARE / 0 | Enabled | Legacy evidence only | Original | Pride | TOGAWASAKIKO-PRIDE_CARD | native behavior missing |
-| 65 | PrimoDieInScaena | SakikoDeck | SKILL / UNCOMMON / 0 | Enabled | Legacy evidence only | Original | PrimoDieInScaena | TOGAWASAKIKO-PRIMO_DIE_IN_SCAENA_CARD | native behavior missing |
-| 66 | Protection | SpecialDeck | POWER / SPECIAL / 0 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-PROTECTION_CARD | native behavior missing |
-| 67 | QuaerereLumina | SakikoDeck | SKILL / COMMON / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-QUAERERE_LUMINA_CARD | native behavior missing |
-| 68 | Radiance | SpecialDeck | POWER / SPECIAL / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-RADIANCE_CARD | native behavior missing |
-| 69 | RaiseTheBet | SakikoDeck | SKILL / RARE / 1 | Disabled | Legacy evidence only | Original | - | TOGAWASAKIKO-RAISE_THE_BET_CARD | native behavior missing; disabled in STS1; must stay out of normal pools |
-| 70 | RhinocerosBeetle | SakikoDeck | SKILL / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | RhinocerosBeetle | TOGAWASAKIKO-RHINOCEROS_BEETLE_CARD | native behavior missing |
-| 71 | SeizeTheFate | SakikoDeck | POWER / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-SEIZE_THE_FATE_CARD | native behavior missing |
-| 72 | SharedDestiny | SakikoDeck | POWER / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | SharedDestiny | TOGAWASAKIKO-SHARED_DESTINY_CARD | native behavior missing |
+| 50 | MementoMori | SakikoDeck | ATTACK / RARE / 2 | Enabled | Native | Original | - | TOGAWASAKIKO-MEMENTO_MORI_CARD |  |
+| 51 | Mortis | SpecialDeck | CURSE / CURSE / -2 | Enabled | Native | Original | - | TOGAWASAKIKO-MORTIS_CARD |  |
+| 52 | NeverGiveYouUp | SakikoDeck | SKILL / UNCOMMON / 2 | Disabled | Excluded | Original | - | TOGAWASAKIKO-NEVER_GIVE_YOU_UP_CARD | native behavior missing; disabled in STS1; excluded from the port by scope policy |
+| 53 | NumbersAndFaces | SakikoDeck | POWER / UNCOMMON / 1 | Disabled | Excluded | Original | - | TOGAWASAKIKO-NUMBERS_AND_FACES_CARD | native behavior missing; disabled in STS1; excluded from the port by scope policy |
+| 54 | Oblivionis | SpecialDeck | CURSE / CURSE / -2 | Enabled | Native | Original | - | TOGAWASAKIKO-OBLIVIONIS_CARD |  |
+| 55 | OurSong | SakikoDeck | SKILL / UNCOMMON / 1 | Enabled | Native | Original | OurSong | TOGAWASAKIKO-OUR_SONG_CARD |  |
+| 56 | Passion | SakikoDeck | POWER / UNCOMMON / 1 | Disabled | Excluded | Original | - | TOGAWASAKIKO-PASSION_CARD | native behavior missing; disabled in STS1; excluded from the port by scope policy |
+| 57 | PerdereOmnia | SakikoDeck | SKILL / UNCOMMON / -2 | Enabled | Native | Original | PerdereOmnia | TOGAWASAKIKO-PERDERE_OMNIA_CARD |  |
+| 58 | Perfection | SakikoDeck | SKILL / RARE / 3 | Enabled | Native | Original | Perfection | TOGAWASAKIKO-PERFECTION_CARD |  |
+| 59 | PhantomOfMutsumi | SakikoDeck | ATTACK / UNCOMMON / 1 | Enabled | Native | Original | PhantomOfMutsumi | TOGAWASAKIKO-PHANTOM_OF_MUTSUMI_CARD |  |
+| 60 | PhantomOfSakiko | SakikoDeck | ATTACK / COMMON / 2 | Enabled | Native | Original | - | TOGAWASAKIKO-PHANTOM_OF_SAKIKO_CARD |  |
+| 61 | PhantomOfSoyo | SakikoDeck | ATTACK / UNCOMMON / 1 | Enabled | Native | Original | PhantomOfSoyo | TOGAWASAKIKO-PHANTOM_OF_SOYO_CARD |  |
+| 62 | PhantomOfTaki | SakikoDeck | ATTACK / COMMON / 2 | Enabled | Native | Original | PhantomOfTaki | TOGAWASAKIKO-PHANTOM_OF_TAKI_CARD |  |
+| 63 | PhantomOfTomori | SakikoDeck | ATTACK / COMMON / 2 | Enabled | Native | Original | PhantomOfTomori | TOGAWASAKIKO-PHANTOM_OF_TOMORI_CARD |  |
+| 64 | Pride | SakikoDeck | SKILL / RARE / 0 | Enabled | Native | Original | Pride | TOGAWASAKIKO-PRIDE_CARD |  |
+| 65 | PrimoDieInScaena | SakikoDeck | SKILL / UNCOMMON / 0 | Enabled | Native | Original | PrimoDieInScaena | TOGAWASAKIKO-PRIMO_DIE_IN_SCAENA_CARD |  |
+| 66 | Protection | SpecialDeck | POWER / SPECIAL / 0 | Enabled | Native | Original | - | TOGAWASAKIKO-PROTECTION_CARD |  |
+| 67 | QuaerereLumina | SakikoDeck | SKILL / COMMON / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-QUAERERE_LUMINA_CARD |  |
+| 68 | Radiance | SpecialDeck | POWER / SPECIAL / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-RADIANCE_CARD |  |
+| 69 | RaiseTheBet | SakikoDeck | SKILL / RARE / 1 | Disabled | Excluded | Original | - | TOGAWASAKIKO-RAISE_THE_BET_CARD | native behavior missing; disabled in STS1; excluded from the port by scope policy |
+| 70 | RhinocerosBeetle | SakikoDeck | SKILL / UNCOMMON / 1 | Enabled | Native | Original | RhinocerosBeetle | TOGAWASAKIKO-RHINOCEROS_BEETLE_CARD |  |
+| 71 | SeizeTheFate | SakikoDeck | POWER / UNCOMMON / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-SEIZE_THE_FATE_CARD |  |
+| 72 | SharedDestiny | SakikoDeck | POWER / UNCOMMON / 1 | Enabled | Native | Original | SharedDestiny | TOGAWASAKIKO-SHARED_DESTINY_CARD |  |
 | 73 | SilentFarewell | SakikoDeck | SKILL / COMMON / 0 | Enabled | Native | Original | - | TOGAWASAKIKO-SILENT_FAREWELL_CARD |  |
-| 74 | SoraNoMusica | SakikoDeck | ATTACK / RARE / 3 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-SORA_NO_MUSICA_CARD | native behavior missing |
-| 75 | SpringSunlight | SakikoDeck | ATTACK / RARE / 0 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-SPRING_SUNLIGHT_CARD | native behavior missing |
-| 76 | StayElegance | SakikoDeck | SKILL / RARE / 1 | Enabled | Legacy evidence only | Original | StayElegance | TOGAWASAKIKO-STAY_ELEGANCE_CARD | native behavior missing |
+| 74 | SoraNoMusica | SakikoDeck | ATTACK / RARE / 3 | Enabled | Native | Original | - | TOGAWASAKIKO-SORA_NO_MUSICA_CARD |  |
+| 75 | SpringSunlight | SakikoDeck | ATTACK / RARE / 0 | Enabled | Native | Original | - | TOGAWASAKIKO-SPRING_SUNLIGHT_CARD |  |
+| 76 | StayElegance | SakikoDeck | SKILL / RARE / 1 | Enabled | Native | Original | StayElegance | TOGAWASAKIKO-STAY_ELEGANCE_CARD |  |
 | 77 | Strike | SakikoDeck | ATTACK / BASIC / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-STRIKE_TOGAWA_SAKIKO |  |
-| 78 | SymbolIFire | SakikoDeck | ATTACK / UNCOMMON / 2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-SYMBOL_I_FIRE_CARD | native behavior missing |
-| 79 | SymbolIIAir | SakikoDeck | ATTACK / COMMON / 0 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-SYMBOL_II_AIR_CARD | native behavior missing |
-| 80 | SymbolIIIWater | SakikoDeck | ATTACK / UNCOMMON / 2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-SYMBOL_II_I_WATER_CARD | native behavior missing |
-| 81 | SymbolIVEarth | SakikoDeck | ATTACK / COMMON / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-SYMBOL_IV_EARTH_CARD | native behavior missing |
-| 82 | TheGirlWithFlaxenHair | SakikoDeck | ATTACK / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | TheGirlWithFlaxenHair | TOGAWASAKIKO-THE_GIRL_WITH_FLAXEN_HAIR_CARD | native behavior missing |
+| 78 | SymbolIFire | SakikoDeck | ATTACK / UNCOMMON / 2 | Enabled | Native | Original | - | TOGAWASAKIKO-SYMBOL_I_FIRE_CARD |  |
+| 79 | SymbolIIAir | SakikoDeck | ATTACK / COMMON / 0 | Enabled | Native | Original | - | TOGAWASAKIKO-SYMBOL_II_AIR_CARD |  |
+| 80 | SymbolIIIWater | SakikoDeck | ATTACK / UNCOMMON / 2 | Enabled | Native | Original | - | TOGAWASAKIKO-SYMBOL_II_I_WATER_CARD |  |
+| 81 | SymbolIVEarth | SakikoDeck | ATTACK / COMMON / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-SYMBOL_IV_EARTH_CARD |  |
+| 82 | TheGirlWithFlaxenHair | SakikoDeck | ATTACK / UNCOMMON / 1 | Enabled | Native | Original | TheGirlWithFlaxenHair | TOGAWASAKIKO-THE_GIRL_WITH_FLAXEN_HAIR_CARD |  |
 | 83 | TheMoonlightSonata | SakikoDeck | ATTACK / BASIC / 2 | Enabled | Native | Original | - | TOGAWASAKIKO-THE_MOONLIGHT_SONATA_CARD |  |
-| 84 | Timoris | SpecialDeck | CURSE / CURSE / -2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-TIMORIS_CARD | native behavior missing |
+| 84 | Timoris | SpecialDeck | CURSE / CURSE / -2 | Enabled | Native | Original | - | TOGAWASAKIKO-TIMORIS_CARD |  |
 | 85 | Tiredness | SpecialDeck | SKILL / SPECIAL / 0 | Enabled | Native | Original | Tiredness | TOGAWASAKIKO-TIREDNESS_CARD |  |
 | 86 | TwoMoons | SakikoDeck | ATTACK / COMMON / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-TWO_MOONS_CARD |  |
-| 87 | Utopia | SakikoDeck | SKILL / UNCOMMON / 2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-UTOPIA_CARD | native behavior missing |
-| 88 | Veritas | SakikoDeck | SKILL / UNCOMMON / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-VERITAS_CARD | native behavior missing |
-| 89 | Voice | SpecialDeck | POWER / SPECIAL / 1 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-VOICE_CARD | native behavior missing |
-| 90 | Weakness | SpecialDeck | CURSE / CURSE / -2 | Disabled | Legacy evidence only | Generated placeholder | - | TOGAWASAKIKO-WEAKNESS_CARD | native behavior missing; STS1 original art missing; disabled in STS1; must stay out of normal pools |
-| 91 | WhiteKeys | SpecialDeck | POWER / SPECIAL / -2 | Enabled | Legacy evidence only | Original | - | TOGAWASAKIKO-WHITE_KEYS_CARD | native behavior missing |
-| 92 | WishFulfilled | SakikoDeck | SKILL / UNCOMMON / 2 | Enabled | Legacy evidence only | Original | WishFulfilled | TOGAWASAKIKO-WISH_FULFILLED_CARD | native behavior missing |
-| 93 | WishToBecomeHuman | SakikoDeck | ATTACK / UNCOMMON / 2 | Enabled | Legacy evidence only | Original | WishToBecomeHuman | TOGAWASAKIKO-WISH_TO_BECOME_HUMAN_CARD | native behavior missing |
-| 94 | WishYouGoodLuck | SakikoDeck | POWER / RARE / 1 | Enabled | Legacy evidence only | Original | WishYouGoodLuck | TOGAWASAKIKO-WISH_YOU_GOOD_LUCK_CARD | native behavior missing |
-| 95 | Worldview | SakikoDeck | POWER / RARE / 1 | Enabled | Legacy evidence only | Original | Worldview | TOGAWASAKIKO-WORLDVIEW_CARD | native behavior missing |
+| 87 | Utopia | SakikoDeck | SKILL / UNCOMMON / 2 | Enabled | Native | Original | - | TOGAWASAKIKO-UTOPIA_CARD |  |
+| 88 | Veritas | SakikoDeck | SKILL / UNCOMMON / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-VERITAS_CARD |  |
+| 89 | Voice | SpecialDeck | POWER / SPECIAL / 1 | Enabled | Native | Original | - | TOGAWASAKIKO-VOICE_CARD |  |
+| 90 | Weakness | SpecialDeck | CURSE / CURSE / -2 | Disabled | Excluded | Generated placeholder | - | TOGAWASAKIKO-WEAKNESS_CARD | STS1 original art missing; disabled in STS1; excluded from the port by scope policy |
+| 91 | WhiteKeys | SpecialDeck | POWER / SPECIAL / -2 | Enabled | Native | Original | - | TOGAWASAKIKO-WHITE_KEYS_CARD |  |
+| 92 | WishFulfilled | SakikoDeck | SKILL / UNCOMMON / 2 | Enabled | Native | Original | WishFulfilled | TOGAWASAKIKO-WISH_FULFILLED_CARD |  |
+| 93 | WishToBecomeHuman | SakikoDeck | ATTACK / UNCOMMON / 2 | Enabled | Native | Original | WishToBecomeHuman | TOGAWASAKIKO-WISH_TO_BECOME_HUMAN_CARD |  |
+| 94 | WishYouGoodLuck | SakikoDeck | POWER / RARE / 1 | Enabled | Native | Original | WishYouGoodLuck | TOGAWASAKIKO-WISH_YOU_GOOD_LUCK_CARD |  |
+| 95 | Worldview | SakikoDeck | POWER / RARE / 1 | Enabled | Native | Original | Worldview | TOGAWASAKIKO-WORLDVIEW_CARD |  |
 
 ## Powers
 
 | STS1 power | Group | Port | Presentation | Stable STS2 ID | Missing or different |
 | --- | --- | --- | --- | --- | --- |
-| CharismaticFormPower | buffs | STS1 source only | Original | TOGAWASAKIKO-CHARISMATIC_FORM_POWER | native behavior missing |
-| CrueltyPower | buffs | Legacy evidence only | Original | TOGAWASAKIKO-CRUELTY_POWER | native behavior missing |
-| CrychicPower | buffs | Legacy evidence only | Original | TOGAWASAKIKO-CRYCHIC_POWER | native behavior missing |
-| DazzlingDownPower | debuffs | Legacy evidence only | Original | TOGAWASAKIKO-DAZZLING_DOWN_POWER | native behavior missing |
+| CharismaticFormPower | buffs | Native | Original | TOGAWASAKIKO-CHARISMATIC_FORM_POWER |  |
+| CrueltyPower | buffs | Native | Original | TOGAWASAKIKO-CRUELTY_POWER |  |
+| CrychicPower | buffs | Native | Original | TOGAWASAKIKO-CRYCHIC_POWER |  |
+| DazzlingDownPower | debuffs | Native | Original | TOGAWASAKIKO-DAZZLING_DOWN_POWER |  |
 | DazzlingPower | buffs | Native | Original | TOGAWASAKIKO-DAZZLING_POWER |  |
-| DolorisPower | debuffs | STS1 source only | Original | TOGAWASAKIKO-DOLORIS_POWER | native behavior missing |
-| EarnestCryPower | monsters | STS1 source only | Original | TOGAWASAKIKO-EARNEST_CRY_POWER | native behavior missing |
-| EndurancePower | buffs | Legacy evidence only | Original | TOGAWASAKIKO-ENDURANCE_POWER | native behavior missing |
-| FearlessPower | buffs | Legacy evidence only | Original | TOGAWASAKIKO-FEARLESS_POWER | native behavior missing |
-| ForwardResolvePower | monsters | STS1 source only | Original | TOGAWASAKIKO-FORWARD_RESOLVE_POWER | native behavior missing |
-| FreshlySqueezedCucumberPower | buffs | STS1 source only | Original | TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER_POWER | native behavior missing |
-| GirlOfSpringPower | buffs | STS1 source only | Original | TOGAWASAKIKO-GIRL_OF_SPRING_POWER | native behavior missing |
-| GodsCreationPower | buffs | Legacy evidence only | Original | TOGAWASAKIKO-GODS_CREATION_POWER | native behavior missing |
+| DolorisPower | debuffs | Native | Original | TOGAWASAKIKO-DOLORIS_POWER |  |
+| EndurancePower | buffs | Native | Original | TOGAWASAKIKO-ENDURANCE_POWER |  |
+| FearlessPower | buffs | Native | Original | TOGAWASAKIKO-FEARLESS_POWER |  |
+| FreshlySqueezedCucumberPower | buffs | Native | Original | TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER_POWER |  |
+| GirlOfSpringPower | buffs | Native | Original | TOGAWASAKIKO-GIRL_OF_SPRING_POWER |  |
+| GodsCreationPower | buffs | Native | Original | TOGAWASAKIKO-GODS_CREATION_POWER |  |
 | HypePower | buffs | Native | Original | TOGAWASAKIKO-HYPE_POWER |  |
-| KingsPower | debuffs | Legacy evidence only | Original | TOGAWASAKIKO-KINGS_POWER | native behavior missing |
-| MonsterDivinityPower | monsters | STS1 source only | Original | TOGAWASAKIKO-MONSTER_DIVINITY_POWER | native behavior missing |
-| MonsterVigorPower | monsters | STS1 source only | Reuse base-game power | TOGAWASAKIKO-MONSTER_VIGOR_POWER | native behavior missing; inherits base-game localization |
-| MortisPower | debuffs | Legacy evidence only | Original | TOGAWASAKIKO-MORTIS_POWER | native behavior missing |
-| OblivionisPower | debuffs | STS1 source only | Original | TOGAWASAKIKO-OBLIVIONIS_POWER | native behavior missing |
-| OurSongPower | buffs | Legacy evidence only | Original | TOGAWASAKIKO-OUR_SONG_POWER | native behavior missing |
-| PerdereOmniaPower | buffs | Legacy evidence only | Original | TOGAWASAKIKO-PERDERE_OMNIA_POWER | native behavior missing |
-| PlayerFilightPower | buffs | STS1 source only | Reuse base-game power | TOGAWASAKIKO-PLAYER_FILIGHT_POWER | native behavior missing; inherits base-game localization |
-| PridePower | buffs | STS1 source only | Original | TOGAWASAKIKO-PRIDE_POWER | native behavior missing |
-| PrimoDieInScaenaPower | buffs | STS1 source only | Original | TOGAWASAKIKO-PRIMO_DIE_IN_SCAENA_POWER | native behavior missing |
-| RestlessIdealPower | monsters | STS1 source only | Original | TOGAWASAKIKO-RESTLESS_IDEAL_POWER | native behavior missing |
-| SeizeTheFatePower | buffs | Legacy evidence only | Original | TOGAWASAKIKO-SEIZE_THE_FATE_POWER | native behavior missing |
-| SharedDestinyPower | buffs | Legacy evidence only | Original | TOGAWASAKIKO-SHARED_DESTINY_POWER | native behavior missing |
-| SilentWoundPower | monsters | STS1 source only | Original | TOGAWASAKIKO-SILENT_WOUND_POWER | native behavior missing |
-| StrengthUpPower | buffs | STS1 source only | Original | TOGAWASAKIKO-STRENGTH_UP_POWER | native behavior missing |
-| TemporalLongingPower | monsters | STS1 source only | Original | TOGAWASAKIKO-TEMPORAL_LONGING_POWER | native behavior missing |
-| TimorisPower | debuffs | STS1 source only | Original | TOGAWASAKIKO-TIMORIS_POWER | native behavior missing |
-| UnclaimedPromisePower | monsters | STS1 source only | Original | TOGAWASAKIKO-UNCLAIMED_PROMISE_POWER | native behavior missing |
-| UnfadingYearningPower | monsters | STS1 source only | Original | TOGAWASAKIKO-UNFADING_YEARNING_POWER | native behavior missing |
-| VoicedGazePower | monsters | STS1 source only | Original | TOGAWASAKIKO-VOICED_GAZE_POWER | native behavior missing |
-| WishYouGoodLuckPower | buffs | Legacy evidence only | Original | TOGAWASAKIKO-WISH_YOU_GOOD_LUCK_POWER | native behavior missing |
-| WorldviewPower | buffs | Legacy evidence only | Original | TOGAWASAKIKO-WORLDVIEW_POWER | native behavior missing |
+| KingsPower | debuffs | Native | Original | TOGAWASAKIKO-KINGS_POWER |  |
+| MonsterDivinityPower | monsters | Native | Original | TOGAWASAKIKO-MONSTER_DIVINITY_POWER |  |
+| MortisPower | debuffs | Native | Original | TOGAWASAKIKO-MORTIS_POWER |  |
+| OblivionisPower | debuffs | Native | Original | TOGAWASAKIKO-OBLIVIONIS_POWER |  |
+| OurSongPower | buffs | Native | Original | TOGAWASAKIKO-OUR_SONG_POWER |  |
+| PerdereOmniaPower | buffs | Native | Original | TOGAWASAKIKO-PERDERE_OMNIA_POWER |  |
+| PridePower | buffs | Native | Original | TOGAWASAKIKO-PRIDE_POWER |  |
+| PrimoDieInScaenaPower | buffs | Native | Original | TOGAWASAKIKO-PRIMO_DIE_IN_SCAENA_POWER |  |
+| SeizeTheFatePower | buffs | Native | Original | TOGAWASAKIKO-SEIZE_THE_FATE_POWER |  |
+| SharedDestinyPower | buffs | Native | Original | TOGAWASAKIKO-SHARED_DESTINY_POWER |  |
+| TimorisPower | debuffs | Native | Original | TOGAWASAKIKO-TIMORIS_POWER |  |
+| WishYouGoodLuckPower | buffs | Native | Original | TOGAWASAKIKO-WISH_YOU_GOOD_LUCK_POWER |  |
+| WorldviewPower | buffs | Native | Original | TOGAWASAKIKO-WORLDVIEW_POWER |  |
 
 ## Relics
 
 | STS1 relic | Tier | Port | Art | Stable STS2 ID | Missing or different |
 | --- | --- | --- | --- | --- | --- |
-| BlazingHairband | BOSS | STS1 source only | Original | TOGAWASAKIKO-BLAZING_HAIRBAND | native behavior missing |
-| ColorfulNotebook | COMMON | STS1 source only | Original | TOGAWASAKIKO-COLORFUL_NOTEBOOK | native behavior missing |
-| CuteAnimalBandAid | COMMON | STS1 source only | Original | TOGAWASAKIKO-CUTE_ANIMAL_BAND_AID | native behavior missing |
-| FountainDrink | COMMON | STS1 source only | Original | TOGAWASAKIKO-FOUNTAIN_DRINK | native behavior missing |
-| GoldenPocketWatch | UNCOMMON | STS1 source only | Original | TOGAWASAKIKO-GOLDEN_POCKET_WATCH | native behavior missing |
-| MasqueradeMask | RARE | STS1 source only | Original | TOGAWASAKIKO-MASQUERADE_MASK | native behavior missing |
+| BlazingHairband | BOSS | Native | Original | TOGAWASAKIKO-BLAZING_HAIRBAND |  |
+| ColorfulNotebook | COMMON | Native | Original | TOGAWASAKIKO-COLORFUL_NOTEBOOK |  |
+| CuteAnimalBandAid | COMMON | Native | Original | TOGAWASAKIKO-CUTE_ANIMAL_BAND_AID |  |
+| FountainDrink | COMMON | Native | Original | TOGAWASAKIKO-FOUNTAIN_DRINK |  |
+| GoldenPocketWatch | UNCOMMON | Native | Original | TOGAWASAKIKO-GOLDEN_POCKET_WATCH |  |
+| MasqueradeMask | RARE | Native | Original | TOGAWASAKIKO-MASQUERADE_MASK |  |
 | MonochromeHairband | STARTER | Native | Original | TOGAWASAKIKO-STARTER_RELIC_TOGAWA_SAKIKO |  |
-| TheCompass | SHOP | STS1 source only | Original | TOGAWASAKIKO-THE_COMPASS | native behavior missing |
-| TheDoll | UNCOMMON | STS1 source only | Original | TOGAWASAKIKO-THE_DOLL | native behavior missing |
-| TheThirdMovement | SPECIAL | STS1 source only | Original | TOGAWASAKIKO-THE_THIRD_MOVEMENT | native behavior missing |
-| WarmthInfusedPorcelainCup | BOSS | STS1 source only | Original | TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP | native behavior missing |
+| TheCompass | SHOP | Native | Original | TOGAWASAKIKO-THE_COMPASS |  |
+| TheDoll | UNCOMMON | Native | Original | TOGAWASAKIKO-THE_DOLL |  |
+| TheThirdMovement | SPECIAL | Native | Original | TOGAWASAKIKO-THE_THIRD_MOVEMENT |  |
+| WarmthInfusedPorcelainCup | BOSS | Native | Original | TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP |  |
 
 ## Potions
 
 | STS1 potion | Rarity | Shape | Port | 64x64 layers | Stable STS2 ID | Missing or different |
 | --- | --- | --- | --- | --- | --- | --- |
-| ChocolateMilkJelly | UNCOMMON | MOON | STS1 source only | Original | TOGAWASAKIKO-CHOCOLATE_MILK_JELLY | native behavior missing |
-| EarlGreyTea | COMMON | MOON | STS1 source only | Original | TOGAWASAKIKO-EARL_GREY_TEA | native behavior missing |
-| FreshlySqueezedCucumber | UNCOMMON | MOON | STS1 source only | Original | TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER | native behavior missing |
-| HallucinationPotion | COMMON | MOON | STS1 source only | Original | TOGAWASAKIKO-HALLUCINATION_POTION | native behavior missing |
-| MatchaParfait | UNCOMMON | MOON | STS1 source only | Original | TOGAWASAKIKO-MATCHA_PARFAIT | native behavior missing |
-| OrangeMilkJelly | UNCOMMON | MOON | STS1 source only | Original | TOGAWASAKIKO-ORANGE_MILK_JELLY | native behavior missing |
+| ChocolateMilkJelly | UNCOMMON | MOON | Native | Original | TOGAWASAKIKO-CHOCOLATE_MILK_JELLY |  |
+| EarlGreyTea | COMMON | MOON | Native | Original | TOGAWASAKIKO-EARL_GREY_TEA |  |
+| FreshlySqueezedCucumber | UNCOMMON | MOON | Native | Original | TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER |  |
+| HallucinationPotion | COMMON | MOON | Native | Original | TOGAWASAKIKO-HALLUCINATION_POTION |  |
+| MatchaParfait | UNCOMMON | MOON | Native | Original | TOGAWASAKIKO-MATCHA_PARFAIT |  |
+| OrangeMilkJelly | UNCOMMON | MOON | Native | Original | TOGAWASAKIKO-ORANGE_MILK_JELLY |  |
 
 ## Mechanics and non-model source
 
-| Domain | STS1 files | Mapped native contract | Still needs native review/port |
+| Domain | Active STS1 files | Mapped native contract | Notes |
 | --- | --- | --- | --- |
-| actions | 61 | 4 | AccompliceAction, AddBackLostPowersAction, AddCardsFromDiscardedToHandAction, AdjustCostAction, AreTheseLyricsAction, AuthorityRestorationAction, AveMujicaAction, BandInvitationAction, BlackBirthdayAction, BodySlamEXAction, CharismaticIntangibleAction, ChooseCardAndRemoveFormDiscardPileAction, ChooseCardGainSelfRetainAction, ChooseExistCardAndAddToDeckAction, CountingStarsAction, CricifuxXAction, CrychicAction, DatenAction, DazzlingDamageAction, DesuWaAction, EtherAction, ExhaustCardFromDrawPileAction, ForcePlayCardAction, HeartsBarrierAction, IncreaseMiscDamageAction, KillGainPurgeRewardAction, LoseBlockForEveryoneThenAttackAction, MakeCardInDiscardPileAction, MakeCardUnremoveableAction, MakeTempCardOnTopOfDeckAction, ManualSaveGameAction, MaskAction, MatchaParfaitAction, MutsumiAttackAmountChangeEvent, NumbersAndFacesAction, PerfectionAction, PirdeAction, PlayAudioAction, PurgeRewardAction, RandomCardToHandByIDAction, RandomCardToHandByTypeAction, RefreshMonsterIntentAction, RemoveAddedLostPowersAction, RemoveRandomCardAction, ReplaceCardAction, SeizeTheFateAction, ShowAndExhaustCardAction, SoraNoMusicaAction, StealStrengthAction, SymbolIFireAction, TemporalLongingAction, TheMoonlightSonataAction, TrueWaitAction, UpgradeAllCardInDrawPileAction, VeritasAction, WishFulfilledAction, WishToBecomeHumanAction |
-| effects | 7 | 0 | DazzlingAttackEffect, EnemyDivinityParticleEffect, EnemyStanceAuraEffect, MusicPulseAttackEffect, ShowAndExhaustCardEffect, ShowCardAndAddToDiscardPileEffect2, ShowCardAndObtainEffect2 |
-| events | 2 | 0 | AltNeowEvent, TheOblivionEvent |
-| intents | 1 | 0 | MutsumiAttackIntent |
-| modifiers | 2 | 0 | SelfRetainModifier, UnremoveableModifier |
-| monsters | 12 | 0 | ChihayaAnonBoss, FinalBossMonster, MisumiUikaBoss, NagasakiSoyoBoss, NyamuDrumMinion, ShiinaTakiBoss, SurroundedMonster, TakamatsuTomoriBoss, TheOblivionMonsterGroup, WakabaMutsumiBoss, YahataUmiriBoss, YuutenjiNyamuBoss |
-| patches | 18 | 3 | AltNeowPatch, CreditPatch, CustomEnumPatch, CutscenePatch, ForkEventPatch, FreeAttackPowerReducePatch, GraveCardPatch, MonsterMantraPatch, MusicMasterPatch, RemoveCursedRelatedRelicsPatch, ScryCallbackPatch, TheEndGoToTheOblivionEventPatch, TheOblivionMonsterPatch, UnremoveablePatcher, WarmthInfusedPorcelainCupPatch |
-| rewards | 2 | 0 | AltNeowReward, PurgeReward |
-| rooms | 1 | 0 | TheOblivionEventRoom |
-| saveable | 2 | 0 | KingsSaveable, MasqueradeSaveable |
-| scenes | 1 | 0 | TheOblivionScene |
-| screens | 1 | 0 | SpeicialVictoryScreen |
+| actions | 44 | 44 | Inactive STS1 source: BodySlamEXAction, MakeTempCardOnTopOfDeckAction, ManualSaveGameAction, RemoveAddedLostPowersAction, RemoveRandomCardAction, SeizeTheFateAction |
+| effects | 6 | 6 | Inactive STS1 source: MusicPulseAttackEffect |
+| modifiers | 0 | 0 | - |
+| patches | 7 | 7 | Inactive STS1 source: RemoveCursedRelatedRelicsPatch, WarmthInfusedPorcelainCupPatch |
+| rewards | 1 | 1 | - |
+| saveable | 1 | 1 | Inactive STS1 source: MasqueradeSaveable |
 
 ## Audio
 
-Source audio: 58. Copied into STS2: 58. Missing from STS2: 0. Wired by canonical native code: 3.
+Source audio: 52. Copied into STS2: 52. Active in-scope source files wired: 38/38. STS1 registrations whose source file is absent: 1.
 
 | STS1 audio | STS1 use | STS2 asset | Native behavior |
 | --- | --- | --- | --- |
-| cutscene/ending1.wav | Ending cutscene | Present | Not wired |
-| cutscene/ending2.wav | Ending cutscene | Present | Not wired |
-| cutscene/ending3.wav | Ending cutscene | Present | Not wired |
-| music/GMGU_Short.mp3 | Custom music | Present | Not wired |
-| music/GMGU.ogg | Custom music | Present | Not wired |
-| music/Haruhikage.ogg | Custom music | Present | Not wired |
-| sakiko/Accomplice.wav | Direct card voice | Present | Not wired |
-| sakiko/Amoris.wav | Registered STS1 voice; no direct card call found | Present | Not wired |
-| sakiko/AreTheseLyrics.wav | Direct card voice | Present | Not wired |
-| sakiko/ASplitMoment.wav | Direct card voice | Present | Wired |
-| sakiko/AsYourHeartDesires.wav | Direct card voice | Present | Not wired |
-| sakiko/AuthorityRestoration.wav | Direct card voice | Present | Not wired |
-| sakiko/AveMujica.wav | Direct card voice | Present | Not wired |
-| sakiko/BandInvitation.wav | Direct card voice | Present | Not wired |
-| sakiko/Carefree.wav | Direct card voice | Present | Not wired |
-| sakiko/ClockOut.wav | Direct card voice | Present | Not wired |
-| sakiko/CountingStars.wav | Direct card voice | Present | Not wired |
-| sakiko/Cruelty.wav | Direct card voice | Present | Not wired |
-| sakiko/DesuWa.wav | Direct card voice | Present | Not wired |
-| sakiko/Doloris.wav | Registered STS1 voice; no direct card call found | Present | Not wired |
-| sakiko/EdgeOfBreakdown.wav | Direct card voice | Present | Not wired |
-| sakiko/Endurance.wav | Direct card voice | Present | Not wired |
-| sakiko/FallenFlowers.wav | Direct card voice | Present | Not wired |
-| sakiko/Fearless.wav | Direct card voice | Present | Not wired |
-| sakiko/General1.wav | Character voice | Present | Not wired |
-| sakiko/General2.wav | Character voice | Present | Not wired |
-| sakiko/Greetings.wav | Direct card voice | Present | Wired |
-| sakiko/HeartsBarrier.wav | Direct card voice | Present | Not wired |
-| sakiko/Hurt1.wav | Character voice | Present | Not wired |
-| sakiko/Hurt2.wav | Character voice | Present | Not wired |
-| sakiko/Hurt3.wav | Character voice | Present | Not wired |
-| sakiko/InnerCry.wav | Direct card voice | Present | Not wired |
-| sakiko/Intro.wav | Character voice | Present | Not wired |
-| sakiko/Masks.wav | Direct card voice | Present | Not wired |
-| sakiko/MasqueradeRhapsodyRequest.wav | Registered STS1 voice; no direct card call found | Present | Not wired |
-| sakiko/Mortis.wav | Registered STS1 voice; no direct card call found | Present | Not wired |
-| sakiko/Oblivionis.wav | Registered STS1 voice; no direct card call found | Present | Not wired |
-| sakiko/Others1.wav | Character voice | Present | Not wired |
-| sakiko/OurSong.wav | Direct card voice | Present | Not wired |
-| sakiko/PerdereOmnia.wav | Direct card voice | Present | Not wired |
-| sakiko/Perfection.wav | Direct card voice | Present | Not wired |
-| sakiko/PhantomOfMutsumi.wav | Direct card voice | Present | Not wired |
-| sakiko/PhantomOfSoyo.wav | Direct card voice | Present | Not wired |
-| sakiko/PhantomOfTaki.wav | Direct card voice | Present | Not wired |
-| sakiko/PhantomOfTomori.wav | Direct card voice | Present | Not wired |
-| sakiko/Pride.wav | Direct card voice | Present | Not wired |
-| sakiko/PrimoDieInScaena.wav | Direct card voice | Present | Not wired |
-| sakiko/RhinocerosBeetle.wav | Direct card voice | Present | Not wired |
-| sakiko/SharedDestiny.wav | Direct card voice | Present | Not wired |
-| sakiko/StayElegance.wav | Direct card voice | Present | Not wired |
-| sakiko/TheGirlWithFlaxenHair.wav | Direct card voice | Present | Not wired |
-| sakiko/Timoris.wav | Registered STS1 voice; no direct card call found | Present | Not wired |
-| sakiko/Tiredness.wav | Direct card voice | Present | Wired |
-| sakiko/WishToBecomeHuman.wav | Direct card voice | Present | Not wired |
-| sakiko/WishYouGoodLuck.wav | Direct card voice | Present | Not wired |
-| sakiko/Worldview.wav | Direct card voice | Present | Not wired |
-| vfx/DazzlingAttackEffect.wav | Custom VFX | Present | Not wired |
-| vfx/MusicPulseAttackEffect.wav | Custom VFX | Present | Not wired |
+| sakiko/Accomplice.wav | Active card voice | Present | Wired |
+| sakiko/Amoris.wav | Registered in STS1 but no active call exists | Present | Preserved source asset; no active STS1 route |
+| sakiko/AreTheseLyrics.wav | Disabled-card voice; excluded | Present | Excluded with its disabled card |
+| sakiko/ASplitMoment.wav | Active card voice | Present | Wired |
+| sakiko/AsYourHeartDesires.wav | Active card voice | Present | Wired |
+| sakiko/AuthorityRestoration.wav | Disabled-card voice; excluded | Present | Excluded with its disabled card |
+| sakiko/AveMujica.wav | Active card voice | Present | Wired |
+| sakiko/BandInvitation.wav | Active card voice | Present | Wired |
+| sakiko/Carefree.wav | Disabled-card voice; excluded | Present | Excluded with its disabled card |
+| sakiko/ClockOut.wav | Active card voice | Present | Wired |
+| sakiko/CountingStars.wav | Active card voice | Present | Wired |
+| sakiko/Cruelty.wav | Active card voice | Present | Wired |
+| sakiko/DesuWa.wav | Active card voice | Present | Wired |
+| sakiko/Doloris.wav | Registered in STS1 but no active call exists | Present | Preserved source asset; no active STS1 route |
+| sakiko/EdgeOfBreakdown.wav | Active card voice | Present | Wired |
+| sakiko/Endurance.wav | Active card voice | Present | Wired |
+| sakiko/FallenFlowers.wav | Active card voice | Present | Wired |
+| sakiko/Fearless.wav | Active card voice | Present | Wired |
+| sakiko/General1.wav | Registered in STS1 but no active call exists | Present | Preserved source asset; no active STS1 route |
+| sakiko/General2.wav | Registered in STS1 but no active call exists | Present | Preserved source asset; no active STS1 route |
+| sakiko/Greetings.wav | Active card voice | Present | Wired |
+| sakiko/HeartsBarrier.wav | Active card voice | Present | Wired |
+| sakiko/Hurt1.wav | Active hurt voice | Present | Wired |
+| sakiko/Hurt2.wav | Active hurt voice | Present | Wired |
+| sakiko/Hurt3.wav | Registered but unreachable because the STS1 random upper bound is exclusive | Present | Preserved, intentionally unreachable like STS1 |
+| sakiko/InnerCry.wav | Active card voice | Present | Wired |
+| sakiko/Intro.wav | Active character-select voice | Present | Wired |
+| sakiko/Masks.wav | Active card voice | Present | Wired |
+| sakiko/MasqueradeRhapsodyRequest.wav | Registered in STS1 but no active call exists | Present | Preserved source asset; no active STS1 route |
+| sakiko/Mortis.wav | Registered in STS1 but no active call exists | Present | Preserved source asset; no active STS1 route |
+| sakiko/Oblivionis.wav | Registered in STS1 but no active call exists | Present | Preserved source asset; no active STS1 route |
+| sakiko/Others1.wav | Registered in STS1 but no active call exists | Present | Preserved source asset; no active STS1 route |
+| sakiko/OurSong.wav | Active card voice | Present | Wired |
+| sakiko/PerdereOmnia.wav | Active card voice | Present | Wired |
+| sakiko/Perfection.wav | Active card voice | Present | Wired |
+| sakiko/PhantomOfMutsumi.wav | Active card voice | Present | Wired |
+| sakiko/PhantomOfSoyo.wav | Active card voice | Present | Wired |
+| sakiko/PhantomOfTaki.wav | Active card voice | Present | Wired |
+| sakiko/PhantomOfTomori.wav | Active card voice | Present | Wired |
+| sakiko/Pride.wav | Active card voice | Present | Wired |
+| sakiko/PrimoDieInScaena.wav | Active card voice | Present | Wired |
+| sakiko/RhinocerosBeetle.wav | Active card voice | Present | Wired |
+| sakiko/SharedDestiny.wav | Active card voice | Present | Wired |
+| sakiko/StayElegance.wav | Active card voice | Present | Wired |
+| sakiko/TheGirlWithFlaxenHair.wav | Active card voice | Present | Wired |
+| sakiko/Timoris.wav | Registered in STS1 but no active call exists | Present | Preserved source asset; no active STS1 route |
+| sakiko/Tiredness.wav | Active card voice | Present | Wired |
+| sakiko/WishToBecomeHuman.wav | Active card voice | Present | Wired |
+| sakiko/WishYouGoodLuck.wav | Active card voice | Present | Wired |
+| sakiko/Worldview.wav | Active card voice | Present | Wired |
+| vfx/DazzlingAttackEffect.wav | Active Dazzling VFX sound | Present | Wired |
+| vfx/MusicPulseAttackEffect.wav | Registered in STS1 but its VFX is never instantiated | Present | Preserved, intentionally inactive like STS1 |
 
+
+- `sakiko/WishFulfilled.wav`: Referenced and registered by STS1, but the source audio file is absent; no placeholder audio was fabricated.
 ## Localization tables
 
 | STS1 table | English | zh-Hans | Native table | English-only keys | zh-Hans-only keys |
 | --- | --- | --- | --- | --- | --- |
 | CardStrings.json | 95 | 95 | cards.json | - | - |
-| CharacterStrings.json | 3 | 3 | characters.json | - | - |
+| CharacterStrings.json | 1 | 1 | characters.json | - | - |
 | CreditStrings.json | 3 | 3 | Missing native destination | - | - |
-| EventStrings.json | 2 | 2 | Missing native destination | - | - |
 | Keywords.json | 13 | 14 | card_keywords.json | {modID}:Purge | {modID}:Remove, {modID}:Symbol+ |
-| MonsterStrings.json | 10 | 10 | Missing native destination | - | - |
 | OrbStrings.json | 1 | 1 | Missing native destination | - | - |
 | PotionStrings.json | 7 | 7 | potions.json | - | - |
-| PowerStrings.json | 34 | 34 | powers.json | - | - |
+| PowerStrings.json | 33 | 33 | powers.json | - | - |
 | RelicStrings.json | 12 | 12 | relics.json | - | - |
-| UIStrings.json | 14 | 14 | Missing native destination | - | - |
+| UIStrings.json | 12 | 12 | Missing native destination | - | - |
 
 ## Presentation files outside card/power/relic art
 
@@ -312,11 +291,6 @@ This is a same-relative-path audit. A missing row may need a new STS2 scene mapp
 | character/cardback/energy_orb.png | 512x512 | Present | images/character/cardback/energy_orb.png |
 | character/cardback/small_orb.png | 22x22 | Present | images/character/cardback/small_orb.png |
 | character/corpse.png | 430x94 | Present | images/character/corpse.png |
-| character/cutscene/ending1.png | 1920x1200 | Present | images/character/cutscene/ending1.png |
-| character/cutscene/ending2.png | 1920x1200 | Present | images/character/cutscene/ending2.png |
-| character/cutscene/ending3.png | 1920x1200 | Present | images/character/cutscene/ending3.png |
-| character/ending/true_ending_text.png | 1920x1080 | Present | images/character/ending/true_ending_text.png |
-| character/ending/true_ending.png | 1920x1080 | Present | images/character/ending/true_ending.png |
 | character/energyorb/cover.png | 128x128 | Present | images/character/energyorb/cover.png |
 | character/energyorb/layer1.png | 128x128 | Present | images/character/energyorb/layer1.png |
 | character/energyorb/layer1d.png | 128x128 | Present | images/character/energyorb/layer1d.png |
@@ -335,19 +309,7 @@ This is a same-relative-path audit. A missing row may need a new STS2 scene mapp
 | character/select/portrait.png | 1920x1200 | Present | images/character/select/portrait.png |
 | character/shoulder.png | 1920x1136 | Present | images/character/shoulder.png |
 | character/shoulder2.png | 1920x1136 | Present | images/character/shoulder2.png |
-| events/Fork.png | 600x600 | Present | images/events/Fork.png |
-| intents/large/MutsumiAttackIntent.png | 128x128 | Present | images/intents/large/MutsumiAttackIntent.png |
-| intents/MutsumiAttackIntent.png | 64x64 | Present | images/intents/MutsumiAttackIntent.png |
 | missing.png | 32x32 | Present | images/missing.png |
-| monsters/ChihayaAnonBoss.png | 512x512 | Present | images/monsters/ChihayaAnonBoss.png |
-| monsters/MisumiUikaBoss.png | 512x512 | Present | images/monsters/MisumiUikaBoss.png |
-| monsters/NagasakiSoyoBoss.png | 512x512 | Present | images/monsters/NagasakiSoyoBoss.png |
-| monsters/NyamuDrumMinion.png | 512x512 | Present | images/monsters/NyamuDrumMinion.png |
-| monsters/ShiinaTakiBoss.png | 512x512 | Present | images/monsters/ShiinaTakiBoss.png |
-| monsters/TakamatsuTomoriBoss.png | 512x512 | Present | images/monsters/TakamatsuTomoriBoss.png |
-| monsters/WakabaMutsumiBoss.png | 512x512 | Present | images/monsters/WakabaMutsumiBoss.png |
-| monsters/YahataUmiriBoss.png | 512x512 | Present | images/monsters/YahataUmiriBoss.png |
-| monsters/YuutenjiNyamuBoss.png | 512x512 | Present | images/monsters/YuutenjiNyamuBoss.png |
 | potions/ChocolateMilkJelly/container.png | 64x64 | Present | images/potions/chocolatemilkjelly/container.png |
 | potions/ChocolateMilkJelly/outline.png | 64x64 | Present | images/potions/chocolatemilkjelly/outline.png |
 | potions/EarlGreyTea/container.png | 64x64 | Present | images/potions/earlgreytea/container.png |
@@ -361,8 +323,6 @@ This is a same-relative-path audit. A missing row may need a new STS2 scene mapp
 | potions/MatchaParfait/outline.png | 64x64 | Present | images/potions/matchaparfait/outline.png |
 | potions/OrangeMilkJelly/container.png | 64x64 | Present | images/potions/orangemilkjelly/container.png |
 | potions/OrangeMilkJelly/outline.png | 64x64 | Present | images/potions/orangemilkjelly/outline.png |
-| ui/map/boss/TheOblivion.png | 512x512 | Present | images/ui/map/boss/TheOblivion.png |
-| ui/map/bossOutline/TheOblivion.png | 512x512 | Present | images/ui/map/bossOutline/TheOblivion.png |
 | ui/purgeReward.png | 128x128 | Present | images/ui/purgeReward.png |
 | vfx/DazzlingAttackEffect.png | 400x400 | Present | images/vfx/DazzlingAttackEffect.png |
 | vfx/MusicPulseAttackEffect.png | 400x400 | Present | images/vfx/MusicPulseAttackEffect.png |
@@ -370,10 +330,9 @@ This is a same-relative-path audit. A missing row may need a new STS2 scene mapp
 ## Execution order
 
 1. Repair exact-resolution presentation assets and native EN/zh-Hans catalogs while keeping behaviorless models out of pools.
-2. Port the 34 custom-presented powers and the card dependency graph; explicitly map the two inherited base-game powers.
-3. Port and enable cards in starter/common/uncommon/rare/token/curse order, preserving the nine STS1-disabled exclusions.
+2. Port the 25 player-card-relevant powers and the card dependency graph.
+3. Port and enable the 86 STS1-enabled cards in starter/common/uncommon/rare/token/curse order; skip all nine STS1-disabled cards.
 4. Port the remaining ten relics and all six potions through native commands and pools.
-5. Port the custom act, events, monsters, rewards, VFX, music, cutscene, and save branches after the character combat loop is complete.
-6. Run clean package, EN/zh-Hans, save/reload, full-run, vanilla, log, and declared multiplayer gates before release.
+5. Run clean package, EN/zh-Hans, save/reload, full-run, vanilla, log, and declared multiplayer gates before release.
 
 The machine-readable companion `docs/FULL_PORT_PARITY_INVENTORY.json` retains exact STS1 localization records, source paths, dependencies, destination paths, and per-item differences.

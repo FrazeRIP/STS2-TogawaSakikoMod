@@ -1210,7 +1210,7 @@ Assets are loaded via Godot's `ResourceLoader`. Mod assets live under the mod's 
 ```
 TogawaSakiko/images/card_portraits/big/striketogawasakiko.png
 TogawaSakiko/images/powers/crueltypower.png
-TogawaSakiko/audio/music/GMGU.ogg
+TogawaSakiko/audio/sakiko/intro.wav
 ```
 
 ### Naming convention

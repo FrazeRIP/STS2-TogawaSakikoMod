@@ -10,7 +10,7 @@ namespace TogawaSakiko.NativeCode.Diagnostics;
 
 internal static partial class N4LocalizationDiagnostics
 {
-    public const int ExpectedEntryCount = 366;
+    public const int ExpectedEntryCount = 353;
 
     private static readonly string[] Tables =
     [

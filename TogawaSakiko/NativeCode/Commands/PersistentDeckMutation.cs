@@ -1,7 +1,11 @@
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
+using TogawaSakiko.NativeCode.Models.Cards;
+using TogawaSakiko.NativeCode.Models.Powers;
 
 namespace TogawaSakiko.NativeCode.Commands;
 
@@ -23,6 +27,17 @@ public sealed record PersistentDeckRemovalResult(
     public bool Success => Status == PersistentDeckRemovalStatus.Removed;
 
     public bool Prevented => Status == PersistentDeckRemovalStatus.PreventedNotRemovable;
+}
+
+public sealed record PersistentDeckAndCombatAddResult(
+    CardPileAddResult PersistentResult,
+    CardPileAddResult? CombatResult)
+{
+    public bool Success => PersistentResult.success && CombatResult is { success: true };
+
+    public CardModel? PersistentCard => PersistentResult.success ? PersistentResult.cardAdded : null;
+
+    public CardModel? CombatCard => CombatResult is { } result && result.success ? result.cardAdded : null;
 }
 
 public static class PersistentDeckMutation
@@ -47,23 +62,74 @@ public static class PersistentDeckMutation
         Player owner,
         CardModel canonicalCard,
         CardPilePosition position = CardPilePosition.Bottom,
-        bool skipVisuals = false)
+        bool skipVisuals = false,
+        int upgradeLevel = 0)
     {
         ArgumentNullException.ThrowIfNull(owner);
         ArgumentNullException.ThrowIfNull(canonicalCard);
         canonicalCard.AssertCanonical();
 
         CardModel runCard = owner.RunState.CreateCard(canonicalCard, owner);
-        return await CardPileCmd.Add(runCard, PileType.Deck, position, skipVisuals: skipVisuals);
+        UpgradeToLevel(runCard, upgradeLevel);
+        CardPileAddResult result = await CardPileCmd.Add(
+            runCard,
+            PileType.Deck,
+            position,
+            skipVisuals: skipVisuals);
+        if (result.success)
+        {
+            await NotifyPersistentDeckChangedAsync(owner);
+        }
+
+        return result;
     }
 
     public static Task<CardPileAddResult> AddCanonicalAsync<TCard>(
         Player owner,
         CardPilePosition position = CardPilePosition.Bottom,
-        bool skipVisuals = false)
+        bool skipVisuals = false,
+        int upgradeLevel = 0)
         where TCard : CardModel
     {
-        return AddCanonicalAsync(owner, ModelDb.Card<TCard>(), position, skipVisuals);
+        return AddCanonicalAsync(owner, ModelDb.Card<TCard>(), position, skipVisuals, upgradeLevel);
+    }
+
+    public static async Task<PersistentDeckAndCombatAddResult> AddCanonicalWithCombatCopyAsync<TCard>(
+        Player owner,
+        ICombatState combatState,
+        PileType combatPile,
+        CardPilePosition persistentPosition = CardPilePosition.Bottom,
+        CardPilePosition combatPosition = CardPilePosition.Bottom,
+        bool skipPersistentVisuals = false,
+        int upgradeLevel = 0)
+        where TCard : CardModel
+    {
+        ArgumentNullException.ThrowIfNull(owner);
+        ArgumentNullException.ThrowIfNull(combatState);
+        if (!combatPile.IsCombatPile())
+        {
+            throw new ArgumentOutOfRangeException(nameof(combatPile), combatPile, "The linked copy requires a combat pile.");
+        }
+
+        CardPileAddResult persistentResult = await AddCanonicalAsync<TCard>(
+            owner,
+            persistentPosition,
+            skipPersistentVisuals,
+            upgradeLevel);
+        if (!persistentResult.success)
+        {
+            return new PersistentDeckAndCombatAddResult(persistentResult, null);
+        }
+
+        CardModel persistentCard = persistentResult.cardAdded;
+        CardModel combatCard = combatState.CloneCard(persistentCard);
+        combatCard.DeckVersion = persistentCard;
+        CardPileAddResult combatResult = await CardPileCmd.AddGeneratedCardToCombat(
+            combatCard,
+            combatPile,
+            owner,
+            combatPosition);
+        return new PersistentDeckAndCombatAddResult(persistentResult, combatResult);
     }
 
     public static async Task<CardPileAddResult> AddRunCardCloneAsync(
@@ -83,7 +149,47 @@ public static class PersistentDeckMutation
         }
 
         CardModel runCard = owner.RunState.CloneCard(sourceRunCard);
-        return await CardPileCmd.Add(runCard, PileType.Deck, position, skipVisuals: skipVisuals);
+        CardPileAddResult result = await CardPileCmd.Add(
+            runCard,
+            PileType.Deck,
+            position,
+            skipVisuals: skipVisuals);
+        if (result.success)
+        {
+            await NotifyPersistentDeckChangedAsync(owner);
+        }
+
+        return result;
+    }
+
+    public static async Task<CardPileAddResult> AddStatEquivalentAsync(
+        Player owner,
+        CardModel sourceCard,
+        CardPilePosition position = CardPilePosition.Bottom,
+        bool skipVisuals = false)
+    {
+        ArgumentNullException.ThrowIfNull(owner);
+        ArgumentNullException.ThrowIfNull(sourceCard);
+        sourceCard.AssertMutable();
+
+        if (sourceCard.Owner != owner || sourceCard.RunState != owner.RunState)
+        {
+            throw new InvalidOperationException(
+                $"Cannot copy card {sourceCard.Id} into a different player's persistent deck.");
+        }
+
+        CardModel runCard = owner.RunState.LoadCard(sourceCard.ToSerializable(), owner);
+        CardPileAddResult result = await CardPileCmd.Add(
+            runCard,
+            PileType.Deck,
+            position,
+            skipVisuals: skipVisuals);
+        if (result.success)
+        {
+            await NotifyPersistentDeckChangedAsync(owner);
+        }
+
+        return result;
     }
 
     public static IReadOnlyList<CardModel> SnapshotLinkedCombatCopies(CardModel persistentCard)
@@ -149,6 +255,7 @@ public static class PersistentDeckMutation
             }
 
             await CardPileCmd.RemoveFromDeck(persistentCard, showPersistentPreview);
+            await NotifyPersistentDeckChangedAsync(persistentCard.Owner);
 
             PersistentDeckRemovalResult result = new(
                 PersistentDeckRemovalStatus.Removed,
@@ -164,6 +271,32 @@ public static class PersistentDeckMutation
                 persistentCard,
                 combatCopies.Where(card => card.HasBeenRemovedFromState).ToArray(),
                 $"{exception.GetType().Name}: {exception.Message}");
+        }
+    }
+
+    private static void UpgradeToLevel(CardModel card, int upgradeLevel)
+    {
+        if (upgradeLevel < 0 || upgradeLevel > card.MaxUpgradeLevel)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(upgradeLevel),
+                upgradeLevel,
+                $"Card {card.Id} supports upgrade levels 0 through {card.MaxUpgradeLevel}.");
+        }
+
+        while (card.CurrentUpgradeLevel < upgradeLevel)
+        {
+            CardCmd.Upgrade(card, CardPreviewStyle.None);
+        }
+    }
+
+    private static async Task NotifyPersistentDeckChangedAsync(Player owner)
+    {
+        SpringSunlightCard.RefreshCombatCosts(owner);
+        EndurancePower? endurance = owner.Creature.Powers.OfType<EndurancePower>().FirstOrDefault();
+        if (endurance is not null)
+        {
+            await endurance.OnPersistentDeckChangedAsync();
         }
     }
 }

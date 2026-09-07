@@ -70,7 +70,7 @@ public sealed class TogawaSakiko : CharacterModel
 
     protected override string MapMarkerPath => NativeAssetPaths.CharacterMapMarker;
 
-    public override string CharacterSelectSfx => "event:/sfx/characters/defect/defect_select";
+    public override string CharacterSelectSfx => NativeAssetPaths.CharacterSelectVoice;
 
     public override string CharacterTransitionSfx => "event:/sfx/ui/wipe_defect";
 

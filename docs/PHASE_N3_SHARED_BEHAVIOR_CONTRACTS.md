@@ -73,7 +73,7 @@ Monochrome Hairband remains on `AfterCombatVictory` and now calls `PersistentDec
 
 - A combat-state identity guard makes one victory callback idempotent.
 - The living-owner check remains.
-- Both the act entry and encounter entry explicitly exclude `TOGAWASAKIKO-THE_OBLIVION`.
+- Both the act entry and encounter entry generically reject mod-owned routes; no custom route identifier or model is shipped.
 - Persistence is awaited before the preview is requested.
 - No save-write patch was added.
 
@@ -91,11 +91,11 @@ Startup runs 31 deterministic assertions after `ModelDb` initialization:
 | Ledger | Round isolation, two players and one enemy, buff/debuff filters, gains/losses/removals, repeated gains, immutable snapshots |
 | Power copy | Normal stackable, instanced dynamic state, per-applier, duration, paired temporary rejection, custom-state rejection |
 | Hype | Active/ending combat, dead target, zero block, zero/negative loss, and zero Hype |
-| Hairband | Eligible victory and both act/encounter forms of The Oblivion exclusion |
+| Hairband | Eligible victory and both act/encounter forms of the generic mod-owned-route exclusion |
 
 ### Actual-game N3 contract run
 
-Artifact root: `artifacts/n3-contract/native-n3-final-contract-20260906-215319`
+Final accepted artifact root: `artifacts/n7-release/native-n3-contract-20260907-155027`
 
 The fixed-seed Release run passed all nine required marker groups and then passed a fresh-process reload:
 
@@ -113,9 +113,9 @@ The teardown probe records Hype amount and block while the power is being remove
 
 ### Loader and regression runs
 
-- English loader: `artifacts/n3-loader/n3-final-loader-eng-20260906-214642/slay-the-spire-2.log`
-- Simplified Chinese loader: `artifacts/n3-loader/n3-final-loader-zhs-20260906-214705/slay-the-spire-2.log`
-- Sakiko/reload/vanilla regression: `artifacts/n3-regression/native-n3-final-regression-20260906-214732`
+- English loader: `artifacts/n7-release/native-loader-20260907-161706/slay-the-spire-2.log`
+- Simplified Chinese loader: `artifacts/n7-release/native-loader-20260907-161716/slay-the-spire-2.log`
+- Sakiko/reload/vanilla regression: `artifacts/n7-release/native-gameplay-20260907-155247`
 
 Both loader runs reported one initializer, one bootstrap, one vertical-slice initialization, the correct language, and zero pre-startup issues.
 
@@ -125,7 +125,7 @@ The regression passed Sakiko character selection, combat portrait creation, rewa
 
 Multiplayer content remains disabled and Phase N2 did not claim multiplayer support. The conditional host/client and host-authority acceptance items were therefore not triggered. The synchronized action has a native packet representation, exact deck identity, and replay-writer coverage, but an actual multiplayer host/client session remains a separate gate before multiplayer support can be declared.
 
-The custom final act/encounter remains intentionally disabled. Its exclusion was exercised through the pure act/encounter predicate; eligible post-victory hook ordering and idempotence were exercised in the actual game.
+Custom acts and encounters are outside the port scope and absent from the package. The generic mod-owned-route guard was exercised through the pure predicate; eligible post-victory hook ordering and idempotence were exercised in the actual game.
 
 ## Build, package, and installed artifact
 
@@ -134,7 +134,8 @@ The custom final act/encounter remains intentionally disabled. Its exclusion was
 - Package validation: passed with DLL, manifest, PCK, and PDB only.
 - Manifest dependencies: zero.
 - BaseLib references in canonical code, project, NuGet assets, manifest, and assembly references: zero.
-- PCK size: 2,633,076 bytes.
+- PCK size: 28,079,900 bytes.
+- Excluded act/event/enemy PCK tokens: zero.
 - Direct card/power collection mutation scan in shared commands: zero matches.
 - Final log audit across contract, English loader, Simplified Chinese loader, Sakiko/reload, and vanilla logs: zero error/exception/localization/mod-load matches.
 
@@ -142,11 +143,12 @@ The validated package remains installed at `Z:\Steam\steamapps\common\Slay the S
 
 | File | SHA-256 |
 | --- | --- |
-| `TogawaSakiko.dll` | `3BBBA77B0D0EA87028019506F92710BD92B9852578F4CAB681EB326EF35AD97B` |
-| `TogawaSakiko.json` | `E66967066D1F3F8DCB325B7C3EDDBFCAB0DE569F6AA45721373ABD54595E071F` |
-| `TogawaSakiko.pck` | `38A7D0631505F2F0E39C93C81387878A784A3E23AF3A4472FEA2A3F22158B478` |
+| `TogawaSakiko.dll` | `E3F02DD5C037BB7F575C53EB4A275CB1DB8B972B967CFC3C83F19D823EEFD936` |
+| `TogawaSakiko.json` | `D809D26326FEAC70A5EDC300C41E8BB2616E22B48C16EABFB37872B3C48FDB76` |
+| `TogawaSakiko.pck` | `763E9E57FE318C224AA1DF2B0C40A1073A685421659FC44B55FFD805CAD21B12` |
+| `TogawaSakiko.pdb` | `09F5798C938EF2DC7CA7E695A493A822B85B60F8DADE5F7FC3624E854BAB0EE4` |
 
-Each installed hash exactly matched the corresponding Release staging artifact.
+Each installed hash exactly matched the corresponding isolated clean-snapshot staging artifact.
 
 ## Repeatable commands
 
@@ -180,7 +182,7 @@ All game scripts use isolated app-data profiles and fixed seeds. Phase N3 behavi
 
 - Actual multiplayer host/client behavior is not yet verified or enabled.
 - The power-copy command is intentionally conservative. Unsupported temporary, targeted, or custom-internal-state powers must receive explicit policies and tests before use.
-- The final custom act and The Oblivion encounter remain disabled; only their exclusion predicate is active and tested.
+- Custom acts, events, enemies, encounters, and intents are outside scope and absent from the canonical package; only a generic mod-owned-route safety predicate remains.
 - The synchronized queued-card diagnostic skips the affected native removal VFX on `v0.111.0` and relies on the queued play action's native cancellation visual. State, hook, history, node, action, save, and replay-writer ordering are covered.
 - Phase N2 presentation and content limitations remain: static combat portrait, incomplete character-specific UI/audio, intentionally narrow live pools, and no unfinished bulk content.
 

@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 using TogawaSakiko.NativeCode.Content;
 using TogawaSakiko.NativeCode.Diagnostics;
+using TogawaSakiko.NativeCode.Models.Relics;
 
 namespace TogawaSakiko.NativeCode.Models.Cards;
 
@@ -18,6 +19,9 @@ public sealed class TheMoonlightSonataCard : CardModel
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     public override string PortraitPath => NativeAssetPaths.MoonlightSonataPortrait;
+
+    protected override bool ShouldGlowGoldInternal =>
+        IsMutable && Owner.Relics.OfType<TheThirdMovement>().Any(relic => !relic.IsUsedUp && !relic.IsMelted);
 
     public TheMoonlightSonataCard()
         : base(2, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)

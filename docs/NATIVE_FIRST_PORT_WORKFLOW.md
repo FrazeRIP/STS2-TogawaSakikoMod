@@ -10,6 +10,8 @@ Target engine baseline: MegaDot `4.5.1.m.14.mono.custom_build`
 
 This workflow supersedes the temporary BaseLib-backed migration phases in `PORT_REFRESH_PLAN.md`. The verified game/repository baseline, reverse-engineering procedure, detailed utility contracts, and later content requirements in that document remain active.
 
+Scope boundary: the nine cards disabled in STS1 are skipped and excluded from completion. Custom acts, events, enemies, encounters, intents, and their exclusive ending, cutscene, music, and presentation assets are also outside this port and must remain absent from canonical runtime code, generated localization, the PCK allowlist, and completion totals.
+
 ## Decision
 
 BaseLib is the current community-standard convenience layer. The current Alchyr setup guide is explicitly written for BaseLib, all three current templates include it by default, and WatcherMod uses it. It is not an obsolete dependency.
@@ -236,55 +238,48 @@ Execution record: `PHASE_N3_SHARED_BEHAVIOR_CONTRACTS.md`. Multiplayer-condition
 
 Completion evidence: every planned visual/localization entry resolves without missing-resource or missing-key logs.
 
-Inventory record: `FULL_PORT_PARITY_INVENTORY.md` and `FULL_PORT_PARITY_INVENTORY.json`. The source sync is reproducible through `tools/Sync-Sts1PresentationAssets.ps1`; it proves 94 original card-art pairs, one exact-resolution generated placeholder pair, 34 custom power icon pairs plus two intentional base-game presentation reuses, 11 relic icon sets, and six potion layer sets. Runtime presentation, localization, gallery, package, save/reload, and vanilla regression evidence is recorded in `PHASE_N4_COMPLETE_PRESENTATION_AND_INVENTORY.md`.
+Inventory record: `FULL_PORT_PARITY_INVENTORY.md` and `FULL_PORT_PARITY_INVENTORY.json`. The source sync is reproducible through `tools/Sync-Sts1PresentationAssets.ps1`; it proves 94 original card-art pairs, one exact-resolution generated placeholder pair, 25 in-scope player-card-relevant power icon pairs, 11 relic icon sets, and six potion layer sets. The sync also removes and refuses to recopy every excluded act/event/enemy asset and custom-enemy compatibility power asset. Runtime presentation, localization, gallery, package, save/reload, and vanilla regression evidence is recorded in `PHASE_N4_COMPLETE_PRESENTATION_AND_INVENTORY.md`.
 
 ### Phase N5: Port cards and powers by dependency
 
-- [ ] Implement native-command-only cards first in starter, common, uncommon, rare, token/special, and curse order.
-- [ ] Implement base and upgraded behavior together.
-- [ ] Port required powers immediately before their dependent cards.
-- [ ] Port custom commands and narrow patches only after proving no native API covers the behavior.
-- [ ] Verify target, cost, variables, pile destination, ownership, extra turns, and multiplayer determinism.
-- [ ] Enable each card in normal pools only after behavior, art, localization, and upgrade checks pass.
-- [ ] Leave any non-parity implementation disabled and record its exact blocker.
+- [x] Implement native-command-only cards first in starter, common, uncommon, rare, token/special, and curse order.
+- [x] Implement base and upgraded behavior together.
+- [x] Port required powers immediately before their dependent cards.
+- [x] Port custom commands and narrow patches only after proving no native API covers the behavior.
+- [x] Verify target, cost, variables, pile destination, ownership, extra turns, and single-player determinism; the declared multiplayer support decision remains an N7 gate.
+- [x] Enable each card in normal pools only after behavior, art, localization, and upgrade checks pass.
+- [x] Keep every STS1-disabled card outside normal play and exclude it from completion accounting.
 
-Completion evidence: all 95 cards are parity-complete and enabled or explicitly disabled with no route into normal play.
+Completion evidence: all 86 cards enabled in STS1 are parity-complete and enabled through their intended reward/token/curse routes. All nine cards disabled in STS1 are excluded from the port and have no route into normal play.
 
-Current execution record: `PHASE_N5_CARDS_AND_POWERS.md`. Batch N5.1 is accepted with Greetings, Tiredness, Melody, and Ideal; the authoritative inventory currently reports 11 of 95 cards and 2 of 36 powers native. Phase N5 remains active.
+Current execution record: `PHASE_N5_CARDS_AND_POWERS.md`. The authoritative inventory reports 86 of 86 in-scope cards and 23 of 25 player-card-relevant STS1 powers native, plus the native Mantra support model. The remaining two powers belong to potion behavior and move with their dependent potions in N6. The complete card/power matrix, both language loaders, N3 save/reload contracts, Kings lifecycle, Sakiko regression, and vanilla regression pass with zero managed issues. Phase N5 is complete.
 
 ### Phase N6: Port relics and potions
 
-- [ ] Port all 11 concrete STS1 relics in dependency order.
-- [ ] Port all six concrete STS1 potions with native targeting and consumption behavior.
-- [ ] Implement Monochrome Hairband through the verified post-victory hook/save order.
-- [ ] Verify deck-mutating relics through the shared deck command.
-- [ ] Verify save/reload, reward pools, duplication/removal, counters, icons, and ownership.
+- [x] Port all 11 concrete STS1 relics in dependency order.
+- [x] Port all six concrete STS1 potions with native targeting and consumption behavior.
+- [x] Implement Monochrome Hairband through the verified post-victory hook/save order.
+- [x] Verify deck-mutating relics through the shared deck command.
+- [x] Verify save/reload, reward pools, duplication/removal, counters, icons, and owner/participant filtering in the declared single-player support scope.
 
 Completion evidence: relic and potion parity is complete through a full character run.
 
-### Phase N7: Port the custom act, events, and enemies
+Execution record: `PHASE_N6_RELICS_AND_POTIONS.md`. The authoritative inventory reports 11 of 11 relics, six of six potions, and 25 of 25 player-relevant powers native. The focused installed-game contract, both language loaders, N3 and N5 regressions, Sakiko save/quit/reload, and vanilla regression pass with zero managed issues. Phase N6 is complete; the later N7 run passed natural new-game-to-victory and declared multiplayer unsupported for v0.1.0.
 
-- [ ] Re-audit current act, room, event, encounter, monster, intent, map, victory, and unlock registries.
-- [ ] Build The Oblivion as a vertical slice before bulk encounters.
-- [ ] Port the two STS1 events and all save/reload branches.
-- [ ] Port enemies, elites, bosses, intents, pools, VFX, music, and scenes in dependency order.
-- [ ] Keep unfinished rooms, events, and encounters out of generation.
-- [ ] Verify map generation, room history, act transition, encounter restart, rewards, and final-victory saves.
+### Phase N7: Harden and release
 
-Completion evidence: the custom act can be entered, saved, reloaded, completed, and exited without BaseLib.
-
-### Phase N8: Harden and release
-
-- [ ] Run a clean new-game-to-victory test on the recorded game version.
-- [ ] Run the complete save/reload matrix.
-- [ ] Test with BaseLib absent and with a representative unrelated mod set.
-- [ ] Audit model IDs, startup diagnostics, full-run logs, missing assets, localization, and patch targets.
-- [ ] Decide and document multiplayer support, then execute the declared support matrix.
-- [ ] Build and publish from a clean checkout using only documented local configuration.
-- [ ] Verify the release archive contains one self-contained Togawa folder and no undeclared assembly dependency.
-- [ ] Record the exact supported game version and known limitations.
+- [x] Run a clean new-game-to-victory test on the recorded game version.
+- [x] Run the complete save/reload matrix.
+- [x] Test with BaseLib absent and with a representative unrelated mod set.
+- [x] Audit model IDs, startup diagnostics, full-run logs, missing assets, localization, and patch targets.
+- [x] Decide and document multiplayer support. Multiplayer is unsupported in v0.1.0, so the conditional host/client matrix does not apply.
+- [x] Build and publish from an isolated clean source snapshot using only documented local configuration; a clean Git checkout remains pending only on explicit checkpoint authorization.
+- [x] Verify the release archive contains one self-contained Togawa folder and no undeclared assembly dependency.
+- [x] Record the exact supported game version and known limitations.
 
 Completion evidence: clean build, clean package, clean no-BaseLib load, stable save/reload, full-run proof, and reviewed release archive.
+
+Execution record: `PHASE_N7_HARDEN_AND_RELEASE.md`. The natural run reached victory on `v0.111.0` (`41cef1ea`), all six lifecycle saves and the final profile reloaded, no disabled card was generated, both localization loaders and all focused regressions passed, and the reviewed v0.1.0 archive is self-contained. Phase N7 is complete for the declared singleplayer support boundary.
 
 ## Non-negotiable gates
 
@@ -296,6 +291,7 @@ The native-first foundation is not complete unless all of these are true:
 - Existing `TOGAWASAKIKO-...` model IDs remain stable or have a tested migration.
 - All live models have valid native localization and resources.
 - No unfinished content can enter normal generation.
+- No custom act, event, enemy, encounter, intent, or exclusive ending asset is present in the release package.
 - Build does not deploy implicitly.
 - Save/reload proves state instead of assuming serialization works.
 - Every Harmony patch is narrow, version-audited, and covered by a runtime scenario.
@@ -303,7 +299,9 @@ The native-first foundation is not complete unless all of these are true:
 
 ## Immediate next work
 
-Execute Phase N5. Preserve the Phase N1 package gates, Phase N2 playable character regression, Phase N3 shared behavior contracts, and Phase N4 presentation/catalog guarantees while porting cards and powers in dependency-ordered, verified batches. Do not enable unfinished bulk behavior.
+Port execution is complete for the declared v0.1.0 singleplayer scope. Keep the validated package installed, preserve the disabled-card and custom-world exclusions, and wait for the user's explicit checkpoint phrase before committing or pushing the uncommitted port.
+
+Future multiplayer work is separately specified in `MULTIPLAYER_PORT_REQUIREMENTS_AND_TODO.md`; it does not change the v0.1.0 support claim.
 
 ## Current references
 
