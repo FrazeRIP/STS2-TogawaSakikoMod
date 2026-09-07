@@ -23,9 +23,27 @@ internal static class NativeRuntimeValidationPatch
     [
         NativeAssetPaths.CharacterIconScene,
         NativeAssetPaths.CharacterSelectBackground,
+        NativeAssetPaths.CharacterVisualsPreload,
         NativeAssetPaths.CharacterPortrait,
+        NativeAssetPaths.CharacterRestSitePortrait,
         NativeAssetPaths.CharacterIcon,
+        NativeAssetPaths.CharacterIconOutline,
+        NativeAssetPaths.CharacterSelectIcon,
+        NativeAssetPaths.CharacterSelectLockedIcon,
         NativeAssetPaths.CharacterMapMarker,
+        NativeAssetPaths.CharacterEnergyCounter,
+        NativeAssetPaths.CharacterMerchant,
+        NativeAssetPaths.CharacterRestSite,
+        NativeAssetPaths.CharacterTrail,
+        NativeAssetPaths.CharacterTransitionMaterial,
+        NativeAssetPaths.CharacterTransitionTexture,
+        NativeAssetPaths.CharacterArmPoint,
+        NativeAssetPaths.CharacterArmRock,
+        NativeAssetPaths.CharacterArmPaper,
+        NativeAssetPaths.CharacterArmScissors,
+        NativeAssetPaths.EnergyIcon,
+        NativeAssetPaths.RichTextEnergyIcon,
+        NativeAssetPaths.CardFrameMaterial,
         NativeAssetPaths.StrikePortrait,
         NativeAssetPaths.DefendPortrait,
         NativeAssetPaths.MoonlightSonataPortrait,
@@ -33,11 +51,17 @@ internal static class NativeRuntimeValidationPatch
         NativeAssetPaths.DesirePortrait,
         NativeAssetPaths.TwoMoonsPortrait,
         NativeAssetPaths.SilentFarewellPortrait,
+        NativeAssetPaths.GreetingsPortrait,
+        NativeAssetPaths.TirednessPortrait,
+        NativeAssetPaths.MelodyPortrait,
+        NativeAssetPaths.IdealPortrait,
         NativeAssetPaths.MonochromeHairbandIcon,
         NativeAssetPaths.MonochromeHairbandOutline,
         NativeAssetPaths.MonochromeHairbandBigIcon,
         NativeAssetPaths.DazzlingIcon,
-        NativeAssetPaths.DazzlingBigIcon
+        NativeAssetPaths.DazzlingBigIcon,
+        NativeAssetPaths.HypeIcon,
+        NativeAssetPaths.HypeBigIcon
     ];
 
     private static void Postfix()
@@ -46,10 +70,16 @@ internal static class NativeRuntimeValidationPatch
         ValidateCharacterRegistration();
         ValidateAssets();
         ValidateLocalization();
+        N3PureContractTests.Run();
+        N5PureContractTests.Run();
+        N4LocalizationDiagnostics.RunIfRequested();
+        N4PresentationDiagnostics.RunIfRequested();
         NativeSmokeTrace.MarkModelDbInitialized();
 
         Logger.Info(
             $"Native vertical slice ready. Language={LocManager.Instance.Language}, Models={NativeModelCatalog.GameplayModelCount}, ExternalModDependencies=0");
+        Logger.Info($"Phase N3 pure contract tests passed ({N3PureContractTests.AssertionCount} assertions).");
+        Logger.Info($"Phase N5 pure contract tests passed ({N5PureContractTests.AssertionCount} assertions).");
     }
 
     private static void ValidateStableIds()
@@ -101,13 +131,14 @@ internal static class NativeRuntimeValidationPatch
         [
             typeof(ASplitMomentCard),
             typeof(TwoMoonsCard),
-            typeof(SilentFarewellCard)
+            typeof(SilentFarewellCard),
+            typeof(GreetingsCard)
         ];
         if (rewardCardTypes.Length != expectedRewardCardTypes.Length ||
             rewardCardTypes.Except(expectedRewardCardTypes).Any())
         {
             throw new InvalidOperationException(
-                "The Phase N2 reward pool must contain exactly A Split Moment, Two Moons, and Silent Farewell.");
+                "The enabled reward pool must contain exactly A Split Moment, Two Moons, Silent Farewell, and Greetings.");
         }
     }
 
@@ -131,7 +162,11 @@ internal static class NativeRuntimeValidationPatch
             ModelDb.Card<ASplitMomentCard>(),
             ModelDb.Card<DesireCard>(),
             ModelDb.Card<TwoMoonsCard>(),
-            ModelDb.Card<SilentFarewellCard>()
+            ModelDb.Card<SilentFarewellCard>(),
+            ModelDb.Card<GreetingsCard>(),
+            ModelDb.Card<TirednessCard>(),
+            ModelDb.Card<MelodyCard>(),
+            ModelDb.Card<IdealCard>()
         ];
 
         _ = character.Title.GetFormattedText();
@@ -145,6 +180,10 @@ internal static class NativeRuntimeValidationPatch
         DazzlingPower power = ModelDb.Power<DazzlingPower>();
         _ = power.Title.GetFormattedText();
         _ = power.GetDumbHoverTip();
+
+        HypePower hype = ModelDb.Power<HypePower>();
+        _ = hype.Title.GetFormattedText();
+        _ = hype.GetDumbHoverTip();
 
         StarterRelicTogawaSakiko relic = ModelDb.Relic<StarterRelicTogawaSakiko>();
         _ = relic.Title.GetFormattedText();

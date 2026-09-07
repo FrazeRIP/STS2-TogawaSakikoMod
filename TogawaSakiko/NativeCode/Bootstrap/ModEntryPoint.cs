@@ -4,6 +4,7 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Debug;
 using MegaCrit.Sts2.Core.Modding;
 using TogawaSakiko.NativeCode.Content;
+using TogawaSakiko.NativeCode.Tracking;
 using GameLogger = MegaCrit.Sts2.Core.Logging.Logger;
 using LogType = MegaCrit.Sts2.Core.Logging.LogType;
 
@@ -13,7 +14,7 @@ namespace TogawaSakiko.NativeCode.Bootstrap;
 public static class ModEntryPoint
 {
     public const string ModId = "TogawaSakiko";
-    public const string ModVersion = "v0.1.0-dev.1";
+    public const string ModVersion = "v0.1.0-dev.2";
     public const string TargetGameVersion = "v0.111.0";
     public const string TargetGameCommit = "41cef1ea";
     public const string BootstrapProbePath = "res://TogawaSakiko/bootstrap/native_bootstrap_probe.tres";
@@ -26,6 +27,7 @@ public static class ModEntryPoint
 
         Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(assembly);
         new Harmony($"{ModId}.Native").PatchAll(assembly);
+        PowerChangeLedgerService.Initialize();
         NativeModelCatalog.Register();
 
         VerifyGameVersion();

@@ -7,7 +7,7 @@
         <AssemblyName>TogawaSakiko</AssemblyName>
         <RootNamespace>TogawaSakiko</RootNamespace>
         <Version>0.1.0</Version>
-        <InformationalVersion>0.1.0-native-bootstrap</InformationalVersion>
+        <InformationalVersion>0.1.0-native-phase-n3</InformationalVersion>
         <ImplicitUsings>true</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -28,11 +28,11 @@
     <ItemGroup Condition="Exists('$(Sts2DataDir)')">
         <Reference Include="0Harmony">
             <HintPath>$(Sts2DataDir)\0Harmony.dll</HintPath>
-            <Private>false</Private>
+            <Private>true</Private>
         </Reference>
         <Reference Include="sts2">
             <HintPath>$(Sts2DataDir)\sts2.dll</HintPath>
-            <Private>false</Private>
+            <Private>true</Private>
         </Reference>
     </ItemGroup>
 
@@ -75,7 +75,13 @@
         <Copy SourceFiles="@(NativeCodeStageFiles)" DestinationFolder="$(ModStagingPath)" />
     </Target>
 
-    <Target Name="ImportModAssets" DependsOnTargets="CheckGodotDependency">
+    <Target Name="BuildGodotEditorAssembly" DependsOnTargets="CheckGodotDependency">
+        <MSBuild Projects="$(MSBuildProjectFullPath)"
+                 Targets="Build"
+                 Properties="Configuration=Debug" />
+    </Target>
+
+    <Target Name="ImportModAssets" DependsOnTargets="BuildGodotEditorAssembly">
         <Exec Command="&quot;$(GodotPath)&quot; --headless --path &quot;$(MSBuildProjectDirectory)&quot; --import"
               EnvironmentVariables="MSBUILDDISABLENODEREUSE=1" />
     </Target>

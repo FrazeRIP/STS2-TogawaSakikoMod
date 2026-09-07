@@ -4,6 +4,10 @@
 
 ## Current Native Checkpoint
 
+> Checkpoint update, 2026-09-07: Phases N1 through N4 are complete and Phase N5 is active. Batch N5.1 is accepted, bringing the native card count to 11 of 95; see `docs/PHASE_N5_CARDS_AND_POWERS.md`. The older "Next phase: N3" bullet below is retained as migration history.
+
+> Historical checkpoint, 2026-09-06: Phases N1 through N4 were complete and Phase N5 was active; the N3 and N4 records and full parity inventory superseded the older "Next phase: N3" bullet.
+
 - Phase N1 no-BaseLib bootstrap/package: complete; see `docs/PHASE_N1_NATIVE_BOOTSTRAP.md`.
 - Phase N2 playable character vertical slice: complete; see `docs/PHASE_N2_NATIVE_CHARACTER_SLICE.md`.
 - Next phase: N3 shared behavior contracts.

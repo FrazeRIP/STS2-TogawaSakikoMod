@@ -1,5 +1,7 @@
 # TogawaSakiko Card Port Plan
 
+> Historical BaseLib-era approximation only. The authoritative source-derived checklist is `docs/FULL_PORT_PARITY_INVENTORY.md` with machine-readable evidence in `docs/FULL_PORT_PARITY_INVENTORY.json`. Use the STS1 Java implementation and localization as behavior truth; do not implement the simplifications below as parity behavior.
+
 ## Status Legend
 - IMPLEMENT — fully doable with available STS2/BaseLib API
 - TODO(reason) — needs unavailable API, write skeleton only

@@ -66,7 +66,7 @@ public sealed class TogawaSakiko : CharacterModel
 
     protected override string CharacterSelectIconPath => NativeAssetPaths.CharacterSelectIcon;
 
-    protected override string CharacterSelectLockedIconPath => NativeAssetPaths.CharacterSelectIcon;
+    protected override string CharacterSelectLockedIconPath => NativeAssetPaths.CharacterSelectLockedIcon;
 
     protected override string MapMarkerPath => NativeAssetPaths.CharacterMapMarker;
 

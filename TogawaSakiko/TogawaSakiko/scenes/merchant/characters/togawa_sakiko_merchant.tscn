@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://NativeCode/Presentation/Godot/SakikoMerchantCharacterNode.cs" id="1_merchant"]
+[ext_resource type="Texture2D" path="res://TogawaSakiko/images/character/image_alt.png" id="2_portrait"]
+
+[node name="TogawaSakikoMerchant" type="Node2D"]
+script = ExtResource("1_merchant")
+
+[node name="Visuals" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -169)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("2_portrait")

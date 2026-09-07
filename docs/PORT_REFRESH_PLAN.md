@@ -2,7 +2,9 @@
 
 > Execution update, 2026-09-06: the temporary BaseLib-backed checkpoint in this document is superseded by `NATIVE_FIRST_PORT_WORKFLOW.md`. Keep this document for its verified baseline, reverse-engineering notes, utility contracts, and later content phases, but do not execute its BaseLib-backed Phase 1 or BaseLib-removal Phase 2.
 
-> Current checkpoint, 2026-09-06: native-first Phases N1 and N2 are complete. The no-BaseLib package and playable character vertical slice are recorded in `PHASE_N1_NATIVE_BOOTSTRAP.md` and `PHASE_N2_NATIVE_CHARACTER_SLICE.md`. Phase N3 shared behavior contracts are next.
+> Current checkpoint, 2026-09-07: native-first Phases N1 through N4 are complete. Phase N5 is active, with its first dependency-ordered card batch accepted and recorded in `PHASE_N5_CARDS_AND_POWERS.md`; the current inventory reports 11 of 95 cards native.
+
+> Historical checkpoint, 2026-09-06: native-first Phases N1 through N4 were complete, with Phase N5 card/power behavior work next.
 
 Status: canonical execution checklist for resuming the port
 Baseline date: 2026-09-06
@@ -69,7 +71,7 @@ This subsection is the repository snapshot captured at the start of the refresh.
 
 - 125 C# source files are present: 124 under `TogawaSakikoCode` plus the older project-root initializer. The main groups are 96 under Cards, 17 under Powers, four under Character, and two under Relics.
 - Cards currently represent the full 95-card STS1 visual catalog plus one card base class. There are 95 small and 95 large card portraits, with matching filenames.
-- The STS1 project has 277 Java files, including 61 actions, 97 card files, 37 powers, 12 relics, seven potions, 12 monsters, 18 patches, seven effects, two events, and one dungeon.
+- The STS1 project has 277 Java files, including 61 actions, 97 card files, 37 powers, 12 relic files, seven potion files, 12 monsters, 18 patches, seven effects, two events, and one dungeon. The concrete model totals are 95 cards, 36 powers, 11 relics, and six potions after excluding infrastructure and abstract bases.
 - The STS2 port has only a starter relic and a potion base class. Events, monsters, the custom act, rewards, rooms, effects, and most relic/potion content are absent or empty folders.
 - 120 of 125 C# files import BaseLib. Removing BaseLib is therefore a migration, not a project-file-only change.
 - 44 source files contain TODO, placeholder, skeletal, or approximation markers. Approximate behaviors are not parity-complete.
@@ -205,14 +207,14 @@ Synchronized removal contract:
 
 Acceptance checklist:
 
-- [ ] Remove one of two identical card models and remove only its linked combat copy.
-- [ ] Remove linked copies correctly from each of the five combat piles.
-- [ ] Cancel/remove a linked card already in the play queue without leaving a node or action behind.
-- [ ] Remove outside combat.
-- [ ] Respect cards that cannot be removed.
-- [ ] Fire history and hooks exactly once and leave no card registered in the wrong state.
-- [ ] Save and reload after persistent add/remove.
-- [ ] Verify host/client and replay state when multiplayer support is enabled.
+- [x] Remove one of two identical card models and remove only its linked combat copy.
+- [x] Remove linked copies correctly from each of the five combat piles.
+- [x] Cancel/remove a linked card already in the play queue without leaving a node or action behind.
+- [x] Remove outside combat.
+- [x] Respect cards that cannot be removed.
+- [x] Fire history and hooks exactly once and leave no card registered in the wrong state.
+- [x] Save and reload after persistent add/remove.
+- [ ] Verify host/client and replay state when multiplayer support is enabled. Multiplayer remains disabled; single-player replay recording serialized the synchronized action successfully.
 
 ### Current/previous-round power ledger
 
@@ -228,12 +230,12 @@ The requested "buff gains" and the STS1 implementation are not identical: STS1 h
 
 Acceptance checklist:
 
-- [ ] Record new, stacked, reduced, duration-ticked, and fully removed powers.
-- [ ] Query current and previous round separately for every player and enemy.
-- [ ] Filter buffs versus debuffs without changing the underlying event record.
-- [ ] Handle multiple gains to the same power in one round.
-- [ ] Handle extra turns and multiple players without rotating early.
-- [ ] Reset between combats and after load/replay transitions.
+- [x] Record new, stacked, reduced, duration-ticked, and fully removed powers.
+- [x] Query current and previous round separately for every player and enemy.
+- [x] Filter buffs versus debuffs without changing the underlying event record.
+- [x] Handle multiple gains to the same power in one round.
+- [x] Handle extra turns and multiple players without rotating early.
+- [x] Reset between combats and after load/replay transitions.
 
 ### Copy a power/buff
 
@@ -250,11 +252,11 @@ Owned wrapper contract:
 
 Acceptance checklist:
 
-- [ ] Copy a normal stackable buff.
-- [ ] Copy an instanced and an instanced-per-applier power.
-- [ ] Copy dynamic-variable state without retaining the old owner or event handlers.
-- [ ] Verify temporary/duration powers and paired internal powers.
-- [ ] Reject or explicitly handle powers whose custom internal state cannot be reconstructed.
+- [x] Copy a normal stackable buff.
+- [x] Copy an instanced and an instanced-per-applier power.
+- [x] Copy dynamic-variable state without retaining the old owner or event handlers.
+- [x] Verify temporary/duration powers and paired internal powers.
+- [x] Reject or explicitly handle powers whose custom internal state cannot be reconstructed.
 
 ### Hype block-loss prevention
 
@@ -276,11 +278,11 @@ Implementation contract:
 
 Acceptance checklist:
 
-- [ ] Prevent turn-boundary clear and consume exactly one Hype.
-- [ ] Prevent a partial and a full explicit block-loss command and consume exactly one Hype.
-- [ ] Do nothing for zero/negative loss, zero block, no Hype, normal damage absorption, or combat teardown.
-- [ ] Interoperate deterministically with vanilla block-retention effects.
-- [ ] Work for player and enemy owners, matching the STS1 patch's creature-wide scope.
+- [x] Prevent turn-boundary clear and consume exactly one Hype.
+- [x] Prevent a partial and a full explicit block-loss command and consume exactly one Hype.
+- [x] Do nothing for zero/negative loss, zero block, no Hype, normal damage absorption, or combat teardown.
+- [x] Interoperate deterministically with vanilla block-retention effects.
+- [x] Work for player and enemy owners, matching the STS1 patch's creature-wide scope.
 
 ### Post-combat card gain and save
 
@@ -299,11 +301,11 @@ Implementation contract:
 
 Acceptance checklist:
 
-- [ ] Win an eligible combat and receive exactly one card.
-- [ ] Confirm the post-combat save already contains that card, then quit and reload.
-- [ ] Skip the excluded final/custom encounter.
-- [ ] Do not duplicate on reward-screen navigation, reload, or multiplayer callbacks.
-- [ ] Verify host authority if multiplayer support is enabled.
+- [x] Win an eligible combat and receive exactly one card.
+- [x] Confirm the post-combat save already contains that card, then quit and reload.
+- [x] Skip the excluded final/custom encounter.
+- [x] Do not duplicate on reward-screen navigation, reload, or multiplayer callbacks.
+- [ ] Verify host authority if multiplayer support is enabled. Multiplayer remains disabled, so this conditional gate was not triggered.
 
 ## Execution checklist
 
@@ -416,10 +418,10 @@ Completion evidence: all 95 cards and their required powers are either parity-co
 ### Phase 7: Relics and potions
 
 - [ ] Port the starter relic first and validate new-run/save/reload behavior.
-- [ ] Port all 12 STS1 relics by rarity and dependency.
+- [ ] Port all 11 concrete STS1 relics by rarity and dependency.
 - [ ] Implement Monochrome Hairband through `AfterCombatVictory` and the normal following game save.
 - [ ] Verify Blazing Hairband and any deck mutation relic through the shared deck command.
-- [ ] Port all seven STS1 potions with native targeting, consumption, reward-pool, and save behavior.
+- [ ] Port all six concrete STS1 potions with native targeting, consumption, reward-pool, and save behavior.
 - [ ] Validate relic/potion localization, icons, outlines, counters, flashes, and multiplayer ownership.
 - [ ] Verify relic removal, duplication, boss swap, and reward serialization where applicable.
 
@@ -473,14 +475,12 @@ A zero-test run, stale PCK, compile-only result, or main-menu-only result is not
 
 ## Immediate next work item
 
-Execute Phase N3 from `NATIVE_FIRST_PORT_WORKFLOW.md`:
+Execute Phase N5 from `NATIVE_FIRST_PORT_WORKFLOW.md`:
 
-1. implement persistent deck add and synchronized deck/combat removal through native commands;
-2. implement the signed current/previous-round power ledger for players and enemies;
-3. implement safe power cloning through the native clone lifecycle;
-4. implement Hype through the native block-clear hook plus the narrow explicit-loss compatibility patch;
-5. retain Monochrome Hairband's verified `AfterCombatVictory` and native-save path as the post-victory card-gain contract;
-6. run every utility acceptance scenario in this document while preserving the N1 package, N2 Sakiko gameplay/save/reload, and vanilla regression gates.
+1. derive the card/power dependency graph from the STS1 behavior source;
+2. port native-command-only models first in starter, common, uncommon, rare, token/special, and curse order;
+3. implement and verify base/upgraded behavior with exact ownership, piles, targeting, and save/replay semantics;
+4. enable each model only after focused actual-game evidence passes.
 
 Do not repair or compile the preserved BaseLib-era source tree, and do not enable bulk content before its dependencies and behavior are complete.
 

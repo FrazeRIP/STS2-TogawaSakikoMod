@@ -24,7 +24,13 @@ internal static class NativeStableIds
         [typeof(DesireCard)] = EntryPrefix + "DESIRE_CARD",
         [typeof(TwoMoonsCard)] = EntryPrefix + "TWO_MOONS_CARD",
         [typeof(SilentFarewellCard)] = EntryPrefix + "SILENT_FAREWELL_CARD",
+        [typeof(GreetingsCard)] = EntryPrefix + "GREETINGS_CARD",
+        [typeof(TirednessCard)] = EntryPrefix + "TIREDNESS_CARD",
+        [typeof(MelodyCard)] = EntryPrefix + "MELODY_CARD",
+        [typeof(IdealCard)] = EntryPrefix + "IDEAL_CARD",
         [typeof(DazzlingPower)] = EntryPrefix + "DAZZLING_POWER",
+        [typeof(HypePower)] = EntryPrefix + "HYPE_POWER",
+        [typeof(Tracking.PowerChangeLedgerHookModel)] = EntryPrefix + "POWER_CHANGE_LEDGER_HOOK_MODEL",
         [typeof(StarterRelicTogawaSakiko)] = EntryPrefix + "STARTER_RELIC_TOGAWA_SAKIKO"
     };
 

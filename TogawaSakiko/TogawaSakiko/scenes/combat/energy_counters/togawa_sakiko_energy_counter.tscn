@@ -1,0 +1,156 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://NativeCode/Presentation/Godot/SakikoEnergyCounterNode.cs" id="1_counter"]
+[ext_resource type="Texture2D" path="res://TogawaSakiko/images/character/energyorb/layer1.png" id="3_layer1"]
+[ext_resource type="Texture2D" path="res://TogawaSakiko/images/character/energyorb/layer2.png" id="4_layer2"]
+[ext_resource type="Texture2D" path="res://TogawaSakiko/images/character/energyorb/layer3.png" id="5_layer3"]
+[ext_resource type="Texture2D" path="res://TogawaSakiko/images/character/energyorb/layer4.png" id="6_layer4"]
+[ext_resource type="Texture2D" path="res://TogawaSakiko/images/character/energyorb/layer5.png" id="7_layer5"]
+[ext_resource type="Texture2D" path="res://TogawaSakiko/images/character/energyorb/cover.png" id="8_cover"]
+[ext_resource type="Script" path="res://NativeCode/Presentation/Godot/SakikoParticlesContainerNode.cs" id="9_particles"]
+[ext_resource type="Script" path="res://NativeCode/Presentation/Godot/SakikoEnergyLabelNode.cs" id="10_label"]
+
+[sub_resource type="SystemFont" id="SystemFont_sakiko"]
+font_names = PackedStringArray("Arial")
+font_weight = 700
+
+[node name="TogawaSakikoEnergyCounter" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 128.0
+offset_bottom = 128.0
+pivot_offset = Vector2(64, 64)
+script = ExtResource("1_counter")
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="EnergyVfxBack" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(64, 64)
+script = ExtResource("9_particles")
+
+[node name="Layers" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Layer1" type="TextureRect" parent="Layers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_layer1")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RotationLayers" type="Control" parent="Layers"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Layer2" type="TextureRect" parent="Layers/RotationLayers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(64, 64)
+mouse_filter = 2
+texture = ExtResource("4_layer2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Layer3" type="TextureRect" parent="Layers/RotationLayers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(64, 64)
+mouse_filter = 2
+texture = ExtResource("5_layer3")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Layer4" type="TextureRect" parent="Layers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("6_layer4")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Layer5" type="TextureRect" parent="Layers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("7_layer5")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Cover" type="TextureRect" parent="Layers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("8_cover")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EnergyVfxFront" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(64, 64)
+script = ExtResource("9_particles")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -29.0
+offset_right = -16.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.964706, 0.886275, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.188235)
+theme_override_colors/font_outline_color = Color(0.113725, 0.337255, 0.45098, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_outline_size = 16
+theme_override_fonts/font = SubResource("SystemFont_sakiko")
+theme_override_font_sizes/font_size = 36
+text = "3/3"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("10_label")
+MinFontSize = 32
+MaxFontSize = 36

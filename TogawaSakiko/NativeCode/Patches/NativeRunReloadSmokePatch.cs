@@ -17,7 +17,7 @@ internal static class NativeRunReloadSmokePatch
 
     private static void Postfix(ReadSaveResult<SerializableRun> __result)
     {
-        if (!NativeSmokeTrace.ReloadEnabled ||
+        if ((!NativeSmokeTrace.ReloadEnabled && !NativeSmokeTrace.ContractReloadEnabled) ||
             Interlocked.CompareExchange(ref _validationStarted, 1, 0) != 0)
         {
             return;
@@ -46,5 +46,20 @@ internal static class NativeRunReloadSmokePatch
 
         NativeSmokeTrace.ReloadInfo(
             $"deserialized Togawa Sakiko with Monochrome Hairband and {desireCount} Desire card(s).");
+
+        if (NativeSmokeTrace.ContractReloadEnabled)
+        {
+            int silentFarewellCount = player.Deck.Cards.Count(card => card is SilentFarewellCard);
+            int twoMoonsCount = player.Deck.Cards.Count(card => card is TwoMoonsCard);
+            if (desireCount != 1 || silentFarewellCount != 1 || twoMoonsCount != 0)
+            {
+                throw new InvalidOperationException(
+                    "The Phase N3 reloaded deck did not preserve exact add/removal results: " +
+                    $"Desire={desireCount}, SilentFarewell={silentFarewellCount}, TwoMoons={twoMoonsCount}.");
+            }
+
+            NativeSmokeTrace.ContractInfo(
+                "reload preserved exactly one Hairband Desire, one added Silent Farewell, and no removed Two Moons.");
+        }
     }
 }

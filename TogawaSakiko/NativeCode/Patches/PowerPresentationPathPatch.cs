@@ -14,6 +14,10 @@ internal static class PowerPackedIconPathPatch
         {
             __result = NativeAssetPaths.DazzlingIcon;
         }
+        else if (__instance is HypePower)
+        {
+            __result = NativeAssetPaths.HypeIcon;
+        }
     }
 }
 
@@ -26,6 +30,10 @@ internal static class PowerBigIconPathPatch
         {
             __result = NativeAssetPaths.DazzlingBigIcon;
         }
+        else if (__instance is HypePower)
+        {
+            __result = NativeAssetPaths.HypeBigIcon;
+        }
     }
 }
 
@@ -37,6 +45,10 @@ internal static class PowerBigBetaIconPathPatch
         if (__instance is DazzlingPower)
         {
             __result = NativeAssetPaths.DazzlingBigIcon;
+        }
+        else if (__instance is HypePower)
+        {
+            __result = NativeAssetPaths.HypeBigIcon;
         }
     }
 }

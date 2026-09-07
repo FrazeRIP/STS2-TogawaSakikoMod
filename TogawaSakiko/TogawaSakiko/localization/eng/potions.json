@@ -1,0 +1,14 @@
+{
+  "TOGAWASAKIKO-CHOCOLATE_MILK_JELLY.description": "Gain [blue]{Potency}[/blue] [gold]Free[/gold] [gold]Attack[/gold].",
+  "TOGAWASAKIKO-CHOCOLATE_MILK_JELLY.title": "Chocolate Milk Jelly",
+  "TOGAWASAKIKO-EARL_GREY_TEA.description": "Gain [blue]{Potency}[/blue] [gold]Dazzling[/gold].",
+  "TOGAWASAKIKO-EARL_GREY_TEA.title": "Earl Grey Tea",
+  "TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER.description": "At the beginning of your next turn, gain [blue]{Potency}[/blue] [gold]Block[/gold].",
+  "TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER.title": "Freshly Squeezed Cucumber",
+  "TOGAWASAKIKO-HALLUCINATION_POTION.description": "Gain [blue]{Potency}[/blue] [gold]Dazzling[/gold] . At the end of your turn, lose [blue]{Potency}[/blue] [gold]Dazzling[/gold] .",
+  "TOGAWASAKIKO-HALLUCINATION_POTION.title": "Hallucination Potion",
+  "TOGAWASAKIKO-MATCHA_PARFAIT.description": "Add [blue]{Potency}[/blue] [gold]Melody[/gold] to your hand that deals random damage between [blue]6[/blue] and [blue]30[/blue].",
+  "TOGAWASAKIKO-MATCHA_PARFAIT.title": "Matcha Parfait",
+  "TOGAWASAKIKO-ORANGE_MILK_JELLY.description": "Gain [blue]{Potency}[/blue] [gold]Double[/gold] [gold]Tap[/gold].",
+  "TOGAWASAKIKO-ORANGE_MILK_JELLY.title": "Orange Milk Jelly"
+}

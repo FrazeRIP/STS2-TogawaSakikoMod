@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": {
+    "inventory": "docs/FULL_PORT_PARITY_INVENTORY.json",
+    "sts1Localization": "X:\\Projects\\SlayTheSpire2\\0REPO\\STS1-TogawaSakikoMod\\src\\main\\resources\\togawasakikomod\\localization"
+  },
+  "generatedCountsPerLanguage": {
+    "cards": 190,
+    "powers": 102,
+    "relics": 34,
+    "potions": 12,
+    "cardKeywords": 28
+  },
+  "sourceKeywordKeys": {
+    "zhs": [
+      "{modID}:DazzlingPower",
+      "{modID}:DolorisPower",
+      "{modID}:GodsCreationPower",
+      "{modID}:HypePower",
+      "{modID}:KingsPower",
+      "{modID}:MortisPower",
+      "{modID}:OblivionisPower",
+      "{modID}:Phantoms",
+      "{modID}:Phantoms+",
+      "{modID}:Remove",
+      "{modID}:Symbol",
+      "{modID}:Symbol+",
+      "{modID}:TimorisPower",
+      "{modID}:Unremoveable"
+    ],
+    "eng": [
+      "{modID}:DazzlingPower",
+      "{modID}:DolorisPower",
+      "{modID}:GodsCreationPower",
+      "{modID}:HypePower",
+      "{modID}:KingsPower",
+      "{modID}:MortisPower",
+      "{modID}:OblivionisPower",
+      "{modID}:Phantoms",
+      "{modID}:Phantoms+",
+      "{modID}:Purge",
+      "{modID}:Symbol",
+      "{modID}:TimorisPower",
+      "{modID}:Unremoveable"
+    ]
+  },
+  "sourceCardDynamicTokenDifferences": [
+    {
+      "card": "AsYourHeartDesires",
+      "field": "DESCRIPTION",
+      "englishTokens": [],
+      "simplifiedChineseTokens": [
+        "!M!"
+      ]
+    }
+  ],
+  "knownCorrectionsAndPolicies": [
+    {
+      "scope": "English card title",
+      "source": "Mas?uerade Rhapsody Re?uest",
+      "native": "Masquerade Rhapsody Request",
+      "reason": "The class, art filename, and related relic consistently establish the corrupted letters as q."
+    },
+    {
+      "scope": "English spelling",
+      "source": "repalce / begining / enemires / apperance",
+      "native": "replace / beginning / enemies / appearance",
+      "reason": "Provable spelling corrections; behavior and meaning are unchanged."
+    },
+    {
+      "scope": "Simplified Chinese Frail term",
+      "source": "脆弱",
+      "native": "易伤",
+      "reason": "EdgeOfBreakdown applies FrailPower; the native game term is standardized for the eventual Frail hover tip."
+    },
+    {
+      "scope": "Keyword key alignment",
+      "source": "English Purge versus Simplified Chinese Remove",
+      "native": "TOGAWASAKIKO-PURGE",
+      "reason": "Both records describe the same permanent deck-removal mechanic."
+    },
+    {
+      "scope": "English upgraded Symbol keyword",
+      "source": "Missing",
+      "native": "Synthesized Symbol+ entry",
+      "reason": "Simplified Chinese and upgraded AveMujica behavior prove the upgraded keyword exists; English text is derived from the five upgraded Symbol card names."
+    },
+    {
+      "scope": "Abstract localization scaffolding",
+      "source": "RelicID and PotionID",
+      "native": "Excluded",
+      "reason": "The matching Java classes are abstract bases, not player-facing models."
+    },
+    {
+      "scope": "Inherited power presentation",
+      "source": "PlayerFilightPower and MonsterVigorPower have no custom localization",
+      "native": "Reuse STS2 Flight and Vigor presentation",
+      "reason": "Both STS1 classes inherit the corresponding base-game power."
+    }
+  ],
+  "pendingSourceFamilies": [
+    {
+      "file": "CharacterStrings.json",
+      "englishRecordCount": 3,
+      "simplifiedChineseRecordCount": 3,
+      "englishOnlyKeys": [],
+      "simplifiedChineseOnlyKeys": [],
+      "templateScaffoldKeys": [],
+      "behaviorLinkedRecordCount": 3,
+      "status": "Inventoried source only; emit in the phase that implements the owning behavior."
+    },
+    {
+      "file": "EventStrings.json",
+      "englishRecordCount": 2,
+      "simplifiedChineseRecordCount": 2,
+      "englishOnlyKeys": [],
+      "simplifiedChineseOnlyKeys": [],
+      "templateScaffoldKeys": [
+        "${modID}:EventID"
+      ],
+      "behaviorLinkedRecordCount": 1,
+      "status": "Inventoried source only; emit in the phase that implements the owning behavior."
+    },
+    {
+      "file": "MonsterStrings.json",
+      "englishRecordCount": 10,
+      "simplifiedChineseRecordCount": 10,
+      "englishOnlyKeys": [],
+      "simplifiedChineseOnlyKeys": [],
+      "templateScaffoldKeys": [],
+      "behaviorLinkedRecordCount": 10,
+      "status": "Inventoried source only; emit in the phase that implements the owning behavior."
+    },
+    {
+      "file": "UIStrings.json",
+      "englishRecordCount": 14,
+      "simplifiedChineseRecordCount": 14,
+      "englishOnlyKeys": [],
+      "simplifiedChineseOnlyKeys": [],
+      "templateScaffoldKeys": [
+        "${modID}:Example"
+      ],
+      "behaviorLinkedRecordCount": 13,
+      "status": "Inventoried source only; emit in the phase that implements the owning behavior."
+    },
+    {
+      "file": "OrbStrings.json",
+      "englishRecordCount": 1,
+      "simplifiedChineseRecordCount": 1,
+      "englishOnlyKeys": [],
+      "simplifiedChineseOnlyKeys": [],
+      "templateScaffoldKeys": [
+        "${modID}:OrbID"
+      ],
+      "behaviorLinkedRecordCount": 0,
+      "status": "Inventoried source only; emit in the phase that implements the owning behavior."
+    },
+    {
+      "file": "CreditStrings.json",
+      "englishRecordCount": 3,
+      "simplifiedChineseRecordCount": 3,
+      "englishOnlyKeys": [],
+      "simplifiedChineseOnlyKeys": [],
+      "templateScaffoldKeys": [],
+      "behaviorLinkedRecordCount": 3,
+      "status": "Inventoried source only; emit in the phase that implements the owning behavior."
+    }
+  ],
+  "unconvertedLegacyMarkers": [],
+  "generatedLanguageKeyMismatches": []
+}

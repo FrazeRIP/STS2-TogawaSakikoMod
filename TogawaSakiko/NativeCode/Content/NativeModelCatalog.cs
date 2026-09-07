@@ -7,7 +7,7 @@ namespace TogawaSakiko.NativeCode.Content;
 
 internal static class NativeModelCatalog
 {
-    public const int GameplayModelCount = 13;
+    public const int GameplayModelCount = 19;
 
     private static bool _registered;
 
@@ -25,6 +25,10 @@ internal static class NativeModelCatalog
         ModHelper.AddModelToPool<TogawaSakikoCardPool, DesireCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, TwoMoonsCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, SilentFarewellCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, GreetingsCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, TirednessCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, MelodyCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, IdealCard>();
         ModHelper.AddModelToPool<TogawaSakikoRelicPool, StarterRelicTogawaSakiko>();
 
         _registered = true;

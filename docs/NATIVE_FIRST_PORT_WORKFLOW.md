@@ -168,7 +168,7 @@ Game discovers TogawaSakiko.json
 - [x] Confirm that BaseLib is the current community-default workflow but conflicts with this release boundary.
 - [ ] Extract the installed PCK with GDRE Tools into a versioned directory outside Git.
 - [x] Record the exact native scenes, node topology, resources, and dimensions required by the first character vertical slice.
-- [ ] Produce the complete STS1-to-STS2 parity inventory.
+- [x] Produce the complete STS1-to-STS2 parity inventory.
 - [ ] Classify each old C# BaseLib usage as native API, owned helper, narrow patch, or content rewrite.
 
 Completion evidence: every source content item and every BaseLib-era dependency has an explicit destination before bulk migration begins.
@@ -214,25 +214,29 @@ Execution record: `PHASE_N2_NATIVE_CHARACTER_SLICE.md`.
 
 ### Phase N3: Implement shared behavior contracts
 
-- [ ] Implement persistent deck add and synchronized deck/combat removal through native commands.
-- [ ] Implement the signed current/previous-round power ledger for every player and enemy.
-- [ ] Implement safe power cloning through the native clone lifecycle.
-- [ ] Implement Hype using the native block-clear hook and one narrow explicit-loss patch.
-- [ ] Implement post-victory card gain through `AfterCombatVictory` and the following native save.
-- [ ] Execute every acceptance scenario in `PORT_REFRESH_PLAN.md` for these utilities.
-- [ ] Add automated tests for pure selection/state logic and real-game tests for hook/command ordering.
+- [x] Implement persistent deck add and synchronized deck/combat removal through native commands.
+- [x] Implement the signed current/previous-round power ledger for every player and enemy.
+- [x] Implement safe power cloning through the native clone lifecycle.
+- [x] Implement Hype using the native block-clear hook and one narrow explicit-loss patch.
+- [x] Implement post-victory card gain through `AfterCombatVictory` and the following native save.
+- [x] Execute every applicable acceptance scenario in `PORT_REFRESH_PLAN.md` for these utilities.
+- [x] Add automated tests for pure selection/state logic and real-game tests for hook/command ordering.
 
 Completion evidence: all utility acceptance scenarios pass in a no-BaseLib game session.
 
+Execution record: `PHASE_N3_SHARED_BEHAVIOR_CONTRACTS.md`. Multiplayer-conditional scenarios remain explicitly unverified because multiplayer support is not enabled.
+
 ### Phase N4: Complete presentation and content inventory
 
-- [ ] Finish character selection, in-combat visuals, top-panel icon, map marker, energy UI, card frames, rest site, merchant, and multiplayer-facing assets.
-- [ ] Validate all 95 small/large card-art pairs against stable IDs and runtime paths.
-- [ ] Port every power, relic, and potion icon into the parity inventory.
-- [ ] Port exact English and Simplified Chinese localization into native JSON.
-- [ ] Render every planned model in a development gallery without enabling behaviorless content in normal pools.
+- [x] Finish character selection, in-combat visuals, top-panel icon, map marker, energy UI, card frames, rest site, merchant, and multiplayer-facing assets.
+- [x] Validate all 95 small/large card-art pairs against stable IDs and runtime paths.
+- [x] Port every power, relic, and potion icon into the parity inventory.
+- [x] Port exact English and Simplified Chinese localization into native JSON.
+- [x] Render every planned model in a development gallery without enabling behaviorless content in normal pools.
 
 Completion evidence: every planned visual/localization entry resolves without missing-resource or missing-key logs.
+
+Inventory record: `FULL_PORT_PARITY_INVENTORY.md` and `FULL_PORT_PARITY_INVENTORY.json`. The source sync is reproducible through `tools/Sync-Sts1PresentationAssets.ps1`; it proves 94 original card-art pairs, one exact-resolution generated placeholder pair, 34 custom power icon pairs plus two intentional base-game presentation reuses, 11 relic icon sets, and six potion layer sets. Runtime presentation, localization, gallery, package, save/reload, and vanilla regression evidence is recorded in `PHASE_N4_COMPLETE_PRESENTATION_AND_INVENTORY.md`.
 
 ### Phase N5: Port cards and powers by dependency
 
@@ -246,10 +250,12 @@ Completion evidence: every planned visual/localization entry resolves without mi
 
 Completion evidence: all 95 cards are parity-complete and enabled or explicitly disabled with no route into normal play.
 
+Current execution record: `PHASE_N5_CARDS_AND_POWERS.md`. Batch N5.1 is accepted with Greetings, Tiredness, Melody, and Ideal; the authoritative inventory currently reports 11 of 95 cards and 2 of 36 powers native. Phase N5 remains active.
+
 ### Phase N6: Port relics and potions
 
-- [ ] Port all 12 STS1 relics in dependency order.
-- [ ] Port all seven STS1 potions with native targeting and consumption behavior.
+- [ ] Port all 11 concrete STS1 relics in dependency order.
+- [ ] Port all six concrete STS1 potions with native targeting and consumption behavior.
 - [ ] Implement Monochrome Hairband through the verified post-victory hook/save order.
 - [ ] Verify deck-mutating relics through the shared deck command.
 - [ ] Verify save/reload, reward pools, duplication/removal, counters, icons, and ownership.
@@ -297,7 +303,7 @@ The native-first foundation is not complete unless all of these are true:
 
 ## Immediate next work
 
-Execute Phase N3. Preserve the Phase N1 package gates and the Phase N2 playable character regression while implementing the five shared behavior contracts and their acceptance scenarios. Do not expand into bulk card content until those contracts pass in a no-BaseLib game session.
+Execute Phase N5. Preserve the Phase N1 package gates, Phase N2 playable character regression, Phase N3 shared behavior contracts, and Phase N4 presentation/catalog guarantees while porting cards and powers in dependency-ordered, verified batches. Do not enable unfinished bulk behavior.
 
 ## Current references
 

@@ -1,0 +1,3669 @@
+{
+  "schemaVersion": 1,
+  "baseline": "Slay the Spire 2 v0.111.0 (41cef1ea)",
+  "textureCount": 373,
+  "audioCount": 58,
+  "resourceCount": 10,
+  "localizationFileCount": 15,
+  "textures": [
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-A_SPLIT_MOMENT_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/asplitmomentcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-A_SPLIT_MOMENT_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/asplitmomentcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-ACCOMPLICE_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/accomplicecard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-ACCOMPLICE_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/accomplicecard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-ALEA_IACTA_EST_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/aleaiactaestcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-ALEA_IACTA_EST_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/aleaiactaestcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-AMORIS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/amoriscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-AMORIS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/amoriscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-ANGLES_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/anglescard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-ANGLES_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/anglescard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-ARE_THESE_LYRICS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/aretheselyricscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-ARE_THESE_LYRICS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/aretheselyricscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-AS_YOUR_HEART_DESIRES_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/asyourheartdesirescard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-AS_YOUR_HEART_DESIRES_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/asyourheartdesirescard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-AUTHORITY_RESTORATION_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/authorityrestorationcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-AUTHORITY_RESTORATION_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/authorityrestorationcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-AVE_MUJICA_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/avemujicacard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-AVE_MUJICA_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/avemujicacard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-BAND_INVITATION_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/bandinvitationcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-BAND_INVITATION_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/bandinvitationcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-BLACK_AND_WHITE_KEYS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/blackandwhitekeyscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-BLACK_AND_WHITE_KEYS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/blackandwhitekeyscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-BLACK_BIRTHDAY_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/blackbirthdaycard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-BLACK_BIRTHDAY_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/blackbirthdaycard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-BLACK_KEYS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/blackkeyscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-BLACK_KEYS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/blackkeyscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-BUDGET_BENTO_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/budgetbentocard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-BUDGET_BENTO_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/budgetbentocard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CAREFREE_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/carefreecard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CAREFREE_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/carefreecard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CHARISMATIC_FORM_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/charismaticformcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CHARISMATIC_FORM_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/charismaticformcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CHOIR_S_CHOIR_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/choirschoircard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CHOIR_S_CHOIR_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/choirschoircard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CLOCK_OUT_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/clockoutcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CLOCK_OUT_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/clockoutcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-COUNTING_STARS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/countingstarscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-COUNTING_STARS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/countingstarscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CRUCIFIX_X_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/crucifixxcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CRUCIFIX_X_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/crucifixxcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CRUELTY_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/crueltycard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CRUELTY_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/crueltycard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CRYCHIC_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/crychiccard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CRYCHIC_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/crychiccard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CURIOSITY_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/curiositycard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-CURIOSITY_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/curiositycard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-DARK_HEAVEN_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/darkheavencard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-DARK_HEAVEN_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/darkheavencard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-DATEN_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/datencard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-DATEN_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/datencard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-DEFEND_TOGAWA_SAKIKO",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/defendtogawasakiko.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-DEFEND_TOGAWA_SAKIKO",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/defendtogawasakiko.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-DESIRE_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/desirecard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-DESIRE_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/desirecard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-DESU_WA_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/desuwacard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-DESU_WA_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/desuwacard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-DOLORIS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/doloriscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-DOLORIS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/doloriscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-EDGE_OF_BREAKDOWN_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/edgeofbreakdowncard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-EDGE_OF_BREAKDOWN_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/edgeofbreakdowncard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-ENDURANCE_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/endurancecard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-ENDURANCE_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/endurancecard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-ETHER_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/ethercard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-ETHER_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/ethercard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-FALLEN_FLOWERS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/fallenflowerscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-FALLEN_FLOWERS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/fallenflowerscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-FEARLESS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/fearlesscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-FEARLESS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/fearlesscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-GEORGETTE_ME_GEORGETTE_YOU_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/georgettemegeorgetteyoucard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-GEORGETTE_ME_GEORGETTE_YOU_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/georgettemegeorgetteyoucard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-GREETINGS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/greetingscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-GREETINGS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/greetingscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-HACHIBOUSEI_DANCE_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/hachibouseidancecard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-HACHIBOUSEI_DANCE_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/hachibouseidancecard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-HEARTS_BARRIER_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/heartsbarriercard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-HEARTS_BARRIER_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/heartsbarriercard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-I_WANT_TO_BE_YOUR_GOD_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/iwanttobeyourgodcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-I_WANT_TO_BE_YOUR_GOD_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/iwanttobeyourgodcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-IDEAL_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/idealcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-IDEAL_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/idealcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-IMPRISONED_XI_I_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/imprisonedxiicard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-IMPRISONED_XI_I_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/imprisonedxiicard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-INNER_CRY_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/innercrycard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-INNER_CRY_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/innercrycard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-KAO_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/kaocard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-KAO_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/kaocard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-KILL_KI_SS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/killkisscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-KILL_KI_SS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/killkisscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-KINDNESS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/kindnesscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-KINDNESS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/kindnesscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-KINGS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/kingscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-KINGS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/kingscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-MASKS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/maskscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-MASKS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/maskscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-MASQUERADE_RHAPSODY_REQUEST_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/masqueraderhapsodyrequestcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-MASQUERADE_RHAPSODY_REQUEST_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/masqueraderhapsodyrequestcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-MELODY_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/melodycard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-MELODY_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/melodycard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-MEMENTO_MORI_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/mementomoricard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-MEMENTO_MORI_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/mementomoricard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-MORTIS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/mortiscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-MORTIS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/mortiscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-NEVER_GIVE_YOU_UP_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/nevergiveyouupcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-NEVER_GIVE_YOU_UP_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/nevergiveyouupcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-NUMBERS_AND_FACES_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/numbersandfacescard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-NUMBERS_AND_FACES_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/numbersandfacescard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-OBLIVIONIS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/oblivioniscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-OBLIVIONIS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/oblivioniscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-OUR_SONG_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/oursongcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-OUR_SONG_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/oursongcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PASSION_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/passioncard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PASSION_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/passioncard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PERDERE_OMNIA_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/perdereomniacard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PERDERE_OMNIA_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/perdereomniacard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PERFECTION_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/perfectioncard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PERFECTION_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/perfectioncard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PHANTOM_OF_MUTSUMI_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/phantomofmutsumicard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PHANTOM_OF_MUTSUMI_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/phantomofmutsumicard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PHANTOM_OF_SAKIKO_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/phantomofsakikocard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PHANTOM_OF_SAKIKO_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/phantomofsakikocard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PHANTOM_OF_SOYO_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/phantomofsoyocard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PHANTOM_OF_SOYO_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/phantomofsoyocard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PHANTOM_OF_TAKI_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/phantomoftakicard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PHANTOM_OF_TAKI_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/phantomoftakicard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PHANTOM_OF_TOMORI_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/phantomoftomoricard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PHANTOM_OF_TOMORI_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/phantomoftomoricard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PRIDE_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/pridecard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PRIDE_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/pridecard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PRIMO_DIE_IN_SCAENA_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/primodieinscaenacard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PRIMO_DIE_IN_SCAENA_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/primodieinscaenacard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PROTECTION_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/protectioncard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-PROTECTION_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/protectioncard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-QUAERERE_LUMINA_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/quaerereluminacard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-QUAERERE_LUMINA_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/quaerereluminacard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-RADIANCE_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/radiancecard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-RADIANCE_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/radiancecard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-RAISE_THE_BET_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/raisethebetcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-RAISE_THE_BET_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/raisethebetcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-RHINOCEROS_BEETLE_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/rhinocerosbeetlecard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-RHINOCEROS_BEETLE_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/rhinocerosbeetlecard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SEIZE_THE_FATE_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/seizethefatecard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SEIZE_THE_FATE_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/seizethefatecard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SHARED_DESTINY_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/shareddestinycard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SHARED_DESTINY_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/shareddestinycard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SILENT_FAREWELL_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/silentfarewellcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SILENT_FAREWELL_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/silentfarewellcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SORA_NO_MUSICA_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/soranomusicacard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SORA_NO_MUSICA_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/soranomusicacard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SPRING_SUNLIGHT_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/springsunlightcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SPRING_SUNLIGHT_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/springsunlightcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-STAY_ELEGANCE_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/stayelegancecard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-STAY_ELEGANCE_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/stayelegancecard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-STRIKE_TOGAWA_SAKIKO",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/striketogawasakiko.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-STRIKE_TOGAWA_SAKIKO",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/striketogawasakiko.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SYMBOL_I_FIRE_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/symbolifirecard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SYMBOL_I_FIRE_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/symbolifirecard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SYMBOL_II_AIR_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/symboliiaircard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SYMBOL_II_AIR_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/symboliiaircard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SYMBOL_II_I_WATER_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/symboliiiwatercard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SYMBOL_II_I_WATER_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/symboliiiwatercard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SYMBOL_IV_EARTH_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/symbolivearthcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-SYMBOL_IV_EARTH_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/symbolivearthcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-THE_GIRL_WITH_FLAXEN_HAIR_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/thegirlwithflaxenhaircard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-THE_GIRL_WITH_FLAXEN_HAIR_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/thegirlwithflaxenhaircard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-THE_MOONLIGHT_SONATA_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/themoonlightsonatacard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-THE_MOONLIGHT_SONATA_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/themoonlightsonatacard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-TIMORIS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/timoriscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-TIMORIS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/timoriscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-TIREDNESS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/tirednesscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-TIREDNESS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/tirednesscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-TWO_MOONS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/twomoonscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-TWO_MOONS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/twomoonscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-UTOPIA_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/utopiacard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-UTOPIA_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/utopiacard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-VERITAS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/veritascard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-VERITAS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/veritascard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-VOICE_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/voicecard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-VOICE_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/voicecard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-WEAKNESS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/weaknesscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Generated placeholder"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-WEAKNESS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/weaknesscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Generated placeholder"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-WHITE_KEYS_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/whitekeyscard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-WHITE_KEYS_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/whitekeyscard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-WISH_FULFILLED_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/wishfulfilledcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-WISH_FULFILLED_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/wishfulfilledcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-WISH_TO_BECOME_HUMAN_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/wishtobecomehumancard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-WISH_TO_BECOME_HUMAN_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/wishtobecomehumancard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-WISH_YOU_GOOD_LUCK_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/wishyougoodluckcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-WISH_YOU_GOOD_LUCK_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/wishyougoodluckcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-WORLDVIEW_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/worldviewcard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-WORLDVIEW_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/worldviewcard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-CHARISMATIC_FORM_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/charismaticformpower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-CHARISMATIC_FORM_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/charismaticformpower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-CRUELTY_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/crueltypower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-CRUELTY_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/crueltypower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-CRYCHIC_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/crychicpower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-CRYCHIC_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/crychicpower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-DAZZLING_DOWN_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/dazzlingdownpower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-DAZZLING_DOWN_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/dazzlingdownpower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-DAZZLING_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/dazzlingpower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-DAZZLING_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/dazzlingpower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-DOLORIS_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/dolorispower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-DOLORIS_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/dolorispower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-EARNEST_CRY_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/earnestcrypower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-EARNEST_CRY_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/earnestcrypower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-ENDURANCE_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/endurancepower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-ENDURANCE_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/endurancepower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-FEARLESS_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/fearlesspower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-FEARLESS_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/fearlesspower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-FORWARD_RESOLVE_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/forwardresolvepower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-FORWARD_RESOLVE_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/forwardresolvepower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/freshlysqueezedcucumberpower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/freshlysqueezedcucumberpower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-GIRL_OF_SPRING_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/girlofspringpower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-GIRL_OF_SPRING_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/girlofspringpower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-GODS_CREATION_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/godscreationpower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-GODS_CREATION_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/godscreationpower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-HYPE_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/hypepower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-HYPE_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/hypepower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-KINGS_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/kingspower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-KINGS_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/kingspower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-MONSTER_DIVINITY_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/monsterdivinitypower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-MONSTER_DIVINITY_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/monsterdivinitypower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-MORTIS_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/mortispower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-MORTIS_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/mortispower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-OBLIVIONIS_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/oblivionispower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-OBLIVIONIS_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/oblivionispower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-OUR_SONG_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/oursongpower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-OUR_SONG_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/oursongpower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-PERDERE_OMNIA_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/perdereomniapower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-PERDERE_OMNIA_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/perdereomniapower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-PRIDE_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/pridepower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-PRIDE_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/pridepower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-PRIMO_DIE_IN_SCAENA_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/primodieinscaenapower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-PRIMO_DIE_IN_SCAENA_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/primodieinscaenapower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-RESTLESS_IDEAL_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/restlessidealpower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-RESTLESS_IDEAL_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/restlessidealpower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-SEIZE_THE_FATE_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/seizethefatepower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-SEIZE_THE_FATE_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/seizethefatepower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-SHARED_DESTINY_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/shareddestinypower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-SHARED_DESTINY_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/shareddestinypower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-SILENT_WOUND_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/silentwoundpower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-SILENT_WOUND_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/silentwoundpower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-STRENGTH_UP_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/strengthuppower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-STRENGTH_UP_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/strengthuppower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-TEMPORAL_LONGING_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/temporallongingpower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-TEMPORAL_LONGING_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/temporallongingpower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-TIMORIS_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/timorispower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-TIMORIS_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/timorispower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-UNCLAIMED_PROMISE_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/unclaimedpromisepower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-UNCLAIMED_PROMISE_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/unclaimedpromisepower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-UNFADING_YEARNING_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/unfadingyearningpower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-UNFADING_YEARNING_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/unfadingyearningpower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-VOICED_GAZE_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/voicedgazepower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-VOICED_GAZE_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/voicedgazepower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-WISH_YOU_GOOD_LUCK_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/wishyougoodluckpower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-WISH_YOU_GOOD_LUCK_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/wishyougoodluckpower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-WORLDVIEW_POWER",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/powers/worldviewpower.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "power",
+      "owner": "TOGAWASAKIKO-WORLDVIEW_POWER",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/powers/big/worldviewpower.png",
+      "width": 84,
+      "height": 84,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-BLAZING_HAIRBAND",
+      "slot": "icon",
+      "path": "res://TogawaSakiko/images/relics/blazinghairband.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-BLAZING_HAIRBAND",
+      "slot": "outline",
+      "path": "res://TogawaSakiko/images/relics/blazinghairband_outline.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-BLAZING_HAIRBAND",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/relics/big/blazinghairband.png",
+      "width": 256,
+      "height": 256,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-COLORFUL_NOTEBOOK",
+      "slot": "icon",
+      "path": "res://TogawaSakiko/images/relics/colorfulnotebook.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-COLORFUL_NOTEBOOK",
+      "slot": "outline",
+      "path": "res://TogawaSakiko/images/relics/colorfulnotebook_outline.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-COLORFUL_NOTEBOOK",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/relics/big/colorfulnotebook.png",
+      "width": 256,
+      "height": 256,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-CUTE_ANIMAL_BAND_AID",
+      "slot": "icon",
+      "path": "res://TogawaSakiko/images/relics/cuteanimalbandaid.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-CUTE_ANIMAL_BAND_AID",
+      "slot": "outline",
+      "path": "res://TogawaSakiko/images/relics/cuteanimalbandaid_outline.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-CUTE_ANIMAL_BAND_AID",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/relics/big/cuteanimalbandaid.png",
+      "width": 256,
+      "height": 256,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-FOUNTAIN_DRINK",
+      "slot": "icon",
+      "path": "res://TogawaSakiko/images/relics/fountaindrink.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-FOUNTAIN_DRINK",
+      "slot": "outline",
+      "path": "res://TogawaSakiko/images/relics/fountaindrink_outline.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-FOUNTAIN_DRINK",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/relics/big/fountaindrink.png",
+      "width": 256,
+      "height": 256,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-GOLDEN_POCKET_WATCH",
+      "slot": "icon",
+      "path": "res://TogawaSakiko/images/relics/goldenpocketwatch.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-GOLDEN_POCKET_WATCH",
+      "slot": "outline",
+      "path": "res://TogawaSakiko/images/relics/goldenpocketwatch_outline.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-GOLDEN_POCKET_WATCH",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/relics/big/goldenpocketwatch.png",
+      "width": 256,
+      "height": 256,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-MASQUERADE_MASK",
+      "slot": "icon",
+      "path": "res://TogawaSakiko/images/relics/masquerademask.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-MASQUERADE_MASK",
+      "slot": "outline",
+      "path": "res://TogawaSakiko/images/relics/masquerademask_outline.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-MASQUERADE_MASK",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/relics/big/masquerademask.png",
+      "width": 256,
+      "height": 256,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-STARTER_RELIC_TOGAWA_SAKIKO",
+      "slot": "icon",
+      "path": "res://TogawaSakiko/images/relics/monochromehairband.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-STARTER_RELIC_TOGAWA_SAKIKO",
+      "slot": "outline",
+      "path": "res://TogawaSakiko/images/relics/monochromehairband_outline.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-STARTER_RELIC_TOGAWA_SAKIKO",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/relics/big/monochromehairband.png",
+      "width": 256,
+      "height": 256,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-THE_COMPASS",
+      "slot": "icon",
+      "path": "res://TogawaSakiko/images/relics/thecompass.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-THE_COMPASS",
+      "slot": "outline",
+      "path": "res://TogawaSakiko/images/relics/thecompass_outline.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-THE_COMPASS",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/relics/big/thecompass.png",
+      "width": 256,
+      "height": 256,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-THE_DOLL",
+      "slot": "icon",
+      "path": "res://TogawaSakiko/images/relics/thedoll.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-THE_DOLL",
+      "slot": "outline",
+      "path": "res://TogawaSakiko/images/relics/thedoll_outline.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-THE_DOLL",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/relics/big/thedoll.png",
+      "width": 256,
+      "height": 256,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-THE_THIRD_MOVEMENT",
+      "slot": "icon",
+      "path": "res://TogawaSakiko/images/relics/thethirdmovement.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-THE_THIRD_MOVEMENT",
+      "slot": "outline",
+      "path": "res://TogawaSakiko/images/relics/thethirdmovement_outline.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-THE_THIRD_MOVEMENT",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/relics/big/thethirdmovement.png",
+      "width": 256,
+      "height": 256,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP",
+      "slot": "icon",
+      "path": "res://TogawaSakiko/images/relics/warmthinfusedporcelaincup.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP",
+      "slot": "outline",
+      "path": "res://TogawaSakiko/images/relics/warmthinfusedporcelaincup_outline.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/relics/big/warmthinfusedporcelaincup.png",
+      "width": 256,
+      "height": 256,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "potion",
+      "owner": "TOGAWASAKIKO-CHOCOLATE_MILK_JELLY",
+      "slot": "container.png",
+      "path": "res://TogawaSakiko/images/potions/chocolatemilkjelly/container.png",
+      "width": 64,
+      "height": 64,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "potion",
+      "owner": "TOGAWASAKIKO-CHOCOLATE_MILK_JELLY",
+      "slot": "outline.png",
+      "path": "res://TogawaSakiko/images/potions/chocolatemilkjelly/outline.png",
+      "width": 64,
+      "height": 64,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "potion",
+      "owner": "TOGAWASAKIKO-EARL_GREY_TEA",
+      "slot": "container.png",
+      "path": "res://TogawaSakiko/images/potions/earlgreytea/container.png",
+      "width": 64,
+      "height": 64,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "potion",
+      "owner": "TOGAWASAKIKO-EARL_GREY_TEA",
+      "slot": "outline.png",
+      "path": "res://TogawaSakiko/images/potions/earlgreytea/outline.png",
+      "width": 64,
+      "height": 64,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "potion",
+      "owner": "TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER",
+      "slot": "container.png",
+      "path": "res://TogawaSakiko/images/potions/freshlysqueezedcucumber/container.png",
+      "width": 64,
+      "height": 64,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "potion",
+      "owner": "TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER",
+      "slot": "outline.png",
+      "path": "res://TogawaSakiko/images/potions/freshlysqueezedcucumber/outline.png",
+      "width": 64,
+      "height": 64,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "potion",
+      "owner": "TOGAWASAKIKO-HALLUCINATION_POTION",
+      "slot": "container.png",
+      "path": "res://TogawaSakiko/images/potions/hallucinationpotion/container.png",
+      "width": 64,
+      "height": 64,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "potion",
+      "owner": "TOGAWASAKIKO-HALLUCINATION_POTION",
+      "slot": "liquid.png",
+      "path": "res://TogawaSakiko/images/potions/hallucinationpotion/liquid.png",
+      "width": 64,
+      "height": 64,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "potion",
+      "owner": "TOGAWASAKIKO-HALLUCINATION_POTION",
+      "slot": "outline.png",
+      "path": "res://TogawaSakiko/images/potions/hallucinationpotion/outline.png",
+      "width": 64,
+      "height": 64,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "potion",
+      "owner": "TOGAWASAKIKO-MATCHA_PARFAIT",
+      "slot": "container.png",
+      "path": "res://TogawaSakiko/images/potions/matchaparfait/container.png",
+      "width": 64,
+      "height": 64,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "potion",
+      "owner": "TOGAWASAKIKO-MATCHA_PARFAIT",
+      "slot": "outline.png",
+      "path": "res://TogawaSakiko/images/potions/matchaparfait/outline.png",
+      "width": 64,
+      "height": 64,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "potion",
+      "owner": "TOGAWASAKIKO-ORANGE_MILK_JELLY",
+      "slot": "container.png",
+      "path": "res://TogawaSakiko/images/potions/orangemilkjelly/container.png",
+      "width": 64,
+      "height": 64,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "potion",
+      "owner": "TOGAWASAKIKO-ORANGE_MILK_JELLY",
+      "slot": "outline.png",
+      "path": "res://TogawaSakiko/images/potions/orangemilkjelly/outline.png",
+      "width": 64,
+      "height": 64,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "badge.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/badge.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/animation/object1.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/animation/object1.png",
+      "width": 109,
+      "height": 114,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/animation/object2.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/animation/object2.png",
+      "width": 40,
+      "height": 40,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/animation/object3.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/animation/object3.png",
+      "width": 123,
+      "height": 31,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/cardback/bg_attack_p.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/cardback/bg_attack_p.png",
+      "width": 1024,
+      "height": 1024,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/cardback/bg_attack.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/cardback/bg_attack.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/cardback/bg_power_p.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/cardback/bg_power_p.png",
+      "width": 1024,
+      "height": 1024,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/cardback/bg_power.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/cardback/bg_power.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/cardback/bg_skill_p.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/cardback/bg_skill_p.png",
+      "width": 1024,
+      "height": 1024,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/cardback/bg_skill.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/cardback/bg_skill.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/cardback/energy_orb_p.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/cardback/energy_orb_p.png",
+      "width": 164,
+      "height": 164,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/cardback/energy_orb.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/cardback/energy_orb.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/cardback/small_orb.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/cardback/small_orb.png",
+      "width": 22,
+      "height": 22,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/corpse.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/corpse.png",
+      "width": 430,
+      "height": 94,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/cutscene/ending1.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/cutscene/ending1.png",
+      "width": 1920,
+      "height": 1200,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/cutscene/ending2.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/cutscene/ending2.png",
+      "width": 1920,
+      "height": 1200,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/cutscene/ending3.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/cutscene/ending3.png",
+      "width": 1920,
+      "height": 1200,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/ending/true_ending_text.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/ending/true_ending_text.png",
+      "width": 1920,
+      "height": 1080,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/ending/true_ending.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/ending/true_ending.png",
+      "width": 1920,
+      "height": 1080,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/energyorb/cover.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/energyorb/cover.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/energyorb/layer1.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/energyorb/layer1.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/energyorb/layer1d.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/energyorb/layer1d.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/energyorb/layer2.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/energyorb/layer2.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/energyorb/layer2d.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/energyorb/layer2d.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/energyorb/layer3.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/energyorb/layer3.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/energyorb/layer3d.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/energyorb/layer3d.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/energyorb/layer4.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/energyorb/layer4.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/energyorb/layer4d.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/energyorb/layer4d.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/energyorb/layer5.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/energyorb/layer5.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/energyorb/layer5d.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/energyorb/layer5d.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/energyorb/vfx.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/energyorb/vfx.png",
+      "width": 256,
+      "height": 256,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/image_alt.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/image_alt.png",
+      "width": 196,
+      "height": 338,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/image.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/image.png",
+      "width": 168,
+      "height": 320,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/select/button.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/select/button.png",
+      "width": 200,
+      "height": 200,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/select/portrait.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/select/portrait.png",
+      "width": 1920,
+      "height": 1200,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/shoulder.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/shoulder.png",
+      "width": 1920,
+      "height": 1136,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "character/shoulder2.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/character/shoulder2.png",
+      "width": 1920,
+      "height": 1136,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "events/Fork.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/events/Fork.png",
+      "width": 600,
+      "height": 600,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "intents/large/MutsumiAttackIntent.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/intents/large/MutsumiAttackIntent.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "intents/MutsumiAttackIntent.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/intents/MutsumiAttackIntent.png",
+      "width": 64,
+      "height": 64,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "missing.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/missing.png",
+      "width": 32,
+      "height": 32,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "monsters/ChihayaAnonBoss.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/monsters/ChihayaAnonBoss.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "monsters/MisumiUikaBoss.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/monsters/MisumiUikaBoss.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "monsters/NagasakiSoyoBoss.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/monsters/NagasakiSoyoBoss.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "monsters/NyamuDrumMinion.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/monsters/NyamuDrumMinion.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "monsters/ShiinaTakiBoss.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/monsters/ShiinaTakiBoss.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "monsters/TakamatsuTomoriBoss.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/monsters/TakamatsuTomoriBoss.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "monsters/WakabaMutsumiBoss.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/monsters/WakabaMutsumiBoss.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "monsters/YahataUmiriBoss.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/monsters/YahataUmiriBoss.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "monsters/YuutenjiNyamuBoss.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/monsters/YuutenjiNyamuBoss.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "ui/map/boss/TheOblivion.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/ui/map/boss/TheOblivion.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "ui/map/bossOutline/TheOblivion.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/ui/map/bossOutline/TheOblivion.png",
+      "width": 512,
+      "height": 512,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "ui/purgeReward.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/ui/purgeReward.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "vfx/DazzlingAttackEffect.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/vfx/DazzlingAttackEffect.png",
+      "width": 400,
+      "height": 400,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "presentation",
+      "owner": "vfx/MusicPulseAttackEffect.png",
+      "slot": "source",
+      "path": "res://TogawaSakiko/images/vfx/MusicPulseAttackEffect.png",
+      "width": 400,
+      "height": 400,
+      "sourceStatus": "Original"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
+      "slot": "map-marker",
+      "path": "res://TogawaSakiko/images/charui/map_marker_char_name.png",
+      "width": 49,
+      "height": 64,
+      "sourceStatus": "Native layout asset"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
+      "slot": "rest-site",
+      "path": "res://TogawaSakiko/images/character/presentation/rest_site.png",
+      "width": 886,
+      "height": 647,
+      "sourceStatus": "Derived from original STS1 shoulder art"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
+      "slot": "top-panel-icon",
+      "path": "res://TogawaSakiko/images/ui/top_panel/character_icon_togawa_sakiko.png",
+      "width": 88,
+      "height": 88,
+      "sourceStatus": "Exact native dimensions"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
+      "slot": "top-panel-outline",
+      "path": "res://TogawaSakiko/images/ui/top_panel/character_icon_togawa_sakiko_outline.png",
+      "width": 88,
+      "height": 88,
+      "sourceStatus": "Exact native dimensions"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
+      "slot": "character-select-icon",
+      "path": "res://TogawaSakiko/images/packed/character_select/char_select_togawa_sakiko.png",
+      "width": 132,
+      "height": 195,
+      "sourceStatus": "Exact native dimensions"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
+      "slot": "character-select-locked",
+      "path": "res://TogawaSakiko/images/packed/character_select/char_select_togawa_sakiko_locked.png",
+      "width": 132,
+      "height": 195,
+      "sourceStatus": "Exact native dimensions"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
+      "slot": "card-energy-icon",
+      "path": "res://TogawaSakiko/images/card_ui/energy_togawa_sakiko.png",
+      "width": 71,
+      "height": 72,
+      "sourceStatus": "Exact native dimensions"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
+      "slot": "transition",
+      "path": "res://TogawaSakiko/images/ui/transitions/togawa_sakiko_transition.png",
+      "width": 2560,
+      "height": 1200,
+      "sourceStatus": "Exact native dimensions"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
+      "slot": "multiplayer-point",
+      "path": "res://TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_point.png",
+      "width": 422,
+      "height": 1200,
+      "sourceStatus": "Generated compatibility placeholder"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
+      "slot": "multiplayer-rock",
+      "path": "res://TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_rock.png",
+      "width": 422,
+      "height": 1200,
+      "sourceStatus": "Generated compatibility placeholder"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
+      "slot": "multiplayer-paper",
+      "path": "res://TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_paper.png",
+      "width": 422,
+      "height": 1200,
+      "sourceStatus": "Generated compatibility placeholder"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
+      "slot": "multiplayer-scissors",
+      "path": "res://TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_scissors.png",
+      "width": 422,
+      "height": 1200,
+      "sourceStatus": "Generated compatibility placeholder"
+    },
+    {
+      "ownerType": "diagnostic",
+      "owner": "missing-content",
+      "slot": "master",
+      "path": "res://TogawaSakiko/images/placeholders/missing_content.png",
+      "width": 1254,
+      "height": 1254,
+      "sourceStatus": "Generated placeholder"
+    },
+    {
+      "ownerType": "mod",
+      "owner": "TogawaSakiko",
+      "slot": "manifest",
+      "path": "res://TogawaSakiko/mod_image.png",
+      "width": 420,
+      "height": 420,
+      "sourceStatus": "Original"
+    }
+  ],
+  "audio": [
+    {
+      "usage": "Ending cutscene",
+      "path": "res://TogawaSakiko/audio/cutscene/ending1.wav"
+    },
+    {
+      "usage": "Ending cutscene",
+      "path": "res://TogawaSakiko/audio/cutscene/ending2.wav"
+    },
+    {
+      "usage": "Ending cutscene",
+      "path": "res://TogawaSakiko/audio/cutscene/ending3.wav"
+    },
+    {
+      "usage": "Custom music",
+      "path": "res://TogawaSakiko/audio/music/GMGU_Short.mp3"
+    },
+    {
+      "usage": "Custom music",
+      "path": "res://TogawaSakiko/audio/music/GMGU.ogg"
+    },
+    {
+      "usage": "Custom music",
+      "path": "res://TogawaSakiko/audio/music/Haruhikage.ogg"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/accomplice.wav"
+    },
+    {
+      "usage": "Registered STS1 voice; no direct card call found",
+      "path": "res://TogawaSakiko/audio/sakiko/amoris.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/aretheselyrics.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/asplitmoment.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/asyourheartdesires.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/authorityrestoration.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/avemujica.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/bandinvitation.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/carefree.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/clockout.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/countingstars.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/cruelty.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/desuwa.wav"
+    },
+    {
+      "usage": "Registered STS1 voice; no direct card call found",
+      "path": "res://TogawaSakiko/audio/sakiko/doloris.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/edgeofbreakdown.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/endurance.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/fallenflowers.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/fearless.wav"
+    },
+    {
+      "usage": "Character voice",
+      "path": "res://TogawaSakiko/audio/sakiko/general1.wav"
+    },
+    {
+      "usage": "Character voice",
+      "path": "res://TogawaSakiko/audio/sakiko/general2.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/greetings.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/heartsbarrier.wav"
+    },
+    {
+      "usage": "Character voice",
+      "path": "res://TogawaSakiko/audio/sakiko/hurt1.wav"
+    },
+    {
+      "usage": "Character voice",
+      "path": "res://TogawaSakiko/audio/sakiko/hurt2.wav"
+    },
+    {
+      "usage": "Character voice",
+      "path": "res://TogawaSakiko/audio/sakiko/hurt3.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/innercry.wav"
+    },
+    {
+      "usage": "Character voice",
+      "path": "res://TogawaSakiko/audio/sakiko/intro.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/masks.wav"
+    },
+    {
+      "usage": "Registered STS1 voice; no direct card call found",
+      "path": "res://TogawaSakiko/audio/sakiko/masqueraderhapsodyrequest.wav"
+    },
+    {
+      "usage": "Registered STS1 voice; no direct card call found",
+      "path": "res://TogawaSakiko/audio/sakiko/mortis.wav"
+    },
+    {
+      "usage": "Registered STS1 voice; no direct card call found",
+      "path": "res://TogawaSakiko/audio/sakiko/oblivionis.wav"
+    },
+    {
+      "usage": "Character voice",
+      "path": "res://TogawaSakiko/audio/sakiko/others1.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/oursong.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/perdereomnia.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/perfection.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/phantomofmutsumi.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/phantomofsoyo.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/phantomoftaki.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/phantomoftomori.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/pride.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/primodieinscaena.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/rhinocerosbeetle.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/shareddestiny.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/stayelegance.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/thegirlwithflaxenhair.wav"
+    },
+    {
+      "usage": "Registered STS1 voice; no direct card call found",
+      "path": "res://TogawaSakiko/audio/sakiko/timoris.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/tiredness.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/wishtobecomehuman.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/wishyougoodluck.wav"
+    },
+    {
+      "usage": "Direct card voice",
+      "path": "res://TogawaSakiko/audio/sakiko/worldview.wav"
+    },
+    {
+      "usage": "Custom VFX",
+      "path": "res://TogawaSakiko/audio/vfx/DazzlingAttackEffect.wav"
+    },
+    {
+      "usage": "Custom VFX",
+      "path": "res://TogawaSakiko/audio/vfx/MusicPulseAttackEffect.wav"
+    }
+  ],
+  "resources": [
+    {
+      "kind": "bootstrap",
+      "path": "res://TogawaSakiko/bootstrap/native_bootstrap_probe.tres"
+    },
+    {
+      "kind": "scene",
+      "path": "res://TogawaSakiko/scenes/screens/char_select/togawa_sakiko_background.tscn"
+    },
+    {
+      "kind": "scene",
+      "path": "res://TogawaSakiko/scenes/ui/togawa_sakiko_icon.tscn"
+    },
+    {
+      "kind": "scene",
+      "path": "res://TogawaSakiko/scenes/creature_visuals/togawa_sakiko.tscn"
+    },
+    {
+      "kind": "scene",
+      "path": "res://TogawaSakiko/scenes/combat/energy_counters/togawa_sakiko_energy_counter.tscn"
+    },
+    {
+      "kind": "scene",
+      "path": "res://TogawaSakiko/scenes/rest_site/characters/togawa_sakiko_rest_site.tscn"
+    },
+    {
+      "kind": "scene",
+      "path": "res://TogawaSakiko/scenes/merchant/characters/togawa_sakiko_merchant.tscn"
+    },
+    {
+      "kind": "scene",
+      "path": "res://TogawaSakiko/scenes/vfx/card_trail_togawa_sakiko.tscn"
+    },
+    {
+      "kind": "material",
+      "path": "res://TogawaSakiko/materials/transitions/togawa_sakiko_transition_mat.tres"
+    },
+    {
+      "kind": "material",
+      "path": "res://TogawaSakiko/materials/cards/frames/card_frame_togawa_sakiko_mat.tres"
+    }
+  ],
+  "localizationFiles": [
+    "res://TogawaSakiko/localization/eng/ancients.json",
+    "res://TogawaSakiko/localization/eng/card_keywords.json",
+    "res://TogawaSakiko/localization/eng/cards.json",
+    "res://TogawaSakiko/localization/eng/characters.json",
+    "res://TogawaSakiko/localization/eng/potions.json",
+    "res://TogawaSakiko/localization/eng/powers.json",
+    "res://TogawaSakiko/localization/eng/relics.json",
+    "res://TogawaSakiko/localization/eng/static_hover_tips.json",
+    "res://TogawaSakiko/localization/zhs/ancients.json",
+    "res://TogawaSakiko/localization/zhs/card_keywords.json",
+    "res://TogawaSakiko/localization/zhs/cards.json",
+    "res://TogawaSakiko/localization/zhs/characters.json",
+    "res://TogawaSakiko/localization/zhs/potions.json",
+    "res://TogawaSakiko/localization/zhs/powers.json",
+    "res://TogawaSakiko/localization/zhs/relics.json"
+  ],
+  "compatibilityResources": [
+    {
+      "kind": "rich-text-energy-icon",
+      "path": "res://images/packed/sprite_fonts/togawa_sakiko_energy_icon.png",
+      "width": 24,
+      "height": 24,
+      "source": "res://TogawaSakiko/images/charui/text_energy.png"
+    }
+  ]
+}

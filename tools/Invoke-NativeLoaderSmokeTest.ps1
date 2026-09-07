@@ -11,7 +11,11 @@ param(
     [string]$Language = 'eng',
 
     [ValidateRange(5, 120)]
-    [int]$TimeoutSeconds = 45
+    [int]$TimeoutSeconds = 45,
+
+    [string[]]$AdditionalArguments = @(),
+
+    [string]$RequiredMarker = ''
 )
 
 Set-StrictMode -Version Latest
@@ -58,10 +62,14 @@ $startInfo.Environment['LOCALAPPDATA'] = $localAppDataPath
 [void]$startInfo.ArgumentList.Add($logPath)
 [void]$startInfo.ArgumentList.Add('--quit-after')
 [void]$startInfo.ArgumentList.Add('1200')
+foreach ($argument in $AdditionalArguments) {
+    [void]$startInfo.ArgumentList.Add($argument)
+}
 
 $gameProcess = [System.Diagnostics.Process]::Start($startInfo)
 $bootstrapFound = $false
 $verticalSliceFound = $false
+$requiredMarkerFound = [string]::IsNullOrWhiteSpace($RequiredMarker)
 $forcedTermination = $false
 $deadline = [DateTime]::UtcNow.AddSeconds($TimeoutSeconds)
 
@@ -79,6 +87,13 @@ try {
         if ($currentLog -match 'Native vertical slice ready') {
             $verticalSliceFound = $true
         }
+        if (-not [string]::IsNullOrWhiteSpace($RequiredMarker) -and $currentLog.Contains($RequiredMarker)) {
+            $requiredMarkerFound = $true
+        }
+        if (-not [string]::IsNullOrWhiteSpace($RequiredMarker) -and
+            $requiredMarkerFound -and $bootstrapFound -and $verticalSliceFound) {
+            break
+        }
     }
 }
 finally {
@@ -94,6 +109,7 @@ $keyLines = @()
 $initializerCount = 0
 $bootstrapCount = 0
 $verticalSliceCount = 0
+$requiredMarkerCount = 0
 $runningModdedFound = $false
 $finishedInitializationFound = $false
 $preStartupLoaderIssues = @()
@@ -121,6 +137,9 @@ if (Test-Path -LiteralPath $logPath -PathType Leaf) {
     ).Count
     $bootstrapCount = @($logLines | Select-String -SimpleMatch 'Native bootstrap initialized').Count
     $verticalSliceCount = @($logLines | Select-String -SimpleMatch 'Native vertical slice ready').Count
+    if (-not [string]::IsNullOrWhiteSpace($RequiredMarker)) {
+        $requiredMarkerCount = @($logLines | Select-String -SimpleMatch $RequiredMarker).Count
+    }
     $runningModdedMatch = @($logLines | Select-String -SimpleMatch 'RUNNING MODDED')
     $runningModdedFound = $runningModdedMatch.Count -gt 0
     $finishedInitializationFound = @(
@@ -151,6 +170,9 @@ if (Test-Path -LiteralPath $logPath -PathType Leaf) {
     BootstrapCount = $bootstrapCount
     VerticalSliceFound = $verticalSliceFound
     VerticalSliceCount = $verticalSliceCount
+    RequiredMarker = $RequiredMarker
+    RequiredMarkerFound = $requiredMarkerFound
+    RequiredMarkerCount = $requiredMarkerCount
     Language = $Language
     InitializerCount = $initializerCount
     FinishedInitializationFound = $finishedInitializationFound
@@ -169,6 +191,11 @@ if (-not $bootstrapFound) {
 
 if (-not $verticalSliceFound -or $verticalSliceCount -ne 1) {
     throw "Native vertical-slice validation did not complete exactly once for '$Language'. Inspect '$logPath'."
+}
+
+if (-not [string]::IsNullOrWhiteSpace($RequiredMarker) -and
+    (-not $requiredMarkerFound -or $requiredMarkerCount -ne 1)) {
+    throw "Required diagnostic marker '$RequiredMarker' did not occur exactly once for '$Language'. Inspect '$logPath'."
 }
 
 if ($bootstrapCount -ne 1 -or $initializerCount -ne 1 -or -not $finishedInitializationFound -or -not $runningModdedFound) {

@@ -9,9 +9,9 @@ public sealed class TogawaSakikoCardPool : CardPoolModel
 {
     public override string Title => "TogawaSakiko";
 
-    public override string EnergyColorName => "defect";
+    public override string EnergyColorName => "togawa_sakiko";
 
-    public override string CardFrameMaterialPath => "card_frame_blue";
+    public override string CardFrameMaterialPath => "card_frame_togawa_sakiko";
 
     public override Color DeckEntryCardColor => new("8295A8");
 
@@ -29,6 +29,6 @@ public sealed class TogawaSakikoCardPool : CardPoolModel
         IEnumerable<CardModel> cards)
     {
         return cards.Where(card =>
-            card is ASplitMomentCard or TwoMoonsCard or SilentFarewellCard);
+            card is ASplitMomentCard or TwoMoonsCard or SilentFarewellCard or GreetingsCard);
     }
 }

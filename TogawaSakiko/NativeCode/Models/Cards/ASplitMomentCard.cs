@@ -6,6 +6,8 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using TogawaSakiko.NativeCode.Content;
+using TogawaSakiko.NativeCode.Commands;
+using TogawaSakiko.NativeCode.Diagnostics;
 using TogawaSakiko.NativeCode.Models.Powers;
 
 namespace TogawaSakiko.NativeCode.Models.Cards;
@@ -31,6 +33,9 @@ public sealed class ASplitMomentCard : CardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        SakikoAudioCmd.TryPlayCardVoice(Owner, "ASplitMoment");
+        await N5BatchDiagnostics.RunInCombatAsync(choiceContext, this);
+        await N3ContractDiagnostics.RunInCombatAsync(choiceContext, this);
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
         await PowerCmd.Apply<DazzlingPower>(
             choiceContext,
