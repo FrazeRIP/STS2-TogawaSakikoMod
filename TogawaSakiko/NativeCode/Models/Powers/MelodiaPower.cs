@@ -10,7 +10,7 @@ using TogawaSakiko.NativeCode.Commands;
 
 namespace TogawaSakiko.NativeCode.Models.Powers;
 
-public sealed class MantraPower : PowerModel
+public sealed class MelodiaPower : PowerModel
 {
     private bool UsesPlayerDescription => !IsMutable || Owner?.IsPlayer != false;
 
@@ -40,7 +40,7 @@ public sealed class MantraPower : PowerModel
         Creature? applier,
         CardModel? cardSource)
     {
-        if (power != this || amount <= 0m || Amount < SakikoStanceCmd.MantraThreshold)
+        if (power != this || amount <= 0m || Amount < SakikoStanceCmd.MelodiaThreshold)
         {
             return;
         }
@@ -49,7 +49,7 @@ public sealed class MantraPower : PowerModel
         await PowerCmd.ModifyAmount(
             choiceContext,
             this,
-            -SakikoStanceCmd.MantraThreshold,
+            -SakikoStanceCmd.MelodiaThreshold,
             Owner,
             cardSource,
             silent: true);

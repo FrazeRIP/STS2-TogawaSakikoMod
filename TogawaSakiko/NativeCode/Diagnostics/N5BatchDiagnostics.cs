@@ -82,7 +82,7 @@ internal static partial class N5BatchDiagnostics
         await VerifyDormantCursePowerScaffoldsAsync(player, target, choiceContext);
         await VerifyKindnessAsync(combatState, player, choiceContext);
         await VerifyBlackAndWhiteKeysAsync(combatState, player, target, choiceContext);
-        await VerifyMantraAndDivinityAsync(combatState, player, target, choiceContext);
+        await VerifyMelodiaAndDivinityAsync(combatState, player, target, choiceContext);
         await VerifyMementoMoriAsync(combatState, player, target, choiceContext);
         await VerifyPersistentGenerationCommonCardsAsync(combatState, player, target, choiceContext);
         await VerifyStrengthTradeAndDeckBlockCardsAsync(combatState, player, target, choiceContext);
@@ -106,7 +106,7 @@ internal static partial class N5BatchDiagnostics
         await VerifySymbolIIIWaterAsync(combatState, player, choiceContext, session);
 
         NativeSmokeTrace.N5Info(
-            "native card batches passed. GreetingsEnergy=5, TirednessDraw=3, MelodyDamage=15, IdealFreeAttacks=5, Artifact=5, Dazzling=10, KindnessCurrentAndPriorLossSelection=passed, Keys=Black5+White5, MantraDivinity=PlayerEnemyTriple+Voice10+InnerCry7, MementoMori=BaseExhaust6+UpgradePurge5+CombatOnly1+Triple60, PersistentAdds=Tiredness2+Radiance2+Ideal2+Voice2+Amoris2+Mortis2, CommonDamage=Phantom24+24+28+Symbol28, Regen=9, SymbolDraw=7, StrengthTrade=Dark27+ActualSteal3+Georgette27+EnemyStrength2+EnemyHype1, HeartsBarrier=DeckSizedBlock+Retain, SelectionCards=Daten30+ExactPersistentPurge2+Kill19+DesireRetrieve3+EarthProjectedBlockDamage, Quaerere=Scry7+9+DiscardBlock7, Kings=Damage34+Single+Reward2+Reroll2+Clear3+Saved, CommonTail=Accomplice5+CarefreeRetain2+DesuWaDrawPriority3+EdgeFrail3+PurgeGeneratedAndPersistent+MasqueradeDamage8+SavedGrowth+WeaknessDiscard, UncommonDirect=Gold35+Tiredness2+Dazzling16+Plating16+Mutsumi12AndBlock12+Protection2+SoyoAoE14+Kindness2+RhinoBlock17WithoutDexterity+CountingBuffTypes, Curses=AmorisRetain+DolorisBlockable2+MortisInjury+OblivionisHandExhaust+TimorisVulnerable, RemainingUncommon=20Cards+10Powers, VoiceRoutes=25.");
+            "native card batches passed. GreetingsEnergy=5, TirednessDraw=3, MelodyDamage=15, IdealFreeAttacks=5, Artifact=5, Dazzling=10, KindnessCurrentAndPriorLossSelection=passed, Keys=Black5+White5, MelodiaDivinity=PlayerEnemyTriple+Voice10+InnerCry7, MementoMori=BaseExhaust6+UpgradePurge5+CombatOnly1+Triple60, PersistentAdds=Tiredness2+Radiance2+Ideal2+Voice2+Amoris2+Mortis2, CommonDamage=Phantom24+24+28+Symbol28, Regen=9, SymbolDraw=7, StrengthTrade=Dark27+ActualSteal3+Georgette27+EnemyStrength2+EnemyHype1, HeartsBarrier=DeckSizedBlock+Retain, SelectionCards=Daten30+ExactPersistentPurge2+Kill19+DesireRetrieve3+EarthProjectedBlockDamage, Quaerere=Scry7+9+DiscardBlock7, Kings=Damage34+Single+Reward2+Reroll2+Clear3+Saved, CommonTail=Accomplice5+CarefreeRetain2+DesuWaDrawPriority3+EdgeFrail3+PurgeGeneratedAndPersistent+MasqueradeDamage8+SavedGrowth+WeaknessDiscard, UncommonDirect=Gold35+Tiredness2+Dazzling16+Plating16+Mutsumi12AndBlock12+Protection2+SoyoAoE14+Kindness2+RhinoBlock17WithoutDexterity+CountingBuffTypes, Curses=AmorisRetain+DolorisBlockable2+MortisInjury+OblivionisHandExhaust+TimorisVulnerable, RemainingUncommon=20Cards+10Powers, VoiceRoutes=25.");
     }
 
     private static async Task VerifyMelodyAsync(
@@ -484,14 +484,14 @@ internal static partial class N5BatchDiagnostics
         await RemoveAddedBlockAsync(choiceContext, target, targetBlockBefore);
     }
 
-    private static async Task VerifyMantraAndDivinityAsync(
+    private static async Task VerifyMelodiaAndDivinityAsync(
         CombatState combatState,
         Player player,
         Creature target,
         PlayerChoiceContext choiceContext)
     {
         PlayerCombatState playerState = player.PlayerCombatState
-            ?? throw new InvalidOperationException("Phase N5 Mantra diagnostic requires player combat state.");
+            ?? throw new InvalidOperationException("Phase N5 Melodia diagnostic requires player combat state.");
         decimal playerBlockBefore = player.Creature.Block;
         decimal targetBlockBefore = target.Block;
         int playerStrengthBefore = player.Creature.GetPower<StrengthPower>()?.Amount ?? 0;
@@ -502,11 +502,11 @@ internal static partial class N5BatchDiagnostics
         await CreatureCmd.GainBlock(player.Creature, 100m, ValueProp.Unpowered, null, fast: true);
         await CreatureCmd.GainBlock(target, 100m, ValueProp.Unpowered, null, fast: true);
 
-        Require(player.Creature.GetPower<MantraPower>() is null, "Mantra diagnostic started with stale player Mantra");
+        Require(player.Creature.GetPower<MelodiaPower>() is null, "Melodia diagnostic started with stale player Melodia");
         Require(player.Creature.GetPower<MonsterDivinityPower>() is null,
-            "Mantra diagnostic started with stale player Divinity");
+            "Melodia diagnostic started with stale player Divinity");
         Require(player.Creature.GetPower<DazzlingPower>() is null,
-            "Mantra diagnostic started with stale player Dazzling");
+            "Melodia diagnostic started with stale player Dazzling");
 
         await PowerCmd.Apply<DazzlingPower>(
             choiceContext,
@@ -514,19 +514,19 @@ internal static partial class N5BatchDiagnostics
             2m,
             player.Creature,
             null);
-        decimal blockBeforeMantra = target.Block;
+        decimal blockBeforeMelodia = target.Block;
         decimal energyBefore = playerState.Energy;
-        await PowerCmd.Apply<MantraPower>(
+        await PowerCmd.Apply<MelodiaPower>(
             choiceContext,
             player.Creature,
             8m,
             player.Creature,
             null);
-        Require(player.Creature.GetPower<MantraPower>()?.Amount == 8,
-            "sub-threshold Mantra did not retain its amount");
+        Require(player.Creature.GetPower<MelodiaPower>()?.Amount == 8,
+            "sub-threshold Melodia did not retain its amount");
         Require(player.Creature.GetPower<MonsterDivinityPower>() is null,
-            "sub-threshold Mantra entered Divinity early");
-        await PowerCmd.Apply<MantraPower>(
+            "sub-threshold Melodia entered Divinity early");
+        await PowerCmd.Apply<MelodiaPower>(
             choiceContext,
             player.Creature,
             2m,
@@ -534,13 +534,13 @@ internal static partial class N5BatchDiagnostics
             null);
 
         MonsterDivinityPower playerDivinity = player.Creature.GetPower<MonsterDivinityPower>()
-            ?? throw new InvalidOperationException("10 player Mantra did not enter Divinity.");
-        Require(player.Creature.GetPower<MantraPower>() is null,
-            "player Mantra was not reduced by exactly 10 at threshold");
+            ?? throw new InvalidOperationException("10 player Melodia did not enter Divinity.");
+        Require(player.Creature.GetPower<MelodiaPower>() is null,
+            "player Melodia was not reduced by exactly 10 at threshold");
         Require(playerState.Energy - energyBefore == SakikoStanceCmd.DivinityEnergyGain,
             "player Divinity did not grant exactly 3 Energy on entry");
-        Require(blockBeforeMantra - target.Block == 4m,
-            "Dazzling did not trigger once per Mantra gain or incorrectly triggered for Divinity");
+        Require(blockBeforeMelodia - target.Block == 4m,
+            "Dazzling did not trigger once per Melodia gain or incorrectly triggered for Divinity");
         await PowerCmd.Remove(player.Creature.GetPower<DazzlingPower>());
 
         decimal targetBlockBeforeAttack = target.Block;
@@ -568,11 +568,11 @@ internal static partial class N5BatchDiagnostics
             "player Divinity did not expire at player-side turn end");
 
         decimal energyBeforeEnemyDivinity = playerState.Energy;
-        await PowerCmd.Apply<MantraPower>(choiceContext, target, 10m, target, null);
+        await PowerCmd.Apply<MelodiaPower>(choiceContext, target, 10m, target, null);
         MonsterDivinityPower enemyDivinity = target.GetPower<MonsterDivinityPower>()
-            ?? throw new InvalidOperationException("10 enemy Mantra did not enter Divinity.");
-        Require(target.GetPower<MantraPower>() is null,
-            "enemy Mantra was not reduced by exactly 10 at threshold");
+            ?? throw new InvalidOperationException("10 enemy Melodia did not enter Divinity.");
+        Require(target.GetPower<MelodiaPower>() is null,
+            "enemy Melodia was not reduced by exactly 10 at threshold");
         Require(playerState.Energy == energyBeforeEnemyDivinity,
             "enemy Divinity incorrectly granted player Energy");
         decimal playerBlockBeforeAttack = player.Creature.Block;
@@ -604,18 +604,18 @@ internal static partial class N5BatchDiagnostics
             null,
             upgraded: true);
         MonsterDivinityPower voiceDivinity = player.Creature.GetPower<MonsterDivinityPower>()
-            ?? throw new InvalidOperationException("Voice did not enter Divinity after 10 total Mantra.");
-        PowerChangeEvent[] voiceMantraEvents = ledger.Snapshot(combatState.RoundNumber)
+            ?? throw new InvalidOperationException("Voice did not enter Divinity after 10 total Melodia.");
+        PowerChangeEvent[] voiceMelodiaEvents = ledger.Snapshot(combatState.RoundNumber)
             .Skip(eventsBeforeVoice)
-            .Where(powerEvent => powerEvent.PowerModelId == ModelDb.GetId<MantraPower>())
+            .Where(powerEvent => powerEvent.PowerModelId == ModelDb.GetId<MelodiaPower>())
             .ToArray();
-        Require(voiceMantraEvents.Count(powerEvent => powerEvent.Delta == 2m) == 5,
-            "Voice did not use five separate 2-Mantra native applications");
-        Require(voiceMantraEvents.Count(powerEvent => powerEvent.Delta == -10m) == 1,
-            "Voice threshold did not consume exactly 10 Mantra once");
-        Require(voiceMantraEvents.Where(powerEvent => powerEvent.Delta > 0m)
+        Require(voiceMelodiaEvents.Count(powerEvent => powerEvent.Delta == 2m) == 5,
+            "Voice did not use five separate 2-Melodia native applications");
+        Require(voiceMelodiaEvents.Count(powerEvent => powerEvent.Delta == -10m) == 1,
+            "Voice threshold did not consume exactly 10 Melodia once");
+        Require(voiceMelodiaEvents.Where(powerEvent => powerEvent.Delta > 0m)
                 .All(powerEvent => powerEvent.CardSource?.ModelId == ModelDb.GetId<VoiceCard>()),
-            "Voice Mantra ledger events lost their card source");
+            "Voice Melodia ledger events lost their card source");
         Require(playerState.Energy - energyBeforeVoice == SakikoStanceCmd.DivinityEnergyGain,
             "Voice Divinity did not grant exactly 3 Energy");
         Require(baseVoice.Pile is null && upgradedVoice.Pile is null,
@@ -635,16 +635,16 @@ internal static partial class N5BatchDiagnostics
             choiceContext,
             null,
             upgraded: true);
-        Require(player.Creature.GetPower<MantraPower>()?.Amount == 7,
-            "Inner Cry did not apply base plus upgraded Mantra");
+        Require(player.Creature.GetPower<MelodiaPower>()?.Amount == 7,
+            "Inner Cry did not apply base plus upgraded Melodia");
         Require(player.Creature.Block - blockBeforeInnerCry == 18m,
             "Inner Cry did not gain base plus upgraded Block");
         Require(player.Creature.GetPower<MonsterDivinityPower>() is null,
-            "Inner Cry entered Divinity below 10 Mantra");
+            "Inner Cry entered Divinity below 10 Melodia");
         Require(baseInnerCry.Pile?.Type == PileType.Discard && upgradedInnerCry.Pile?.Type == PileType.Discard,
             "Inner Cry cards did not enter Discard");
 
-        await PowerCmd.Remove(player.Creature.GetPower<MantraPower>());
+        await PowerCmd.Remove(player.Creature.GetPower<MelodiaPower>());
         await CardPileCmd.RemoveFromCombat([baseInnerCry, upgradedInnerCry], skipVisuals: true);
         if (playerStrengthBefore != 0)
         {

@@ -54,7 +54,7 @@ The original N4 PCK catalog validated 338 package textures, 52 playable audio re
 Per language it emits:
 
 - 193 card keys for 95 models;
-- 82 power keys for 25 player-card-relevant models plus the native Mantra support model;
+- 82 power keys for 25 player-card-relevant models plus the native Melodia support model;
 - 34 relic keys for 11 concrete models;
 - 12 potion keys for 6 concrete models;
 - 28 custom keyword keys.

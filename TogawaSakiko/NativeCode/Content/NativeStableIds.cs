@@ -114,7 +114,7 @@ internal static class NativeStableIds
         [typeof(MortisPower)] = EntryPrefix + "MORTIS_POWER",
         [typeof(OblivionisPower)] = EntryPrefix + "OBLIVIONIS_POWER",
         [typeof(TimorisPower)] = EntryPrefix + "TIMORIS_POWER",
-        [typeof(MantraPower)] = EntryPrefix + "MANTRA_POWER",
+        [typeof(MelodiaPower)] = EntryPrefix + "MELODIA_POWER",
         [typeof(MonsterDivinityPower)] = EntryPrefix + "MONSTER_DIVINITY_POWER",
         [typeof(KingsPower)] = EntryPrefix + "KINGS_POWER",
         [typeof(CuriosityPower)] = EntryPrefix + "CURIOSITY_POWER",

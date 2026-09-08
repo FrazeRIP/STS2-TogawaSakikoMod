@@ -74,14 +74,14 @@
   "TOGAWASAKIKO-WORLDVIEW_POWER.description": "Whenever you draw an [gold]Unplayable[/gold] card, replace it with a random Attack from your character's card pool.",
   "TOGAWASAKIKO-WORLDVIEW_POWER.smartDescription": "Whenever you draw an [gold]Unplayable[/gold] card, replace it with a random Attack from your character's card pool.",
   "TOGAWASAKIKO-WORLDVIEW_POWER.title": "Worldview",
-  "TOGAWASAKIKO-MANTRA_POWER.description": "At 10 Mantra, lose 10 Mantra and enter Divinity.",
-  "TOGAWASAKIKO-MANTRA_POWER.smartDescription": "At 10 Mantra, lose 10 Mantra and enter Divinity.",
-  "TOGAWASAKIKO-MANTRA_POWER.title": "Mantra",
+  "TOGAWASAKIKO-MELODIA_POWER.description": "At 10 Melodia, lose 10 Melodia and enter Divinity.",
+  "TOGAWASAKIKO-MELODIA_POWER.smartDescription": "At 10 Melodia, lose 10 Melodia and enter Divinity.",
+  "TOGAWASAKIKO-MELODIA_POWER.title": "Melodia",
   "TOGAWASAKIKO-CURIOSITY_POWER.description": "Whenever you play a Power card, gain [blue]{Amount}[/blue] [gold]Strength[/gold].",
   "TOGAWASAKIKO-CURIOSITY_POWER.smartDescription": "Whenever you play a Power card, gain [blue]{Amount}[/blue] [gold]Strength[/gold].",
   "TOGAWASAKIKO-CURIOSITY_POWER.title": "Curiosity",
   "TOGAWASAKIKO-FEARLESS_POWER.selectionScreenPrompt": "Choose up to 1 card in your hand to Purge.",
   "TOGAWASAKIKO-MONSTER_DIVINITY_POWER.playerTitle": "Master of Melodia",
-  "TOGAWASAKIKO-MANTRA_POWER.playerDescription": "At 10 Mantra, lose 10 Mantra and enter [gold]Master of Melodia[/gold].",
-  "TOGAWASAKIKO-MANTRA_POWER.playerSmartDescription": "At 10 Mantra, lose 10 Mantra and enter [gold]Master of Melodia[/gold]."
+  "TOGAWASAKIKO-MELODIA_POWER.playerDescription": "At 10 Melodia, lose 10 Melodia and enter [gold]Master of Melodia[/gold].",
+  "TOGAWASAKIKO-MELODIA_POWER.playerSmartDescription": "At 10 Melodia, lose 10 Melodia and enter [gold]Master of Melodia[/gold]."
 }

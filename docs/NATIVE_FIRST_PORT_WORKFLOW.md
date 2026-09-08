@@ -258,7 +258,7 @@ Inventory record: `FULL_PORT_PARITY_INVENTORY.md` and `FULL_PORT_PARITY_INVENTOR
 
 Completion evidence: all 86 cards enabled in STS1 are parity-complete and enabled through their intended reward/token/curse routes. All nine cards disabled in STS1 are excluded from the port and have no route into normal play.
 
-Current execution record: `PHASE_N5_CARDS_AND_POWERS.md`. The authoritative inventory reports 86 of 86 in-scope cards and 23 of 25 player-card-relevant STS1 powers native, plus the native Mantra support model. The remaining two powers belong to potion behavior and move with their dependent potions in N6. The complete card/power matrix, both language loaders, N3 save/reload contracts, Kings lifecycle, Sakiko regression, and vanilla regression pass with zero managed issues. Phase N5 is complete.
+Current execution record: `PHASE_N5_CARDS_AND_POWERS.md`. The authoritative inventory reports 86 of 86 in-scope cards and 23 of 25 player-card-relevant STS1 powers native, plus the native Melodia support model. The remaining two powers belong to potion behavior and move with their dependent potions in N6. The complete card/power matrix, both language loaders, N3 save/reload contracts, Kings lifecycle, Sakiko regression, and vanilla regression pass with zero managed issues. Phase N5 is complete.
 
 ### Phase N6: Port relics and potions
 

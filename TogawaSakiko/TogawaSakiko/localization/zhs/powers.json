@@ -74,14 +74,14 @@
   "TOGAWASAKIKO-WORLDVIEW_POWER.description": "每当你抽到[gold]不能被打出[/gold]的卡牌时，将其替换为本角色牌池中的1张随机攻击牌。",
   "TOGAWASAKIKO-WORLDVIEW_POWER.smartDescription": "每当你抽到[gold]不能被打出[/gold]的卡牌时，将其替换为本角色牌池中的1张随机攻击牌。",
   "TOGAWASAKIKO-WORLDVIEW_POWER.title": "世界观",
-  "TOGAWASAKIKO-MANTRA_POWER.description": "达到10层真言时，失去10层真言并进入神格。",
-  "TOGAWASAKIKO-MANTRA_POWER.smartDescription": "达到10层真言时，失去10层真言并进入神格。",
-  "TOGAWASAKIKO-MANTRA_POWER.title": "真言",
+  "TOGAWASAKIKO-MELODIA_POWER.description": "达到10层旋律时，失去10层旋律并进入神格。",
+  "TOGAWASAKIKO-MELODIA_POWER.smartDescription": "达到10层旋律时，失去10层旋律并进入神格。",
+  "TOGAWASAKIKO-MELODIA_POWER.title": "旋律",
   "TOGAWASAKIKO-CURIOSITY_POWER.description": "每打出1张能力牌，你便获得[blue]{Amount}[/blue]点[gold]力量[/gold]。",
   "TOGAWASAKIKO-CURIOSITY_POWER.smartDescription": "每打出1张能力牌，你便获得[blue]{Amount}[/blue]点[gold]力量[/gold]。",
   "TOGAWASAKIKO-CURIOSITY_POWER.title": "好奇",
   "TOGAWASAKIKO-FEARLESS_POWER.selectionScreenPrompt": "选择至多1张手牌并移除。",
   "TOGAWASAKIKO-MONSTER_DIVINITY_POWER.playerTitle": "旋律之主",
-  "TOGAWASAKIKO-MANTRA_POWER.playerDescription": "达到10层真言时，失去10层真言并进入[gold]旋律之主[/gold]。",
-  "TOGAWASAKIKO-MANTRA_POWER.playerSmartDescription": "达到10层真言时，失去10层真言并进入[gold]旋律之主[/gold]。"
+  "TOGAWASAKIKO-MELODIA_POWER.playerDescription": "达到10层旋律时，失去10层旋律并进入[gold]旋律之主[/gold]。",
+  "TOGAWASAKIKO-MELODIA_POWER.playerSmartDescription": "达到10层旋律时，失去10层旋律并进入[gold]旋律之主[/gold]。"
 }

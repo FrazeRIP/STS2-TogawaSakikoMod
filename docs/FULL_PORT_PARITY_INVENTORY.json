@@ -7598,7 +7598,7 @@
           "name": "MonsterMantraPatch",
           "source": "src/main/java/togawasakikomod/patches/MonsterMantraPatch.java",
           "sourceStatus": "Active",
-          "nativeEquivalent": "MantraPower + MonsterDivinityPower"
+          "nativeEquivalent": "MelodiaPower + MonsterDivinityPower"
         },
         {
           "name": "ObtainRewardEventPatch",

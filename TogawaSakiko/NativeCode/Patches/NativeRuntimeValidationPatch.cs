@@ -516,7 +516,7 @@ internal static class NativeRuntimeValidationPatch
 
         PowerModel[] stancePowers =
         [
-            ModelDb.Power<MantraPower>(),
+            ModelDb.Power<MelodiaPower>(),
             ModelDb.Power<MonsterDivinityPower>()
         ];
         foreach (PowerModel stancePower in stancePowers)

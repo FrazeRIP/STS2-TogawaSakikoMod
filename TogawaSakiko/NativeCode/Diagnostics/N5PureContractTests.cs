@@ -50,7 +50,7 @@ internal static class N5PureContractTests
         ValidateBlackKeys();
         ValidateWhiteKeys();
         ValidateBlackAndWhiteKeys();
-        ValidateMantraAndDivinity();
+        ValidateMelodiaAndDivinity();
         ValidateVoice();
         ValidateInnerCry();
         ValidateMementoMori();
@@ -297,12 +297,12 @@ internal static class N5PureContractTests
         Require(card.Keywords.Count == 0, "Black and White Keys unexpected keyword");
     }
 
-    private static void ValidateMantraAndDivinity()
+    private static void ValidateMelodiaAndDivinity()
     {
-        MantraPower mantra = ModelDb.Power<MantraPower>();
+        MelodiaPower melodia = ModelDb.Power<MelodiaPower>();
         MonsterDivinityPower divinity = ModelDb.Power<MonsterDivinityPower>();
-        Require(mantra.Type == PowerType.Buff, "Mantra power type");
-        Require(mantra.StackType == PowerStackType.Counter, "Mantra stack type");
+        Require(melodia.Type == PowerType.Buff, "Melodia power type");
+        Require(melodia.StackType == PowerStackType.Counter, "Melodia stack type");
         Require(divinity.Type == PowerType.Buff, "Divinity power type");
         Require(divinity.StackType == PowerStackType.Single, "Divinity stack type");
         Require(!PowerCopyCommand.GetCompatibility(divinity).Supported, "Divinity copy policy");
@@ -327,8 +327,8 @@ internal static class N5PureContractTests
         Require(card.TargetType == TargetType.Self, "Inner Cry target");
         Require(card.GainsBlock, "Inner Cry block declaration");
         Require(card.Keywords.Count == 0, "Inner Cry unexpected keyword");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 3m, "Inner Cry Mantra");
-        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 4m, "Inner Cry upgraded Mantra");
+        Require(card.DynamicVars["MagicNumber"].BaseValue == 3m, "Inner Cry Melodia");
+        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 4m, "Inner Cry upgraded Melodia");
         Require(card.DynamicVars.Block.BaseValue == 8m, "Inner Cry Block");
         Require(Upgraded(card).DynamicVars.Block.BaseValue == 10m, "Inner Cry upgraded Block");
     }

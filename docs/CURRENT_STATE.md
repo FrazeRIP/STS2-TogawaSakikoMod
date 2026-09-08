@@ -9,7 +9,7 @@ The native v0.1.0 single-player port has completed gameplay implementation for P
 | Content | Current state |
 | --- | --- |
 | Cards | 86 enabled STS1 cards; 88 registered/library-visible models including Carefree and Weakness compatibility models. All nine STS1-disabled cards remain excluded from normal generation. |
-| Powers | 25 STS1 player-relevant powers plus native Mantra support. |
+| Powers | 25 STS1 player-relevant powers plus native Melodia support. |
 | Relics | 11 STS1 relics plus the approved Another Mask relic: 12 total. |
 | Potions | Six native potions. |
 | Registration | 139 gameplay models in NativeModelCatalog. |
@@ -19,6 +19,10 @@ The native v0.1.0 single-player port has completed gameplay implementation for P
 The approved Ocean of Memories starting event is the sole exception to the custom-event exclusion. It applies to standard solo Sakiko starts, uses the supplied Neow cavern artwork, and preserves native Neow history/save lifecycle. Choices are Another Mask, The Third Movement, and Blazing Hairband. Another Mask replaces Monochrome Hairband and converts the four starting Defends into Desire once, with a saved guard. It enables the masked combat sprite; Master of Melodia takes precedence and restores the appropriate sprite afterward. The earlier Amnesia option is superseded.
 
 Legacy custom acts, other events, enemies, encounters, intents, endings, cutscenes, exclusive music, and enemy-only compatibility powers remain excluded. The source-derived parity inventory measures STS1 scope; Another Mask and the opening event are native additions outside its original totals.
+
+The support mechanic is now Melodia / 旋律, including `MelodiaPower` and `TOGAWASAKIKO-MELODIA_POWER`. This is a full identifier rename without a legacy save alias. The 10-stack threshold and player/enemy stance behavior are unchanged. Historical STS1 source names and quoted localization remain in the parity inventory; the localization generator translates their terminology into the native name.
+
+Melodia validation: Release build and native package validation passed; English and Chinese N4 catalog checks passed. N5 gameplay diagnostics passed 725 pure assertions and all runtime markers with zero managed issues, including threshold consumption, Voice applications, Inner Cry gains, and player/enemy stance transitions. Evidence: `artifacts/melodia/melodia-n5-20260907-214820/summary.json`.
 
 ## Implementation and documentation authority
 

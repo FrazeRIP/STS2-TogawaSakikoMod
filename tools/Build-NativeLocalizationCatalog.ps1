@@ -201,6 +201,8 @@ function Split-NativeUpgradeHighlights([string]$Text) {
 }
 
 function Repair-NativePresentationText([string]$Text, [string]$Language) {
+    # Translate the historical STS1 mechanic name into the native Melodia terminology.
+    $Text = $Text.Replace('Mantra', 'Melodia').Replace('真言', '旋律')
     do {
         $previous = $Text
         $Text = [regex]::Replace($Text, '\[gold\]\[gold\](.*?)\[/gold\]\[/gold\]', '[gold]$1[/gold]')
@@ -451,21 +453,21 @@ foreach ($language in $languages) {
         Add-Entry $generated[$language].powers $titleKey (ConvertTo-NativeTitle ([string]$source.NAME) $language)
     }
 
-    $mantraLocalization = if ($language -eq "eng") {
+    $melodiaLocalization = if ($language -eq "eng") {
         [ordered]@{
-            "TOGAWASAKIKO-MANTRA_POWER.description" = "At 10 Mantra, lose 10 Mantra and enter Divinity."
-            "TOGAWASAKIKO-MANTRA_POWER.smartDescription" = "At 10 Mantra, lose 10 Mantra and enter Divinity."
-            "TOGAWASAKIKO-MANTRA_POWER.title" = "Mantra"
+            "TOGAWASAKIKO-MELODIA_POWER.description" = "At 10 Melodia, lose 10 Melodia and enter Divinity."
+            "TOGAWASAKIKO-MELODIA_POWER.smartDescription" = "At 10 Melodia, lose 10 Melodia and enter Divinity."
+            "TOGAWASAKIKO-MELODIA_POWER.title" = "Melodia"
         }
     } else {
         [ordered]@{
-            "TOGAWASAKIKO-MANTRA_POWER.description" = "达到10层真言时，失去10层真言并进入神格。"
-            "TOGAWASAKIKO-MANTRA_POWER.smartDescription" = "达到10层真言时，失去10层真言并进入神格。"
-            "TOGAWASAKIKO-MANTRA_POWER.title" = "真言"
+            "TOGAWASAKIKO-MELODIA_POWER.description" = "达到10层旋律时，失去10层旋律并进入神格。"
+            "TOGAWASAKIKO-MELODIA_POWER.smartDescription" = "达到10层旋律时，失去10层旋律并进入神格。"
+            "TOGAWASAKIKO-MELODIA_POWER.title" = "旋律"
         }
     }
-    foreach ($key in $mantraLocalization.Keys) {
-        Add-Entry $generated[$language].powers $key $mantraLocalization[$key]
+    foreach ($key in $melodiaLocalization.Keys) {
+        Add-Entry $generated[$language].powers $key $melodiaLocalization[$key]
     }
 
     $curiosityLocalization = if ($language -eq "eng") {
@@ -623,13 +625,13 @@ foreach ($language in $languages) {
     }
     $playerDivinityName = if ($language -eq 'eng') { 'Master of Melodia' } else { '旋律之主' }
     $generated[$language].powers['TOGAWASAKIKO-MONSTER_DIVINITY_POWER.playerTitle'] = $playerDivinityName
-    $playerMantraDescription = if ($language -eq 'eng') {
-        'At 10 Mantra, lose 10 Mantra and enter [gold]Master of Melodia[/gold].'
+    $playerMelodiaDescription = if ($language -eq 'eng') {
+        'At 10 Melodia, lose 10 Melodia and enter [gold]Master of Melodia[/gold].'
     } else {
-        '达到10层真言时，失去10层真言并进入[gold]旋律之主[/gold]。'
+        '达到10层旋律时，失去10层旋律并进入[gold]旋律之主[/gold]。'
     }
-    $generated[$language].powers['TOGAWASAKIKO-MANTRA_POWER.playerDescription'] = $playerMantraDescription
-    $generated[$language].powers['TOGAWASAKIKO-MANTRA_POWER.playerSmartDescription'] = $playerMantraDescription
+    $generated[$language].powers['TOGAWASAKIKO-MELODIA_POWER.playerDescription'] = $playerMelodiaDescription
+    $generated[$language].powers['TOGAWASAKIKO-MELODIA_POWER.playerSmartDescription'] = $playerMelodiaDescription
     foreach ($entry in @('I_WANT_TO_BE_YOUR_GOD_CARD', 'MEMENTO_MORI_CARD')) {
         $key = "TOGAWASAKIKO-$entry.description"
         $text = [string]$generated[$language].cards[$key]
@@ -892,7 +894,7 @@ $md = [System.Text.StringBuilder]::new()
 [void]$md.AppendLine("## Native catalog result")
 [void]$md.AppendLine()
 [void]$md.AppendLine("- Cards: $($generated.eng.cards.Count) keys per language for 95 models.")
-[void]$md.AppendLine("- Powers: $($generated.eng.powers.Count) keys per language for 25 in-scope player-card-relevant STS1 models plus the native Mantra support model.")
+[void]$md.AppendLine("- Powers: $($generated.eng.powers.Count) keys per language for 25 in-scope player-card-relevant STS1 models plus the native Melodia support model.")
 [void]$md.AppendLine("- Relics: $($generated.eng.relics.Count) keys per language for 11 STS1 relics and the approved Another Mask starting relic.")
 [void]$md.AppendLine("- Potions: $($generated.eng.potions.Count) keys per language for 6 concrete models.")
 [void]$md.AppendLine("- Custom keyword records: $($generated.eng.card_keywords.Count) keys per language.")

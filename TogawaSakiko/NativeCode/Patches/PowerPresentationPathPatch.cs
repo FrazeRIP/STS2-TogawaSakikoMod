@@ -36,7 +36,7 @@ internal static class PowerPackedIconPathPatch
         {
             __result = NativeAssetPaths.TimorisIcon;
         }
-        else if (__instance is MantraPower or MonsterDivinityPower)
+        else if (__instance is MelodiaPower or MonsterDivinityPower)
         {
             __result = NativeAssetPaths.MonsterDivinityIcon;
         }
@@ -140,7 +140,7 @@ internal static class PowerBigIconPathPatch
         {
             __result = NativeAssetPaths.TimorisBigIcon;
         }
-        else if (__instance is MantraPower or MonsterDivinityPower)
+        else if (__instance is MelodiaPower or MonsterDivinityPower)
         {
             __result = NativeAssetPaths.MonsterDivinityBigIcon;
         }
@@ -244,7 +244,7 @@ internal static class PowerBigBetaIconPathPatch
         {
             __result = NativeAssetPaths.TimorisBigIcon;
         }
-        else if (__instance is MantraPower or MonsterDivinityPower)
+        else if (__instance is MelodiaPower or MonsterDivinityPower)
         {
             __result = NativeAssetPaths.MonsterDivinityBigIcon;
         }

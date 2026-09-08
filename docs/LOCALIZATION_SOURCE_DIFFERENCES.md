@@ -7,7 +7,7 @@
 ## Native catalog result
 
 - Cards: 197 keys per language for 95 models.
-- Powers: 85 keys per language for 25 in-scope player-card-relevant STS1 models plus the native Mantra support model.
+- Powers: 85 keys per language for 25 in-scope player-card-relevant STS1 models plus the native Melodia support model.
 - Relics: 37 keys per language for 11 STS1 relics and the approved Another Mask starting relic.
 - Potions: 12 keys per language for 6 concrete models.
 - Custom keyword records: 30 keys per language.

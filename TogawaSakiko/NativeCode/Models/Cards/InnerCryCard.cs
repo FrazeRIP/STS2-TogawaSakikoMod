@@ -22,7 +22,7 @@ public sealed class InnerCryCard : CardModel
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<MantraPower>(), HoverTipFactory.FromPower<MonsterDivinityPower>()];
+        [HoverTipFactory.FromPower<MelodiaPower>(), HoverTipFactory.FromPower<MonsterDivinityPower>()];
 
     public override string PortraitPath => NativeAssetPaths.InnerCryPortrait;
 
@@ -34,7 +34,7 @@ public sealed class InnerCryCard : CardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         SakikoAudioCmd.TryPlayCardVoice(Owner, "InnerCry");
-        await PowerCmd.Apply<MantraPower>(
+        await PowerCmd.Apply<MelodiaPower>(
             choiceContext,
             Owner.Creature,
             DynamicVars["MagicNumber"].BaseValue,

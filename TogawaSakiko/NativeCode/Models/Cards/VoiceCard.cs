@@ -14,7 +14,7 @@ public sealed class VoiceCard : CardModel
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("MagicNumber", 2m)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<MantraPower>(), HoverTipFactory.FromPower<MonsterDivinityPower>()];
+        [HoverTipFactory.FromPower<MelodiaPower>(), HoverTipFactory.FromPower<MonsterDivinityPower>()];
 
     public override string PortraitPath => NativeAssetPaths.VoicePortrait;
 
@@ -27,7 +27,7 @@ public sealed class VoiceCard : CardModel
     {
         for (int i = 0; i < DynamicVars["MagicNumber"].IntValue; i++)
         {
-            await PowerCmd.Apply<MantraPower>(
+            await PowerCmd.Apply<MelodiaPower>(
                 choiceContext,
                 Owner.Creature,
                 2m,

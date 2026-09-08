@@ -24,7 +24,7 @@ public sealed record DivinityEntryResult(
 
 public static class SakikoStanceCmd
 {
-    public const int MantraThreshold = 10;
+    public const int MelodiaThreshold = 10;
     public const int DivinityEnergyGain = 3;
     public const int DivinityDamageMultiplier = 3;
 
