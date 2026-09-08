@@ -1,8 +1,11 @@
 using Godot;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using TogawaSakiko.NativeCode.Models.Pools;
 using GameLogger = MegaCrit.Sts2.Core.Logging.Logger;
 using LogType = MegaCrit.Sts2.Core.Logging.LogType;
 
@@ -10,7 +13,7 @@ namespace TogawaSakiko.NativeCode.Diagnostics;
 
 internal static partial class N4LocalizationDiagnostics
 {
-    public const int ExpectedEntryCount = 353;
+    public const int ExpectedEntryCount = 361;
 
     private static readonly string[] Tables =
     [
@@ -28,6 +31,9 @@ internal static partial class N4LocalizationDiagnostics
 
     [GeneratedRegex(@"\[(/?)(gold|blue|green|red|purple)\]")]
     private static partial Regex ColorTagRegex();
+
+    [GeneratedRegex(@"(?<=[\u3400-\u9fff])[ \t]|[ \t](?=[\u3400-\u9fff])|[ \t]+\{[A-Za-z]|\}[ \t]+")]
+    private static partial Regex ChineseCardSpacingRegex();
 
     public static void RunIfRequested()
     {
@@ -73,6 +79,12 @@ internal static partial class N4LocalizationDiagnostics
                 }
 
                 ValidateColorTags(table, key, raw);
+                if (language == "zhs" && table == "cards" && !key.EndsWith(".title", StringComparison.Ordinal) &&
+                    ChineseCardSpacingRegex().IsMatch(raw))
+                {
+                    throw new InvalidOperationException(
+                        $"Chinese card localization contains legacy token spacing: {key}.");
+                }
                 if (!LocString.Exists(table, key))
                 {
                     throw new InvalidOperationException(
@@ -98,11 +110,15 @@ internal static partial class N4LocalizationDiagnostics
                 $"Phase N4 localization expected {ExpectedEntryCount} entries, found {entryCount}.");
         }
 
+        int keywordVariants = ValidateNativeCardKeywordText();
+        SakikoPresentationDiagnostics.Validate();
+        Logger.Info($"Native card keyword localization passed. Language={language}, CardVariants={keywordVariants}, DuplicateKeywordClauses=0");
+
         Logger.Info(
             $"Phase N4 localization catalogs passed. Language={language}, Entries={entryCount}, FormattedVariants={formattedCount}, LegacyMarkers=0");
     }
 
-    private static void FormatAndValidate(
+    private static string FormatAndValidate(
         string table,
         string key,
         string raw,
@@ -143,6 +159,42 @@ internal static partial class N4LocalizationDiagnostics
             throw new InvalidOperationException(
                 $"Native localization left an unresolved variable for {table}.{key} ({upgradeDisplay}): {formatted}");
         }
+        return formatted;
+    }
+
+    private static int ValidateNativeCardKeywordText()
+    {
+        int variants = 0;
+        foreach (CardModel canonical in ModelDb.CardPool<TogawaSakikoCardPool>().AllCards)
+        {
+            foreach (UpgradeDisplay display in new[] { UpgradeDisplay.Normal, UpgradeDisplay.Upgraded })
+            {
+                CardModel card = canonical.ToMutable();
+                if (display == UpgradeDisplay.Upgraded && card.MaxUpgradeLevel > 0)
+                {
+                    card.UpgradeInternal();
+                    card.FinalizeUpgradeInternal();
+                }
+
+                string key = card.Id.Entry + ".description";
+                string formatted = FormatAndValidate("cards", key, card.Description.GetRawText(), display);
+                HashSet<string> authoredLines = ColorTagRegex().Replace(formatted, "")
+                    .Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+                    .ToHashSet(StringComparer.Ordinal);
+                foreach (CardKeyword keyword in card.Keywords)
+                {
+                    string keywordText = new LocString("card_keywords", keyword.ToString().ToUpperInvariant() + ".title")
+                        .GetFormattedText() + new LocString("card_keywords", "PERIOD").GetRawText();
+                    if (authoredLines.Contains(keywordText))
+                    {
+                        throw new InvalidOperationException(
+                            $"Card localization duplicates native {keyword} text: {key} ({display}).");
+                    }
+                }
+                variants++;
+            }
+        }
+        return variants;
     }
 
     private static void ValidateColorTags(string table, string key, string raw)

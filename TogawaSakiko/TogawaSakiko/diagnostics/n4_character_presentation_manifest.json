@@ -70,6 +70,202 @@
       "status": "generated compatibility placeholder"
     }
   ],
+  "relicVisibleBounds": [
+    {
+      "name": "BlazingHairband",
+      "sourceBounds": [
+        39,
+        27,
+        88,
+        96
+      ],
+      "outlineCrop": [
+        36,
+        23,
+        91,
+        100
+      ]
+    },
+    {
+      "name": "ColorfulNotebook",
+      "sourceBounds": [
+        37,
+        31,
+        91,
+        95
+      ],
+      "outlineCrop": [
+        33,
+        27,
+        95,
+        99
+      ]
+    },
+    {
+      "name": "CuteAnimalBandAid",
+      "sourceBounds": [
+        37,
+        37,
+        95,
+        88
+      ],
+      "outlineCrop": [
+        33,
+        33,
+        99,
+        92
+      ]
+    },
+    {
+      "name": "FountainDrink",
+      "sourceBounds": [
+        39,
+        37,
+        89,
+        93
+      ],
+      "outlineCrop": [
+        36,
+        33,
+        93,
+        97
+      ]
+    },
+    {
+      "name": "GoldenPocketWatch",
+      "sourceBounds": [
+        36,
+        32,
+        91,
+        95
+      ],
+      "outlineCrop": [
+        32,
+        28,
+        95,
+        99
+      ]
+    },
+    {
+      "name": "MasqueradeMask",
+      "sourceBounds": [
+        32,
+        40,
+        96,
+        92
+      ],
+      "outlineCrop": [
+        30,
+        38,
+        98,
+        94
+      ]
+    },
+    {
+      "name": "MonochromeHairband",
+      "sourceBounds": [
+        40,
+        39,
+        87,
+        91
+      ],
+      "outlineCrop": [
+        36,
+        35,
+        91,
+        95
+      ]
+    },
+    {
+      "name": "TheCompass",
+      "sourceBounds": [
+        38,
+        31,
+        88,
+        91
+      ],
+      "outlineCrop": [
+        34,
+        27,
+        92,
+        95
+      ]
+    },
+    {
+      "name": "TheDoll",
+      "sourceBounds": [
+        37,
+        26,
+        91,
+        101
+      ],
+      "outlineCrop": [
+        33,
+        23,
+        94,
+        105
+      ]
+    },
+    {
+      "name": "TheThirdMovement",
+      "sourceBounds": [
+        47,
+        29,
+        93,
+        94
+      ],
+      "outlineCrop": [
+        44,
+        25,
+        97,
+        98
+      ]
+    },
+    {
+      "name": "WarmthInfusedPorcelainCup",
+      "sourceBounds": [
+        39,
+        42,
+        92,
+        92
+      ],
+      "outlineCrop": [
+        36,
+        38,
+        96,
+        96
+      ]
+    }
+  ],
+  "originalCardFrames": [
+    {
+      "type": "attack",
+      "source": "images/character/cardback/bg_attack_p.png",
+      "output": "images/card_ui/frame_attack.png",
+      "dimensions": [
+        598,
+        844
+      ]
+    },
+    {
+      "type": "skill",
+      "source": "images/character/cardback/bg_skill_p.png",
+      "output": "images/card_ui/frame_skill.png",
+      "dimensions": [
+        598,
+        844
+      ]
+    },
+    {
+      "type": "power",
+      "source": "images/character/cardback/bg_power_p.png",
+      "output": "images/card_ui/frame_power.png",
+      "dimensions": [
+        598,
+        844
+      ]
+    }
+  ],
   "assets": [
     {
       "role": "top-panel icon",
@@ -138,10 +334,28 @@
       "role": "rest-site portrait",
       "output": "TogawaSakiko/TogawaSakiko/images/character/presentation/rest_site.png",
       "dimensions": [
-        886,
-        647
+        680,
+        840
       ],
-      "status": "cropped from STS1 shoulder art"
+      "status": "generated full figure with elevated campfire perspective"
+    },
+    {
+      "role": "merchant portrait",
+      "output": "TogawaSakiko/TogawaSakiko/images/character/presentation/merchant.png",
+      "dimensions": [
+        256,
+        384
+      ],
+      "status": "generated STS2-style standing figure"
+    },
+    {
+      "role": "Another Mask combat portrait",
+      "output": "TogawaSakiko/TogawaSakiko/images/character/image_another_mask.png",
+      "dimensions": [
+        168,
+        320
+      ],
+      "status": "generated masked variation of original combat sprite"
     },
     {
       "gesture": "point",

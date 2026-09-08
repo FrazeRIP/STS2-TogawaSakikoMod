@@ -1,5 +1,7 @@
 # STS1 to STS2 Port Refresh Plan
 
+> Current-state review, 2026-09-07: N1-N7 gameplay and September 7 feedback are implemented; this checkpoint is authorized for commit, push and merge to main. Another Mask and solo Ocean of Memories are approved additions to original STS1 scope. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 > Execution update, 2026-09-06: the temporary BaseLib-backed checkpoint in this document is superseded by `NATIVE_FIRST_PORT_WORKFLOW.md`. Keep this document for its verified baseline, reverse-engineering notes, utility contracts, and later content phases, but do not execute its BaseLib-backed Phase 1 or BaseLib-removal Phase 2.
 
 > Current checkpoint, 2026-09-07: native-first Phases N1 through N7 are complete for the declared single-player v0.1.0 boundary. All 86 cards enabled in STS1, all 25 player-relevant powers, all 11 concrete relics, and all six concrete potions are native and accepted. The validated package is installed; the uncommitted checkpoint is waiting for the user's explicit commit/push phrase.

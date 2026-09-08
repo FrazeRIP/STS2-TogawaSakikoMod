@@ -9,3 +9,7 @@ TogawaSakiko/artifacts/
 # Godot source metadata is intentionally tracked; do not enable these patterns:
 # TogawaSakiko/**/*.import
 # TogawaSakiko/**/*.uid
+
+# Local assistant files are not project source.
+.claude/
+CLAUDE.md

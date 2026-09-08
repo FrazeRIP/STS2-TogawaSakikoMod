@@ -14,6 +14,11 @@ public sealed class WorldviewPower : PowerModel
 
     public override PowerStackType StackType => PowerStackType.Single;
 
+    internal static IEnumerable<CardModel> GetEligibleAttacks(Player player) =>
+        player.Character.CardPool.AllCards.Where(candidate =>
+            candidate.Type == CardType.Attack &&
+            !candidate.Keywords.Contains(CardKeyword.Unplayable));
+
     public override async Task AfterCardDrawn(
         PlayerChoiceContext choiceContext,
         CardModel card,
@@ -27,9 +32,7 @@ public sealed class WorldviewPower : PowerModel
         Player player = card.Owner;
         CardModel? replacement = CardFactory.GetForCombat(
                 player,
-                ModelDb.AllCards.Where(candidate =>
-                    candidate.Type == CardType.Attack &&
-                    !candidate.Keywords.Contains(CardKeyword.Unplayable)),
+                GetEligibleAttacks(player),
                 1,
                 player.RunState.Rng.CombatCardGeneration)
             .FirstOrDefault();

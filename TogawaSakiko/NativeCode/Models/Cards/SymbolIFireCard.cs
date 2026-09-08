@@ -29,14 +29,13 @@ public sealed class SymbolIFireCard : CardModel
     }
 
     internal static CardModel? SelectPreviousAttack(
-        IEnumerable<CardPlayFinishedEntry> entries,
+        IEnumerable<CardPlayStartedEntry> entries,
         Player owner)
     {
         return entries.LastOrDefault(entry =>
                 entry.CardPlay.Player == owner &&
                 entry.CardPlay.Card.Type == CardType.Attack &&
-                entry.CardPlay.Card is not SymbolIFireCard &&
-                !entry.CardPlay.Card.IsDupe)
+                entry.CardPlay.Card is not SymbolIFireCard)
             ?.CardPlay.Card;
     }
 
@@ -52,7 +51,7 @@ public sealed class SymbolIFireCard : CardModel
             .Execute(choiceContext);
 
         CardModel? previousAttack = SelectPreviousAttack(
-            CombatManager.Instance.History.CardPlaysFinished,
+            CombatManager.Instance.History.CardPlaysStarted,
             Owner);
         if (previousAttack is not null)
         {

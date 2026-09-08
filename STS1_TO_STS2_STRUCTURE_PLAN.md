@@ -1,5 +1,7 @@
 # STS1 → STS2 File-Structure Alignment Plan
 
+> Current-state review, 2026-09-07: Historical architecture/API/planning reference. Current runtime compiles NativeCode only, requires no BaseLib, and implements N1-N7 gameplay plus feedback fixes. All generated assets remain placeholders, not completed assets. See [current project state](docs/CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 ## Goal
 
 Make this STS2 repository feel structurally similar to the STS1 `FrazeRIP/STS-TogawaSakikoMod` repo **without breaking STS2-specific build/runtime requirements**.

@@ -1,5 +1,7 @@
 # Native-First STS2 Port Workflow
 
+> Current-state review, 2026-09-07: N1-N7 gameplay and September 7 feedback are implemented. Current starting choices are Another Mask, The Third Movement and Blazing Hairband using supplied cavern art; Amnesia is historical. The user authorized this checkpoint commit, push and merge to main, superseding the earlier wait-for-phrase instruction. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 Status: canonical execution workflow
 
 Baseline date: 2026-09-06
@@ -11,6 +13,10 @@ Target engine baseline: MegaDot `4.5.1.m.14.mono.custom_build`
 This workflow supersedes the temporary BaseLib-backed migration phases in `PORT_REFRESH_PLAN.md`. The verified game/repository baseline, reverse-engineering procedure, detailed utility contracts, and later content requirements in that document remain active.
 
 Scope boundary: the nine cards disabled in STS1 are skipped and excluded from completion. Custom acts, events, enemies, encounters, intents, and their exclusive ending, cutscene, music, and presentation assets are also outside this port and must remain absent from canonical runtime code, generated localization, the PCK allowlist, and completion totals.
+
+User-approved exception, 2026-09-07: Sakiko's normal starting room is now Ocean of Memories, with one generated full-screen static image and three fixed choices: Amnesia removes Monochrome Hairband only; The Third Movement grants the original three-use relic while keeping Monochrome; Blazing Hairband replaces Monochrome. This single opening-room addition supersedes the event exclusion above for its own code, localization, scene, and `images/events/ocean_of_memories.png` only. The former STS1 custom events, acts, bosses, and endings remain excluded. Amnesia does not replace Defends or modify the starting deck.
+
+Subsequent user revision, 2026-09-07: the supplied Neow cavern artwork replaces the ocean image, and the opening now describes Sakiko waking in an unknown place and receiving a gift from Neow before being directed to seek answers at the tower's summit. Another Mask replaces the Amnesia option: obtain the new white mask relic, replace Monochrome Hairband, and replace the starting Defends with Desire. Carrying the mask changes Sakiko's combat sprite; Master of Melodia takes visual precedence and restores the appropriate base or masked sprite on exit. These instructions supersede the earlier Amnesia-only behavior above.
 
 ## Decision
 

@@ -2,6 +2,7 @@ using Godot;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using TogawaSakiko.NativeCode.Content;
 using TogawaSakiko.NativeCode.Diagnostics;
+using TogawaSakiko.NativeCode.Presentation.Godot;
 
 namespace TogawaSakiko.NativeCode.Presentation;
 
@@ -9,7 +10,7 @@ internal static class NativeCharacterVisualFactory
 {
     public static NCreatureVisuals Create()
     {
-        NCreatureVisuals root = new()
+        SakikoCreatureVisualsNode root = new()
         {
             Name = "TogawaSakiko"
         };

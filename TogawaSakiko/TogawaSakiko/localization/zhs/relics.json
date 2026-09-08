@@ -9,7 +9,7 @@
   "TOGAWASAKIKO-CUTE_ANIMAL_BAND_AID.flavor": "一盒各种不同款式的小动物创口贴，适合治愈跌打损伤！",
   "TOGAWASAKIKO-CUTE_ANIMAL_BAND_AID.title": "可爱动物创口贴",
   "TOGAWASAKIKO-FOUNTAIN_DRINK.description": "药水栏满时，战斗结束后必定掉落药水。",
-  "TOGAWASAKIKO-FOUNTAIN_DRINK.flavor": "你感觉到这台炼药机器蕴含着神秘的力量，只是你不太会用。",
+  "TOGAWASAKIKO-FOUNTAIN_DRINK.flavor": "你感觉到这台炼药机器蕴含着神秘的[gold]力量[/gold]，只是你不太会用。",
   "TOGAWASAKIKO-FOUNTAIN_DRINK.title": "饮料机饮料",
   "TOGAWASAKIKO-GOLDEN_POCKET_WATCH.description": "每打出12张牌，获得 [blue]2[/blue] 点 [gold]力量[/gold]。",
   "TOGAWASAKIKO-GOLDEN_POCKET_WATCH.flavor": "看看这都几点了。",
@@ -32,5 +32,8 @@
   "TOGAWASAKIKO-THE_THIRD_MOVEMENT.completedDescription": "这副乐章已演奏完毕。",
   "TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP.description": "大幅增加 [gold]心之壁[/gold] 的出现概率。",
   "TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP.flavor": "或是出于保温的愿景而被加固的茶杯。杯盖嵌紧，难以取下。",
-  "TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP.title": "温热瓷盏"
+  "TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP.title": "温热瓷盏",
+  "TOGAWASAKIKO-ANOTHER_MASK.title": "另一张假面",
+  "TOGAWASAKIKO-ANOTHER_MASK.description": "替换[red]黑白色发带[/red]。将所有初始[gold]防御[/gold]替换为[gold]渴望[/gold]。",
+  "TOGAWASAKIKO-ANOTHER_MASK.flavor": "一张白色假面，一次重新开始的机会。"
 }

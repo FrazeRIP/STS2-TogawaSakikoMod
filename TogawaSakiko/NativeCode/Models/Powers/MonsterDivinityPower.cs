@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.ValueProps;
 using TogawaSakiko.NativeCode.Commands;
 
@@ -12,6 +13,10 @@ namespace TogawaSakiko.NativeCode.Models.Powers;
 
 public sealed class MonsterDivinityPower : PowerModel
 {
+    public override LocString Title => !IsMutable || Owner?.IsPlayer != false
+        ? new LocString("powers", Id.Entry + ".playerTitle")
+        : base.Title;
+
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Single;

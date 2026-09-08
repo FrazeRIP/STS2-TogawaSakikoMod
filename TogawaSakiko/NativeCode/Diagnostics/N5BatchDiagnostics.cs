@@ -68,6 +68,8 @@ internal static partial class N5BatchDiagnostics
         Player player = sourceCard.Owner;
         Creature target = combatState.GetOpponentsOf(player.Creature).First(creature => creature.IsHittable);
 
+        StartingOptionsDiagnostics.Validate(player);
+        await VerifyDazzlingPriorStacksAsync(combatState, player, target, choiceContext);
         await VerifyMelodyAsync(combatState, player, target, choiceContext);
         await VerifyGreetingsAsync(combatState, player, choiceContext);
         await VerifyTirednessAsync(combatState, player, choiceContext);
@@ -100,6 +102,7 @@ internal static partial class N5BatchDiagnostics
         await VerifyRarePowersAsync(combatState, player, target, choiceContext);
         await VerifyRareMutationsAsync(combatState, player, target, choiceContext);
         await VerifyRareFinaleAsync(combatState, player, choiceContext);
+        await VerifyFeedbackGameplayAsync(combatState, player, target, choiceContext);
         await VerifySymbolIIIWaterAsync(combatState, player, choiceContext, session);
 
         NativeSmokeTrace.N5Info(

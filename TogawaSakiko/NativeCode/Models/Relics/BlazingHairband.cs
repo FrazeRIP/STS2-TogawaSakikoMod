@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Runs;
 using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.Diagnostics;
 using TogawaSakiko.NativeCode.Models.Cards;
+using TogawaSakiko.NativeCode.Presentation;
 
 namespace TogawaSakiko.NativeCode.Models.Relics;
 
@@ -60,7 +61,7 @@ public sealed class BlazingHairband : SakikoRelicModel
 
         Flash();
         CardPileAddResult result = await PersistentDeckMutation.AddStatEquivalentAsync(Owner, randomCard);
-        CardCmd.PreviewCardPileAdd(result, 2f);
+        HairbandCardPreview.Show(result);
         NativeSmokeTrace.Info($"Blazing Hairband added random card {randomCard.Id} to the deck; success={result.success}.");
     }
 

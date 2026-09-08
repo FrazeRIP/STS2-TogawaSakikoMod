@@ -1,5 +1,7 @@
 # Phase N1 Native Bootstrap Execution Record
 
+> Current-state review, 2026-09-07: Historical N1 evidence. The no-BaseLib contract remains active; current registration is 139 gameplay models. Later phases and feedback gameplay are implemented. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 Status: complete
 
 Executed: 2026-09-06

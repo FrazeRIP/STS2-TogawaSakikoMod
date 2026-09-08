@@ -1,5 +1,7 @@
 # Multiplayer Port Requirements and Todo
 
+> Current-state review, 2026-09-07: Multiplayer remains unsupported and unverified. The current Ocean of Memories patch intentionally preserves multiplayer starts. Future scope must explicitly address Another Mask, its one-time deck conversion, and starting-event synchronization before claiming parity. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 Status: future work; multiplayer remains unsupported in Togawa Sakiko v0.1.0.
 
 Baseline reviewed: Slay the Spire 2 `v0.111.0` (`41cef1ea`) and the native single-player port on branch `Test1`.

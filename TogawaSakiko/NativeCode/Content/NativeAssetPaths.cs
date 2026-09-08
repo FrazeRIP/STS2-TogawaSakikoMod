@@ -17,6 +17,8 @@ internal static class NativeAssetPaths
     public const string CharacterIconScene = Root + "/scenes/ui/togawa_sakiko_icon.tscn";
     public const string CharacterSelectBackground = Root + "/scenes/screens/char_select/togawa_sakiko_background.tscn";
     public const string CharacterPortrait = Root + "/images/character/image.png";
+    public const string CharacterMaskedPortrait = Root + "/images/character/image_another_mask.png";
+    public const string CharacterMasterOfMelodiaPortrait = Root + "/images/character/image_alt.png";
     public const string CharacterRestSitePortrait = Root + "/images/character/presentation/rest_site.png";
     public const string CharacterIcon = Root + "/images/ui/top_panel/character_icon_togawa_sakiko.png";
     public const string CharacterIconOutline = Root + "/images/ui/top_panel/character_icon_togawa_sakiko_outline.png";
@@ -37,6 +39,9 @@ internal static class NativeAssetPaths
     public const string EnergyIcon = Root + "/images/card_ui/energy_togawa_sakiko.png";
     public const string RichTextEnergyIcon = "res://images/packed/sprite_fonts/togawa_sakiko_energy_icon.png";
     public const string CardFrameMaterial = Root + "/materials/cards/frames/card_frame_togawa_sakiko_mat.tres";
+    public const string AttackCardFrame = Root + "/images/card_ui/frame_attack.png";
+    public const string SkillCardFrame = Root + "/images/card_ui/frame_skill.png";
+    public const string PowerCardFrame = Root + "/images/card_ui/frame_power.png";
 
     public const string StrikePortrait = Root + "/images/card_portraits/striketogawasakiko.png";
     public const string DefendPortrait = Root + "/images/card_portraits/defendtogawasakiko.png";

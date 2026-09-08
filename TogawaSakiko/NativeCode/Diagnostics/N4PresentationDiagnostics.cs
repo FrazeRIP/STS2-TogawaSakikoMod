@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Nodes.Screens.Shops;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using TogawaSakiko.NativeCode.Content;
 using TogawaSakiko.NativeCode.Models.Pools;
+using TogawaSakiko.NativeCode.Models.Cards;
 using SakikoCharacter = TogawaSakiko.NativeCode.Models.Characters.TogawaSakiko;
 using GameLogger = MegaCrit.Sts2.Core.Logging.Logger;
 using LogType = MegaCrit.Sts2.Core.Logging.LogType;
@@ -18,10 +19,10 @@ internal static class N4PresentationDiagnostics
 {
     public const string CatalogPath = "res://TogawaSakiko/diagnostics/n4_presentation_catalog.json";
     public const string CharacterManifestPath = "res://TogawaSakiko/diagnostics/n4_character_presentation_manifest.json";
-    public const int ExpectedTextureCount = 336;
+    public const int ExpectedTextureCount = 345;
     public const int ExpectedAudioCount = 52;
-    public const int ExpectedResourceCount = 10;
-    public const int ExpectedLocalizationFileCount = 15;
+    public const int ExpectedResourceCount = 11;
+    public const int ExpectedLocalizationFileCount = 17;
 
     private static readonly GameLogger Logger = new(Bootstrap.ModEntryPoint.ModId, LogType.Generic);
 
@@ -168,6 +169,9 @@ internal static class N4PresentationDiagnostics
         TogawaSakikoCardPool cardPool = ModelDb.CardPool<TogawaSakikoCardPool>();
         AssertPath("energy icon", EnergyIconHelper.GetPath(cardPool), NativeAssetPaths.EnergyIcon);
         AssertPath("card-frame material", cardPool.FrameMaterialPath, NativeAssetPaths.CardFrameMaterial);
+        AssertPath("attack card frame", ModelDb.Card<StrikeTogawaSakiko>().Frame.ResourcePath, NativeAssetPaths.AttackCardFrame);
+        AssertPath("skill card frame", ModelDb.Card<DefendTogawaSakiko>().Frame.ResourcePath, NativeAssetPaths.SkillCardFrame);
+        AssertPath("power card frame", ModelDb.Card<CharismaticFormCard>().Frame.ResourcePath, NativeAssetPaths.PowerCardFrame);
 
         ValidateScene<NCreatureVisuals>(NativeAssetPaths.CharacterVisualsPreload, root =>
         {
@@ -221,6 +225,12 @@ internal static class N4PresentationDiagnostics
         AssertTextureSize(NativeAssetPaths.CharacterSelectLockedIcon, 132, 195);
         AssertTextureSize(NativeAssetPaths.CharacterMapMarker, 49, 64);
         AssertTextureSize(NativeAssetPaths.EnergyIcon, 71, 72);
+        AssertVisibleExtent(NativeAssetPaths.EnergyIcon, 64);
+        AssertTextureSize(NativeAssetPaths.AttackCardFrame, 598, 844);
+        AssertTextureSize(NativeAssetPaths.SkillCardFrame, 598, 844);
+        AssertTextureSize(NativeAssetPaths.PowerCardFrame, 598, 844);
+        AssertVisibleExtent(NativeAssetPaths.MonochromeHairbandIcon, 100);
+        AssertVisibleExtent(NativeAssetPaths.MonochromeHairbandBigIcon, 235);
         AssertTextureSize(NativeAssetPaths.RichTextEnergyIcon, 24, 24);
         AssertTextureSize(NativeAssetPaths.CharacterTransitionTexture, 2560, 1200);
         AssertTextureSize(NativeAssetPaths.CharacterArmPoint, 422, 1200);
@@ -270,6 +280,16 @@ internal static class N4PresentationDiagnostics
         if (!string.Equals(actual, expected, StringComparison.Ordinal))
         {
             throw new InvalidOperationException($"Phase N4 {label} path mismatch: expected {expected}, found {actual}.");
+        }
+    }
+
+    private static void AssertVisibleExtent(string path, int minimumExtent)
+    {
+        using Image image = LoadRequired<Texture2D>(path).GetImage();
+        Rect2I bounds = image.GetUsedRect();
+        if (Math.Max(bounds.Size.X, bounds.Size.Y) < minimumExtent)
+        {
+            throw new InvalidOperationException($"Presentation texture is visibly undersized: {path}; bounds={bounds}, required extent={minimumExtent}.");
         }
     }
 }

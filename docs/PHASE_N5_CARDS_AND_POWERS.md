@@ -1,5 +1,7 @@
 # Phase N5: Cards and Powers
 
+> Current-state review, 2026-09-07: All 86 enabled cards and 25 in-scope powers are implemented, plus native Mantra support; N6 completed the potion powers. Feedback corrects Dazzling prior-stack triggers, per-hit Wish gains, Kao previews, active Fire replay, Oblivionis warnings, Worldview generation and Memento Mori speed. Final feedback evidence records 725 assertions and two consecutive extra turns. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 Status: complete. All 86 cards enabled in STS1 and all 23 powers required by those cards are native and accepted. Nine STS1-disabled cards are excluded by user-approved scope; the two remaining power models are potion-linked and move with their dependent potions in Phase N6.
 
 Baseline: Slay the Spire 2 `v0.111.0` / `41cef1ea`.

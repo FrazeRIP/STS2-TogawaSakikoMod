@@ -1,5 +1,7 @@
 # Phase N2 Native Character Slice
 
+> Current-state review, 2026-09-07: Historical N2 slice, not current content counts. Full native gameplay scope and September 7 feedback are implemented. Presentation checks demonstrate functioning integration only. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 Status: complete
 
 Executed: 2026-09-06

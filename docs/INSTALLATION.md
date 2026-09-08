@@ -1,5 +1,7 @@
 # Togawa Sakiko v0.1.0 installation
 
+> Current-state review, 2026-09-07: The original N7 v0.1.0 archive predates the feedback fixes. Build/package current source for the feedback checkpoint. The solo Ocean of Memories event offers Another Mask, The Third Movement and Blazing Hairband. PDB files are optional diagnostics. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 Supported game build: Slay the Spire 2 `v0.111.0` (`41cef1ea`).
 
 This release is self-contained. BaseLib is not required and should not be copied into the Togawa folder.

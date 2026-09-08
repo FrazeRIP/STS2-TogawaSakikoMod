@@ -3,7 +3,8 @@ param(
     [string]$Sts1Root,
     [string]$InventoryPath = "docs/FULL_PORT_PARITY_INVENTORY.json",
     [string]$ReportJson = "docs/LOCALIZATION_SOURCE_DIFFERENCES.json",
-    [string]$ReportMarkdown = "docs/LOCALIZATION_SOURCE_DIFFERENCES.md"
+    [string]$ReportMarkdown = "docs/LOCALIZATION_SOURCE_DIFFERENCES.md",
+    [switch]$CardsOnly
 )
 
 Set-StrictMode -Version Latest
@@ -142,6 +143,148 @@ function Merge-UpgradeDescription([string]$Normal, [AllowNull()][string]$Upgrade
         return $Normal
     }
     return "{IfUpgraded:show:$Upgraded|$Normal}"
+}
+
+function Split-NativeUpgradeHighlights([string]$Text) {
+    if (-not $Text.StartsWith('{IfUpgraded:show:', [StringComparison]::Ordinal)) { return $Text }
+    $depth = 0
+    $separator = -1
+    for ($index = 0; $index -lt $Text.Length; $index++) {
+        if ($Text[$index] -eq '{') { $depth++ }
+        elseif ($Text[$index] -eq '}') {
+            $depth--
+            if ($depth -eq 0 -and $index -ne $Text.Length - 1) { return $Text }
+        }
+        elseif ($Text[$index] -eq '|' -and $depth -eq 1) { $separator = $index }
+    }
+    if ($separator -lt 0 -or $depth -ne 0) { return $Text }
+    $prefixLength = '{IfUpgraded:show:'.Length
+    $upgraded = $Text.Substring($prefixLength, $separator - $prefixLength)
+    $normal = $Text.Substring($separator + 1, $Text.Length - $separator - 2)
+    # Treat color spans and dynamic variables as whole units so conditionals never split native markup.
+    $tokenPattern = '\[(?:gold|blue|green|red|purple)\][^\[]*\[/(?:gold|blue|green|red|purple)\]|\{[^{}]*\}|[A-Za-z0-9]+|\s+|.'
+    $newTokens = @([regex]::Matches($upgraded, $tokenPattern, 'Singleline') | ForEach-Object Value)
+    $oldTokens = @([regex]::Matches($normal, $tokenPattern, 'Singleline') | ForEach-Object Value)
+    $lengths = [int[,]]::new($newTokens.Count + 1, $oldTokens.Count + 1)
+    for ($i = $newTokens.Count - 1; $i -ge 0; $i--) {
+        for ($j = $oldTokens.Count - 1; $j -ge 0; $j--) {
+            $lengths[$i, $j] = if ($newTokens[$i] -ceq $oldTokens[$j]) {
+                1 + $lengths[($i + 1), ($j + 1)]
+            } else {
+                [Math]::Max($lengths[($i + 1), $j], $lengths[$i, ($j + 1)])
+            }
+        }
+    }
+    $result = [System.Text.StringBuilder]::new()
+    $newPart = [System.Text.StringBuilder]::new()
+    $oldPart = [System.Text.StringBuilder]::new()
+    $i = 0; $j = 0
+    while ($i -lt $newTokens.Count -or $j -lt $oldTokens.Count) {
+        if ($i -lt $newTokens.Count -and $j -lt $oldTokens.Count -and $newTokens[$i] -ceq $oldTokens[$j]) {
+            if ($newPart.Length -gt 0 -or $oldPart.Length -gt 0) {
+                $changed = $newPart.ToString().Replace('[gold]', '[green]').Replace('[/gold]', '[/green]')
+                [void]$result.Append("{IfUpgraded:show:$changed|$oldPart}")
+                [void]$newPart.Clear(); [void]$oldPart.Clear()
+            }
+            [void]$result.Append($newTokens[$i]); $i++; $j++
+        }
+        elseif ($i -lt $newTokens.Count -and ($j -ge $oldTokens.Count -or $lengths[($i + 1), $j] -ge $lengths[$i, ($j + 1)])) {
+            [void]$newPart.Append($newTokens[$i]); $i++
+        }
+        else { [void]$oldPart.Append($oldTokens[$j]); $j++ }
+    }
+    if ($newPart.Length -gt 0 -or $oldPart.Length -gt 0) {
+        $changed = $newPart.ToString().Replace('[gold]', '[green]').Replace('[/gold]', '[/green]')
+        [void]$result.Append("{IfUpgraded:show:$changed|$oldPart}")
+    }
+    return $result.ToString()
+}
+
+function Repair-NativePresentationText([string]$Text, [string]$Language) {
+    do {
+        $previous = $Text
+        $Text = [regex]::Replace($Text, '\[gold\]\[gold\](.*?)\[/gold\]\[/gold\]', '[gold]$1[/gold]')
+        $Text = [regex]::Replace($Text, '\[/gold\]([ \t]*)\[gold\]', '$1')
+    } while ($Text -ne $previous)
+    if ($Language -eq 'eng') {
+        $Text = $Text.Replace('[gold]Symbol [/gold]I: [gold]Fire[/gold]', '[gold]Symbol I: Fire[/gold]')
+        $Text = $Text.Replace('Double Tap', 'One-Two Punch')
+        $Text = [regex]::Replace($Text, '(?<!\[gold\])(?<!\[green\])(?<![\w{])Strength(?![\w:])(?!\[/(?:gold|green)\])', '[gold]Strength[/gold]')
+        $Text = $Text.Replace('Scry ', '[gold]Scry[/gold] ')
+        $Text = $Text.Replace('upgraded [gold]Symbol[/gold]', '[gold]Element+[/gold]')
+        $Text = $Text.Replace('[gold]Symbol[/gold]', '[gold]Element[/gold]')
+        $Text = $Text.Replace('upgraded [gold]Phantom[/gold]', '[gold]Phantoms+[/gold]')
+    } else {
+        $Text = [regex]::Replace($Text, '(?<!\[gold\])(?<!\[green\])力量(?!\[/(?:gold|green)\])', '[gold]力量[/gold]')
+        $Text = $Text.Replace('双重施放', '连环拳').Replace('双重打击', '连环拳').Replace('双发', '连环拳')
+        $Text = $Text.Replace('预见{', '[gold]预见[/gold]{')
+    }
+    return $Text
+}
+
+function Normalize-NativeCardSpacing([AllowNull()][string]$Text, [string]$Language) {
+    if ([string]::IsNullOrEmpty($Text)) {
+        return $Text
+    }
+    $lines = @($Text.Replace("`r`n", "`n") -split "`n" | ForEach-Object {
+        $line = $_.Trim()
+        if ($Language -eq "zhs") {
+            # STS1 required spaces around keyword/variable tokens; native BBCode does not.
+            # Keep spaces within Latin phrases, including names such as Ave Mujica.
+            $line = [regex]::Replace($line, '[ \t]+', [System.Text.RegularExpressions.MatchEvaluator]{
+                param($match)
+                $before = if ($match.Index -gt 0) { $line[$match.Index - 1] } else { '' }
+                $afterIndex = $match.Index + $match.Length
+                $after = if ($afterIndex -lt $line.Length) { $line[$afterIndex] } else { '' }
+                if ([string]$before -cmatch '[A-Za-z]' -and [string]$after -cmatch '[A-Za-z]') {
+                    return ' '
+                }
+                return ''
+            })
+        }
+        $line
+    })
+    return ($lines -join "`n").Trim()
+}
+
+function Get-NativeOwnedCardKeywords([string]$SourcePath) {
+    $source = Get-Content -Raw -Encoding UTF8 -LiteralPath (Resolve-RepoPath $SourcePath)
+    $keywords = [System.Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    foreach ($property in [regex]::Matches($source, 'CanonicalKeywords\s*=>\s*([^;]+);')) {
+        foreach ($keyword in [regex]::Matches($property.Groups[1].Value, 'CardKeyword\.(\w+)')) {
+            [void]$keywords.Add($keyword.Groups[1].Value)
+        }
+    }
+    # Upgrades can add or remove a keyword. Native rendering follows the model in both states.
+    foreach ($keyword in [regex]::Matches($source, '(?<![.\w])(?:AddKeyword|RemoveKeyword)\(CardKeyword\.(\w+)\)')) {
+        [void]$keywords.Add($keyword.Groups[1].Value)
+    }
+    return @($keywords | Sort-Object)
+}
+
+function Remove-NativeKeywordClauses([AllowNull()][string]$Text, [string[]]$Keywords, [string]$Language) {
+    if ([string]::IsNullOrEmpty($Text) -or $null -eq $Keywords -or $Keywords.Count -eq 0) {
+        return $Text
+    }
+    $upgrade = [regex]::Match($Text, '\A\{IfUpgraded:show:(.*)\|(.*)\}\z', [System.Text.RegularExpressions.RegexOptions]::Singleline)
+    if ($upgrade.Success) {
+        $upgraded = Remove-NativeKeywordClauses $upgrade.Groups[1].Value $Keywords $Language
+        $normal = Remove-NativeKeywordClauses $upgrade.Groups[2].Value $Keywords $Language
+        return Merge-UpgradeDescription $normal $upgraded
+    }
+    $chineseTitles = @{
+        Exhaust = '消耗'; Ethereal = '虚无'; Innate = '固有'; Unplayable = '不能被打出'
+        Retain = '保留'; Sly = '奇巧'; Eternal = '永恒'
+    }
+    $clauses = @($Keywords | ForEach-Object {
+        if ($Language -eq 'zhs') { $chineseTitles[$_] + '。' } else { $_ + '.' }
+    })
+    $lines = @($Text -split "`n" | Where-Object {
+        # Only remove a complete keyword line; "Exhaust other cards" still describes behavior.
+        $plainLine = [regex]::Replace($_, '\[/?(?:gold|green|blue|red|purple)\]', '').Trim()
+        $plainLine -notin $clauses
+    })
+    return ($lines -join "`n").Trim()
 }
 
 function Get-SourceTokens([AllowNull()][string]$Text) {
@@ -458,6 +601,87 @@ foreach ($semanticName in $allKeywordNames) {
     }
 }
 
+# Apply the same presentation rules to imported descriptions and preserved live overrides.
+foreach ($language in $languages) {
+    $generated[$language].cards['TOGAWASAKIKO-WISH_TO_BECOME_HUMAN_CARD.description'] = if ($language -eq 'eng') {
+        'Deal {Damage:diff()} damage twice.' + "`n" + 'After each hit, gain [gold]Dazzling[/gold] equal to the unblocked damage dealt by that hit.'
+    } else {
+        '造成{Damage:diff()}点伤害2次。' + "`n" + '每次命中后，获得与该次造成的未被格挡的伤害相等层数的[gold]闪耀[/gold]。'
+    }
+    $worldviewDescription = if ($language -eq 'eng') {
+        "Whenever you draw an [gold]Unplayable[/gold] card, replace it with a random Attack from your character's card pool."
+    } else {
+        '每当你抽到[gold]不能被打出[/gold]的卡牌时，将其替换为本角色牌池中的1张随机攻击牌。'
+    }
+    $generated[$language].cards['TOGAWASAKIKO-WORLDVIEW_CARD.description'] = $worldviewDescription
+    $generated[$language].powers['TOGAWASAKIKO-WORLDVIEW_POWER.description'] = $worldviewDescription
+    $generated[$language].powers['TOGAWASAKIKO-WORLDVIEW_POWER.smartDescription'] = $worldviewDescription
+    $generated[$language].cards['TOGAWASAKIKO-KAO_CARD.description'] = if ($language -eq 'eng') {
+        'Deal {Damage:diff()} damage.' + "`n" + 'While in your hand, whenever an enemy gains a buff, this card gains {MagicNumber:diff()} damage for the rest of combat.'
+    } else {
+        '造成{Damage:diff()}点伤害。' + "`n" + '此牌在手牌中时，每当敌人获得增益效果，其伤害在本场战斗中增加{MagicNumber:diff()}。'
+    }
+    $playerDivinityName = if ($language -eq 'eng') { 'Master of Melodia' } else { '旋律之主' }
+    $generated[$language].powers['TOGAWASAKIKO-MONSTER_DIVINITY_POWER.playerTitle'] = $playerDivinityName
+    $playerMantraDescription = if ($language -eq 'eng') {
+        'At 10 Mantra, lose 10 Mantra and enter [gold]Master of Melodia[/gold].'
+    } else {
+        '达到10层真言时，失去10层真言并进入[gold]旋律之主[/gold]。'
+    }
+    $generated[$language].powers['TOGAWASAKIKO-MANTRA_POWER.playerDescription'] = $playerMantraDescription
+    $generated[$language].powers['TOGAWASAKIKO-MANTRA_POWER.playerSmartDescription'] = $playerMantraDescription
+    foreach ($entry in @('I_WANT_TO_BE_YOUR_GOD_CARD', 'MEMENTO_MORI_CARD')) {
+        $key = "TOGAWASAKIKO-$entry.description"
+        $text = [string]$generated[$language].cards[$key]
+        $text = if ($language -eq 'eng') { $text.Replace('Divinity', '[gold]Master of Melodia[/gold]') } else { $text.Replace('神格', '[gold]旋律之主[/gold]') }
+        $generated[$language].cards[$key] = $text
+    }
+    foreach ($tableName in @('cards', 'powers', 'relics', 'potions', 'card_keywords')) {
+        foreach ($key in @($generated[$language][$tableName].Keys)) {
+            if (-not $key.EndsWith('.title', [StringComparison]::Ordinal)) {
+                $generated[$language][$tableName][$key] = Repair-NativePresentationText ([string]$generated[$language][$tableName][$key]) $language
+            }
+        }
+    }
+    $generated[$language].cards['TOGAWASAKIKO-MEMENTO_MORI_CARD.title'] = if ($language -eq 'eng') { 'Memento Mori' } else { $generated[$language].cards['TOGAWASAKIKO-MEMENTO_MORI_CARD.title'] }
+    $generated[$language].relics['TOGAWASAKIKO-ANOTHER_MASK.title'] = if ($language -eq 'eng') { 'Another Mask' } else { '另一张假面' }
+    $generated[$language].relics['TOGAWASAKIKO-ANOTHER_MASK.description'] = if ($language -eq 'eng') { 'Replaces [red]Monochrome Hairband[/red]. Replace all starting [gold]Defend[/gold] cards with [gold]Desire[/gold].' } else { '替换[red]黑白色发带[/red]。将所有初始[gold]防御[/gold]替换为[gold]渴望[/gold]。' }
+    $generated[$language].relics['TOGAWASAKIKO-ANOTHER_MASK.flavor'] = if ($language -eq 'eng') { 'A white mask, and a chance to begin again.' } else { '一张白色假面，一次重新开始的机会。' }
+    $generated[$language].card_keywords['TOGAWASAKIKO-SCRY.title'] = if ($language -eq 'eng') { 'Scry' } else { '预见' }
+    $generated[$language].card_keywords['TOGAWASAKIKO-SCRY.description'] = if ($language -eq 'eng') { 'Look at the top cards of your draw pile. Choose any of them to discard, then return the rest in their original order.' } else { '查看抽牌堆顶的若干张牌。选择任意张丢弃，其余牌按原顺序放回。' }
+    $generated[$language].card_keywords['TOGAWASAKIKO-PURGE.title'] = if ($language -eq 'eng') { 'Purge' } else { '移除' }
+    $generated[$language].card_keywords['TOGAWASAKIKO-SYMBOL.title'] = if ($language -eq 'eng') { 'Element' } else { '元素' }
+    $generated[$language].card_keywords['TOGAWASAKIKO-SYMBOL_PLUS.title'] = if ($language -eq 'eng') { 'Element+' } else { '元素+' }
+    $elementNames = if ($language -eq 'eng') { @('Symbol I: Fire', 'Symbol II: Air', 'Symbol III: Water', 'Symbol IV: Earth', 'Ether') } else { @('第一元素：恐惧之火', '第二元素：爱恋之风', '第三元素：悲伤之水', '第四元素：葬送之土', '遗忘之光') }
+    $phantomNames = if ($language -eq 'eng') { @('Phantom of Mutsumi', 'Phantom of Sakiko', 'Phantom of Soyo', 'Phantom of Taki', 'Phantom of Tomori') } else { @('睦的幻影', '祥子的幻影', '素世的幻影', '立希的幻影', '灯的幻影') }
+    foreach ($group in @(@{ Key = 'SYMBOL'; Names = $elementNames }, @{ Key = 'PHANTOMS'; Names = $phantomNames })) {
+        $separator = if ($language -eq 'eng') { ', ' } else { '、' }
+        $period = if ($language -eq 'eng') { '.' } else { '。' }
+        $generated[$language].card_keywords["TOGAWASAKIKO-$($group.Key).description"] = (@($group.Names | ForEach-Object { "[gold]$_[/gold]" }) -join $separator) + $period
+        $generated[$language].card_keywords["TOGAWASAKIKO-$($group.Key)_PLUS.description"] = (@($group.Names | ForEach-Object { "[green]$_+[/green]" }) -join $separator) + $period
+    }
+}
+foreach ($card in $inventory.cards) {
+    $id = [string]$card.sts2StableId
+    $keywords = if ($null -ne $card.nativeSource) {
+        @(Get-NativeOwnedCardKeywords ([string]$card.nativeSource))
+    } else {
+        @()
+    }
+    foreach ($language in $languages) {
+        foreach ($key in @($generated[$language].cards.Keys | Where-Object {
+            $_.StartsWith("$id.", [StringComparison]::Ordinal) -and -not $_.EndsWith('.title', [StringComparison]::Ordinal)
+        })) {
+            $normalized = Normalize-NativeCardSpacing ([string]$generated[$language].cards[$key]) $language
+            if ($key -eq "$id.description") {
+                $normalized = Remove-NativeKeywordClauses $normalized $keywords $language
+                $normalized = Split-NativeUpgradeHighlights $normalized
+            }
+            $generated[$language].cards[$key] = $normalized
+        }
+    }
+}
+
 $legacyMarkerPattern = '!\$\{modID\}:|![DBM]!|\[E\]|\bNL\b|togawasakikomod:|#[bgryp][^\s]|\*[^\s]|%d'
 $unconverted = [System.Collections.Generic.List[object]]::new()
 foreach ($language in $languages) {
@@ -491,6 +715,9 @@ if ($languageKeyMismatches.Count -gt 0) {
 
 foreach ($language in $languages) {
     foreach ($tableName in @("cards", "powers", "relics", "potions", "card_keywords")) {
+        if ($CardsOnly -and $tableName -ne 'cards') {
+            continue
+        }
         Write-Json "TogawaSakiko/TogawaSakiko/localization/$language/$tableName.json" $generated[$language][$tableName]
     }
 }
@@ -515,12 +742,24 @@ foreach ($card in @($inventory.cards | Sort-Object name)) {
     }
 }
 
-$sourceKeywordKeys = @{
+$sourceKeywordKeys = [ordered]@{
     eng = @((Read-Json (Join-Path $sts1LocRoot "eng/Keywords.json")) | ForEach-Object { [string]$_.ID } | Sort-Object)
     zhs = @((Read-Json (Join-Path $sts1LocRoot "zhs/Keywords.json")) | ForEach-Object { [string]$_.ID } | Sort-Object)
 }
 
 $knownCorrections = @(
+    [ordered]@{
+        scope = "Native card keyword rendering"
+        source = "Standalone keyword clauses in STS1 descriptions"
+        native = "Native CardModel renders the card's own keywords once"
+        reason = "Remove duplicate Exhaust, Ethereal, Innate, Retain, Unplayable, Sly, or Eternal lines only when the native card owns that keyword; retain behavioral mentions and upgrade-dependent model changes."
+    },
+    [ordered]@{
+        scope = "Simplified Chinese card spacing"
+        source = "Spaces around dynamic variables and keyword tokens"
+        native = "Compact Chinese text with unchanged variables and markup"
+        reason = "STS1 token-separator spaces are unnecessary in native localization. Apply normalization to preserved live overrides as well as imported text, while keeping Latin phrase spacing and card titles."
+    },
     [ordered]@{
         scope = "English card title"
         source = "Mas?uerade Rhapsody Re?uest"
@@ -654,7 +893,7 @@ $md = [System.Text.StringBuilder]::new()
 [void]$md.AppendLine()
 [void]$md.AppendLine("- Cards: $($generated.eng.cards.Count) keys per language for 95 models.")
 [void]$md.AppendLine("- Powers: $($generated.eng.powers.Count) keys per language for 25 in-scope player-card-relevant STS1 models plus the native Mantra support model.")
-[void]$md.AppendLine("- Relics: $($generated.eng.relics.Count) keys per language for 11 concrete models.")
+[void]$md.AppendLine("- Relics: $($generated.eng.relics.Count) keys per language for 11 STS1 relics and the approved Another Mask starting relic.")
 [void]$md.AppendLine("- Potions: $($generated.eng.potions.Count) keys per language for 6 concrete models.")
 [void]$md.AppendLine("- Custom keyword records: $($generated.eng.card_keywords.Count) keys per language.")
 [void]$md.AppendLine("- Unconverted STS1 markers: $($unconverted.Count). English/zh-Hans key mismatches: $($languageKeyMismatches.Count).")
@@ -701,7 +940,7 @@ foreach ($family in $pendingSourceFamilies) {
 [void]$md.AppendLine("- ``!D!``, ``!B!``, and ``!M!`` become STS2 dynamic variables ``Damage``, ``Block``, and ``MagicNumber`` with upgrade-difference formatting.")
 [void]$md.AppendLine("- The Raise the Bet custom Strength variable becomes ``Strength``. STS1 energy icons become the native energy-icon formatter.")
 [void]$md.AppendLine("- STS1 ``NL``, color prefixes, custom keyword prefixes, and card-name stars become native newlines and BBCode.")
-[void]$md.AppendLine("- Source upgrade descriptions are represented by the native ``IfUpgraded`` formatter. Existing Phase N2/N3 live entries retain their already-validated semantic variable names.")
+[void]$md.AppendLine("- Source upgrade descriptions use the native ``IfUpgraded`` formatter only around changed text fragments. Existing Phase N2/N3 live entries retain their already-validated semantic variable names.")
 [void]$md.AppendLine("- No model is enabled by this catalog generation; normal pools remain behavior-gated.")
 
 [System.IO.Directory]::CreateDirectory((Split-Path $reportMarkdownPath -Parent)) | Out-Null

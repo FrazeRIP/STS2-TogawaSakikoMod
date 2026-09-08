@@ -134,6 +134,9 @@ foreach ($relic in @($inventory.relics | Sort-Object sts2StableId)) {
     Add-Texture "relic" ([string]$relic.sts2StableId) "outline" ([string]$relic.art.outline) ([string]$relic.art.status)
     Add-Texture "relic" ([string]$relic.sts2StableId) "large" ([string]$relic.art.big) ([string]$relic.art.status)
 }
+Add-Texture "relic" "TOGAWASAKIKO-ANOTHER_MASK" "icon" "TogawaSakiko/TogawaSakiko/images/relics/anothermask.png" "Generated from user-provided white-mask reference"
+Add-Texture "relic" "TOGAWASAKIKO-ANOTHER_MASK" "outline" "TogawaSakiko/TogawaSakiko/images/relics/anothermask_outline.png" "Registered alpha silhouette"
+Add-Texture "relic" "TOGAWASAKIKO-ANOTHER_MASK" "large" "TogawaSakiko/TogawaSakiko/images/relics/big/anothermask.png" "Generated from user-provided white-mask reference"
 
 foreach ($potion in @($inventory.potions | Sort-Object sts2StableId)) {
     foreach ($layer in @($potion.art.layers | Sort-Object name)) {
@@ -147,13 +150,19 @@ foreach ($item in @($inventory.presentationFiles | Sort-Object nativePath)) {
 }
 
 Add-Texture "character-ui" "TogawaSakiko" "map-marker" "TogawaSakiko/TogawaSakiko/images/charui/map_marker_char_name.png" "Native layout asset"
-Add-Texture "character-ui" "TogawaSakiko" "rest-site" "TogawaSakiko/TogawaSakiko/images/character/presentation/rest_site.png" "Derived from original STS1 shoulder art"
+Add-Texture "character-ui" "TogawaSakiko" "rest-site" "TogawaSakiko/TogawaSakiko/images/character/presentation/rest_site.png" "Generated full figure with elevated campfire perspective"
+Add-Texture "character-ui" "TogawaSakiko" "merchant" "TogawaSakiko/TogawaSakiko/images/character/presentation/merchant.png" "Generated standing merchant-room figure"
+Add-Texture "character-ui" "TogawaSakiko" "another-mask" "TogawaSakiko/TogawaSakiko/images/character/image_another_mask.png" "Generated masked combat portrait variation"
 Add-Texture "character-ui" "TogawaSakiko" "top-panel-icon" "TogawaSakiko/TogawaSakiko/images/ui/top_panel/character_icon_togawa_sakiko.png" "Exact native dimensions"
 Add-Texture "character-ui" "TogawaSakiko" "top-panel-outline" "TogawaSakiko/TogawaSakiko/images/ui/top_panel/character_icon_togawa_sakiko_outline.png" "Exact native dimensions"
 Add-Texture "character-ui" "TogawaSakiko" "character-select-icon" "TogawaSakiko/TogawaSakiko/images/packed/character_select/char_select_togawa_sakiko.png" "Exact native dimensions"
 Add-Texture "character-ui" "TogawaSakiko" "character-select-locked" "TogawaSakiko/TogawaSakiko/images/packed/character_select/char_select_togawa_sakiko_locked.png" "Exact native dimensions"
 Add-Texture "character-ui" "TogawaSakiko" "card-energy-icon" "TogawaSakiko/TogawaSakiko/images/card_ui/energy_togawa_sakiko.png" "Exact native dimensions"
+foreach ($cardType in @("attack", "skill", "power")) {
+    Add-Texture "card-frame" "TogawaSakiko" $cardType "TogawaSakiko/TogawaSakiko/images/card_ui/frame_$cardType.png" "Original STS1 piano art adapted to native portrait opening"
+}
 Add-Texture "character-ui" "TogawaSakiko" "transition" "TogawaSakiko/TogawaSakiko/images/ui/transitions/togawa_sakiko_transition.png" "Exact native dimensions"
+Add-Texture "starting-room" "OceanOfMemories" "background" "TogawaSakiko/TogawaSakiko/images/events/ocean_of_memories.png" "Generated for the user-approved Sakiko opening room"
 Add-Texture "character-ui" "TogawaSakiko" "multiplayer-point" "TogawaSakiko/TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_point.png" "Generated compatibility placeholder"
 Add-Texture "character-ui" "TogawaSakiko" "multiplayer-rock" "TogawaSakiko/TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_rock.png" "Generated compatibility placeholder"
 Add-Texture "character-ui" "TogawaSakiko" "multiplayer-paper" "TogawaSakiko/TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_paper.png" "Generated compatibility placeholder"
@@ -173,6 +182,7 @@ Add-Resource "scene" "res://TogawaSakiko/scenes/combat/energy_counters/togawa_sa
 Add-Resource "scene" "res://TogawaSakiko/scenes/rest_site/characters/togawa_sakiko_rest_site.tscn"
 Add-Resource "scene" "res://TogawaSakiko/scenes/merchant/characters/togawa_sakiko_merchant.tscn"
 Add-Resource "scene" "res://TogawaSakiko/scenes/vfx/card_trail_togawa_sakiko.tscn"
+Add-Resource "scene" "res://TogawaSakiko/scenes/events/ocean_of_memories.tscn"
 Add-Resource "material" "res://TogawaSakiko/materials/transitions/togawa_sakiko_transition_mat.tres"
 Add-Resource "material" "res://TogawaSakiko/materials/cards/frames/card_frame_togawa_sakiko_mat.tres"
 

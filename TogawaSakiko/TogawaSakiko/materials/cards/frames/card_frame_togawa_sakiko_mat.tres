@@ -41,6 +41,6 @@ void fragment() {
 [resource]
 resource_local_to_scene = true
 shader = SubResource("Shader_hsv")
-shader_parameter/h = 0.58
-shader_parameter/s = 0.55
-shader_parameter/v = 0.82
+shader_parameter/h = 1.0
+shader_parameter/s = 1.0
+shader_parameter/v = 1.0

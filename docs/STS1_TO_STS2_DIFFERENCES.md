@@ -1,5 +1,7 @@
 # STS1 to native STS2 differences
 
+> Current-state review, 2026-09-07: Native additions beyond STS1 parity are Another Mask (12 relics including 11 originals) and solo Ocean of Memories. The feedback record details gameplay/localization differences and presentation changes. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 This report records the deliberate scope boundary and every known source gap for the native Togawa Sakiko v0.1.0 port. The machine-readable and per-model audit remains `FULL_PORT_PARITY_INVENTORY.json`; its readable companion is `FULL_PORT_PARITY_INVENTORY.md`.
 
 ## Ported gameplay scope

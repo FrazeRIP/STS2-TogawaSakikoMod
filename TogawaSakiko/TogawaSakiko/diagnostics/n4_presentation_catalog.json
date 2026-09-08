@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "baseline": "Slay the Spire 2 v0.111.0 (41cef1ea)",
-  "textureCount": 336,
+  "textureCount": 345,
   "audioCount": 52,
-  "resourceCount": 10,
-  "localizationFileCount": 15,
+  "resourceCount": 11,
+  "localizationFileCount": 17,
   "textures": [
     {
       "ownerType": "card",
@@ -2464,6 +2464,33 @@
       "sourceStatus": "Original"
     },
     {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-ANOTHER_MASK",
+      "slot": "icon",
+      "path": "res://TogawaSakiko/images/relics/anothermask.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Generated from user-provided white-mask reference"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-ANOTHER_MASK",
+      "slot": "outline",
+      "path": "res://TogawaSakiko/images/relics/anothermask_outline.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Registered alpha silhouette"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-ANOTHER_MASK",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/relics/big/anothermask.png",
+      "width": 256,
+      "height": 256,
+      "sourceStatus": "Generated from user-provided white-mask reference"
+    },
+    {
       "ownerType": "potion",
       "owner": "TOGAWASAKIKO-CHOCOLATE_MILK_JELLY",
       "slot": "container.png",
@@ -2918,9 +2945,27 @@
       "owner": "TogawaSakiko",
       "slot": "rest-site",
       "path": "res://TogawaSakiko/images/character/presentation/rest_site.png",
-      "width": 886,
-      "height": 647,
-      "sourceStatus": "Derived from original STS1 shoulder art"
+      "width": 680,
+      "height": 840,
+      "sourceStatus": "Generated full figure with elevated campfire perspective"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
+      "slot": "merchant",
+      "path": "res://TogawaSakiko/images/character/presentation/merchant.png",
+      "width": 256,
+      "height": 384,
+      "sourceStatus": "Generated standing merchant-room figure"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
+      "slot": "another-mask",
+      "path": "res://TogawaSakiko/images/character/image_another_mask.png",
+      "width": 168,
+      "height": 320,
+      "sourceStatus": "Generated masked combat portrait variation"
     },
     {
       "ownerType": "character-ui",
@@ -2968,6 +3013,33 @@
       "sourceStatus": "Exact native dimensions"
     },
     {
+      "ownerType": "card-frame",
+      "owner": "TogawaSakiko",
+      "slot": "attack",
+      "path": "res://TogawaSakiko/images/card_ui/frame_attack.png",
+      "width": 598,
+      "height": 844,
+      "sourceStatus": "Original STS1 piano art adapted to native portrait opening"
+    },
+    {
+      "ownerType": "card-frame",
+      "owner": "TogawaSakiko",
+      "slot": "skill",
+      "path": "res://TogawaSakiko/images/card_ui/frame_skill.png",
+      "width": 598,
+      "height": 844,
+      "sourceStatus": "Original STS1 piano art adapted to native portrait opening"
+    },
+    {
+      "ownerType": "card-frame",
+      "owner": "TogawaSakiko",
+      "slot": "power",
+      "path": "res://TogawaSakiko/images/card_ui/frame_power.png",
+      "width": 598,
+      "height": 844,
+      "sourceStatus": "Original STS1 piano art adapted to native portrait opening"
+    },
+    {
       "ownerType": "character-ui",
       "owner": "TogawaSakiko",
       "slot": "transition",
@@ -2975,6 +3047,15 @@
       "width": 2560,
       "height": 1200,
       "sourceStatus": "Exact native dimensions"
+    },
+    {
+      "ownerType": "starting-room",
+      "owner": "OceanOfMemories",
+      "slot": "background",
+      "path": "res://TogawaSakiko/images/events/ocean_of_memories.png",
+      "width": 1672,
+      "height": 941,
+      "sourceStatus": "Generated for the user-approved Sakiko opening room"
     },
     {
       "ownerType": "character-ui",
@@ -3033,211 +3114,211 @@
   ],
   "audio": [
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/accomplice.wav"
     },
     {
-      "usage": "Registered STS1 voice; no direct card call found",
+      "usage": "Registered in STS1 but no active call exists",
       "path": "res://TogawaSakiko/audio/sakiko/amoris.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Disabled-card voice; excluded",
       "path": "res://TogawaSakiko/audio/sakiko/aretheselyrics.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/asplitmoment.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/asyourheartdesires.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Disabled-card voice; excluded",
       "path": "res://TogawaSakiko/audio/sakiko/authorityrestoration.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/avemujica.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/bandinvitation.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Disabled-card voice; excluded",
       "path": "res://TogawaSakiko/audio/sakiko/carefree.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/clockout.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/countingstars.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/cruelty.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/desuwa.wav"
     },
     {
-      "usage": "Registered STS1 voice; no direct card call found",
+      "usage": "Registered in STS1 but no active call exists",
       "path": "res://TogawaSakiko/audio/sakiko/doloris.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/edgeofbreakdown.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/endurance.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/fallenflowers.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/fearless.wav"
     },
     {
-      "usage": "Character voice",
+      "usage": "Registered in STS1 but no active call exists",
       "path": "res://TogawaSakiko/audio/sakiko/general1.wav"
     },
     {
-      "usage": "Character voice",
+      "usage": "Registered in STS1 but no active call exists",
       "path": "res://TogawaSakiko/audio/sakiko/general2.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/greetings.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/heartsbarrier.wav"
     },
     {
-      "usage": "Character voice",
+      "usage": "Active hurt voice",
       "path": "res://TogawaSakiko/audio/sakiko/hurt1.wav"
     },
     {
-      "usage": "Character voice",
+      "usage": "Active hurt voice",
       "path": "res://TogawaSakiko/audio/sakiko/hurt2.wav"
     },
     {
-      "usage": "Character voice",
+      "usage": "Registered but unreachable because the STS1 random upper bound is exclusive",
       "path": "res://TogawaSakiko/audio/sakiko/hurt3.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/innercry.wav"
     },
     {
-      "usage": "Character voice",
+      "usage": "Active character-select voice",
       "path": "res://TogawaSakiko/audio/sakiko/intro.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/masks.wav"
     },
     {
-      "usage": "Registered STS1 voice; no direct card call found",
+      "usage": "Registered in STS1 but no active call exists",
       "path": "res://TogawaSakiko/audio/sakiko/masqueraderhapsodyrequest.wav"
     },
     {
-      "usage": "Registered STS1 voice; no direct card call found",
+      "usage": "Registered in STS1 but no active call exists",
       "path": "res://TogawaSakiko/audio/sakiko/mortis.wav"
     },
     {
-      "usage": "Registered STS1 voice; no direct card call found",
+      "usage": "Registered in STS1 but no active call exists",
       "path": "res://TogawaSakiko/audio/sakiko/oblivionis.wav"
     },
     {
-      "usage": "Character voice",
+      "usage": "Registered in STS1 but no active call exists",
       "path": "res://TogawaSakiko/audio/sakiko/others1.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/oursong.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/perdereomnia.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/perfection.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/phantomofmutsumi.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/phantomofsoyo.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/phantomoftaki.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/phantomoftomori.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/pride.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/primodieinscaena.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/rhinocerosbeetle.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/shareddestiny.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/stayelegance.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/thegirlwithflaxenhair.wav"
     },
     {
-      "usage": "Registered STS1 voice; no direct card call found",
+      "usage": "Registered in STS1 but no active call exists",
       "path": "res://TogawaSakiko/audio/sakiko/timoris.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/tiredness.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/wishtobecomehuman.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/wishyougoodluck.wav"
     },
     {
-      "usage": "Direct card voice",
+      "usage": "Active card voice",
       "path": "res://TogawaSakiko/audio/sakiko/worldview.wav"
     },
     {
-      "usage": "Custom VFX",
+      "usage": "Active Dazzling VFX sound",
       "path": "res://TogawaSakiko/audio/vfx/DazzlingAttackEffect.wav"
     },
     {
-      "usage": "Custom VFX",
+      "usage": "Registered in STS1 but its VFX is never instantiated",
       "path": "res://TogawaSakiko/audio/vfx/MusicPulseAttackEffect.wav"
     }
   ],
@@ -3275,6 +3356,10 @@
       "path": "res://TogawaSakiko/scenes/vfx/card_trail_togawa_sakiko.tscn"
     },
     {
+      "kind": "scene",
+      "path": "res://TogawaSakiko/scenes/events/ocean_of_memories.tscn"
+    },
+    {
       "kind": "material",
       "path": "res://TogawaSakiko/materials/transitions/togawa_sakiko_transition_mat.tres"
     },
@@ -3288,6 +3373,7 @@
     "res://TogawaSakiko/localization/eng/card_keywords.json",
     "res://TogawaSakiko/localization/eng/cards.json",
     "res://TogawaSakiko/localization/eng/characters.json",
+    "res://TogawaSakiko/localization/eng/events.json",
     "res://TogawaSakiko/localization/eng/potions.json",
     "res://TogawaSakiko/localization/eng/powers.json",
     "res://TogawaSakiko/localization/eng/relics.json",
@@ -3296,6 +3382,7 @@
     "res://TogawaSakiko/localization/zhs/card_keywords.json",
     "res://TogawaSakiko/localization/zhs/cards.json",
     "res://TogawaSakiko/localization/zhs/characters.json",
+    "res://TogawaSakiko/localization/zhs/events.json",
     "res://TogawaSakiko/localization/zhs/potions.json",
     "res://TogawaSakiko/localization/zhs/powers.json",
     "res://TogawaSakiko/localization/zhs/relics.json"

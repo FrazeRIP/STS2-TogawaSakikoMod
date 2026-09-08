@@ -1,5 +1,7 @@
 # STS2 Modding Wiki — `sts2.dll` & `BaseLib.dll`
 
+> Current-state review, 2026-09-07: Historical architecture/API/planning reference. Current runtime compiles NativeCode only, requires no BaseLib, and implements N1-N7 gameplay plus feedback fixes. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 This document explains the architecture, systems, and functions available when modding **Slay the Spire 2** using the `sts2.dll` game assembly and the `BaseLib 0.2.6` modding framework. It is intended as a comprehensive reference for mod authors.
 
 ---

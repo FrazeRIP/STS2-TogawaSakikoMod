@@ -32,6 +32,13 @@ public sealed class DazzlingPower : PowerModel
             return;
         }
 
+        // Native power hooks run after stacking; newly gained Dazzling cannot trigger itself.
+        int damage = ReferenceEquals(power, this) ? Amount - (int)amount : Amount;
+        if (damage <= 0)
+        {
+            return;
+        }
+
         List<Creature> opponents = CombatState.GetOpponentsOf(Owner)
             .Where(creature => creature.IsHittable)
             .ToList();
@@ -48,13 +55,13 @@ public sealed class DazzlingPower : PowerModel
 
         Flash();
         target.GetVfxContainer()?.AddChildSafely(SakikoDazzlingImpactVfxNode.Create(target));
-        await CreatureCmd.Damage(choiceContext, target, Amount, ValueProp.Unpowered, Owner);
+        await CreatureCmd.Damage(choiceContext, target, damage, ValueProp.Unpowered, Owner);
         GirlOfSpringPower? girlOfSpring = Owner.Powers.OfType<GirlOfSpringPower>().FirstOrDefault();
         if (girlOfSpring is not null)
         {
             await CreatureCmd.GainBlock(Owner, girlOfSpring.Amount, ValueProp.Unpowered, null);
         }
 
-        NativeSmokeTrace.Info($"Dazzling dealt {Amount} damage after {power.Id} increased.");
+        NativeSmokeTrace.Info($"Dazzling dealt {damage} damage after {power.Id} increased.");
     }
 }

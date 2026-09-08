@@ -13,6 +13,7 @@ using TogawaSakiko.NativeCode.Diagnostics;
 using TogawaSakiko.NativeCode.Models.Cards;
 using TogawaSakiko.NativeCode.Models.Powers;
 using TogawaSakiko.NativeCode.Tracking;
+using TogawaSakiko.NativeCode.Presentation;
 
 namespace TogawaSakiko.NativeCode.Models.Relics;
 
@@ -59,7 +60,7 @@ public sealed class StarterRelicTogawaSakiko : RelicModel
         _rewardedCombat = room.CombatState;
         Flash();
         CardPileAddResult result = await PersistentDeckMutation.AddCanonicalAsync<DesireCard>(Owner);
-        CardCmd.PreviewCardPileAdd(result, 2f);
+        HairbandCardPreview.Show(result);
         NativeSmokeTrace.Info($"Monochrome Hairband added Desire to the deck; success={result.success}.");
     }
 

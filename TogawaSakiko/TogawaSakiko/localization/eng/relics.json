@@ -26,11 +26,14 @@
   "TOGAWASAKIKO-THE_DOLL.description": "At the start of your 2nd turn, gain [blue]2[/blue] [gold]Hype[/gold].",
   "TOGAWASAKIKO-THE_DOLL.flavor": "There is nothing left but the warmth of her doll's embrace.",
   "TOGAWASAKIKO-THE_DOLL.title": "The Doll",
-  "TOGAWASAKIKO-THE_THIRD_MOVEMENT.description": "The next [blue]3[/blue] [gold]Moonlight[/gold] [gold]Sonata[/gold] cards you play deal [blue]3[/blue] times damage.",
+  "TOGAWASAKIKO-THE_THIRD_MOVEMENT.description": "The next [blue]3[/blue] [gold]Moonlight Sonata[/gold] cards you play deal [blue]3[/blue] times damage.",
   "TOGAWASAKIKO-THE_THIRD_MOVEMENT.flavor": "The music reaches its climax, and the story comes to an end.",
   "TOGAWASAKIKO-THE_THIRD_MOVEMENT.title": "The Third Movement",
   "TOGAWASAKIKO-THE_THIRD_MOVEMENT.completedDescription": "This movement has been completed.",
-  "TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP.description": "Greatly increase the chance of appearance of [gold]Heart's[/gold] [gold]Barrier[/gold].",
+  "TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP.description": "Greatly increase the chance of appearance of [gold]Heart's Barrier[/gold].",
   "TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP.flavor": "A reinforced tea cup for insulation.\nThe lid is tightly embedded and difficult to remove.",
-  "TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP.title": "Warmth-Infused Porcelain Cup"
+  "TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP.title": "Warmth-Infused Porcelain Cup",
+  "TOGAWASAKIKO-ANOTHER_MASK.title": "Another Mask",
+  "TOGAWASAKIKO-ANOTHER_MASK.description": "Replaces [red]Monochrome Hairband[/red]. Replace all starting [gold]Defend[/gold] cards with [gold]Desire[/gold].",
+  "TOGAWASAKIKO-ANOTHER_MASK.flavor": "A white mask, and a chance to begin again."
 }

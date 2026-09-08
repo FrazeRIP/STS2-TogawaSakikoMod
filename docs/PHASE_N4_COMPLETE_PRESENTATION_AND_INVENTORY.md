@@ -1,5 +1,7 @@
 # Phase N4 Complete Presentation and Inventory
 
+> Current-state review, 2026-09-07: Presentation wiring and inventory checks are complete; final assets are not. Feedback adds rest/shop/mask placeholders, adapted card UI, relic normalization and the approved starting event. Recorded package coverage is 345 textures, 52 audio assets, 11 standalone resources and 17 localization files. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 Status: complete
 
 Executed: 2026-09-06; scope refresh verified 2026-09-07

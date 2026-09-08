@@ -4,6 +4,8 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Saves;
+using MegaCrit.Sts2.Core.Settings;
 using MegaCrit.Sts2.Core.ValueProps;
 using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.Content;
@@ -14,6 +16,8 @@ namespace TogawaSakiko.NativeCode.Models.Cards;
 public sealed class MementoMoriCard : CardModel
 {
     public const int DrawPileWindowSize = 7;
+
+    internal static bool SkipPurgeVisuals => SaveManager.Instance.PrefsSave.FastMode != FastModeType.Normal;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
 
@@ -53,7 +57,7 @@ public sealed class MementoMoriCard : CardModel
         {
             foreach (CardModel card in selectedCards)
             {
-                await CardCmd.Exhaust(choiceContext, card);
+                await CardCmd.Exhaust(choiceContext, card, skipVisuals: SkipPurgeVisuals);
             }
         }
 
@@ -87,7 +91,7 @@ public sealed class MementoMoriCard : CardModel
             CardModel? persistentCard = combatCard.DeckVersion;
             if (persistentCard is null)
             {
-                await CardPileCmd.RemoveFromCombat(combatCard);
+                await CardPileCmd.RemoveFromCombat(combatCard, skipVisuals: SkipPurgeVisuals);
                 continue;
             }
 
@@ -96,7 +100,10 @@ public sealed class MementoMoriCard : CardModel
                 continue;
             }
 
-            PersistentDeckRemovalResult result = await PersistentDeckMutation.RemoveAsync(persistentCard);
+            PersistentDeckRemovalResult result = await PersistentDeckMutation.RemoveAsync(
+                persistentCard,
+                showPersistentPreview: !SkipPurgeVisuals,
+                skipCombatVisuals: SkipPurgeVisuals);
             if (result.Success || result.Prevented)
             {
                 continue;

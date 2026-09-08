@@ -1,5 +1,7 @@
 # Phase N7: Harden and release
 
+> Current-state review, 2026-09-07: Historical N7 archive and acceptance evidence follow. Later feedback has different package hashes and adds Another Mask, Ocean of Memories and gameplay/presentation/localization fixes. Source publication is now authorized. Earlier waiting/uncommitted statements are historical. Full-run N7 acceptance was not repeated for the feedback package. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 Status: complete for the declared singleplayer v0.1.0 support boundary.
 
 Target: Slay the Spire 2 `v0.111.0` (`41cef1ea`) on branch `Test1`.

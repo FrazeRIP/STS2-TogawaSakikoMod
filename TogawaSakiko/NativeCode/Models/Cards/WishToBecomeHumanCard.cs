@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -31,21 +32,29 @@ public sealed class WishToBecomeHumanCard : CardModel
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
         SakikoAudioCmd.TryPlayCardVoice(Owner, "WishToBecomeHuman");
-        AttackCommand attack = await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .WithHitCount(2)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_heavy_blunt")
             .Execute(choiceContext);
-        int unblockedDamage = attack.Results
-            .SelectMany(results => results)
-            .Sum(result => result.UnblockedDamage);
-        if (unblockedDamage > 0)
+    }
+
+    public override async Task AfterDamageGiven(
+        PlayerChoiceContext choiceContext,
+        Creature? dealer,
+        DamageResult result,
+        ValueProp props,
+        Creature target,
+        CardModel? cardSource)
+    {
+        // The native per-hit hook preserves one multi-hit Attack while granting Dazzling between hits.
+        if (ReferenceEquals(cardSource, this) && props.IsPoweredAttack() && result.UnblockedDamage > 0)
         {
             await PowerCmd.Apply<DazzlingPower>(
                 choiceContext,
                 Owner.Creature,
-                unblockedDamage,
+                result.UnblockedDamage,
                 Owner.Creature,
                 this);
         }

@@ -266,11 +266,11 @@ internal static partial class N5BatchDiagnostics
         KaoCard kao = combatState.CreateCard<KaoCard>(player);
         await CardPileCmd.AddGeneratedCardToCombat(kao, PileType.Hand, player);
         await PowerCmd.Apply<StrengthPower>(choiceContext, target, 1m, target, null);
-        Require(kao.DynamicVars.Damage.BaseValue == 9m,
+        Require(kao.DynamicVars.Damage.BaseValue == 5m && kao.ModifyDamageAdditive(target, 5m, ValueProp.Move, player.Creature, kao, null) == 4m,
             "Kao did not gain four combat damage from a positive enemy Buff while in Hand");
         await CardPileCmd.Add(kao, PileType.Discard, skipVisuals: true);
         await PowerCmd.Apply<PlatingPower>(choiceContext, target, 1m, target, null);
-        Require(kao.DynamicVars.Damage.BaseValue == 9m,
+        Require(kao.DynamicVars.Damage.BaseValue == 5m && kao.ModifyDamageAdditive(target, 5m, ValueProp.Move, player.Creature, kao, null) == 4m,
             "Kao grew from an enemy Buff while outside Hand");
         await CardPileCmd.Add(kao, PileType.Hand, skipVisuals: true);
         decimal targetBlockBeforeKao = target.Block;
@@ -735,6 +735,8 @@ internal static partial class N5BatchDiagnostics
             PileType.Hand,
             PileType.Draw,
             PileType.Discard);
+        // One queued turn plus Water's own turn must survive as two distinct native transitions.
+        await PowerCmd.Apply<AmbergrisPower>(choiceContext, player.Creature, 1m, player.Creature, null);
         var water = await CreateAndAutoPlayWithPersistentChildAsync<SymbolIIIWaterCard, DolorisCard>(
             combatState,
             player,
@@ -743,8 +745,8 @@ internal static partial class N5BatchDiagnostics
             upgraded: false);
         Require(totalBlockBefore - opponents.Sum(opponent => opponent.Block) == 16m,
             "Symbol III: Water did not deal sixteen damage to one random opponent");
-        Require(player.Creature.GetPower<AmbergrisPower>()?.Amount == ambergrisBefore + 1,
-            "Symbol III: Water did not apply one hidden native Ambergris extra-turn marker");
+        Require(player.Creature.GetPower<AmbergrisPower>()?.Amount == ambergrisBefore + 2,
+            "Symbol III: Water replaced rather than stacked its queued native extra turn");
         Require(CombatManager.Instance.IsPlayerReadyToEndTurn(player),
             "Symbol III: Water did not request native non-cancelable turn end");
         await CleanupPersistentChildAsync(water.PersistentCard, water.CombatCard);
@@ -784,7 +786,8 @@ internal static partial class N5BatchDiagnostics
 
         Require(combatState.RoundNumber == session.WaterRoundNumberBefore,
             "Symbol III: Water advanced the combat round before its extra turn");
-        Require(player.PlayerCombatState?.TurnNumber == session.WaterTurnNumberBefore + 1,
+        int extraTurnOffset = (player.PlayerCombatState?.TurnNumber ?? 0) - session.WaterTurnNumberBefore;
+        Require(extraTurnOffset is 1 or 2,
             "Symbol III: Water did not increment the owner's player-turn number for its extra turn");
         session.WaterExtraTurnHookSeen = true;
         return Task.CompletedTask;
@@ -805,17 +808,25 @@ internal static partial class N5BatchDiagnostics
             "Symbol III: Water reached player-turn start without the native extra-turn hook");
         Require(combatState.RoundNumber == session.WaterRoundNumberBefore,
             "Symbol III: Water advanced the combat round during its extra-turn transition");
-        Require(player.PlayerCombatState?.TurnNumber == session.WaterTurnNumberBefore + 1,
+        int extraTurnOffset = (player.PlayerCombatState?.TurnNumber ?? 0) - session.WaterTurnNumberBefore;
+        Require(extraTurnOffset is 1 or 2,
             "Symbol III: Water extra turn started with the wrong player-turn number");
         int ambergrisAfter = player.Creature.GetPower<AmbergrisPower>()?.Amount ?? 0;
-        Require(ambergrisAfter == session.WaterAmbergrisAmountBefore,
+        Require(ambergrisAfter == session.WaterAmbergrisAmountBefore + 2 - extraTurnOffset,
             "native Ambergris did not consume exactly one marker for Symbol III: Water's extra turn");
+
+        if (extraTurnOffset == 1)
+        {
+            session.WaterExtraTurnHookSeen = false;
+            PlayerCmd.EndTurn(player, canBackOut: false);
+            return;
+        }
 
         await RestoreCombatCardsAsync(session.WaterCardsMovedAside);
         session.WaterCardsMovedAside = [];
         session.WaterExtraTurnArmed = false;
         NativeSmokeTrace.N5Info(
-            "Symbol III Water extra-turn lifecycle passed. TurnIncrement=1, RoundPreserved=true, AmbergrisConsumed=1.");
+            "Symbol III Water extra-turn lifecycle passed. TurnIncrement=2, RoundPreserved=true, AmbergrisConsumed=1Then1, StackedTurns=2.");
     }
 
     private static async Task<int> RemoveAndRememberPowerAsync<TPower>(Creature creature)

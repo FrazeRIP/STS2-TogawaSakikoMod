@@ -1,0 +1,12 @@
+{
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.title": "Unfamiliar Place",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.epithet": "A memory beneath the waves",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.description": "Sakiko opens her eyes in an unfamiliar place. A colossal, whale-like creature watches her through the blue haze.\n\"I‘m... Neow...  ..receive... this...\"",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.DONE.description": "\"Go... ..up... and.. seek.. for your... answer...\"\nSakiko turns toward the tower.",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.ANOTHER_MASK.title": "Another Mask",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.ANOTHER_MASK.description": "Easy Mode. Replace [red]Monochrome Hairband[/red] with [gold]Another Mask[/gold]. Replace all starting [gold]Defend[/gold] cards with [gold]Desire[/gold].",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.THE_THIRD_MOVEMENT.title": "The Third Movement",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.THE_THIRD_MOVEMENT.description": "Gain [gold]The Third Movement[/gold]. Your next [blue]3[/blue] [gold]Moonlight Sonata[/gold] plays deal [blue]3[/blue] times damage.",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.BLAZING_HAIRBAND.title": "The Blazing Hairband",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.BLAZING_HAIRBAND.description": "Replace [red]Monochrome Hairband[/red] with [gold]Blazing Hairband[/gold]. After each combat victory, add a random card to your deck."
+}

@@ -1,5 +1,7 @@
 # Phase N6: Relics and Potions
 
+> Current-state review, 2026-09-07: All 11 original relics and six potions remain implemented. Another Mask is an approved native addition (12 relics total), offered with The Third Movement and Blazing Hairband in Ocean of Memories. Hairband previews and relic visible bounds were adjusted. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 Status: complete. All 11 concrete STS1 relics, all six concrete STS1 potions, and both potion-linked powers are native, packaged, and accepted on Slay the Spire 2 `v0.111.0` / `41cef1ea`.
 
 Scope: the nine cards disabled in STS1 are not completion work and have no normal generation route. Carefree and Weakness remain registered only as stable-ID/save compatibility models. Custom acts, events, enemies, encounters, intents, endings, cutscenes, exclusive music, and custom-enemy compatibility powers remain removed from the canonical package.

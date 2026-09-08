@@ -20,6 +20,7 @@ internal static class NativeSmokeTrace
     public const string N6ReloadArgument = "togawa-native-n6-contract-reload";
     public const string N7FullRunArgument = "togawa-native-n7-full-run";
     public const string N7ReloadArgument = "togawa-native-n7-reload";
+    public const string StartingRoomArgument = "togawa-native-starting-room-smoke";
 
     private static readonly GameLogger Logger = new(Bootstrap.ModEntryPoint.ModId, LogType.Generic);
     private static int _modelDbInitialized;
@@ -35,7 +36,7 @@ internal static class NativeSmokeTrace
 
     public static bool VanillaGameplayEnabled => CommandLineHelper.HasArg(VanillaGameplayArgument);
 
-    public static bool AutoSlayEnabled => Enabled || VanillaGameplayEnabled || N7FullRunEnabled;
+    public static bool AutoSlayEnabled => Enabled || VanillaGameplayEnabled || N7FullRunEnabled || StartingRoomEnabled;
 
     public static bool ReloadEnabled => CommandLineHelper.HasArg(ReloadArgument);
 
@@ -56,6 +57,8 @@ internal static class NativeSmokeTrace
     public static bool N7FullRunEnabled => CommandLineHelper.HasArg(N7FullRunArgument);
 
     public static bool N7ReloadEnabled => CommandLineHelper.HasArg(N7ReloadArgument);
+
+    public static bool StartingRoomEnabled => CommandLineHelper.HasArg(StartingRoomArgument);
 
     public static bool ModelDbInitialized => Volatile.Read(ref _modelDbInitialized) != 0;
 
@@ -117,6 +120,14 @@ internal static class NativeSmokeTrace
         if (N7FullRunEnabled || N7ReloadEnabled)
         {
             Logger.Info("Phase N7: " + message);
+        }
+    }
+
+    public static void StartingRoomInfo(string message)
+    {
+        if (StartingRoomEnabled)
+        {
+            Logger.Info("Starting room contract: " + message);
         }
     }
 }

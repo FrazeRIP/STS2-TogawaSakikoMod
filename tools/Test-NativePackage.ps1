@@ -131,9 +131,11 @@ $forbiddenPckTokens = @(
     'voicedgazepower.png'
 )
 $pckText = [System.Text.Encoding]::Latin1.GetString([System.IO.File]::ReadAllBytes($pckPath))
+# The user approved this single new starting-room image; original STS1 custom events remain excluded.
+$pckScopeText = $pckText.Replace('/images/events/ocean_of_memories.png', '/images/approved_start/ocean_of_memories.png')
 $foundForbiddenTokens = @(
     $forbiddenPckTokens |
-        Where-Object { $pckText.IndexOf($_, [System.StringComparison]::OrdinalIgnoreCase) -ge 0 }
+        Where-Object { $pckScopeText.IndexOf($_, [System.StringComparison]::OrdinalIgnoreCase) -ge 0 }
 )
 if ($foundForbiddenTokens.Count -gt 0) {
     throw "PCK contains out-of-scope act/event/enemy content: $($foundForbiddenTokens -join ', ')"

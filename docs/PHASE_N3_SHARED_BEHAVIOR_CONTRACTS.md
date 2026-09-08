@@ -1,5 +1,7 @@
 # Phase N3 Shared Behavior Contracts
 
+> Current-state review, 2026-09-07: N3 contracts remain implemented. Feedback adds hairband previews and Another Mask saved one-time Defend-to-Desire conversion through native lifecycle and commands. Package/count evidence below is historical. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 Status: complete
 
 Executed: 2026-09-06

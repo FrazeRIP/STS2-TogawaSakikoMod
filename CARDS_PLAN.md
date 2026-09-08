@@ -1,5 +1,7 @@
 # TogawaSakiko Card Port Plan
 
+> Current-state review, 2026-09-07: Historical architecture/API/planning reference. Current runtime compiles NativeCode only, requires no BaseLib, and implements N1-N7 gameplay plus feedback fixes. All generated assets remain placeholders, not completed assets. See [current project state](docs/CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 > Historical BaseLib-era approximation only. The authoritative source-derived checklist is `docs/FULL_PORT_PARITY_INVENTORY.md` with machine-readable evidence in `docs/FULL_PORT_PARITY_INVENTORY.json`. Use the STS1 Java implementation and localization as behavior truth; do not implement the simplifications below as parity behavior.
 
 ## Status Legend

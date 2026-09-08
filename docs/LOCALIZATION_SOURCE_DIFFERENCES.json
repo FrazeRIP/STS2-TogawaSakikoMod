@@ -6,10 +6,10 @@
   },
   "generatedCountsPerLanguage": {
     "cards": 197,
-    "powers": 82,
-    "relics": 34,
+    "powers": 85,
+    "relics": 37,
     "potions": 12,
-    "cardKeywords": 28
+    "cardKeywords": 30
   },
   "sourceKeywordKeys": {
     "eng": [
@@ -55,6 +55,18 @@
     }
   ],
   "knownCorrectionsAndPolicies": [
+    {
+      "scope": "Native card keyword rendering",
+      "source": "Standalone keyword clauses in STS1 descriptions",
+      "native": "Native CardModel renders the card's own keywords once",
+      "reason": "Remove duplicate Exhaust, Ethereal, Innate, Retain, Unplayable, Sly, or Eternal lines only when the native card owns that keyword; retain behavioral mentions and upgrade-dependent model changes."
+    },
+    {
+      "scope": "Simplified Chinese card spacing",
+      "source": "Spaces around dynamic variables and keyword tokens",
+      "native": "Compact Chinese text with unchanged variables and markup",
+      "reason": "STS1 token-separator spaces are unnecessary in native localization. Apply normalization to preserved live overrides as well as imported text, while keeping Latin phrase spacing and card titles."
+    },
     {
       "scope": "English card title",
       "source": "Mas?uerade Rhapsody Re?uest",
