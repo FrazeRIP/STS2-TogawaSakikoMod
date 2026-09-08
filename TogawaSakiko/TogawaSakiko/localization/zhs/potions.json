@@ -1,14 +1,14 @@
 {
-  "TOGAWASAKIKO-CHOCOLATE_MILK_JELLY.description": "获得 [blue]{Potency}[/blue] 层 [gold]免费攻击[/gold]。",
+  "TOGAWASAKIKO-CHOCOLATE_MILK_JELLY.description": "获得[blue]{Potency}[/blue]层[gold]免费攻击[/gold]。",
   "TOGAWASAKIKO-CHOCOLATE_MILK_JELLY.title": "巧克力奶冻",
-  "TOGAWASAKIKO-EARL_GREY_TEA.description": "获得 [blue]{Potency}[/blue] 层 [gold]闪耀[/gold]。",
+  "TOGAWASAKIKO-EARL_GREY_TEA.description": "获得[blue]{Potency}[/blue]层[gold]闪耀[/gold]。",
   "TOGAWASAKIKO-EARL_GREY_TEA.title": "伯爵红茶",
-  "TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER.description": "下个回合开始时，获得 [blue]{Potency}[/blue] 点 [gold]格挡[/gold]。",
+  "TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER.description": "下个回合开始时，获得[blue]{Potency}[/blue]点[gold]格挡[/gold]。",
   "TOGAWASAKIKO-FRESHLY_SQUEEZED_CUCUMBER.title": "鲜榨黄瓜",
-  "TOGAWASAKIKO-HALLUCINATION_POTION.description": "获得 [blue]{Potency}[/blue] 层 闪耀。在你的回合结束时，失去 [blue]{Potency}[/blue] 层 [gold]闪耀[/gold]。",
+  "TOGAWASAKIKO-HALLUCINATION_POTION.description": "获得[blue]{Potency}[/blue]层闪耀。在你的回合结束时，失去[blue]{Potency}[/blue]层[gold]闪耀[/gold]。",
   "TOGAWASAKIKO-HALLUCINATION_POTION.title": "幻觉药水",
-  "TOGAWASAKIKO-MATCHA_PARFAIT.description": "将 [blue]{Potency}[/blue] 张伤害随机为 [blue]6[/blue] ~ [blue]30[/blue] 之间的 [gold]旋律[/gold] 置入手牌。",
+  "TOGAWASAKIKO-MATCHA_PARFAIT.description": "将[blue]{Potency}[/blue]张伤害随机为[blue]6[/blue]~[blue]30[/blue]之间的[gold]旋律[/gold]置入手牌。",
   "TOGAWASAKIKO-MATCHA_PARFAIT.title": "抹茶芭菲",
-  "TOGAWASAKIKO-ORANGE_MILK_JELLY.description": "获得 [blue]{Potency}[/blue] 层 [gold]连环拳[/gold]。",
+  "TOGAWASAKIKO-ORANGE_MILK_JELLY.description": "获得[blue]{Potency}[/blue]层[gold]连环拳[/gold]。",
   "TOGAWASAKIKO-ORANGE_MILK_JELLY.title": "橘子奶冻"
 }

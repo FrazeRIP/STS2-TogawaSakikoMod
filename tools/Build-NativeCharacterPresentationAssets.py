@@ -147,6 +147,9 @@ def main() -> None:
     placeholder = Image.open(placeholder_path).convert("RGBA")
 
     top_panel = contain(button, (88, 88), padding=5)
+    # Dedicated head art replaces the historical square character-select placeholder.
+    head_source = repo_root / "TogawaSakiko/ArtSources/character_icon/sakiko_head.png"
+    top_panel = fit_visible(Image.open(head_source), (88, 88), padding=5)
     top_panel_outline = alpha_silhouette(top_panel, (255, 255, 255, 255))
     save(top_panel, resource_root / "images" / "ui" / "top_panel" / "character_icon_togawa_sakiko.png")
     save(top_panel_outline, resource_root / "images" / "ui" / "top_panel" / "character_icon_togawa_sakiko_outline.png")
@@ -156,6 +159,9 @@ def main() -> None:
     save(build_locked_portrait(select_portrait), resource_root / "images" / "packed" / "character_select" / "char_select_togawa_sakiko_locked.png")
 
     map_marker = contain(button, (49, 64), padding=3)
+    # The map pointer uses a dedicated inverted sixteenth note in Sakiko's hair color.
+    note_source = repo_root / "TogawaSakiko/ArtSources/map_marker/sakiko_note.png"
+    map_marker = fit_visible(Image.open(note_source), (49, 64), padding=3)
     save(map_marker, resource_root / "images" / "charui" / "map_marker_char_name.png")
 
     energy_icon = contain(small_orb, (71, 72), padding=7)
@@ -272,6 +278,8 @@ def main() -> None:
         *hand_records,
     ]
 
+    character_assets[0]["status"] = "generated Sakiko head matching native top-panel icons"
+    next(asset for asset in character_assets if asset["role"] == "map marker")["status"] = "generated pale-blue inverted sixteenth-note pointer"
     manifest = {
         "schemaVersion": 1,
         "baseline": "Slay the Spire 2 v0.111.0 (41cef1ea)",

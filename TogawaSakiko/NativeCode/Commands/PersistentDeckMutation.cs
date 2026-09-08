@@ -286,7 +286,14 @@ public static class PersistentDeckMutation
 
         while (card.CurrentUpgradeLevel < upgradeLevel)
         {
+            int previousUpgradeLevel = card.CurrentUpgradeLevel;
             CardCmd.Upgrade(card, CardPreviewStyle.None);
+            if (card.CurrentUpgradeLevel <= previousUpgradeLevel)
+            {
+                throw new InvalidOperationException(
+                    $"Card {card.Id} failed to advance from upgrade level {previousUpgradeLevel} " +
+                    $"toward requested level {upgradeLevel}; stopping to prevent an infinite upgrade loop.");
+            }
         }
     }
 

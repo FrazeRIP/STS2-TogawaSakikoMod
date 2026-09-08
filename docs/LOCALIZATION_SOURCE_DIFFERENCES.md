@@ -18,7 +18,7 @@
 | Scope | STS1 source | Native catalog | Reason |
 | --- | --- | --- | --- |
 | Native card keyword rendering | Standalone keyword clauses in STS1 descriptions | Native CardModel renders the card's own keywords once | Remove duplicate Exhaust, Ethereal, Innate, Retain, Unplayable, Sly, or Eternal lines only when the native card owns that keyword; retain behavioral mentions and upgrade-dependent model changes. |
-| Simplified Chinese card spacing | Spaces around dynamic variables and keyword tokens | Compact Chinese text with unchanged variables and markup | STS1 token-separator spaces are unnecessary in native localization. Apply normalization to preserved live overrides as well as imported text, while keeping Latin phrase spacing and card titles. |
+| Simplified Chinese card, power, relic, potion, and keyword spacing | Spaces around dynamic variables and keyword tokens | Compact Chinese text with unchanged variables and markup | STS1 token-separator spaces are unnecessary in native localization. Apply normalization to preserved live overrides as well as imported text, while keeping Latin phrase spacing and card titles. |
 | English card title | Mas?uerade Rhapsody Re?uest | Masquerade Rhapsody Request | The class, art filename, and related relic consistently establish the corrupted letters as q. |
 | English spelling | repalce / begining / enemires / apperance | replace / beginning / enemies / appearance | Provable spelling corrections; behavior and meaning are unchanged. |
 | Edge of Breakdown English behavior text | Vulnerable | Frail | The Java implementation applies FrailPower and the Simplified Chinese source says 脆弱, so the English source text is incorrect. |

@@ -33,7 +33,7 @@ internal static partial class N4LocalizationDiagnostics
     private static partial Regex ColorTagRegex();
 
     [GeneratedRegex(@"(?<=[\u3400-\u9fff])[ \t]|[ \t](?=[\u3400-\u9fff])|[ \t]+\{[A-Za-z]|\}[ \t]+")]
-    private static partial Regex ChineseCardSpacingRegex();
+    private static partial Regex ChineseTextSpacingRegex();
 
     public static void RunIfRequested()
     {
@@ -79,11 +79,11 @@ internal static partial class N4LocalizationDiagnostics
                 }
 
                 ValidateColorTags(table, key, raw);
-                if (language == "zhs" && table == "cards" && !key.EndsWith(".title", StringComparison.Ordinal) &&
-                    ChineseCardSpacingRegex().IsMatch(raw))
+                if (language == "zhs" && !key.EndsWith(".title", StringComparison.Ordinal) &&
+                    ChineseTextSpacingRegex().IsMatch(ColorTagRegex().Replace(raw, "")))
                 {
                     throw new InvalidOperationException(
-                        $"Chinese card localization contains legacy token spacing: {key}.");
+                        $"Chinese localization contains legacy token spacing: {table}.{key}.");
                 }
                 if (!LocString.Exists(table, key))
                 {

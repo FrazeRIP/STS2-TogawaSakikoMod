@@ -224,7 +224,7 @@ function Repair-NativePresentationText([string]$Text, [string]$Language) {
     return $Text
 }
 
-function Normalize-NativeCardSpacing([AllowNull()][string]$Text, [string]$Language) {
+function Normalize-NativeTextSpacing([AllowNull()][string]$Text, [string]$Language) {
     if ([string]::IsNullOrEmpty($Text)) {
         return $Text
     }
@@ -674,12 +674,22 @@ foreach ($card in $inventory.cards) {
         foreach ($key in @($generated[$language].cards.Keys | Where-Object {
             $_.StartsWith("$id.", [StringComparison]::Ordinal) -and -not $_.EndsWith('.title', [StringComparison]::Ordinal)
         })) {
-            $normalized = Normalize-NativeCardSpacing ([string]$generated[$language].cards[$key]) $language
+            $normalized = Normalize-NativeTextSpacing ([string]$generated[$language].cards[$key]) $language
             if ($key -eq "$id.description") {
                 $normalized = Remove-NativeKeywordClauses $normalized $keywords $language
                 $normalized = Split-NativeUpgradeHighlights $normalized
             }
             $generated[$language].cards[$key] = $normalized
+        }
+    }
+}
+
+foreach ($language in @('zhs')) {
+    foreach ($tableName in @('powers', 'relics', 'potions', 'card_keywords')) {
+        foreach ($key in @($generated[$language][$tableName].Keys)) {
+            if (-not $key.EndsWith('.title', [StringComparison]::Ordinal)) {
+                $generated[$language][$tableName][$key] = Normalize-NativeTextSpacing ([string]$generated[$language][$tableName][$key]) $language
+            }
         }
     }
 }
@@ -757,7 +767,7 @@ $knownCorrections = @(
         reason = "Remove duplicate Exhaust, Ethereal, Innate, Retain, Unplayable, Sly, or Eternal lines only when the native card owns that keyword; retain behavioral mentions and upgrade-dependent model changes."
     },
     [ordered]@{
-        scope = "Simplified Chinese card spacing"
+        scope = "Simplified Chinese card, power, relic, potion, and keyword spacing"
         source = "Spaces around dynamic variables and keyword tokens"
         native = "Compact Chinese text with unchanged variables and markup"
         reason = "STS1 token-separator spaces are unnecessary in native localization. Apply normalization to preserved live overrides as well as imported text, while keeping Latin phrase spacing and card titles."

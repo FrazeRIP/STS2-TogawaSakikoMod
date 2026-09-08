@@ -1,6 +1,20 @@
 {
-  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.0-0r.char": "No matter what fate demands, I will decide my own path.",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.0-0r.char": "Please send me to my original world.",
   "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.0-0r.next": "Continue",
-  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.0-1r.ancient": "Then show me what that resolve is worth.",
-  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.0-attack": "Both"
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.0-1r.ancient": "Nope.",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.0-attack": "Both",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.0-1r.next": "Respond",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.0-2r.char": "Why...?",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.0-2r.next": "Continue",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.0-3r.ancient": "Why shoud I?",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.1-0r.char": "I'm here looking for answers.",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.1-0r.next": "Continue",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.1-1r.ancient": "Then you came to the wrong place.",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.1-1r.next": "Respond",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.1-2r.char": "How...they told me...",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.1-2r.next": "Continue",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.1-3r.ancient": "You've been deceived, you poor soul.",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.2-0r.char": "Now, please allow me to perform...",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.2-0r.next": "Continue",
+  "THE_ARCHITECT.talk.TOGAWASAKIKO-TOGAWA_SAKIKO.2-1r.ancient": "Not interested."
 }

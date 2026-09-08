@@ -26,7 +26,7 @@ public sealed class PerfectionCard : CardModel
     {
         List<CardModel> candidates = CardFactory.GetDistinctForCombat(
                 Owner,
-                ModelDb.AllCards,
+                Owner.Character.CardPool.AllCards,
                 CandidateCount,
                 Owner.RunState.Rng.CombatCardGeneration)
             .ToList();

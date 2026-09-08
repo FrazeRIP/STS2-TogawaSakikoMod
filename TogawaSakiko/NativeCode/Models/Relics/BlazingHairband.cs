@@ -50,7 +50,7 @@ public sealed class BlazingHairband : SakikoRelicModel
         _rewardedCombat = room.CombatState;
         CardModel? randomCard = CardFactory.GetForCombat(
                 Owner,
-                ModelDb.AllCards.Where(IsEligibleRandomCard),
+                Owner.Character.CardPool.AllCards.Where(IsEligibleRandomCard),
                 1,
                 Owner.RunState.Rng.CombatCardGeneration)
             .FirstOrDefault();

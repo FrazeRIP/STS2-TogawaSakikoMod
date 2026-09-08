@@ -861,6 +861,8 @@ internal static partial class N5BatchDiagnostics
                 upgraded: false);
         }
         CardModel basePerfectionChoice = PileType.Hand.GetPile(player).Cards.Single();
+        Require(player.Character.CardPool.AllCards.Any(card => card.Id == basePerfectionChoice.Id),
+            "base Perfection generated a card outside the current character's pool");
         Require(basePerfectionChoice.EnergyCost.GetWithModifiers(CostModifiers.Local) == 0 &&
                 basePerfection.Pile?.Type == PileType.Exhaust,
             "base Perfection did not add its selected card free this turn and Exhaust");
@@ -879,6 +881,8 @@ internal static partial class N5BatchDiagnostics
                 upgraded: true);
         }
         CardModel upgradedPerfectionChoice = PileType.Hand.GetPile(player).Cards.Single();
+        Require(player.Character.CardPool.AllCards.Any(card => card.Id == upgradedPerfectionChoice.Id),
+            "upgraded Perfection generated a card outside the current character's pool");
         Require(upgradedPerfectionChoice.EnergyCost.GetWithModifiers(CostModifiers.Local) == 0 &&
                 upgradedPerfection.EnergyCost.GetWithModifiers(CostModifiers.None) == 2 &&
                 upgradedPerfection.Pile?.Type == PileType.Exhaust,

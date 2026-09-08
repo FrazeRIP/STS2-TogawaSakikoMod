@@ -128,6 +128,8 @@ internal static class N6BatchDiagnostics
         Require(BlazingHairband.IsEligibleRandomCard(addedCards[0]) &&
                 addedCards[0] is not CarefreeCard and not WeaknessCard,
             "Blazing Hairband selected a disabled compatibility card");
+        Require(player.Character.CardPool.AllCards.Any(card => card.Id == addedCards[0].Id),
+            "Blazing Hairband generated a card outside the current character's pool");
 
         await Hook.AfterCombatVictory(player.RunState, combatState, room);
         Require(player.Deck.Cards.Count == deckBefore + 1,
