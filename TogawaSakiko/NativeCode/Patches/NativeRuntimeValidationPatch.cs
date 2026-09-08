@@ -26,6 +26,7 @@ internal static class NativeRuntimeValidationPatch
         NativeAssetPaths.CharacterSelectBackground,
         NativeAssetPaths.CharacterVisualsPreload,
         NativeAssetPaths.CharacterPortrait,
+        NativeAssetPaths.CharacterDeadPortrait,
         NativeAssetPaths.CharacterRestSitePortrait,
         NativeAssetPaths.CharacterIcon,
         NativeAssetPaths.CharacterIconOutline,

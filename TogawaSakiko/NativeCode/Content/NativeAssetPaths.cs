@@ -17,6 +17,7 @@ internal static class NativeAssetPaths
     public const string CharacterIconScene = Root + "/scenes/ui/togawa_sakiko_icon.tscn";
     public const string CharacterSelectBackground = Root + "/scenes/screens/char_select/togawa_sakiko_background.tscn";
     public const string CharacterPortrait = Root + "/images/character/image.png";
+    public const string CharacterDeadPortrait = Root + "/images/character/corpse.png";
     public const string CharacterMaskedPortrait = Root + "/images/character/image_another_mask.png";
     public const string CharacterMasterOfMelodiaPortrait = Root + "/images/character/image_alt.png";
     public const string CharacterRestSitePortrait = Root + "/images/character/presentation/rest_site.png";

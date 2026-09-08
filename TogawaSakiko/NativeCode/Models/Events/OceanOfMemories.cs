@@ -16,18 +16,19 @@ public sealed class OceanOfMemories : Neow
     public const string Entry = "TOGAWASAKIKO-OCEAN_OF_MEMORIES";
     public const string ScenePath = "res://TogawaSakiko/scenes/events/ocean_of_memories.tscn";
     public const string ArtworkPath = "res://TogawaSakiko/images/events/ocean_of_memories.png";
+    public const string NativeBackgroundScenePath = "res://scenes/events/background_scenes/neow.tscn";
 
     private bool _choiceStarted;
 
     public override string LocTable => "events";
-    public override EventLayoutType LayoutType => EventLayoutType.Custom;
-    public override string AmbientBgm => string.Empty;
-    public override Color ButtonColor => new(0.025f, 0.085f, 0.12f, 0.9f);
-    public override LocString InitialDescription => new(LocTable, Entry + ".pages.INITIAL.description");
+    public override EventLayoutType LayoutType => base.LayoutType;
+    public override string AmbientBgm => base.AmbientBgm;
+    public override Color ButtonColor => base.ButtonColor;
+    public override LocString InitialDescription => new("ancients", "NEOW.pages.INITIAL.description");
     public override IEnumerable<EventOption> AllPossibleOptions => GenerateInitialOptions();
 
     public override IEnumerable<string> GetAssetPaths(IRunState runState) =>
-        [ScenePath, ArtworkPath, .. MegaCrit.Sts2.Core.Nodes.Events.NEventOptionButton.AssetPaths];
+        base.GetAssetPaths(runState);
 
     protected override AncientDialogueSet DefineDialogues() => new()
     {

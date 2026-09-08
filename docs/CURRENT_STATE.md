@@ -2,6 +2,10 @@
 
 Reviewed: 2026-09-07. This document supersedes current-state claims in earlier plans and phase records; those records retain their original implementation and acceptance history.
 
+Neow dialogue revision, 2026-09-07: Sakiko's supplied EN/zh-Hans conversations play on visits 1, 2, and 3 respectively. Later visits use the native repeat pool (generic Neow dialogue plus conversations 2 and 3). Her dedicated room uses conversation 1 instead of the shared first-ever introduction; vanilla character dialogue is preserved. The three fixed rewards and their effects remain unchanged.
+
+Starting-room presentation revision, 2026-09-07: standard solo Sakiko now reuses the game's original Neow ancient layout and animated background, including native dialogue, title, ambience, icons, and button behavior. The options remain fixed in order: Another Mask, The Third Movement, Blazing Hairband. The existing Ocean of Memories model ID and reward/save behavior are retained for compatibility. The custom full-screen scene, artwork, and narrative below describe the earlier presentation and are preserved as source assets but are no longer selected by the starting room. See [native Neow layout verification](NATIVE_NEOW_LAYOUT.md).
+
 ## Supported checkpoint
 
 The native v0.1.0 single-player port has completed gameplay implementation for Phases N1–N7 and the September 7 feedback implementation. All generated assets remain placeholders; final artwork is unfinished. Target game: Slay the Spire 2 v0.111.0 (`41cef1ea`); engine: MegaDot `4.5.1.m.14.mono.custom_build`; C#: .NET 9. Multiplayer remains unsupported and unverified.

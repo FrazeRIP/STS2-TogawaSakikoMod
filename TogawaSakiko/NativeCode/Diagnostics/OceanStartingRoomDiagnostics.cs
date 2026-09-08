@@ -4,6 +4,7 @@ using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.AutoSlay.Handlers.Rooms;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Ancients;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Helpers;
@@ -35,17 +36,32 @@ internal static class OceanStartingRoomDiagnostics
             ?? throw Failure("there was no active run");
         EventRoom room = runState.CurrentRoom as EventRoom
             ?? throw Failure("the starting room was not an event");
+        // Native Neow preloads an animated background before its mutable event and UI become available.
+        ulong roomDeadline = Time.GetTicksMsec() + 30000;
+        while ((RunManager.Instance.EventSynchronizer.Events.Count == 0 || NEventRoom.Instance?.Layout is null) &&
+               Time.GetTicksMsec() < roomDeadline)
+        {
+            await Task.Delay(50, cancellationToken);
+        }
+        Require(RunManager.Instance.EventSynchronizer.Events.Count > 0, "native event preload did not complete");
         OceanOfMemories ocean = room.LocalMutableEvent as OceanOfMemories
             ?? throw Failure("Sakiko's starting room was not Ocean of Memories");
         Player player = ocean.Owner!;
         NEventRoom node = NEventRoom.Instance ?? throw Failure("the event room node was missing");
-        OceanOfMemoriesScene scene = node.CustomEventNode as OceanOfMemoriesScene
-            ?? throw Failure("the custom full-screen layout was missing");
+        NAncientEventLayout scene = node.Layout as NAncientEventLayout
+            ?? throw Failure("the original ancient event layout was missing");
+        ulong setupDeadline = Time.GetTicksMsec() + 10000;
+        while (scene.OptionButtons.Count() != 3 && Time.GetTicksMsec() < setupDeadline)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            await node.ToSignal(node.GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+        Require(scene.OptionButtons.Count() == 3, "native option setup did not complete");
 
         // Broader gameplay diagnostics require the unchanged starter relic and starter deck.
         if (!NativeSmokeTrace.StartingRoomEnabled)
         {
-            scene.OnOptionClicked(ocean.CurrentOptions[1], 1);
+            node.OptionButtonClicked(ocean.CurrentOptions[1], 1);
             await RunManager.Instance.EventSynchronizer.AwaitPendingOptionTasks();
             // Keep earlier combat contracts at their original damage baseline after exercising the new choice.
             await RelicCmd.Remove(player.Relics.OfType<TheThirdMovement>().Single());
@@ -73,17 +89,30 @@ internal static class OceanStartingRoomDiagnostics
             cancellationToken.ThrowIfCancellationRequested();
             await node.ToSignal(node.GetTree(), SceneTree.SignalName.ProcessFrame);
         }
-        TextureRect artwork = scene.GetNode<TextureRect>("Artwork");
-        Require(artwork.Texture is not null && artwork.Texture.GetWidth() > 0 && artwork.Texture.GetHeight() > 0,
-            "the full-screen artwork did not resolve");
-        Require(artwork.Size.IsEqualApprox(scene.Size) && scene.Size.X > 0 && scene.Size.Y > 0,
-            "the artwork did not fill the room");
-        Require(scene.GetNode<VBoxContainer>("Content/Options").GetChildren().OfType<NEventOptionButton>().Count() == 3,
-            "the custom layout did not create three native option buttons");
+        Control artwork = scene.GetNode<Control>("%AncientBgContainer").GetChild<Control>(0);
+        Require(artwork.SceneFilePath == OceanOfMemories.NativeBackgroundScenePath,
+            "the original Neow background scene did not resolve");
+        Require(scene.SceneFilePath == NAncientEventLayout.ancientScenePath && node.CustomEventNode is null,
+            "the room still used a custom layout");
+        Require(scene.OptionButtons.Count() == 3 &&
+                scene.OptionButtons.Select(button => button.Option).SequenceEqual(initialOptions),
+            "the native layout did not create the three fixed option buttons");
+        Require(ocean.AmbientBgm == ModelDb.Event<Neow>().AmbientBgm &&
+                ocean.ButtonColor == ModelDb.Event<Neow>().ButtonColor &&
+                ocean.Title.LocEntryKey == "NEOW.title" && ocean.Epithet.LocEntryKey == "NEOW.epithet",
+            "the room did not reuse Neow's native presentation");
+        foreach (int visits in new[] { 0, 1, 2, 5 })
+        {
+            var dialogues = ocean.DialogueSet.GetValidDialogues(player.Character.Id, visits, visits, true).ToArray();
+            Require(dialogues.Length > 0 && dialogues.SelectMany(dialogue => dialogue.Lines)
+                    .All(line => line.LineText is not null && line.LineText.Exists()),
+                "native Neow dialogue was missing on a first or repeat visit");
+        }
+        await VerifyDialogueAsync(scene, ocean, node, cancellationToken);
         await CaptureIfRequestedAsync(node, cancellationToken);
 
         // Exercise the same routed native button entry point used by the visible UI.
-        node.OptionButtonClicked(initialOptions[choice], choice);
+        scene.OptionButtons.ElementAt(choice).ForceClick();
         await RunManager.Instance.EventSynchronizer.AwaitPendingOptionTasks();
         Require(ocean.IsFinished && room.IsPreFinished, "choosing an option did not finish the native ancient room");
         VerifyChoice(player, choice);
@@ -132,7 +161,7 @@ internal static class OceanStartingRoomDiagnostics
         }
         VerifyChoice(reloadedPlayer, choice);
         NativeSmokeTrace.StartingRoomInfo(
-            $"passed. Choice={ChoiceKeys[choice]}, Deck=9, Repeat=blocked, SavedChoice=exact, Reload=finished, ThirdMovementUses={(choice == 1 ? 3 : 0)}, Vanilla=preserved, FullscreenArtwork=resolved.");
+            $"passed. Choice={ChoiceKeys[choice]}, Deck=9, Repeat=blocked, SavedChoice=exact, Reload=finished, ThirdMovementUses={(choice == 1 ? 3 : 0)}, Vanilla=preserved, NativeNeowLayout=resolved.");
 
         if (CommandLineHelper.HasArg("togawa-feedback-visuals"))
         {
@@ -186,7 +215,67 @@ internal static class OceanStartingRoomDiagnostics
         }, "the chosen relic inventory or Third Movement charges were not exact");
     }
 
-    private static async Task CaptureIfRequestedAsync(NEventRoom node, CancellationToken cancellationToken)
+    private static async Task VerifyDialogueAsync(NAncientEventLayout scene, OceanOfMemories ocean,
+        NEventRoom node, CancellationToken cancellationToken)
+    {
+        AncientDialogueSet set = ocean.DialogueSet;
+        ModelId character = ocean.Owner!.Character.Id;
+        IReadOnlyList<AncientDialogue> conversations = set.CharacterDialogues[character.Entry];
+        Require(conversations.Count == 3 && set.FirstVisitEverDialogue is null,
+            "the first Sakiko conversation could be replaced by Neow's shared introduction");
+        AncientDialogueSpeaker[][] speakers =
+        [
+            [AncientDialogueSpeaker.Character, AncientDialogueSpeaker.Ancient, AncientDialogueSpeaker.Ancient],
+            [AncientDialogueSpeaker.Character, AncientDialogueSpeaker.Ancient, AncientDialogueSpeaker.Character, AncientDialogueSpeaker.Ancient],
+            [AncientDialogueSpeaker.Character, AncientDialogueSpeaker.Ancient, AncientDialogueSpeaker.Ancient]
+        ];
+        for (int previousVisits = 0; previousVisits < 3; previousVisits++)
+        {
+            AncientDialogue[] eligible = set.GetValidDialogues(character, previousVisits, previousVisits, true).ToArray();
+            Require(eligible.Length == 1 && ReferenceEquals(eligible[0], conversations[previousVisits]),
+                "conversation selection did not match the first, second, and third visits");
+            Require(eligible[0].Lines.Select(line => line.Speaker).SequenceEqual(speakers[previousVisits]) &&
+                    eligible[0].Lines.All(line => line.LineText?.Exists() == true) &&
+                    eligible[0].Lines.SkipLast(1).All(line => line.NextButtonText?.Exists() == true),
+                "a conversation had incorrect speakers or missing text/Continue localization");
+        }
+        foreach (int previousVisits in new[] { 3, 4, 10 })
+        {
+            AncientDialogue[] eligible = set.GetValidDialogues(character, previousVisits, previousVisits, true).ToArray();
+            Require(eligible.Contains(conversations[1]) && !eligible.Contains(conversations[0]) &&
+                    eligible.Contains(conversations[2]) && eligible.Length == set.AgnosticDialogues.Count + 2,
+                "later visits did not use Neow's generic pool plus the repeatable second and third conversations");
+        }
+        Require(ModelDb.Event<Neow>().DialogueSet.FirstVisitEverDialogue is not null,
+            "Sakiko's introduction override changed vanilla Neow's first-ever introduction");
+
+        int visit = int.TryParse(CommandLineHelper.GetValue("togawa-starting-visit"), out int parsed) ? parsed : 1;
+        Require(visit is >= 1 and <= 3, "diagnostic visit must be 1, 2, or 3");
+        NAncientDialogueLine[] rendered = scene.GetNode<VBoxContainer>("%DialogueContainer")
+            .GetChildren().OfType<NAncientDialogueLine>().ToArray();
+        Require(rendered.Length == conversations[visit - 1].Lines.Count,
+            "the native room did not select the requested visit's conversation");
+        NAncientDialogueHitbox next = scene.GetNode<NAncientDialogueHitbox>("%DialogueHitbox");
+        for (int index = 0; index < rendered.Length; index++)
+        {
+            AncientDialogueLine line = (AncientDialogueLine)AccessTools.Field(typeof(NAncientDialogueLine), "_line")
+                .GetValue(rendered[index])!;
+            Require(ReferenceEquals(line, conversations[visit - 1].Lines[index]),
+                "the rendered conversation was reordered or replaced");
+            await CaptureIfRequestedAsync(node, cancellationToken, $"dialogue-{visit}-{index + 1}");
+            if (index < rendered.Length - 1)
+            {
+                Require(next.Visible, "Continue was hidden before the end of the conversation");
+                next.ForceClick();
+                await node.ToSignal(node.GetTree(), SceneTree.SignalName.ProcessFrame);
+            }
+        }
+        Require(!next.Visible && scene.DefaultFocusedControl is NEventOptionButton,
+            "finishing the conversation did not expose the native reward choices");
+        NativeSmokeTrace.StartingRoomInfo($"dialogue passed. Visit={visit}, Conversations=3, Speakers=exact, Continue=working, RepeatPool=second-and-third.");
+    }
+
+    private static async Task CaptureIfRequestedAsync(NEventRoom node, CancellationToken cancellationToken, string? suffix = null)
     {
         string? path = CommandLineHelper.GetValue("togawa-starting-screenshot");
         if (string.IsNullOrWhiteSpace(path))
@@ -195,6 +284,10 @@ internal static class OceanStartingRoomDiagnostics
         }
         Require(DisplayServer.GetName() != "headless", "screenshot capture requires a rendered game window");
         Require(Path.IsPathFullyQualified(path), "screenshot capture requires an absolute output path");
+        if (suffix is not null)
+        {
+            path = Path.Combine(Path.GetDirectoryName(path)!, suffix + ".png");
+        }
         ulong settleUntil = Time.GetTicksMsec() + 2000;
         while (Time.GetTicksMsec() < settleUntil)
         {
@@ -248,6 +341,14 @@ internal static class OceanStartingRoomDiagnosticUnlockPatch
         {
             // A fresh isolated profile has not revealed Neow yet; the test needs the normal unlocked starting room.
             unlockState = UnlockState.all;
+            if (int.TryParse(CommandLineHelper.GetValue("togawa-starting-visit"), out int visit) && visit > 1)
+            {
+                AncientStats stats = SaveManager.Instance.Progress.GetOrCreateAncientStats(ModelDb.Event<OceanOfMemories>().Id);
+                if (stats.CharStats.All(entry => entry.Character != character.Id))
+                {
+                    stats.CharStats.Add(new AncientCharacterStats { Character = character.Id, Losses = visit - 1 });
+                }
+            }
         }
     }
 }

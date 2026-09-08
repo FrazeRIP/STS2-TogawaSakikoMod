@@ -12,6 +12,9 @@ param(
     [ValidateSet('eng', 'zhs')]
     [string]$Language = 'eng',
 
+    [ValidateRange(1, 3)]
+    [int]$Visit = 1,
+
     [switch]$CaptureScreenshot,
 
     [switch]$CaptureFeedback,
@@ -69,6 +72,7 @@ foreach ($choiceIndex in $Choice) {
     $startInfo.Environment['APPDATA'] = $appDataPath
     $startInfo.Environment['LOCALAPPDATA'] = $localAppDataPath
     $arguments = @('--force-steam=off', '--autoslay', '--togawa-native-starting-room-smoke', "--togawa-starting-choice=$choiceIndex", '--seed=OCEANSTART001')
+    $arguments += "--togawa-starting-visit=$Visit"
     if ($CaptureScreenshot -or $CaptureFeedback) {
         $arguments += @('--windowed', '--resolution', '1920x1080', "--togawa-starting-screenshot=$screenshotPath")
     }
@@ -83,7 +87,7 @@ foreach ($choiceIndex in $Choice) {
     }
 
     $uses = if ($choiceIndex -eq 1) { 3 } else { 0 }
-    $marker = "Starting room contract: passed. Choice=$choiceKey, Deck=9, Repeat=blocked, SavedChoice=exact, Reload=finished, ThirdMovementUses=$uses, Vanilla=preserved, FullscreenArtwork=resolved."
+    $marker = "Starting room contract: passed. Choice=$choiceKey, Deck=9, Repeat=blocked, SavedChoice=exact, Reload=finished, ThirdMovementUses=$uses, Vanilla=preserved, NativeNeowLayout=resolved."
     $completionMarker = if ($CaptureFeedback) { 'Starting room contract: feedback visual rooms captured.' } else { $marker }
     $managedIssuePattern = '\[ERROR\]|Unhandled exception|[A-Za-z0-9_.]+Exception:|Failed to load mod|Could not load mod|Localization formatting error|Starting room contract failed'
     $gameProcess = [System.Diagnostics.Process]::Start($startInfo)
@@ -120,6 +124,7 @@ foreach ($choiceIndex in $Choice) {
     $result = [pscustomobject]@{
         Choice = $choiceKey
         Language = $Language
+        Visit = $Visit
         Passed = $logText.Contains($marker) -and $logText.Contains($completionMarker)
         StartingDeckCount = 9
         ThirdMovementUses = $uses

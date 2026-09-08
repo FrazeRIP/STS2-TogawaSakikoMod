@@ -4,6 +4,8 @@
 
 Status: canonical execution workflow
 
+Latest starting-room presentation revision, 2026-09-07: reuse the installed game's native Neow room rather than the custom full-screen scene. Keep the three current rewards fixed and ordered: Another Mask, The Third Movement, Blazing Hairband. Retain the existing event ID, relic effects, and save lifecycle; native Neow presentation supersedes the custom artwork/narrative instructions below. Verification is recorded in `NATIVE_NEOW_LAYOUT.md`.
+
 Baseline date: 2026-09-06
 
 Target game baseline: Slay the Spire 2 `v0.111.0`, commit `41cef1ea`

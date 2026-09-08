@@ -39,8 +39,16 @@ internal static class StartingOptionsDiagnostics
         Require(oceanOptions.Select(option => option.TextKey.Split('.').Last())
                 .SequenceEqual(new[] { "ANOTHER_MASK", "THE_THIRD_MOVEMENT", "BLAZING_HAIRBAND" }),
             "Sakiko's three fixed starting options were missing or reordered");
-        Require(ocean.InitialDescription.LocEntryKey == "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.description",
-            "Sakiko's starting room still used Neow's description");
+        Require(ocean.InitialDescription.LocEntryKey == "NEOW.pages.INITIAL.description",
+            "Sakiko's starting room did not reuse Neow's description");
+        foreach (uint seed in new uint[] { 1, 42, 987654 })
+        {
+            AccessTools.Property(typeof(EventModel), nameof(EventModel.Rng)).SetValue(ocean, new Rng(seed));
+            IReadOnlyList<EventOption> repeated = (IReadOnlyList<EventOption>)
+                AccessTools.Method(typeof(OceanOfMemories), "GenerateInitialOptions").Invoke(ocean, null)!;
+            Require(repeated.Select(option => option.TextKey).SequenceEqual(oceanOptions.Select(option => option.TextKey)),
+                "Sakiko's fixed options changed with the event seed");
+        }
         Require(oceanOptions.All(option => option.Title.Exists() && option.Description.Exists()),
             "Sakiko's starting choices had missing localization");
 

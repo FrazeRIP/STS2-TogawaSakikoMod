@@ -29,6 +29,11 @@ internal static class FeedbackVisualDiagnostics
 {
     internal static async Task CaptureAsync(RunState runState, CancellationToken cancellationToken)
     {
+        if (CommandLineHelper.HasArg("togawa-death-presentation"))
+        {
+            await DeathPresentationDiagnostics.RunAsync(runState, cancellationToken);
+            return;
+        }
         if (DisplayServer.GetName() == "headless")
         {
             throw new InvalidOperationException("Feedback visual capture requires a rendered window.");
