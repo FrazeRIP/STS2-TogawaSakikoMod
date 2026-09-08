@@ -1,0 +1,72 @@
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.Factories;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Runs;
+using TogawaSakiko.NativeCode.Commands;
+using TogawaSakiko.NativeCode.Diagnostics;
+using TogawaSakiko.NativeCode.Models.Cards;
+using TogawaSakiko.NativeCode.Presentation;
+
+namespace TogawaSakiko.NativeCode.Models.Relics;
+
+public sealed class BlazingHairband : SakikoRelicModel
+{
+    private ICombatState? _rewardedCombat;
+
+    protected override string AssetStem => "blazinghairband";
+
+    public override RelicRarity Rarity => RelicRarity.Ancient;
+
+    public override bool IsAllowed(IRunState runState)
+    {
+        return runState.Players.Any(player =>
+            player.Relics.OfType<StarterRelicTogawaSakiko>().Any(relic => !relic.IsMelted));
+    }
+
+    public override async Task AfterObtained()
+    {
+        StarterRelicTogawaSakiko? starter = Owner.Relics
+            .OfType<StarterRelicTogawaSakiko>()
+            .FirstOrDefault(relic => !relic.IsMelted);
+        if (starter is not null)
+        {
+            await RelicCmd.Remove(starter);
+        }
+    }
+
+    public override async Task AfterCombatVictory(CombatRoom room)
+    {
+        if (Owner.Creature.IsDead ||
+            ReferenceEquals(_rewardedCombat, room.CombatState) ||
+            !StarterRelicTogawaSakiko.IsEligibleVictory(room.Act.Id.Entry, room.Encounter.Id.Entry))
+        {
+            return;
+        }
+
+        _rewardedCombat = room.CombatState;
+        CardModel? randomCard = CardFactory.GetForCombat(
+                Owner,
+                ModelDb.AllCards.Where(IsEligibleRandomCard),
+                1,
+                Owner.RunState.Rng.CombatCardGeneration)
+            .FirstOrDefault();
+        if (randomCard is null)
+        {
+            return;
+        }
+
+        Flash();
+        CardPileAddResult result = await PersistentDeckMutation.AddStatEquivalentAsync(Owner, randomCard);
+        HairbandCardPreview.Show(result);
+        NativeSmokeTrace.Info($"Blazing Hairband added random card {randomCard.Id} to the deck; success={result.success}.");
+    }
+
+    internal static bool IsEligibleRandomCard(CardModel card)
+    {
+        return card is not CarefreeCard and not WeaknessCard;
+    }
+}

@@ -1,0 +1,12 @@
+{
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.title": "陌生的场景",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.epithet": "沉于海底的记忆",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.description": "祥子在陌生的地方睁开双眼。蓝色薄雾中，一头如鲸般庞大的生物正注视着她。\n“我是..涅奥.. ..收下..这个...”",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.DONE.description": "“..向塔上.. 前进.. 寻找.. 你想要的.. 答案...”\n祥子转身，望向高塔。",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.ANOTHER_MASK.title": "另一张假面",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.ANOTHER_MASK.description": "简单模式。将[red]黑白色发带[/red]替换为[gold]另一张假面[/gold]。将所有初始[gold]防御[/gold]替换为[gold]渴望[/gold]。",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.THE_THIRD_MOVEMENT.title": "第三乐章",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.THE_THIRD_MOVEMENT.description": "获得[gold]第三乐章[/gold]。接下来打出的[blue]3[/blue]张[gold]月光奏鸣曲[/gold]造成[blue]3[/blue]倍伤害。",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.BLAZING_HAIRBAND.title": "炽色的发带",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.BLAZING_HAIRBAND.description": "将[red]黑白色发带[/red]替换为[gold]炽色的发带[/gold]。每次战斗胜利后，将一张随机卡牌加入牌组。"
+}

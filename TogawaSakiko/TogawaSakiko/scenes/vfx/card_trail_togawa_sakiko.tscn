@@ -1,0 +1,125 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://NativeCode/Presentation/Godot/SakikoCardTrailVfxNode.cs" id="1_vfx"]
+[ext_resource type="Texture2D" path="res://TogawaSakiko/images/card_ui/energy_togawa_sakiko.png" id="2_outer"]
+[ext_resource type="Script" path="res://NativeCode/Presentation/Godot/SakikoCardTrailNode.cs" id="3_trail"]
+[ext_resource type="Texture2D" path="res://TogawaSakiko/images/card_ui/energy_togawa_sakiko.png" id="4_inner"]
+[ext_resource type="Texture2D" path="res://TogawaSakiko/images/card_ui/energy_togawa_sakiko.png" id="5_brush"]
+[ext_resource type="Texture2D" path="res://TogawaSakiko/images/card_ui/energy_togawa_sakiko.png" id="6_sparkle"]
+[ext_resource type="Texture2D" path="res://TogawaSakiko/images/placeholders/missing_content.png" id="7_card"]
+
+[sub_resource type="CanvasItemMaterial" id="Material_additive"]
+blend_mode = 1
+
+[sub_resource type="Curve" id="Curve_outer"]
+_data = [Vector2(0, 0.111037), 0.0, 0.0, 0, 0, Vector2(0.839578, 0.663793), -2.61019, -2.61019, 0, 0, Vector2(0.922468, 0.94341), 0.0, 0.0, 0, 0, Vector2(1, 0.685611), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Gradient" id="Gradient_outer"]
+offsets = PackedFloat32Array(0, 0.141431, 0.522463)
+colors = PackedColorArray(0, 0, 0, 0, 0.18, 0.25, 0.32, 0.305882, 0.69, 0.84, 0.96, 1)
+
+[sub_resource type="Curve" id="Curve_inner"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.801075, 0.571397), -3.15833, -3.15833, 0, 0, Vector2(0.900922, 0.367031), 0.0, 0.0, 0, 0, Vector2(0.938291, 0.930834), 0.0, 0.0, 0, 0, Vector2(1, 0.742201), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Gradient" id="Gradient_inner"]
+offsets = PackedFloat32Array(0.261231, 0.647255, 0.821549)
+colors = PackedColorArray(0, 0, 0, 0, 0.25, 0.38, 0.48, 0.305882, 0.78, 0.91, 1, 1)
+
+[sub_resource type="Gradient" id="Gradient_big_sparks"]
+offsets = PackedFloat32Array(0, 0.554377, 0.806366, 1)
+colors = PackedColorArray(0.14, 0.32, 0.48, 1, 0.35, 0.67, 0.82, 0.7, 0.66, 0.82, 0.94, 0.45, 0.82, 0.9, 1, 0)
+
+[sub_resource type="Gradient" id="Gradient_little_sparks"]
+colors = PackedColorArray(0.92, 0.97, 1, 1, 0.55, 0.78, 0.92, 0)
+
+[node name="CardTrailTogawaSakiko" type="Node2D"]
+show_behind_parent = true
+script = ExtResource("1_vfx")
+
+[node name="Trails" type="Node2D" parent="."]
+
+[node name="OuterTrail" type="Line2D" parent="Trails"]
+modulate = Color(0.12, 0.42, 0.62, 0.752941)
+material = SubResource("Material_additive")
+width = 28.0
+width_curve = SubResource("Curve_outer")
+default_color = Color(1, 1, 1, 0.752941)
+gradient = SubResource("Gradient_outer")
+texture = ExtResource("2_outer")
+texture_mode = 2
+joint_mode = 2
+script = ExtResource("3_trail")
+
+[node name="InnerTrail" type="Line2D" parent="Trails"]
+modulate = Color(0.56, 0.85, 0.96, 0.501961)
+material = SubResource("Material_additive")
+width = 16.0
+width_curve = SubResource("Curve_inner")
+gradient = SubResource("Gradient_inner")
+texture = ExtResource("4_inner")
+texture_mode = 2
+joint_mode = 2
+script = ExtResource("3_trail")
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="BigSparks" type="CPUParticles2D" parent="Sprites"]
+material = SubResource("Material_additive")
+amount = 64
+lifetime = 2.0
+randomness = 0.5
+lifetime_randomness = 1.0
+fract_delta = false
+texture = ExtResource("5_brush")
+emission_shape = 3
+emission_rect_extents = Vector2(24, 24)
+direction = Vector2(5, -5)
+gravity = Vector2(0, 0)
+initial_velocity_min = 16.0
+initial_velocity_max = 32.0
+angular_velocity_min = -32.0
+angular_velocity_max = 32.0
+damping_min = 1.0
+damping_max = 5.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 0.08
+scale_amount_max = 0.16
+color_ramp = SubResource("Gradient_big_sparks")
+
+[node name="LittleSparks" type="CPUParticles2D" parent="Sprites"]
+material = SubResource("Material_additive")
+amount = 64
+lifetime = 0.3
+explosiveness = 0.35
+randomness = 1.0
+lifetime_randomness = 1.0
+fract_delta = false
+texture = ExtResource("6_sparkle")
+emission_shape = 3
+emission_rect_extents = Vector2(24, 24)
+particle_flag_align_y = true
+direction = Vector2(0, -5)
+gravity = Vector2(0, 1960)
+initial_velocity_max = 480.0
+angular_velocity_min = -50.0
+angular_velocity_max = 50.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 0.02
+scale_amount_max = 0.05
+color_ramp = SubResource("Gradient_little_sparks")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Sprites"]
+modulate = Color(0.2, 0.52, 0.72, 0.752941)
+material = SubResource("Material_additive")
+scale = Vector2(0.065, 0.062)
+texture = ExtResource("7_card")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Sprites"]
+modulate = Color(0.55, 0.8, 0.94, 0.501961)
+material = SubResource("Material_additive")
+scale = Vector2(0.053, 0.053)
+texture = ExtResource("7_card")

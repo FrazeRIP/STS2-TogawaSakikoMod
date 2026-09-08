@@ -1,0 +1,66 @@
+{
+  "background": "#FF00FF",
+  "edgeCleanup": "pixel-aligned chroma opacity; dematte; hidden RGB dilation 2px",
+  "assets": [
+    {
+      "name": "another_mask",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "visibleBounds": [
+        194,
+        87,
+        1065,
+        1181
+      ],
+      "transparentPixels": 859052,
+      "opaquePixels": 710524
+    },
+    {
+      "name": "sakiko_masked",
+      "dimensions": [
+        910,
+        1728
+      ],
+      "visibleBounds": [
+        10,
+        0,
+        866,
+        1570
+      ],
+      "transparentPixels": 1127129,
+      "opaquePixels": 437814
+    },
+    {
+      "name": "sakiko_merchant",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "visibleBounds": [
+        332,
+        92,
+        703,
+        1413
+      ],
+      "transparentPixels": 1297266,
+      "opaquePixels": 270777
+    },
+    {
+      "name": "sakiko_campfire",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "visibleBounds": [
+        316,
+        163,
+        979,
+        1052
+      ],
+      "transparentPixels": 1274839,
+      "opaquePixels": 294072
+    }
+  ]
+}

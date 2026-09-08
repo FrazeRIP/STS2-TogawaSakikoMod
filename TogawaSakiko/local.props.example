@@ -1,0 +1,9 @@
+<Project>
+    <PropertyGroup>
+        <Sts2Path>C:\Path\To\SteamLibrary\steamapps\common\Slay the Spire 2</Sts2Path>
+        <Sts2DataDir>$(Sts2Path)\data_sts2_windows_x86_64</Sts2DataDir>
+        <GodotPath>C:\Path\To\MegaDot_v4.5.1-stable_mono_win64_console.exe</GodotPath>
+        <LocalModsPath>$(Sts2Path)\mods</LocalModsPath>
+        <ModStagingPath>$(MSBuildProjectDirectory)\artifacts\stage\TogawaSakiko</ModStagingPath>
+    </PropertyGroup>
+</Project>

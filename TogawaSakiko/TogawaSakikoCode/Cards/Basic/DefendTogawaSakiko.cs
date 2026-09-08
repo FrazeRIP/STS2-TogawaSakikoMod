@@ -1,3 +1,4 @@
+using BaseLib.Abstracts;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -8,7 +9,7 @@ public class DefendTogawaSakiko : TogawaSakikoCard
 {
     public DefendTogawaSakiko() : base(1, CardType.Skill, CardRarity.Basic, TargetType.Self)
     {
-        WithBlock(5);
+        WithBlock(5, upgrade: 3);
         WithTags(CardTag.Defend);
     }
 
@@ -17,8 +18,6 @@ public class DefendTogawaSakiko : TogawaSakikoCard
         await CommonActions.CardBlock(this, play);
     }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Block.UpgradeValueBy(3m);
-    }
+    public override List<(string, string)>? Localization =>
+        new CardLoc("Defend", "Gain !Block! Block.");
 }

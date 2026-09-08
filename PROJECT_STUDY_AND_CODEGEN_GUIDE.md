@@ -1,5 +1,7 @@
 # TogawaSakiko Mod — Project Study & Code Generation Instruction Guide
 
+> Current-state review, 2026-09-07: Historical architecture/API/planning reference. Current runtime compiles NativeCode only, requires no BaseLib, and implements N1-N7 gameplay plus feedback fixes. All generated assets remain placeholders, not completed assets. See [current project state](docs/CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 ## 1) Project at a glance
 
 This repository is an **early-stage Slay the Spire 2 character mod scaffold** for a custom character named `TogawaSakiko`.

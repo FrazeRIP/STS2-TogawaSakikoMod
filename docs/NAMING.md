@@ -1,5 +1,7 @@
 # Naming Conventions
 
+> Current-state review, 2026-09-07: NativeStableIds and the narrow native ModelDb entry patch retain TOGAWASAKIKO- IDs, including Another Mask and Ocean of Memories. Legacy directory examples do not change the NativeCode compilation root. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
+
 ## IDs
 
 - Keep IDs stable and deterministic.

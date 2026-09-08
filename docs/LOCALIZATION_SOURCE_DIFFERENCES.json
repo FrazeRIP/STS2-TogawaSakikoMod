@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": {
+    "inventory": "docs/FULL_PORT_PARITY_INVENTORY.json",
+    "sts1Localization": "X:\\Projects\\SlayTheSpire2\\0REPO\\STS1-TogawaSakikoMod\\src\\main\\resources\\togawasakikomod\\localization"
+  },
+  "generatedCountsPerLanguage": {
+    "cards": 197,
+    "powers": 85,
+    "relics": 37,
+    "potions": 12,
+    "cardKeywords": 30
+  },
+  "sourceKeywordKeys": {
+    "eng": [
+      "{modID}:DazzlingPower",
+      "{modID}:DolorisPower",
+      "{modID}:GodsCreationPower",
+      "{modID}:HypePower",
+      "{modID}:KingsPower",
+      "{modID}:MortisPower",
+      "{modID}:OblivionisPower",
+      "{modID}:Phantoms",
+      "{modID}:Phantoms+",
+      "{modID}:Purge",
+      "{modID}:Symbol",
+      "{modID}:TimorisPower",
+      "{modID}:Unremoveable"
+    ],
+    "zhs": [
+      "{modID}:DazzlingPower",
+      "{modID}:DolorisPower",
+      "{modID}:GodsCreationPower",
+      "{modID}:HypePower",
+      "{modID}:KingsPower",
+      "{modID}:MortisPower",
+      "{modID}:OblivionisPower",
+      "{modID}:Phantoms",
+      "{modID}:Phantoms+",
+      "{modID}:Remove",
+      "{modID}:Symbol",
+      "{modID}:Symbol+",
+      "{modID}:TimorisPower",
+      "{modID}:Unremoveable"
+    ]
+  },
+  "sourceCardDynamicTokenDifferences": [
+    {
+      "card": "AsYourHeartDesires",
+      "field": "DESCRIPTION",
+      "englishTokens": [],
+      "simplifiedChineseTokens": [
+        "!M!"
+      ]
+    }
+  ],
+  "knownCorrectionsAndPolicies": [
+    {
+      "scope": "Native card keyword rendering",
+      "source": "Standalone keyword clauses in STS1 descriptions",
+      "native": "Native CardModel renders the card's own keywords once",
+      "reason": "Remove duplicate Exhaust, Ethereal, Innate, Retain, Unplayable, Sly, or Eternal lines only when the native card owns that keyword; retain behavioral mentions and upgrade-dependent model changes."
+    },
+    {
+      "scope": "Simplified Chinese card spacing",
+      "source": "Spaces around dynamic variables and keyword tokens",
+      "native": "Compact Chinese text with unchanged variables and markup",
+      "reason": "STS1 token-separator spaces are unnecessary in native localization. Apply normalization to preserved live overrides as well as imported text, while keeping Latin phrase spacing and card titles."
+    },
+    {
+      "scope": "English card title",
+      "source": "Mas?uerade Rhapsody Re?uest",
+      "native": "Masquerade Rhapsody Request",
+      "reason": "The class, art filename, and related relic consistently establish the corrupted letters as q."
+    },
+    {
+      "scope": "English spelling",
+      "source": "repalce / begining / enemires / apperance",
+      "native": "replace / beginning / enemies / appearance",
+      "reason": "Provable spelling corrections; behavior and meaning are unchanged."
+    },
+    {
+      "scope": "Edge of Breakdown English behavior text",
+      "source": "Vulnerable",
+      "native": "Frail",
+      "reason": "The Java implementation applies FrailPower and the Simplified Chinese source says 脆弱, so the English source text is incorrect."
+    },
+    {
+      "scope": "Hachibousei Dance base-power terminology",
+      "source": "Plated Armor / 多层护甲",
+      "native": "Plating / 覆甲",
+      "reason": "STS2 renamed and revised the corresponding native base-game power; the port uses PlatingPower and its current localized title."
+    },
+    {
+      "scope": "Rhinoceros Beetle dynamic Block token",
+      "source": "MagicNumber",
+      "native": "CalculatedBlock",
+      "reason": "The displayed value is calculated from base Block plus floor(Dazzling / 2), while deliberately bypassing Dexterity."
+    },
+    {
+      "scope": "Keyword key alignment",
+      "source": "English Purge versus Simplified Chinese Remove",
+      "native": "TOGAWASAKIKO-PURGE",
+      "reason": "Both records describe the same permanent deck-removal mechanic."
+    },
+    {
+      "scope": "English upgraded Symbol keyword",
+      "source": "Missing",
+      "native": "Synthesized Symbol+ entry",
+      "reason": "Simplified Chinese and upgraded AveMujica behavior prove the upgraded keyword exists; English text is derived from the five upgraded Symbol card names."
+    },
+    {
+      "scope": "Abstract localization scaffolding",
+      "source": "RelicID and PotionID",
+      "native": "Excluded",
+      "reason": "The matching Java classes are abstract bases, not player-facing models."
+    },
+    {
+      "scope": "Custom-enemy compatibility powers",
+      "source": "PlayerFilightPower and StrengthUpPower",
+      "native": "Excluded",
+      "reason": "These models support excluded custom-enemy behavior and no in-scope player card depends on them."
+    },
+    {
+      "scope": "Custom world content",
+      "source": "Custom act, events, enemies, encounters, intents, and exclusive ending text",
+      "native": "Excluded",
+      "reason": "These content families are intentionally outside the STS2 port scope and are not emitted into canonical localization."
+    }
+  ],
+  "pendingSourceFamilies": [
+    {
+      "file": "CharacterStrings.json",
+      "englishRecordCount": 1,
+      "simplifiedChineseRecordCount": 1,
+      "englishOnlyKeys": [],
+      "simplifiedChineseOnlyKeys": [],
+      "excludedOutOfScopeKeys": [
+        "${modID}:AltNeowEvent",
+        "${modID}:AltNeowReward"
+      ],
+      "templateScaffoldKeys": [],
+      "behaviorLinkedRecordCount": 1,
+      "status": "Inventoried source only; emit in the phase that implements the owning behavior."
+    },
+    {
+      "file": "UIStrings.json",
+      "englishRecordCount": 12,
+      "simplifiedChineseRecordCount": 12,
+      "englishOnlyKeys": [],
+      "simplifiedChineseOnlyKeys": [],
+      "excludedOutOfScopeKeys": [
+        "${modID}:MutsumiAttackIntent",
+        "${modID}:TheOblivion"
+      ],
+      "templateScaffoldKeys": [
+        "${modID}:Example"
+      ],
+      "behaviorLinkedRecordCount": 11,
+      "status": "Inventoried source only; emit in the phase that implements the owning behavior."
+    },
+    {
+      "file": "OrbStrings.json",
+      "englishRecordCount": 1,
+      "simplifiedChineseRecordCount": 1,
+      "englishOnlyKeys": [],
+      "simplifiedChineseOnlyKeys": [],
+      "excludedOutOfScopeKeys": null,
+      "templateScaffoldKeys": [
+        "${modID}:OrbID"
+      ],
+      "behaviorLinkedRecordCount": 0,
+      "status": "Inventoried source only; emit in the phase that implements the owning behavior."
+    },
+    {
+      "file": "CreditStrings.json",
+      "englishRecordCount": 3,
+      "simplifiedChineseRecordCount": 3,
+      "englishOnlyKeys": [],
+      "simplifiedChineseOnlyKeys": [],
+      "excludedOutOfScopeKeys": null,
+      "templateScaffoldKeys": [],
+      "behaviorLinkedRecordCount": 3,
+      "status": "Inventoried source only; emit in the phase that implements the owning behavior."
+    }
+  ],
+  "unconvertedLegacyMarkers": [],
+  "generatedLanguageKeyMismatches": []
+}

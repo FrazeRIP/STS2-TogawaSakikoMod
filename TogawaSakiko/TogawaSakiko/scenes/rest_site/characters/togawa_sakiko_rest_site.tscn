@@ -1,0 +1,82 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://NativeCode/Presentation/Godot/SakikoRestSiteCharacterNode.cs" id="1_rest"]
+[ext_resource type="Texture2D" path="res://TogawaSakiko/images/character/presentation/rest_site.png" id="2_portrait"]
+[ext_resource type="Script" path="res://NativeCode/Presentation/Godot/SakikoSelectionReticleNode.cs" id="3_reticle"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_reticle"]
+bg_color = Color(0.03, 0.08, 0.12, 0.08)
+border_width_left = 7
+border_width_top = 7
+border_width_right = 7
+border_width_bottom = 7
+border_color = Color(0.56, 0.85, 0.96, 0.9)
+corner_radius_top_left = 44
+corner_radius_top_right = 44
+corner_radius_bottom_right = 44
+corner_radius_bottom_left = 44
+
+[node name="TogawaSakikoRestSite" type="Node2D"]
+position = Vector2(-2, 42)
+scale = Vector2(0.76, 0.76)
+script = ExtResource("1_rest")
+
+[node name="Visuals" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-45, 190)
+texture = ExtResource("2_portrait")
+
+[node name="ControlRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="SelectionReticle" type="Control" parent="ControlRoot"]
+unique_name_in_owner = true
+offset_left = -400.0
+offset_top = -245.0
+offset_right = 310.0
+offset_bottom = 625.0
+mouse_filter = 2
+script = ExtResource("3_reticle")
+
+[node name="Border" type="Panel" parent="ControlRoot/SelectionReticle"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_reticle")
+
+[node name="Hitbox" type="Control" parent="ControlRoot"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -385.0
+offset_top = -230.0
+offset_right = 295.0
+offset_bottom = 610.0
+pivot_offset = Vector2(385, 840)
+
+[node name="ThoughtBubbleRight" type="Control" parent="ControlRoot"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = 295.0
+offset_top = -270.0
+offset_right = 295.0
+offset_bottom = -270.0
+
+[node name="ThoughtBubbleLeft" type="Control" parent="ControlRoot"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -385.0
+offset_top = -270.0
+offset_right = -385.0
+offset_bottom = -270.0

@@ -1,0 +1,401 @@
+{
+  "schemaVersion": 1,
+  "baseline": "Slay the Spire 2 v0.111.0 (41cef1ea)",
+  "derivation": "STS1 Sakiko source art plus the generated neutral missing-content master",
+  "exactNativeDimensions": {
+    "topPanelIcon": [
+      88,
+      88
+    ],
+    "characterSelectIcon": [
+      132,
+      195
+    ],
+    "mapMarker": [
+      49,
+      64
+    ],
+    "cardEnergyIcon": [
+      71,
+      72
+    ],
+    "characterTransition": [
+      2560,
+      1200
+    ],
+    "multiplayerHand": [
+      422,
+      1200
+    ]
+  },
+  "multiplayerHands": [
+    {
+      "gesture": "point",
+      "sourceTopology": "X:/Projects/SlayTheSpire2/Recovered/v0.111.0-41cef1ea/images/ui/hands/multiplayer_hand_defect_point.png",
+      "output": "TogawaSakiko/TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_point.png",
+      "dimensions": [
+        422,
+        1200
+      ],
+      "status": "generated compatibility placeholder"
+    },
+    {
+      "gesture": "rock",
+      "sourceTopology": "X:/Projects/SlayTheSpire2/Recovered/v0.111.0-41cef1ea/images/ui/hands/multiplayer_hand_defect_rock.png",
+      "output": "TogawaSakiko/TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_rock.png",
+      "dimensions": [
+        422,
+        1200
+      ],
+      "status": "generated compatibility placeholder"
+    },
+    {
+      "gesture": "paper",
+      "sourceTopology": "X:/Projects/SlayTheSpire2/Recovered/v0.111.0-41cef1ea/images/ui/hands/multiplayer_hand_defect_paper.png",
+      "output": "TogawaSakiko/TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_paper.png",
+      "dimensions": [
+        422,
+        1200
+      ],
+      "status": "generated compatibility placeholder"
+    },
+    {
+      "gesture": "scissors",
+      "sourceTopology": "X:/Projects/SlayTheSpire2/Recovered/v0.111.0-41cef1ea/images/ui/hands/multiplayer_hand_defect_scissors.png",
+      "output": "TogawaSakiko/TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_scissors.png",
+      "dimensions": [
+        422,
+        1200
+      ],
+      "status": "generated compatibility placeholder"
+    }
+  ],
+  "relicVisibleBounds": [
+    {
+      "name": "BlazingHairband",
+      "sourceBounds": [
+        39,
+        27,
+        88,
+        96
+      ],
+      "outlineCrop": [
+        36,
+        23,
+        91,
+        100
+      ]
+    },
+    {
+      "name": "ColorfulNotebook",
+      "sourceBounds": [
+        37,
+        31,
+        91,
+        95
+      ],
+      "outlineCrop": [
+        33,
+        27,
+        95,
+        99
+      ]
+    },
+    {
+      "name": "CuteAnimalBandAid",
+      "sourceBounds": [
+        37,
+        37,
+        95,
+        88
+      ],
+      "outlineCrop": [
+        33,
+        33,
+        99,
+        92
+      ]
+    },
+    {
+      "name": "FountainDrink",
+      "sourceBounds": [
+        39,
+        37,
+        89,
+        93
+      ],
+      "outlineCrop": [
+        36,
+        33,
+        93,
+        97
+      ]
+    },
+    {
+      "name": "GoldenPocketWatch",
+      "sourceBounds": [
+        36,
+        32,
+        91,
+        95
+      ],
+      "outlineCrop": [
+        32,
+        28,
+        95,
+        99
+      ]
+    },
+    {
+      "name": "MasqueradeMask",
+      "sourceBounds": [
+        32,
+        40,
+        96,
+        92
+      ],
+      "outlineCrop": [
+        30,
+        38,
+        98,
+        94
+      ]
+    },
+    {
+      "name": "MonochromeHairband",
+      "sourceBounds": [
+        40,
+        39,
+        87,
+        91
+      ],
+      "outlineCrop": [
+        36,
+        35,
+        91,
+        95
+      ]
+    },
+    {
+      "name": "TheCompass",
+      "sourceBounds": [
+        38,
+        31,
+        88,
+        91
+      ],
+      "outlineCrop": [
+        34,
+        27,
+        92,
+        95
+      ]
+    },
+    {
+      "name": "TheDoll",
+      "sourceBounds": [
+        37,
+        26,
+        91,
+        101
+      ],
+      "outlineCrop": [
+        33,
+        23,
+        94,
+        105
+      ]
+    },
+    {
+      "name": "TheThirdMovement",
+      "sourceBounds": [
+        47,
+        29,
+        93,
+        94
+      ],
+      "outlineCrop": [
+        44,
+        25,
+        97,
+        98
+      ]
+    },
+    {
+      "name": "WarmthInfusedPorcelainCup",
+      "sourceBounds": [
+        39,
+        42,
+        92,
+        92
+      ],
+      "outlineCrop": [
+        36,
+        38,
+        96,
+        96
+      ]
+    }
+  ],
+  "originalCardFrames": [
+    {
+      "type": "attack",
+      "source": "images/character/cardback/bg_attack_p.png",
+      "output": "images/card_ui/frame_attack.png",
+      "dimensions": [
+        598,
+        844
+      ]
+    },
+    {
+      "type": "skill",
+      "source": "images/character/cardback/bg_skill_p.png",
+      "output": "images/card_ui/frame_skill.png",
+      "dimensions": [
+        598,
+        844
+      ]
+    },
+    {
+      "type": "power",
+      "source": "images/character/cardback/bg_power_p.png",
+      "output": "images/card_ui/frame_power.png",
+      "dimensions": [
+        598,
+        844
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "role": "top-panel icon",
+      "output": "TogawaSakiko/TogawaSakiko/images/ui/top_panel/character_icon_togawa_sakiko.png",
+      "dimensions": [
+        88,
+        88
+      ],
+      "status": "derived from STS1 character-select art"
+    },
+    {
+      "role": "top-panel outline",
+      "output": "TogawaSakiko/TogawaSakiko/images/ui/top_panel/character_icon_togawa_sakiko_outline.png",
+      "dimensions": [
+        88,
+        88
+      ],
+      "status": "generated alpha silhouette"
+    },
+    {
+      "role": "character-select icon",
+      "output": "TogawaSakiko/TogawaSakiko/images/packed/character_select/char_select_togawa_sakiko.png",
+      "dimensions": [
+        132,
+        195
+      ],
+      "status": "derived from STS1 alternate character art"
+    },
+    {
+      "role": "locked character-select icon",
+      "output": "TogawaSakiko/TogawaSakiko/images/packed/character_select/char_select_togawa_sakiko_locked.png",
+      "dimensions": [
+        132,
+        195
+      ],
+      "status": "generated locked-state compatibility art"
+    },
+    {
+      "role": "map marker",
+      "output": "TogawaSakiko/TogawaSakiko/images/charui/map_marker_char_name.png",
+      "dimensions": [
+        49,
+        64
+      ],
+      "status": "derived from STS1 character-select art"
+    },
+    {
+      "role": "card energy icon",
+      "output": "TogawaSakiko/TogawaSakiko/images/card_ui/energy_togawa_sakiko.png",
+      "dimensions": [
+        71,
+        72
+      ],
+      "status": "derived from STS1 card-back orb art"
+    },
+    {
+      "role": "transition mask",
+      "output": "TogawaSakiko/TogawaSakiko/images/ui/transitions/togawa_sakiko_transition.png",
+      "dimensions": [
+        2560,
+        1200
+      ],
+      "status": "generated native-size compatibility mask"
+    },
+    {
+      "role": "rest-site portrait",
+      "output": "TogawaSakiko/TogawaSakiko/images/character/presentation/rest_site.png",
+      "dimensions": [
+        680,
+        840
+      ],
+      "status": "generated full figure with elevated campfire perspective"
+    },
+    {
+      "role": "merchant portrait",
+      "output": "TogawaSakiko/TogawaSakiko/images/character/presentation/merchant.png",
+      "dimensions": [
+        256,
+        384
+      ],
+      "status": "generated STS2-style standing figure"
+    },
+    {
+      "role": "Another Mask combat portrait",
+      "output": "TogawaSakiko/TogawaSakiko/images/character/image_another_mask.png",
+      "dimensions": [
+        168,
+        320
+      ],
+      "status": "generated masked variation of original combat sprite"
+    },
+    {
+      "gesture": "point",
+      "sourceTopology": "X:/Projects/SlayTheSpire2/Recovered/v0.111.0-41cef1ea/images/ui/hands/multiplayer_hand_defect_point.png",
+      "output": "TogawaSakiko/TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_point.png",
+      "dimensions": [
+        422,
+        1200
+      ],
+      "status": "generated compatibility placeholder"
+    },
+    {
+      "gesture": "rock",
+      "sourceTopology": "X:/Projects/SlayTheSpire2/Recovered/v0.111.0-41cef1ea/images/ui/hands/multiplayer_hand_defect_rock.png",
+      "output": "TogawaSakiko/TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_rock.png",
+      "dimensions": [
+        422,
+        1200
+      ],
+      "status": "generated compatibility placeholder"
+    },
+    {
+      "gesture": "paper",
+      "sourceTopology": "X:/Projects/SlayTheSpire2/Recovered/v0.111.0-41cef1ea/images/ui/hands/multiplayer_hand_defect_paper.png",
+      "output": "TogawaSakiko/TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_paper.png",
+      "dimensions": [
+        422,
+        1200
+      ],
+      "status": "generated compatibility placeholder"
+    },
+    {
+      "gesture": "scissors",
+      "sourceTopology": "X:/Projects/SlayTheSpire2/Recovered/v0.111.0-41cef1ea/images/ui/hands/multiplayer_hand_defect_scissors.png",
+      "output": "TogawaSakiko/TogawaSakiko/images/ui/hands/multiplayer_hand_togawa_sakiko_scissors.png",
+      "dimensions": [
+        422,
+        1200
+      ],
+      "status": "generated compatibility placeholder"
+    }
+  ]
+}
