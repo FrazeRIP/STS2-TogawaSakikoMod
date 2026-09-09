@@ -22,6 +22,8 @@ public sealed class WhiteKeysCard : CardModel
 
     public override bool CanBeGeneratedInCombat => false;
 
+    public override bool CanBeGeneratedByModifiers => false;
+
     public override string PortraitPath => NativeAssetPaths.WhiteKeysPortrait;
 
     public WhiteKeysCard()

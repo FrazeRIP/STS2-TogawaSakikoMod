@@ -26,6 +26,13 @@ public sealed class WarmthInfusedPorcelainCup : SakikoRelicModel
         List<CardCreationResult> cardRewardOptions,
         CardCreationOptions creationOptions)
     {
+        // Reward hooks visit every player's relics. A remote owner's Cup must not consume
+        // this player's reward RNG before the owner predicate rejects its effect.
+        if (!ReferenceEquals(player, Owner))
+        {
+            return false;
+        }
+
         bool alreadyContainsHeartsBarrier = cardRewardOptions.Any(option => option.Card is HeartsBarrierCard);
         if (!ShouldForceOption(
                 ReferenceEquals(player, Owner),

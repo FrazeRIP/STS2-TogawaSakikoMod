@@ -130,6 +130,10 @@ internal static class N6BatchDiagnostics
             "Blazing Hairband selected a disabled compatibility card");
         Require(player.Character.CardPool.AllCards.Any(card => card.Id == addedCards[0].Id),
             "Blazing Hairband generated a card outside the current character's pool");
+        Require(addedCards[0].Type is not CardType.Curse and not CardType.Status,
+            "Blazing Hairband added a curse or status to the persistent deck");
+        Require(addedCards[0].Rarity != CardRarity.Token && addedCards[0].CanBeGeneratedInCombat,
+            "Blazing Hairband added a generated-only card to the persistent deck");
 
         await Hook.AfterCombatVictory(player.RunState, combatState, room);
         Require(player.Deck.Cards.Count == deckBefore + 1,

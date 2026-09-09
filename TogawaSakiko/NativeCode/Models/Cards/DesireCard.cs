@@ -10,6 +10,10 @@ namespace TogawaSakiko.NativeCode.Models.Cards;
 
 public sealed class DesireCard : CardModel
 {
+    public override bool CanBeGeneratedInCombat => false;
+
+    public override bool CanBeGeneratedByModifiers => false;
+
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(8m, ValueProp.Move)];

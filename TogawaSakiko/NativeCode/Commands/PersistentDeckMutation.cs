@@ -40,6 +40,12 @@ public sealed record PersistentDeckAndCombatAddResult(
     public CardModel? CombatCard => CombatResult is { } result && result.success ? result.cardAdded : null;
 }
 
+/// <summary>
+/// Deterministic commands executed on every peer by their enclosing native card, hook, reward, or room flow.
+/// Callers already inside those flows must not submit another action, which would duplicate mutations.
+/// A peer-local combat UI request uses PersistentDeckRemovalGameAction.Request before entering these commands.
+/// Native CardPileCmd and CardCmd own local preview filtering; state mutations must never be local-only.
+/// </summary>
 public static class PersistentDeckMutation
 {
     private static readonly PileType[] LinkedCombatPileTypes =

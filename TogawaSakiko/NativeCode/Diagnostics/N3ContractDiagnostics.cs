@@ -62,6 +62,8 @@ internal static class N3ContractDiagnostics
 
         public int? TeardownHypeAmount { get; set; }
 
+        public int ExpectedTeardownHypeAmount { get; set; }
+
         public int? TeardownBlockAmount { get; set; }
     }
 
@@ -207,7 +209,8 @@ internal static class N3ContractDiagnostics
         Require(session.AsyncFailure is null, $"queued action verification failed: {session.AsyncFailure}");
         Require(session.QueueScenarioPassed, "queued play cancellation did not finish");
         Require(ledger.Count == 0, "power ledger retained events after AfterCombatEnd");
-        Require(session.TeardownHypeAmount == 1, "combat teardown consumed Hype before removing the power");
+        Require(session.TeardownHypeAmount > 0 && session.TeardownHypeAmount == session.ExpectedTeardownHypeAmount,
+            "combat teardown consumed Hype before removing the power");
         Require(session.TeardownBlockAmount > 0, "combat teardown Hype probe did not retain positive block until power removal");
 
         int desireCount = session.Player.Deck.Cards.Count(card => card is DesireCard);
@@ -626,12 +629,51 @@ internal static class N3ContractDiagnostics
 
         await CreatureCmd.GainBlock(player, 5m, ValueProp.Unpowered, null, fast: true);
         int damageBlock = player.Block;
-        HypePower damageHype = await PowerCmd.Apply<HypePower>(choiceContext, player, 1m, player, null, silent: true)
+        HypePower damageHype = await PowerCmd.Apply<HypePower>(choiceContext, player, 3m, player, null, silent: true)
             ?? throw new InvalidOperationException("damage Hype probe was prevented");
+        int damageHp = player.CurrentHp;
+        await CreatureCmd.Damage(choiceContext, player, 0m, ValueProp.Unpowered, enemy);
+        await CreatureCmd.Damage(choiceContext, player, 0.5m, ValueProp.Unpowered, enemy);
+        Require(player.Block == damageBlock && damageHype.Amount == 3,
+            "damage that does not subtract block consumed Hype");
+        await CreatureCmd.Damage(choiceContext, player, 1m, ValueProp.Unpowered | ValueProp.Unblockable, enemy);
+        Require(player.Block == damageBlock && damageHype.Amount == 3 && player.CurrentHp == damageHp - 1,
+            "unblockable damage consumed Hype or failed to reach HP");
+        damageHp = player.CurrentHp;
+        for (int hit = 1; hit <= 2; hit++)
+        {
+            DamageResult hitResult = (await CreatureCmd.Damage(choiceContext, player, 1m, ValueProp.Unpowered, enemy)).Single();
+            Require(player.Block == damageBlock && damageHype.Amount == 3 - hit && player.CurrentHp == damageHp,
+                $"damage hit {hit} did not preserve block for exactly one Hype");
+            Require(hitResult.BlockedDamage == 1 && hitResult.WasFullyBlocked && !hitResult.WasBlockBroken,
+                "Hype changed native blocked-damage results or emitted a false block break");
+        }
+        DamageResult overflowResult = (await CreatureCmd.Damage(
+            choiceContext, player, damageBlock + 2m, ValueProp.Unpowered, enemy)).Single();
+        Require(player.Block == damageBlock && player.GetPower<HypePower>() is null && player.CurrentHp == damageHp - 2,
+            "overflow damage did not preserve block, consume the final Hype, and deal only excess HP damage");
+        Require(overflowResult.BlockedDamage == damageBlock && !overflowResult.WasBlockBroken,
+            "overflow damage reported a block break despite Hype preserving block");
         await CreatureCmd.Damage(choiceContext, player, 1m, ValueProp.Unpowered, enemy);
-        Require(player.Block == damageBlock - 1 && damageHype.Amount == 1, "normal damage absorption invoked explicit-loss Hype behavior");
+        Require(player.Block == damageBlock - 1, "damage after Hype exhaustion did not consume block normally");
         await PowerCmd.Remove(damageHype);
         await CreatureCmd.LoseBlock(choiceContext, player, 999m, enemy);
+
+        HypePower noBlockDamageHype = await PowerCmd.Apply<HypePower>(choiceContext, player, 1m, player, null, silent: true)
+            ?? throw new InvalidOperationException("no-block damage Hype probe was prevented");
+        await CreatureCmd.Damage(choiceContext, player, 1m, ValueProp.Unpowered, enemy);
+        Require(player.Block == 0 && noBlockDamageHype.Amount == 1, "damage without block consumed Hype");
+        await PowerCmd.Remove(noBlockDamageHype);
+
+        await CreatureCmd.GainBlock(enemy, 5m, ValueProp.Unpowered, null, fast: true);
+        int cardDamageBlock = enemy.Block;
+        HypePower cardDamageHype = await PowerCmd.Apply<HypePower>(choiceContext, enemy, 1m, enemy, null, silent: true)
+            ?? throw new InvalidOperationException("card damage Hype probe was prevented");
+        CardModel damageSource = session.Player.Deck.Cards.First();
+        await CreatureCmd.Damage(choiceContext, enemy, 1m, ValueProp.Unpowered, damageSource, null);
+        Require(enemy.Block == cardDamageBlock && cardDamageHype.Amount == 0 && enemy.GetPower<HypePower>() is null,
+            "card-sourced damage did not preserve enemy block for one Hype");
+        await CreatureCmd.LoseBlock(choiceContext, enemy, 999m, player);
 
         await CreatureCmd.GainBlock(enemy, 5m, ValueProp.Unpowered, null, fast: true);
         int enemyExplicitBlock = enemy.Block;
@@ -663,15 +705,25 @@ internal static class N3ContractDiagnostics
             null,
             silent: true)
             ?? throw new InvalidOperationException("teardown retention probe was prevented");
-        HypePower teardownHype = await PowerCmd.Apply<HypePower>(choiceContext, player, 1m, player, null, silent: true)
+        HypePower teardownHype = await PowerCmd.Apply<HypePower>(choiceContext, player, 99m, player, null, silent: true)
             ?? throw new InvalidOperationException("teardown Hype probe was prevented");
         await CreatureCmd.GainBlock(player, 5m, ValueProp.Unpowered, null, fast: true);
+        // Enemy hits before victory now legitimately consume Hype. Track those
+        // changes separately from shutdown, retaining stacks for the reset probe.
+        session.ExpectedTeardownHypeAmount = teardownHype.Amount;
+        teardownHype.DisplayAmountChanged += () =>
+        {
+            if (CombatManager.Instance.IsInProgress && !CombatManager.Instance.IsEnding)
+            {
+                session.ExpectedTeardownHypeAmount = teardownHype.Amount;
+            }
+        };
         teardownHype.Removed += () =>
         {
             session.TeardownHypeAmount = teardownHype.Amount;
             session.TeardownBlockAmount = player.Block;
         };
-        Require(barricade.Amount == 1 && teardownHype.Amount == 1, "teardown probe setup failed");
+        Require(barricade.Amount == 1 && teardownHype.Amount == 99, "teardown probe setup failed");
     }
 
     private static async Task ScheduleVisualQueueRemovalScenarioAsync(Session session, CombatState combatState)

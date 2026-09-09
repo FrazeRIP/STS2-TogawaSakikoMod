@@ -10,6 +10,10 @@ namespace TogawaSakiko.NativeCode.Models.Cards;
 
 public sealed class MelodyCard : CardModel
 {
+    public override bool CanBeGeneratedInCombat => false;
+
+    public override bool CanBeGeneratedByModifiers => false;
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6m, ValueProp.Move)];
 
     public override string PortraitPath => NativeAssetPaths.MelodyPortrait;

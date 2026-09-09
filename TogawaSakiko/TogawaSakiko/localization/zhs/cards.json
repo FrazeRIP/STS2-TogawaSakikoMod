@@ -1,4 +1,8 @@
 {
+  "TOGAWASAKIKO-MOMENT_MEMORY_CARD.title": "瞬间/记忆",
+  "TOGAWASAKIKO-MOMENT_MEMORY_CARD.description": "战斗结束时，每位玩家获得{Rewards:diff()}次移除卡牌奖励。",
+  "TOGAWASAKIKO-NOVA_HISTORIA_CARD.title": "新的篇章",
+  "TOGAWASAKIKO-NOVA_HISTORIA_CARD.description": "每位存活的玩家获得{HypePower:diff()}层[gold]狂热[/gold]。",
   "TOGAWASAKIKO-A_SPLIT_MOMENT_CARD.description": "获得{Block:diff()}点[gold]格挡[/gold]。\n获得{DazzlingPower:diff()}层[gold]闪耀[/gold]。",
   "TOGAWASAKIKO-A_SPLIT_MOMENT_CARD.title": "小小的瞬间",
   "TOGAWASAKIKO-ACCOMPLICE_CARD.description": "将{MagicNumber:diff()}张[gold]渴望[/gold]置入手牌。\n当前手牌中所有的[gold]渴望[/gold]耗能为0。",
@@ -134,7 +138,7 @@
   "TOGAWASAKIKO-PRIDE_CARD.title": "骄傲",
   "TOGAWASAKIKO-PRIMO_DIE_IN_SCAENA_CARD.description": "直到你下次洗牌前，每回合开始获得{energyPrefix:energyIcons(1)}。",
   "TOGAWASAKIKO-PRIMO_DIE_IN_SCAENA_CARD.title": "首演",
-  "TOGAWASAKIKO-PROTECTION_CARD.description": "获得1层人工制品{Repeat:diff()}次。",
+  "TOGAWASAKIKO-PROTECTION_CARD.description": "获得2层[gold]覆甲[/gold]{Repeat:diff()}次。",
   "TOGAWASAKIKO-PROTECTION_CARD.title": "守护",
   "TOGAWASAKIKO-QUAERERE_LUMINA_CARD.description": "[gold]预见[/gold]{MagicNumber:diff()}。\n获得等同于丢弃卡牌数量的格挡。",
   "TOGAWASAKIKO-QUAERERE_LUMINA_CARD.title": "寻找光明",

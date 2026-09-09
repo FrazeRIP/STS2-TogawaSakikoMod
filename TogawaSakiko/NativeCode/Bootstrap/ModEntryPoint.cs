@@ -14,7 +14,7 @@ namespace TogawaSakiko.NativeCode.Bootstrap;
 public static class ModEntryPoint
 {
     public const string ModId = "TogawaSakiko";
-    public const string ModVersion = "v0.1.0";
+    public const string ModVersion = "v0.1.1";
     public const string TargetGameVersion = "v0.111.0";
     public const string TargetGameCommit = "41cef1ea";
     public const string BootstrapProbePath = "res://TogawaSakiko/bootstrap/native_bootstrap_probe.tres";
@@ -32,6 +32,10 @@ public static class ModEntryPoint
 
         VerifyGameVersion();
         VerifyMountedPck();
+
+        // Freeze the loaded package identity before entering the menu. Replacing files on
+        // disk later cannot make this already-running process advertise the new package.
+        _ = NativePackageIdentity.HandshakeEntry;
 
         Logger.Info(
             $"Native bootstrap initialized. ModVersion={ModVersion}, Assembly={assembly.GetName().Name}, GameplayModels={NativeModelCatalog.GameplayModelCount}, ExternalModDependencies=0");

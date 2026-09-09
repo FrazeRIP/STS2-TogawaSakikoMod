@@ -19,6 +19,37 @@ namespace TogawaSakiko.NativeCode.Diagnostics;
 
 internal static partial class N5BatchDiagnostics
 {
+    private sealed class PerfectionDiagnosticSelector : ICardSelector
+    {
+        public Task<IEnumerable<CardModel>> GetSelectedCards(
+            IEnumerable<CardModel> options,
+            int minSelect,
+            int maxSelect)
+        {
+            CardModel[] offered = options.ToArray();
+            Require(offered.Length == PerfectionCard.CandidateCount &&
+                    offered.Select(card => card.Id).Distinct().Count() == PerfectionCard.CandidateCount,
+                "Perfection did not offer 20 distinct cards");
+            Require(offered.All(card => card.Type is not CardType.Curse and not CardType.Status),
+                "Perfection offered a curse or status");
+            Require(offered.All(card => card.Rarity != CardRarity.Token && card.CanBeGeneratedInCombat),
+                "Perfection offered a generated-only card");
+            Require(offered.All(card => card.Owner.Character.CardPool.AllCards.Any(candidate => candidate.Id == card.Id)),
+                "Perfection offered a card outside its owner's character pool");
+            // A free-cost assertion needs a card that actually had a payable cost before Perfection.
+            CardModel selected = options.FirstOrDefault(card => card.EnergyCost.Canonical > 0)
+                ?? throw new InvalidOperationException("Perfection probe offered no positive-cost card.");
+            return Task.FromResult<IEnumerable<CardModel>>([selected]);
+        }
+
+        public CardRewardSelection GetSelectedCardReward(
+            IReadOnlyList<CardCreationResult> options,
+            IReadOnlyList<CardRewardAlternative> alternatives)
+        {
+            return new CardRewardSelection { card = options.FirstOrDefault()?.Card };
+        }
+    }
+
     private sealed class AveMujicaDiagnosticSelector : ICardSelector
     {
         public IReadOnlyList<CardModel> OfferedCards { get; private set; } = [];
@@ -616,7 +647,8 @@ internal static partial class N5BatchDiagnostics
         Require(worldviewUnplayable.HasBeenRemovedFromState && worldviewUnplayable.Pile is null,
             "Worldview did not remove the exact Unplayable card drawn");
         Require(worldviewReplacement.Type == CardType.Attack &&
-                !worldviewReplacement.Keywords.Contains(CardKeyword.Unplayable),
+                !worldviewReplacement.Keywords.Contains(CardKeyword.Unplayable) &&
+                worldviewReplacement.Rarity != CardRarity.Token && worldviewReplacement.CanBeGeneratedInCombat,
             "Worldview did not replace the Unplayable draw with a playable Attack");
         await PowerCmd.Remove(player.Creature.GetPower<WorldviewPower>());
         await RemoveCombatCardsAsync([worldview, worldviewReplacement]);
@@ -848,8 +880,8 @@ internal static partial class N5BatchDiagnostics
         await PlayerCmd.SetEnergy(energyBeforeUpgradedImprisoned, player);
         cardsToRemove.AddRange([baseImprisoned, upgradedImprisoned]);
 
-        TestCardSelector perfectionSelector = new();
-        perfectionSelector.PrepareToSelect([0]);
+        var perfectionSelector =
+            new PerfectionDiagnosticSelector();
         PerfectionCard basePerfection;
         using (CardSelectCmd.PushSelector(perfectionSelector))
         {
@@ -861,6 +893,8 @@ internal static partial class N5BatchDiagnostics
                 upgraded: false);
         }
         CardModel basePerfectionChoice = PileType.Hand.GetPile(player).Cards.Single();
+        Require(basePerfectionChoice.EnergyCost.Canonical > 0,
+            "base Perfection free-cost probe did not choose a positive-cost card");
         Require(player.Character.CardPool.AllCards.Any(card => card.Id == basePerfectionChoice.Id),
             "base Perfection generated a card outside the current character's pool");
         Require(basePerfectionChoice.EnergyCost.GetWithModifiers(CostModifiers.Local) == 0 &&
@@ -868,8 +902,8 @@ internal static partial class N5BatchDiagnostics
             "base Perfection did not add its selected card free this turn and Exhaust");
         await RemoveCombatCardsAsync([basePerfection, basePerfectionChoice]);
 
-        TestCardSelector upgradedPerfectionSelector = new();
-        upgradedPerfectionSelector.PrepareToSelect([0]);
+        var upgradedPerfectionSelector =
+            new PerfectionDiagnosticSelector();
         PerfectionCard upgradedPerfection;
         using (CardSelectCmd.PushSelector(upgradedPerfectionSelector))
         {
@@ -881,6 +915,8 @@ internal static partial class N5BatchDiagnostics
                 upgraded: true);
         }
         CardModel upgradedPerfectionChoice = PileType.Hand.GetPile(player).Cards.Single();
+        Require(upgradedPerfectionChoice.EnergyCost.Canonical > 0,
+            "upgraded Perfection free-cost probe did not choose a positive-cost card");
         Require(player.Character.CardPool.AllCards.Any(card => card.Id == upgradedPerfectionChoice.Id),
             "upgraded Perfection generated a card outside the current character's pool");
         Require(upgradedPerfectionChoice.EnergyCost.GetWithModifiers(CostModifiers.Local) == 0 &&
@@ -888,6 +924,17 @@ internal static partial class N5BatchDiagnostics
                 upgradedPerfection.Pile?.Type == PileType.Exhaust,
             "upgraded Perfection did not preserve free selection, two cost, and Exhaust");
         await RemoveCombatCardsAsync([upgradedPerfection, upgradedPerfectionChoice]);
+
+        // Native zero-cost modifiers preserve negative unplayable sentinels. Random option zero
+        // previously selected Perdere Omnia and incorrectly treated its -1 as a Perfection failure.
+        PerdereOmniaCard unplayablePerfectionProbe = combatState.CreateCard<PerdereOmniaCard>(player);
+        unplayablePerfectionProbe.SetToFreeThisTurn();
+        await CardPileCmd.AddGeneratedCardToCombat(unplayablePerfectionProbe, PileType.Hand, player);
+        Require(unplayablePerfectionProbe.EnergyCost.GetWithModifiers(CostModifiers.Local) == -1 &&
+                unplayablePerfectionProbe.Keywords.Contains(CardKeyword.Unplayable) &&
+                !unplayablePerfectionProbe.EnergyCost.HasLocalModifiers,
+            "native zero-cost application changed an unplayable card's negative-cost sentinel");
+        await RemoveCombatCardsAsync([unplayablePerfectionProbe]);
 
         CardModel soraFirst = combatState.CreateCard<DefendTogawaSakiko>(player);
         CardModel soraSecond = combatState.CreateCard<DarkHeavenCard>(player);

@@ -10,6 +10,10 @@ namespace TogawaSakiko.NativeCode.Models.Cards;
 
 public sealed class TirednessCard : CardModel
 {
+    public override bool CanBeGeneratedInCombat => false;
+
+    public override bool CanBeGeneratedByModifiers => false;
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];

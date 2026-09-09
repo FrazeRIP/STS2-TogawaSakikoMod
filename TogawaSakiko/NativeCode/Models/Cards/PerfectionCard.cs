@@ -26,7 +26,7 @@ public sealed class PerfectionCard : CardModel
     {
         List<CardModel> candidates = CardFactory.GetDistinctForCombat(
                 Owner,
-                Owner.Character.CardPool.AllCards,
+                Owner.Character.CardPool.AllCards.Where(IsEligibleRandomCard),
                 CandidateCount,
                 Owner.RunState.Rng.CombatCardGeneration)
             .ToList();
@@ -45,6 +45,9 @@ public sealed class PerfectionCard : CardModel
         selected.SetToFreeThisTurn();
         await CardPileCmd.AddGeneratedCardToCombat(selected, PileType.Hand, Owner);
     }
+
+    internal static bool IsEligibleRandomCard(CardModel card) =>
+        card.Type is not CardType.Curse and not CardType.Status;
 
     protected override void OnUpgrade()
     {

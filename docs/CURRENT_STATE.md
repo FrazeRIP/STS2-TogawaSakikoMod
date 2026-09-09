@@ -1,5 +1,7 @@
 # Current project state
 
+Multiplayer branch update, 2026-09-08: multiplayer adaptations and two explicit test cards are implemented on `codex/multiplayer-adaptations`, package `0.2.0-multiplayer.dev`. Six native ENet scenarios and 14 replay perspectives passed; single-player regression includes full AutoSlay victory and six save/reload checkpoints. This remains a development branch with Steam/WAN, live reconnect, and broad release acceptance limits recorded in [multiplayer implementation and fresh evidence](MULTIPLAYER_IMPLEMENTATION.md). The v0.1.0 single-player records below retain their original package identity and acceptance scope.
+
 Reviewed: 2026-09-07. This document supersedes current-state claims in earlier plans and phase records; those records retain their original implementation and acceptance history.
 
 Neow dialogue revision, 2026-09-07: Sakiko's supplied EN/zh-Hans conversations play on visits 1, 2, and 3 respectively. Later visits use the native repeat pool (generic Neow dialogue plus conversations 2 and 3). Her dedicated room uses conversation 1 instead of the shared first-ever introduction; vanilla character dialogue is preserved. The three fixed rewards and their effects remain unchanged.

@@ -11,9 +11,13 @@ namespace TogawaSakiko.NativeCode.Models.Cards;
 
 public sealed class ProtectionCard : CardModel
 {
+    public override bool CanBeGeneratedInCombat => false;
+
+    public override bool CanBeGeneratedByModifiers => false;
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [new RepeatVar(2)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<ArtifactPower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<PlatingPower>()];
 
     public override string PortraitPath => NativeAssetPaths.ProtectionPortrait;
 
@@ -26,10 +30,10 @@ public sealed class ProtectionCard : CardModel
     {
         for (int i = 0; i < DynamicVars.Repeat.IntValue; i++)
         {
-            await PowerCmd.Apply<ArtifactPower>(
+            await PowerCmd.Apply<PlatingPower>(
                 choiceContext,
                 Owner.Creature,
-                1m,
+                2m,
                 Owner.Creature,
                 this);
         }

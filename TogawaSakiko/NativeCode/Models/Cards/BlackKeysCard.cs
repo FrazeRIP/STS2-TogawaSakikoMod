@@ -22,6 +22,8 @@ public sealed class BlackKeysCard : CardModel
 
     public override bool CanBeGeneratedInCombat => false;
 
+    public override bool CanBeGeneratedByModifiers => false;
+
     public override string PortraitPath => NativeAssetPaths.BlackKeysPortrait;
 
     public BlackKeysCard()

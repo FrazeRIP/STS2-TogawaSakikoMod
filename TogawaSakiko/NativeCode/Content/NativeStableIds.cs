@@ -20,6 +20,8 @@ internal static class NativeStableIds
         [typeof(TogawaSakikoRelicPool)] = EntryPrefix + "TOGAWA_SAKIKO_RELIC_POOL",
         [typeof(TogawaSakikoPotionPool)] = EntryPrefix + "TOGAWA_SAKIKO_POTION_POOL",
         [typeof(Models.Events.OceanOfMemories)] = Models.Events.OceanOfMemories.Entry,
+        [typeof(MomentMemoryCard)] = EntryPrefix + "MOMENT_MEMORY_CARD",
+        [typeof(NovaHistoriaCard)] = EntryPrefix + "NOVA_HISTORIA_CARD",
         [typeof(StrikeTogawaSakiko)] = EntryPrefix + "STRIKE_TOGAWA_SAKIKO",
         [typeof(DefendTogawaSakiko)] = EntryPrefix + "DEFEND_TOGAWA_SAKIKO",
         [typeof(TheMoonlightSonataCard)] = EntryPrefix + "THE_MOONLIGHT_SONATA_CARD",

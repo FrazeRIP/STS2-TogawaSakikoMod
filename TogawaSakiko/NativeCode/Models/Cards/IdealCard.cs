@@ -11,6 +11,10 @@ namespace TogawaSakiko.NativeCode.Models.Cards;
 
 public sealed class IdealCard : CardModel
 {
+    public override bool CanBeGeneratedInCombat => false;
+
+    public override bool CanBeGeneratedByModifiers => false;
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<FreeAttackPower>(2m)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<FreeAttackPower>()];

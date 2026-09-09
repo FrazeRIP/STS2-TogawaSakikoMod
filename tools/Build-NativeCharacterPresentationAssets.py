@@ -158,6 +158,11 @@ def main() -> None:
     save(select_portrait, resource_root / "images" / "packed" / "character_select" / "char_select_togawa_sakiko.png")
     save(build_locked_portrait(select_portrait), resource_root / "images" / "packed" / "character_select" / "char_select_togawa_sakiko_locked.png")
 
+    # The approved face portrait replaces the full-body selection tile; retain the locked-state art.
+    select_source = repo_root / "TogawaSakiko/ArtSources/character_select/sakiko_face_portrait_v1.png"
+    select_portrait = ImageOps.fit(Image.open(select_source).convert("RGBA"), (132, 195), method=Image.Resampling.LANCZOS)
+    save(select_portrait, resource_root / "images" / "packed" / "character_select" / "char_select_togawa_sakiko.png")
+
     map_marker = contain(button, (49, 64), padding=3)
     # The map pointer uses a dedicated inverted sixteenth note in Sakiko's hair color.
     note_source = repo_root / "TogawaSakiko/ArtSources/map_marker/sakiko_note.png"
@@ -279,6 +284,9 @@ def main() -> None:
     ]
 
     character_assets[0]["status"] = "generated Sakiko head matching native top-panel icons"
+    select_asset = next(asset for asset in character_assets if asset["role"] == "character-select icon")
+    select_asset["status"] = "approved face-focused portrait matching native character-selection tiles"
+    select_asset["source"] = select_source.relative_to(repo_root).as_posix()
     next(asset for asset in character_assets if asset["role"] == "map marker")["status"] = "generated pale-blue inverted sixteenth-note pointer"
     manifest = {
         "schemaVersion": 1,

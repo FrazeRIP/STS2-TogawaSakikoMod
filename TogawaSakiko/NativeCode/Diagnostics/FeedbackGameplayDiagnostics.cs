@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Entities.CardRewardAlternatives;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -45,11 +46,12 @@ internal static partial class N5BatchDiagnostics
         await VerifyWishHumanPerHitAsync(combatState, player, target, choiceContext);
         await VerifyKaoFeedbackAsync(combatState, player, target, choiceContext);
         await VerifyAveFireReplayAsync(combatState, player, target, choiceContext);
-        CardModel[] worldviewPool = WorldviewPower.GetEligibleAttacks(player).ToArray();
+        CardModel[] worldviewPool = CardFactory.FilterForCombat(WorldviewPower.GetEligibleAttacks(player)).ToArray();
         Require(worldviewPool.Length > 0 && worldviewPool.All(card =>
                 card.Type == CardType.Attack && card.Pool.Id == player.Character.CardPool.Id &&
-                !card.Keywords.Contains(CardKeyword.Unplayable)),
-            "Worldview replacement pool contains a foreign-character or unplayable card");
+                !card.Keywords.Contains(CardKeyword.Unplayable) && card.Rarity != CardRarity.Token &&
+                card.CanBeGeneratedInCombat),
+            "Worldview replacement pool contains a foreign-character, unplayable, or generated-only card");
         NativeSmokeTrace.N5Info("Feedback gameplay passed. WishHuman=Dazzling2+2+PriorStackDamage2, Kao=BuffIntentGlow+GreenDamage9, AveFire=ActiveAveReplay+SecondChoice, Worldview=OwnCharacterPoolOnly.");
     }
 

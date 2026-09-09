@@ -1,5 +1,7 @@
 # Multiplayer Port Requirements and Todo
 
+> Implementation update, 2026-09-08: the user has authorized this work on `codex/multiplayer-adaptations`. The original requirements and unchecked historical plan below are preserved. Current implementation and measured coverage are in [MULTIPLAYER_IMPLEMENTATION.md](MULTIPLAYER_IMPLEMENTATION.md), with detailed combat and relic/presentation audits linked there. A historical unchecked item does not override newer recorded evidence, and implementation alone does not certify a runtime acceptance gate.
+
 > Current-state review, 2026-09-07: Multiplayer remains unsupported and unverified. The current Ocean of Memories patch intentionally preserves multiplayer starts. Future scope must explicitly address Another Mask, its one-time deck conversion, and starting-event synchronization before claiming parity. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
 
 Status: future work; multiplayer remains unsupported in Togawa Sakiko v0.1.0.

@@ -116,7 +116,7 @@ $runSave = $null
 $saveReady = $false
 
 $requiredGameplayMarkers = @(
-    'Phase N6 pure contract tests passed (73 assertions).',
+    'Phase N6 pure contract tests passed (169 assertions).',
     'Embarking on a singleplayer TOGAWASAKIKO-TOGAWA_SAKIKO run.',
     'Phase N6 contract: Blazing Hairband boss swap, random persistent add, disabled-card exclusion, and combat idempotence passed.',
     'Phase N6 contract: Colorful Notebook combat-entry hook applied exactly 1 Dazzling.',
@@ -217,7 +217,7 @@ $reloadIssueLines = @(
 
 $summary = [pscustomobject]@{
     Seed = $Seed
-    PureAssertionCount = 73
+    PureAssertionCount = 169
     GameplayMarkerCount = $requiredGameplayMarkers.Count
     GameplayMarkersPassed = $true
     RelicsVerified = 11

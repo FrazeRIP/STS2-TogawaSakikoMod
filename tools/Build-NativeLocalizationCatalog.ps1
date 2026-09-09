@@ -684,6 +684,19 @@ foreach ($card in $inventory.cards) {
     }
 }
 
+# Native-only diagnostic cards have no STS1 source entry. Preserve their reviewed copy.
+foreach ($language in $languages) {
+    foreach ($entry in @('MOMENT_MEMORY_CARD', 'NOVA_HISTORIA_CARD')) {
+        foreach ($suffix in @('title', 'description')) {
+            $key = "TOGAWASAKIKO-$entry.$suffix"
+            if (-not $existing[$language].cards.Contains($key)) {
+                throw "Missing native multiplayer test-card localization: $language/$key"
+            }
+            Add-Entry $generated[$language].cards $key $existing[$language].cards[$key]
+        }
+    }
+}
+
 foreach ($language in @('zhs')) {
     foreach ($tableName in @('powers', 'relics', 'potions', 'card_keywords')) {
         foreach ($key in @($generated[$language][$tableName].Keys)) {

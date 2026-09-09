@@ -8,6 +8,10 @@ namespace TogawaSakiko.NativeCode.Models.Cards;
 
 public sealed class KindnessCard : CardModel
 {
+    public override bool CanBeGeneratedInCombat => false;
+
+    public override bool CanBeGeneratedByModifiers => false;
+
     public override string PortraitPath => NativeAssetPaths.KindnessPortrait;
 
     public KindnessCard()

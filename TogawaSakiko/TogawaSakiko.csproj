@@ -6,8 +6,8 @@
         <TargetFramework>net9.0</TargetFramework>
         <AssemblyName>TogawaSakiko</AssemblyName>
         <RootNamespace>TogawaSakiko</RootNamespace>
-        <Version>0.1.0</Version>
-        <InformationalVersion>0.1.0-native-full-port</InformationalVersion>
+    <Version>0.1.1</Version>
+    <InformationalVersion>0.1.1</InformationalVersion>
         <ImplicitUsings>true</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -33,6 +33,10 @@
         <Reference Include="sts2">
             <HintPath>$(Sts2DataDir)\sts2.dll</HintPath>
             <Private>true</Private>
+        </Reference>
+        <Reference Include="Steamworks.NET">
+            <HintPath>$(Sts2DataDir)\Steamworks.NET.dll</HintPath>
+            <Private>false</Private>
         </Reference>
     </ItemGroup>
 

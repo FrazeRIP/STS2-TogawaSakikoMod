@@ -69,6 +69,7 @@ internal static partial class N5BatchDiagnostics
         Creature target = combatState.GetOpponentsOf(player.Creature).First(creature => creature.IsHittable);
 
         StartingOptionsDiagnostics.Validate(player);
+        await VerifySpringSunlightStartupAsync(combatState, player, target, choiceContext);
         await VerifyDazzlingPriorStacksAsync(combatState, player, target, choiceContext);
         await VerifyMelodyAsync(combatState, player, target, choiceContext);
         await VerifyGreetingsAsync(combatState, player, choiceContext);
@@ -106,7 +107,7 @@ internal static partial class N5BatchDiagnostics
         await VerifySymbolIIIWaterAsync(combatState, player, choiceContext, session);
 
         NativeSmokeTrace.N5Info(
-            "native card batches passed. GreetingsEnergy=5, TirednessDraw=3, MelodyDamage=15, IdealFreeAttacks=5, Artifact=5, Dazzling=10, KindnessCurrentAndPriorLossSelection=passed, Keys=Black5+White5, MelodiaDivinity=PlayerEnemyTriple+Voice10+InnerCry7, MementoMori=BaseExhaust6+UpgradePurge5+CombatOnly1+Triple60, PersistentAdds=Tiredness2+Radiance2+Ideal2+Voice2+Amoris2+Mortis2, CommonDamage=Phantom24+24+28+Symbol28, Regen=9, SymbolDraw=7, StrengthTrade=Dark27+ActualSteal3+Georgette27+EnemyStrength2+EnemyHype1, HeartsBarrier=DeckSizedBlock+Retain, SelectionCards=Daten30+ExactPersistentPurge2+Kill19+DesireRetrieve3+EarthProjectedBlockDamage, Quaerere=Scry7+9+DiscardBlock7, Kings=Damage34+Single+Reward2+Reroll2+Clear3+Saved, CommonTail=Accomplice5+CarefreeRetain2+DesuWaDrawPriority3+EdgeFrail3+PurgeGeneratedAndPersistent+MasqueradeDamage8+SavedGrowth+WeaknessDiscard, UncommonDirect=Gold35+Tiredness2+Dazzling16+Plating16+Mutsumi12AndBlock12+Protection2+SoyoAoE14+Kindness2+RhinoBlock17WithoutDexterity+CountingBuffTypes, Curses=AmorisRetain+DolorisBlockable2+MortisInjury+OblivionisHandExhaust+TimorisVulnerable, RemainingUncommon=20Cards+10Powers, VoiceRoutes=25.");
+            "native card batches passed. GreetingsEnergy=5, TirednessDraw=3, MelodyDamage=15, IdealFreeAttacks=5, ProtectionPlating=10, Dazzling=10, KindnessCurrentAndPriorLossSelection=passed, Keys=Black5+White5, MelodiaDivinity=PlayerEnemyTriple+Voice10+InnerCry7, MementoMori=BaseExhaust6+UpgradePurge5+CombatOnly1+Triple60, PersistentAdds=Tiredness2+Radiance2+Ideal2+Voice2+Amoris2+Mortis2, CommonDamage=Phantom24+24+28+Symbol28, Regen=9, SymbolDraw=7, StrengthTrade=Dark27+ActualSteal3+Georgette27+EnemyStrength2+EnemyHype1, HeartsBarrier=DeckSizedBlock+Retain, SelectionCards=Daten30+ExactPersistentPurge2+Kill19+DesireRetrieve3+EarthProjectedBlockDamage, Quaerere=Scry7+9+DiscardBlock7, Kings=Damage34+Single+Reward2+Reroll2+Clear3+Saved, CommonTail=Accomplice5+CarefreeRetain2+DesuWaDrawPriority3+EdgeFrail3+PurgeGeneratedAndPersistent+MasqueradeDamage8+SavedGrowth+WeaknessDiscard, UncommonDirect=Gold35+Tiredness2+Dazzling16+Plating16+Mutsumi12AndBlock12+Protection2+SoyoAoE14+Kindness2+RhinoBlock17WithoutDexterity+CountingBuffTypes, Curses=AmorisRetain+DolorisBlockable2+MortisInjury+OblivionisHandExhaust+TimorisVulnerable, RemainingUncommon=20Cards+10Powers, VoiceRoutes=25.");
     }
 
     private static async Task VerifyMelodyAsync(
@@ -344,21 +345,22 @@ internal static partial class N5BatchDiagnostics
         Player player,
         PlayerChoiceContext choiceContext)
     {
-        decimal amountBefore = player.Creature.GetPower<ArtifactPower>()?.Amount ?? 0m;
+        decimal amountBefore = player.Creature.GetPower<PlatingPower>()?.Amount ?? 0m;
         ProtectionCard baseCard = await CreateAndAutoPlayAsync<ProtectionCard>(
             combatState,
             player,
             choiceContext,
             null,
             upgraded: false);
+        Require((player.Creature.GetPower<PlatingPower>()?.Amount ?? 0m) - amountBefore == 4m, "Protection base did not apply 2 Plating twice");
         ProtectionCard upgradedCard = await CreateAndAutoPlayAsync<ProtectionCard>(
             combatState,
             player,
             choiceContext,
             null,
             upgraded: true);
-        decimal amountAfter = player.Creature.GetPower<ArtifactPower>()?.Amount ?? 0m;
-        Require(amountAfter - amountBefore == 5m, "Protection did not apply Artifact once per repetition");
+        decimal amountAfter = player.Creature.GetPower<PlatingPower>()?.Amount ?? 0m;
+        Require(amountAfter - amountBefore == 10m, "Protection did not apply 2 Plating per repetition");
         Require(baseCard.Pile is null && upgradedCard.Pile is null, "Protection power cards did not leave combat piles");
     }
 

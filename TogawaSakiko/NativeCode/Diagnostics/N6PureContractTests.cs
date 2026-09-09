@@ -2,7 +2,9 @@ using System.Reflection;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.PotionPools;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.Unlocks;
@@ -26,6 +28,7 @@ internal static class N6PureContractTests
     {
         _assertionCount = 0;
         ValidateRelicModels();
+        ValidateRandomCardEligibility();
         ValidatePersistentCounters();
         ValidateSelectionLogic();
         ValidatePotionModels();
@@ -60,6 +63,63 @@ internal static class N6PureContractTests
             "Fountain Drink rejects another owner");
         Require(!FountainDrink.ShouldForceFor(true, MegaCrit.Sts2.Core.Rooms.RoomType.Shop, false),
             "Fountain Drink rejects noncombat rewards");
+    }
+
+    private static void ValidateRandomCardEligibility()
+    {
+        CardModel[] characterCards = ModelDb.CardPool<TogawaSakikoCardPool>().AllCards.ToArray();
+        CardModel[] curses = characterCards.Where(card => card.Type == CardType.Curse).ToArray();
+        CardModel[] statuses = ModelDb.CardPool<StatusCardPool>().AllCards.ToArray();
+        Require(curses.Length == 6, "random generation probes cover all six Sakiko curses");
+        Require(statuses.Length > 0 && statuses.All(card => card.Type == CardType.Status),
+            "random generation probes cover native statuses");
+
+        foreach (CardModel card in curses.Concat(statuses))
+        {
+            Require(!BlazingHairband.IsEligibleRandomCard(card), $"Hairband excludes {card.Id}");
+            Require(!PerfectionCard.IsEligibleRandomCard(card), $"Perfection excludes {card.Id}");
+        }
+
+        CardModel[] generatedOnlyCards =
+        [
+            ModelDb.Card<DesireCard>(), ModelDb.Card<TirednessCard>(), ModelDb.Card<MelodyCard>(),
+            ModelDb.Card<IdealCard>(), ModelDb.Card<ProtectionCard>(), ModelDb.Card<RadianceCard>(),
+            ModelDb.Card<KindnessCard>(), ModelDb.Card<VoiceCard>(),
+            ModelDb.Card<BlackKeysCard>(), ModelDb.Card<WhiteKeysCard>()
+        ];
+        foreach (CardModel card in generatedOnlyCards)
+        {
+            Require(card.Rarity == CardRarity.Token && characterCards.Contains(card),
+                $"generated-only {card.Id} remains registered as a token");
+            Require(!card.CanBeGeneratedInCombat && !card.CanBeGeneratedByModifiers,
+                $"generated-only {card.Id} opts out of generic combat and modifier generation");
+            Require(!CardFactory.FilterForCombat([card]).Any(),
+                $"native combat generation excludes {card.Id}");
+        }
+
+        foreach ((string name, Func<CardModel, bool> filter) in new (string, Func<CardModel, bool>)[]
+        {
+            ("Hairband", BlazingHairband.IsEligibleRandomCard),
+            ("Perfection", PerfectionCard.IsEligibleRandomCard)
+        })
+        {
+            CardModel[] previousPool = CardFactory.FilterForCombat(characterCards)
+                .Where(card => name != "Hairband" || card is not CarefreeCard and not WeaknessCard)
+                .ToArray();
+            HashSet<CardModel> expected = previousPool
+                .Where(card => card.Type is not CardType.Curse and not CardType.Status).ToHashSet();
+            HashSet<CardModel> actual = CardFactory.FilterForCombat(characterCards.Where(filter)).ToHashSet();
+            Require(actual.Count > 0 && actual.SetEquals(expected),
+                $"{name} removes only curses and statuses from its complete previous candidate pool");
+            foreach (CardType type in new[] { CardType.Attack, CardType.Skill, CardType.Power })
+            {
+                Require(actual.Any(card => card.Type == type), $"{name} retains {type} candidates");
+            }
+            foreach (CardModel token in generatedOnlyCards)
+            {
+                Require(!actual.Contains(token), $"{name} excludes generated-only token {token.Id}");
+            }
+        }
     }
 
     private static void ValidatePersistentCounters()

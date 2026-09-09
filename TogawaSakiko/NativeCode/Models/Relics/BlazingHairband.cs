@@ -67,6 +67,7 @@ public sealed class BlazingHairband : SakikoRelicModel
 
     internal static bool IsEligibleRandomCard(CardModel card)
     {
-        return card is not CarefreeCard and not WeaknessCard;
+        return card is not CarefreeCard and not WeaknessCard &&
+            card.Type is not CardType.Curse and not CardType.Status;
     }
 }

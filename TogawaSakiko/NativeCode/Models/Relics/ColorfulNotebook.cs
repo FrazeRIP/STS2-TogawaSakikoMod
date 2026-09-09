@@ -1,4 +1,6 @@
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.Entities.Multiplayer;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Rooms;
@@ -20,11 +22,17 @@ public sealed class ColorfulNotebook : SakikoRelicModel
         }
 
         Flash();
-        await PowerCmd.Apply<DazzlingPower>(
-            new ThrowingPlayerChoiceContext(),
+        // Room hooks have no incoming context. Native hook contexts defer a downstream choice
+        // into the owner's synchronized action queue while room entry is allowed to finish.
+        var choiceContext = new HookPlayerChoiceContext(
+            Owner, LocalContext.NetId ?? Owner.NetId, GameActionType.CombatPlayPhaseOnly);
+        choiceContext.PushModel(this);
+        Task application = PowerCmd.Apply<DazzlingPower>(
+            choiceContext,
             Owner.Creature,
             1m,
             Owner.Creature,
             null);
+        await choiceContext.AssignTaskAndWaitForPauseOrCompletion(application);
     }
 }

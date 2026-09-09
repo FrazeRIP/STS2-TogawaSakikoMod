@@ -9,7 +9,7 @@ namespace TogawaSakiko.NativeCode.Content;
 
 internal static class NativeModelCatalog
 {
-    public const int GameplayModelCount = 139;
+    public const int GameplayModelCount = 141;
 
     private static bool _registered;
 
@@ -21,6 +21,10 @@ internal static class NativeModelCatalog
         }
 
         ModHelper.AddModelToPool<TogawaSakikoCardPool, StrikeTogawaSakiko>();
+        // These special test cards are registered for console/save/network identity only.
+        // TogawaSakikoCardPool.IsEnabledCard excludes them from ordinary generation.
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, MomentMemoryCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, NovaHistoriaCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, DefendTogawaSakiko>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, TheMoonlightSonataCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, ASplitMomentCard>();

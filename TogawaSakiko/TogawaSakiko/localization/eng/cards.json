@@ -1,4 +1,8 @@
 {
+  "TOGAWASAKIKO-MOMENT_MEMORY_CARD.title": "Moment/Memory",
+  "TOGAWASAKIKO-MOMENT_MEMORY_CARD.description": "At the end of combat, grant {Rewards:diff()} [gold]Card Removal[/gold] to every player.",
+  "TOGAWASAKIKO-NOVA_HISTORIA_CARD.title": "Nova Historia",
+  "TOGAWASAKIKO-NOVA_HISTORIA_CARD.description": "Every living player gains {HypePower:diff()} [gold]Hype[/gold].",
   "TOGAWASAKIKO-A_SPLIT_MOMENT_CARD.description": "Gain {Block:diff()} [gold]Block[/gold].\nGain {DazzlingPower:diff()} [gold]Dazzling[/gold].",
   "TOGAWASAKIKO-A_SPLIT_MOMENT_CARD.title": "A Split Moment",
   "TOGAWASAKIKO-ACCOMPLICE_CARD.description": "Add {MagicNumber:diff()} [gold]Desire[/gold] to your hand.\nAll [gold]Desire[/gold] in your hand cost 0 energy this turn.",
@@ -134,7 +138,7 @@
   "TOGAWASAKIKO-PRIDE_CARD.title": "Pride",
   "TOGAWASAKIKO-PRIMO_DIE_IN_SCAENA_CARD.description": "Gain {energyPrefix:energyIcons(1)} at the start of each turn, until your next shuffle.",
   "TOGAWASAKIKO-PRIMO_DIE_IN_SCAENA_CARD.title": "Primo Die In Scaena",
-  "TOGAWASAKIKO-PROTECTION_CARD.description": "Gain 1 Artifact {Repeat:diff()} times.",
+  "TOGAWASAKIKO-PROTECTION_CARD.description": "Gain 2 Plating {Repeat:diff()} times.",
   "TOGAWASAKIKO-PROTECTION_CARD.title": "Protection",
   "TOGAWASAKIKO-QUAERERE_LUMINA_CARD.description": "[gold]Scry[/gold] {MagicNumber:diff()}.\nGain Block equal to the number of cards discarded.",
   "TOGAWASAKIKO-QUAERERE_LUMINA_CARD.title": "Quaerere Lumina",

@@ -43,6 +43,13 @@ public sealed class SpringSunlightCard : CardModel
         }
     }
 
+    public override Task BeforeCombatStart()
+    {
+        // Initial deck copies enter Draw directly, without AfterCardEnteredCombat.
+        RefreshCombatCosts(Owner);
+        return Task.CompletedTask;
+    }
+
     public override Task AfterCardEnteredCombat(CardModel card)
     {
         if (card.Owner == Owner && card is SpringSunlightCard)
@@ -58,7 +65,8 @@ public sealed class SpringSunlightCard : CardModel
         AbstractModel? clonedBy)
     {
         if (card.Owner == Owner &&
-            (oldPileType == PileType.Deck || card.Pile?.Type == PileType.Deck))
+            (oldPileType == PileType.Deck || card.Pile?.Type == PileType.Deck ||
+             (card == this && card.Pile?.Type == PileType.Hand)))
         {
             RefreshCombatCosts(Owner);
         }

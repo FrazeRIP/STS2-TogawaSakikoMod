@@ -44,6 +44,9 @@ internal static class NativeAssetPaths
     public const string SkillCardFrame = Root + "/images/card_ui/frame_skill.png";
     public const string PowerCardFrame = Root + "/images/card_ui/frame_power.png";
 
+    public const string MomentMemoryPortrait = Root + "/images/card_portraits/big/momentmemorycard.png";
+    public const string NovaHistoriaPortrait = Root + "/images/card_portraits/big/novahistoriacard.png";
+
     public const string StrikePortrait = Root + "/images/card_portraits/striketogawasakiko.png";
     public const string DefendPortrait = Root + "/images/card_portraits/defendtogawasakiko.png";
     public const string MoonlightSonataPortrait = Root + "/images/card_portraits/themoonlightsonatacard.png";

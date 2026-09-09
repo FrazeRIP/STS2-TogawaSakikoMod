@@ -1,5 +1,6 @@
 using Godot;
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Helpers;
 using TogawaSakiko.NativeCode.Content;
@@ -14,17 +15,19 @@ internal static class SakikoAudioCmd
     private static readonly Dictionary<ulong, ulong> LastCardVoiceAtByPlayer = [];
     private static readonly Dictionary<ulong, ulong> LastHurtVoiceAtByPlayer = [];
     private static readonly Dictionary<ulong, int> LastHurtVariantByPlayer = [];
+    private static Player? _voiceOwner;
 
     public static bool TryPlayCardVoice(Player player, string sourceKey)
     {
         ArgumentNullException.ThrowIfNull(player);
         ArgumentException.ThrowIfNullOrWhiteSpace(sourceKey);
 
-        if (player.Character is not SakikoCharacter)
+        if (!ShouldPlayOwnerVoice(player.Character is SakikoCharacter, player.NetId, LocalContext.NetId))
         {
             return false;
         }
 
+        EnsureVoiceOwner(player);
         ulong now = Time.GetTicksMsec();
         if (LastCardVoiceAtByPlayer.TryGetValue(player.NetId, out ulong lastPlayedAt) &&
             now - lastPlayedAt < CardVoiceCooldownMilliseconds)
@@ -50,11 +53,12 @@ internal static class SakikoAudioCmd
     public static bool TryPlayHurtVoice(Player player)
     {
         ArgumentNullException.ThrowIfNull(player);
-        if (player.Character is not SakikoCharacter)
+        if (!ShouldPlayOwnerVoice(player.Character is SakikoCharacter, player.NetId, LocalContext.NetId))
         {
             return false;
         }
 
+        EnsureVoiceOwner(player);
         ulong now = Time.GetTicksMsec();
         if (LastHurtVoiceAtByPlayer.TryGetValue(player.NetId, out ulong lastPlayedAt) &&
             now - lastPlayedAt < HurtVoiceCooldownMilliseconds)
@@ -77,6 +81,28 @@ internal static class SakikoAudioCmd
     public static bool TryPlayDazzlingImpact()
     {
         return TryPlayResourcePath(NativeAssetPaths.DazzlingImpactSfx);
+    }
+
+    // Card and hurt voices belong to the local Sakiko. Remote voices are silent;
+    // shared Dazzling impact presentation still plays once in each peer's scene.
+    internal static bool ShouldPlayOwnerVoice(bool isSakiko, ulong ownerId, ulong? localId) =>
+        isSakiko && localId.HasValue && ownerId == localId.Value;
+
+    internal static void ResetVoiceState()
+    {
+        LastCardVoiceAtByPlayer.Clear();
+        LastHurtVoiceAtByPlayer.Clear();
+        LastHurtVariantByPlayer.Clear();
+        _voiceOwner = null;
+    }
+
+    private static void EnsureVoiceOwner(Player player)
+    {
+        if (!ReferenceEquals(_voiceOwner, player))
+        {
+            ResetVoiceState();
+            _voiceOwner = player;
+        }
     }
 
     public static bool TryPlayResourcePath(string path, float volume = 1f)

@@ -151,7 +151,7 @@ public static class PowerCopyCommand
         }
 
         Creature? applier = ResolveApplier(source, target, applierPolicy, explicitApplier);
-        if (applier?.CombatState != target.CombatState)
+        if (applier is not null && applier.CombatState != target.CombatState)
         {
             return new PowerCopyResult(
                 PowerCopyStatus.Unsupported,

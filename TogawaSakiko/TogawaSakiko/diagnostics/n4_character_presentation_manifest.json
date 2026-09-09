@@ -292,7 +292,8 @@
         132,
         195
       ],
-      "status": "derived from STS1 alternate character art"
+      "status": "approved face-focused portrait matching native character-selection tiles",
+      "source": "TogawaSakiko/ArtSources/character_select/sakiko_face_portrait_v1.png"
     },
     {
       "role": "locked character-select icon",

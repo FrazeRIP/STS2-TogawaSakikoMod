@@ -11,6 +11,10 @@ namespace TogawaSakiko.NativeCode.Models.Cards;
 
 public sealed class RadianceCard : CardModel
 {
+    public override bool CanBeGeneratedInCombat => false;
+
+    public override bool CanBeGeneratedByModifiers => false;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new PowerVar<DazzlingPower>(2m),

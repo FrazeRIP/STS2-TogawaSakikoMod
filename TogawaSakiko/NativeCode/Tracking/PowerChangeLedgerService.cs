@@ -105,7 +105,8 @@ public sealed class PowerChangeLedgerHookModel : AbstractModel
         return Task.CompletedTask;
     }
 
-    public override Task AfterPowerAmountChanged(
+    // Called at native hook entry, before reactive powers can change/remove this power again.
+    internal Task RecordPowerAmountChanged(
         PlayerChoiceContext choiceContext,
         PowerModel power,
         decimal amount,

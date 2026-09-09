@@ -63,9 +63,10 @@ No mutable `PowerModel`, `Creature`, or `CardModel` is retained as authoritative
 `HypePower` preserves the STS1 behavior text: whenever its owner is about to lose Block, one Hype is consumed instead.
 
 - Normal turn-boundary clearing is prevented through `ShouldClearBlock` and consumes one stack only when the native `AfterPreventingBlockClear` callback identifies Hype as the selected preventer.
-- The only behavior patch targets the public four-argument `CreatureCmd.LoseBlock` overload. It intercepts an explicit positive loss only during an active, non-ending combat when the living target has positive block and positive Hype.
+- The explicit-loss patch targets the public four-argument `CreatureCmd.LoseBlock` overload. It intercepts an explicit positive loss only during an active, non-ending combat when the living target has positive block and positive Hype.
 - The patch returns the awaited `PowerCmd.Decrement` task, preserving action ordering.
-- It does not patch `LoseBlockInternal`, damage absorption, teardown, or unrelated block paths.
+- Damage prevention awaits the native `BeforeDamageReceived` hooks and consumes one Hype before reserving that hit's `DamageBlockInternal` call. Damage still reports its normal absorbed amount while preserving block; excess damage still reaches HP. Player, enemy, card-source, and pet-owner block paths share this behavior. Zero block, zero/sub-integer damage, and unblockable damage consume no Hype.
+- Neither patch intercepts combat teardown or changes `LoseBlockInternal`.
 - Native first-preventer ordering prevents Hype from double-consuming when Blur, Barricade, or another retention effect wins the hook decision.
 - The power has stable ID `POWER.TOGAWASAKIKO-HYPE_POWER`, English and Simplified Chinese localization, and small/large native PCK assets.
 
