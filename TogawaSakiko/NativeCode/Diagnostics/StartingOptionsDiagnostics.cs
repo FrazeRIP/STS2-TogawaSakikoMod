@@ -37,7 +37,7 @@ internal static class StartingOptionsDiagnostics
         IReadOnlyList<EventOption> oceanOptions = (IReadOnlyList<EventOption>)
             AccessTools.Method(typeof(OceanOfMemories), "GenerateInitialOptions").Invoke(ocean, null)!;
         Require(oceanOptions.Select(option => option.TextKey.Split('.').Last())
-                .SequenceEqual(new[] { "ANOTHER_MASK", "THE_THIRD_MOVEMENT", "BLAZING_HAIRBAND" }),
+                .SequenceEqual(new[] { "ANOTHER_MASK", "BLAZING_HAIRBAND", "NORMAL_BLESSING" }),
             "Sakiko's three fixed starting options were missing or reordered");
         Require(ocean.InitialDescription.LocEntryKey == "NEOW.pages.INITIAL.description",
             "Sakiko's starting room did not reuse Neow's description");
@@ -52,6 +52,8 @@ internal static class StartingOptionsDiagnostics
         Require(oceanOptions.All(option => option.Title.Exists() && option.Description.Exists()),
             "Sakiko's starting choices had missing localization");
 
+        ValidateNativeChoices(player);
+
         ModifierModel draft = ModelDb.Modifier<Draft>().ToMutable();
         ModifierModel vintage = ModelDb.Modifier<Vintage>().ToMutable();
         ModifierModel[] realModifiers = [draft, vintage];
@@ -65,6 +67,46 @@ internal static class StartingOptionsDiagnostics
 
         NativeSmokeTrace.N5Info(
             "Starting options contract passed. SakikoChoices=3, VanillaNeowChoices=3, KingsCarrier=retained, RealModifiers=preserved.");
+    }
+
+    internal static void ValidateNativeChoices(Player player)
+    {
+        foreach (uint seed in new uint[] { 1, 42, 7321, 987654 })
+        {
+            Neow baseline = Prepare((Neow)ModelDb.Event<Neow>().ToMutable(), seed);
+            OceanOfMemories custom = (OceanOfMemories)Prepare((Neow)ModelDb.Event<OceanOfMemories>().ToMutable(), seed);
+            Neow multiplayer = Prepare((Neow)ModelDb.Event<Neow>().ToMutable(), seed);
+            var before = custom.Rng.ToSerializable();
+            _ = custom.AllPossibleOptions.ToArray();
+            _ = ModelDb.Event<OceanOfMemories>().AllPossibleOptions.ToArray();
+            Require(before == custom.Rng.ToSerializable(), "catalog enumeration consumed reward RNG");
+            var native = SakikoStartingRewards.GetNormalOptions(baseline);
+            foreach (Neow candidate in new Neow[] { custom, multiplayer })
+            {
+                var options = SakikoStartingRewards.GetNormalOptions(candidate);
+                Require(options.Count == 3 && options.All(option => option.Relic != null), "normal blessings are not three relics");
+                Require(options.Select(option => option.Relic!.Id).SequenceEqual(native.Select(option => option.Relic!.Id)),
+                    "normal blessings diverged from native generation at matching RNG state");
+                Require(candidate.Rng.ToSerializable() == baseline.Rng.ToSerializable(), "native generation consumed different RNG");
+                Require(options.Zip(native).All(pair => pair.First.Title.GetFormattedText() == pair.Second.Title.GetFormattedText() &&
+                    pair.First.Description.GetFormattedText() == pair.Second.Description.GetFormattedText()), "native blessing localization differs");
+                var after = candidate.Rng.ToSerializable();
+                Require(ReferenceEquals(options, SakikoStartingRewards.GetNormalOptions(candidate)) && after == candidate.Rng.ToSerializable(),
+                    "normal blessing cache rerolled");
+                Require(options.All(option => ReferenceEquals(option.Relic!.Owner, player)), "normal blessing owner mismatch");
+            }
+        }
+        Require(!SakikoTemporarilyHiddenRelicPatch.VisibleRelics(ModelDb.AllRelics)
+            .Any(relic => relic is Models.Relics.TheThirdMovement), "Third Movement is visible in the collection");
+        Require(ModelDb.Relic<Models.Relics.TheThirdMovement>().ToMutable() is Models.Relics.TheThirdMovement { RemainingUses: 3 },
+            "Third Movement compatibility model is unavailable");
+
+        Neow Prepare(Neow neow, uint seed)
+        {
+            AccessTools.Property(typeof(EventModel), nameof(EventModel.Owner)).SetValue(neow, player);
+            AccessTools.Property(typeof(EventModel), nameof(EventModel.Rng)).SetValue(neow, new Rng(seed));
+            return neow;
+        }
     }
 
     private static void Require(bool condition, string message)

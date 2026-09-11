@@ -1,5 +1,7 @@
 # Native Neow starting room
 
+Two-stage Neow update, 2026-09-10: standard Sakiko starts in solo and multiplayer now offer Another Mask, The Blazing Hairband, and a speech-bubble option to choose normal blessings. The third option opens the game's three native generated rewards with no Back option. The Third Movement is temporarily absent from starting choices and the relic collection; its stable ID and saved gameplay behavior remain supported. This supersedes the fixed three-relic descriptions below. See [two-stage implementation and verification](NEOW_TWO_STAGE.md).
+
 Revision: 2026-09-07. Target: STS2 v0.111.0 (`41cef1ea`).
 
 Dialogue revision: Sakiko's supplied English and Simplified Chinese conversations now use the native dialogue system. Conversation 1 plays on her first visit, conversation 2 on her second, and conversation 3 on her third. The dedicated Sakiko room skips the shared first-ever introduction so it cannot replace conversation 1. From the fourth visit onward, Neow's native random repeat pool contains the generic conversations plus Sakiko conversations 2 and 3; conversation 1 remains a one-time milestone. Native visit history counts completed runs (wins plus losses), so reloading a run does not advance the conversation.

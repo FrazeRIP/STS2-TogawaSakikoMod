@@ -12,6 +12,9 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Models.Events;
 using MegaCrit.Sts2.Core.Nodes.Events;
+using MegaCrit.Sts2.Core.Nodes;
+using MegaCrit.Sts2.Core.Nodes.Screens;
+using MegaCrit.Sts2.Core.Nodes.Screens.RelicCollection;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
@@ -28,7 +31,7 @@ namespace TogawaSakiko.NativeCode.Diagnostics;
 // This path runs only with an explicit diagnostic argument and an isolated test profile.
 internal static class OceanStartingRoomDiagnostics
 {
-    internal static readonly string[] ChoiceKeys = ["ANOTHER_MASK", "THE_THIRD_MOVEMENT", "BLAZING_HAIRBAND"];
+    internal static readonly string[] ChoiceKeys = ["ANOTHER_MASK", "BLAZING_HAIRBAND", "NORMAL_BLESSING"];
 
     internal static async Task HandleAsync(CancellationToken cancellationToken)
     {
@@ -61,10 +64,9 @@ internal static class OceanStartingRoomDiagnostics
         // Broader gameplay diagnostics require the unchanged starter relic and starter deck.
         if (!NativeSmokeTrace.StartingRoomEnabled)
         {
-            node.OptionButtonClicked(ocean.CurrentOptions[1], 1);
-            await RunManager.Instance.EventSynchronizer.AwaitPendingOptionTasks();
+            AccessTools.Method(typeof(AncientEventModel), "Done").Invoke(ocean, null);
             // Keep earlier combat contracts at their original damage baseline after exercising the new choice.
-            await RelicCmd.Remove(player.Relics.OfType<TheThirdMovement>().Single());
+            // No starting reward is granted in this broader diagnostic-only path.
             await NEventRoom.Proceed();
             return;
         }
@@ -72,6 +74,8 @@ internal static class OceanStartingRoomDiagnostics
         int choice = int.TryParse(CommandLineHelper.GetValue("togawa-starting-choice"), out int parsed)
             ? parsed : 0;
         Require(choice is >= 0 and < 3, "choice index must be 0, 1, or 2");
+        int normalChoice = int.TryParse(CommandLineHelper.GetValue("togawa-normal-choice"), out int normalParsed) ? normalParsed : 0;
+        Require(normalChoice is >= 0 and < 3, "normal choice index must be 0, 1, or 2");
         StartingOptionsDiagnostics.Validate(player);
         Require(SakikoStartingRoomPatch.ShouldReplace(runState), "the starting-room boundary did not match the standard Sakiko start");
         VerifyVanillaBoundary();
@@ -111,11 +115,41 @@ internal static class OceanStartingRoomDiagnostics
         await VerifyDialogueAsync(scene, ocean, node, cancellationToken);
         await CaptureIfRequestedAsync(node, cancellationToken);
 
+        Require(scene.OptionButtons.ElementAt(2).GetNode<TextureRect>("%RelicIcon") is { Visible: true, Texture: not null },
+            "normal blessing speech icon is missing");
+        EventOption[] rewardOptions = initialOptions.Take(2).ToArray();
+        EventOption selectedReward = initialOptions[choice];
+        using IDisposable selector = CardSelectCmd.UseSelector(new MultiplayerStartingEventDiagnostics.FirstCardSelector(), localOnly: true);
+
         // Exercise the same routed native button entry point used by the visible UI.
         scene.OptionButtons.ElementAt(choice).ForceClick();
         await RunManager.Instance.EventSynchronizer.AwaitPendingOptionTasks();
+        if (choice == 2)
+        {
+            Require(!ocean.IsFinished && !room.IsPreFinished && ocean.CurrentOptions.Count == 3 &&
+                ocean.CurrentOptions.All(option => option.Relic != null), "navigation did not reveal three native blessings");
+            VerifyDeck(player);
+            Require(player.Relics.Count == 1 && player.Relics[0] is StarterRelicTogawaSakiko, "navigation granted a reward");
+            rewardOptions = ocean.CurrentOptions.ToArray();
+            selectedReward = rewardOptions[normalChoice];
+            // Invoke the stale reward callbacks; native BeforeChosen UI hooks intentionally disable current buttons.
+            foreach (string stale in ChoiceKeys) { await ocean.ChooseAsync(stale); }
+            Require(ocean.CurrentOptions.SequenceEqual(rewardOptions) && player.Relics.Count == 1, "stale first-stage option changed stage two");
+            Require(scene.OptionButtons.Select(button => button.Option).SequenceEqual(rewardOptions), "native buttons did not refresh");
+            for (int frame = 0; frame < 4; frame++)
+            {
+                await node.ToSignal(node.GetTree(), SceneTree.SignalName.ProcessFrame);
+            }
+            scene.OptionButtons.First().GrabFocus();
+            Require(scene.OptionButtons.First().HasFocus(), "stage-two controller focus is unavailable");
+            await CaptureIfRequestedAsync(node, cancellationToken, "normal-blessings");
+            scene.OptionButtons.ElementAt(normalChoice).ForceClick();
+            await RunManager.Instance.EventSynchronizer.AwaitPendingOptionTasks();
+        }
         Require(ocean.IsFinished && room.IsPreFinished, "choosing an option did not finish the native ancient room");
-        VerifyChoice(player, choice);
+        if (choice < 2) { VerifyChoice(player, choice); }
+        Require(player.Relics.Any(relic => relic.Id == selectedReward.Relic!.Id), "selected reward was not obtained");
+        string finalInventory = MultiplayerStartingEventDiagnostics.InventorySnapshot(player);
         foreach (EventOption staleOption in initialOptions)
         {
             await staleOption.Chosen();
@@ -124,7 +158,8 @@ internal static class OceanStartingRoomDiagnostics
         {
             await player.Relics.OfType<AnotherMask>().Single().AfterObtained();
         }
-        VerifyChoice(player, choice);
+        foreach (EventOption stale in rewardOptions) { await stale.Chosen(); }
+        Require(finalInventory == MultiplayerStartingEventDiagnostics.InventorySnapshot(player), "stale options changed final inventory");
 
         await SaveManager.Instance.SaveRun(room, saveProgress: false);
         ReadSaveResult<SerializableRun> read = SaveManager.Instance.LoadRunSave();
@@ -135,15 +170,15 @@ internal static class OceanStartingRoomDiagnostics
             "the native save did not preserve the finished custom starting room");
         var choices = saved.MapPointHistory.SelectMany(act => act)
             .SelectMany(point => point.PlayerStats).SelectMany(stats => stats.AncientChoices)
-            .Where(entry => entry.Title.LocEntryKey.StartsWith(OceanOfMemories.Entry + ".", StringComparison.Ordinal))
             .ToArray();
-        Require(choices.Length == 3 && choices.Count(entry => entry.WasChosen) == 1 &&
-                choices.Single(entry => entry.WasChosen).TextKey == ChoiceKeys[choice],
+        Require(choices.Length == rewardOptions.Length && choices.Count(entry => entry.WasChosen) == 1 &&
+                choices.Single(entry => entry.WasChosen).Title.LocEntryKey == selectedReward.Title.LocEntryKey &&
+                choices.All(entry => entry.TextKey != SakikoStartingRewards.NormalBlessing),
             "the save did not preserve exactly one chosen option in native ancient history");
 
         RunState reloadedRun = RunState.FromSerializable(saved);
         Player reloadedPlayer = reloadedRun.Players.Single();
-        VerifyChoice(reloadedPlayer, choice);
+        Require(finalInventory == MultiplayerStartingEventDiagnostics.InventorySnapshot(reloadedPlayer), "reloaded inventory changed");
         EventRoom reloadedRoom = new(saved.PreFinishedRoom!);
         Require(reloadedRoom.CanonicalEvent is OceanOfMemories && reloadedRoom.IsPreFinished,
             "the saved event ID did not restore its custom canonical room");
@@ -159,9 +194,33 @@ internal static class OceanStartingRoomDiagnostics
         {
             await reloadedPlayer.Relics.OfType<AnotherMask>().Single().AfterObtained();
         }
-        VerifyChoice(reloadedPlayer, choice);
+        Require(finalInventory == MultiplayerStartingEventDiagnostics.InventorySnapshot(reloadedPlayer), "reloaded inventory changed");
+        if (CommandLineHelper.HasArg("togawa-starting-collection"))
+        {
+            // Reconstruct a legacy inventory using the unchanged saved relic ID and counter.
+            TheThirdMovement legacy = (TheThirdMovement)ModelDb.Relic<TheThirdMovement>().ToMutable();
+            legacy.RemainingUses = 2;
+            saved.Players.Single().Relics.Add(legacy.ToSerializable());
+            Player legacyPlayer = RunState.FromSerializable(saved).Players.Single();
+            TheThirdMovement restoredLegacy = legacyPlayer.GetRelic<TheThirdMovement>()!;
+            Require(restoredLegacy is { RemainingUses: 2, IsUsedUp: false } &&
+                restoredLegacy.ShouldMultiplyDamage(MegaCrit.Sts2.Core.ValueProps.ValueProp.Move,
+                    legacyPlayer.Creature, ModelDb.Card<TheMoonlightSonataCard>()), "legacy Third Movement save or effect was lost");
+            var submenu = NRun.Instance!.GlobalUi.SubmenuStack;
+            submenu.ShowScreen(CapstoneSubmenuType.Compendium);
+            NRelicCollection collection = submenu.Stack.PushSubmenuType<NRelicCollection>();
+            Require(collection.Relics.All(relic => relic is not TheThirdMovement), "Third Movement remains in collection navigation");
+            Require(collection.GetNode<NRelicCollectionCategory>("%Event").GetGridItems().SelectMany(row => row)
+                .OfType<NRelicCollectionEntry>().All(entry => entry.relic is not TheThirdMovement), "Third Movement remains in collection entries");
+            Require(collection.Relics.Any(relic => relic is AnotherMask) && collection.Relics.Any(relic => relic is BlazingHairband),
+                "the available custom blessings disappeared from the collection");
+            await CaptureIfRequestedAsync(node, cancellationToken, "relic-collection");
+            submenu.Stack.Pop();
+            submenu.Stack.Pop();
+            NativeSmokeTrace.StartingRoomInfo("collection passed. ThirdMovement=hidden, CustomBlessings=visible, LegacySave=working.");
+        }
         NativeSmokeTrace.StartingRoomInfo(
-            $"passed. Choice={ChoiceKeys[choice]}, Deck=9, Repeat=blocked, SavedChoice=exact, Reload=finished, ThirdMovementUses={(choice == 1 ? 3 : 0)}, Vanilla=preserved, NativeNeowLayout=resolved.");
+            $"passed. Choice={ChoiceKeys[choice]}, NormalIndex={normalChoice}, Reward={selectedReward.Relic!.Id.Entry}, Repeat=blocked, SavedChoice=exact, Reload=finished, Vanilla=preserved, NativeNeowLayout=resolved.");
 
         if (CommandLineHelper.HasArg("togawa-feedback-visuals"))
         {
@@ -209,8 +268,7 @@ internal static class OceanStartingRoomDiagnostics
         {
             0 => player.Relics.Count == 1 && player.Relics[0] is AnotherMask { AppliedStartingChange: true } &&
                  starter == 0 && blazing == 0 && movement is null,
-            1 => player.Relics.Count == 2 && starter == 1 && blazing == 0 && movement?.RemainingUses == 3,
-            2 => player.Relics.Count == 1 && starter == 0 && blazing == 1 && movement is null,
+            1 => player.Relics.Count == 1 && starter == 0 && blazing == 1 && movement is null,
             _ => false
         }, "the chosen relic inventory or Third Movement charges were not exact");
     }

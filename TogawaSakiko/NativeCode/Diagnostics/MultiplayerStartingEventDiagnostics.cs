@@ -30,7 +30,7 @@ namespace TogawaSakiko.NativeCode.Diagnostics;
 internal static class MultiplayerStartingEventDiagnostics
 {
     private static readonly JsonSerializerOptions EvidenceOptions = new() { WriteIndented = true, IncludeFields = true };
-    private static readonly string[] ChoiceKeys = ["ANOTHER_MASK", "THE_THIRD_MOVEMENT", "BLAZING_HAIRBAND"];
+    private static readonly string[] ChoiceKeys = ["ANOTHER_MASK", "BLAZING_HAIRBAND", "NORMAL_BLESSING"];
 
     internal static bool Enabled => CommandLineHelper.HasArg("togawa-mp-starting-event");
 
@@ -65,6 +65,8 @@ internal static class MultiplayerStartingEventDiagnostics
 
         Player[] sakikoPlayers = state.Players.Where(player => player.Character is SakikoCharacter).ToArray();
         var selected = new Dictionary<ulong, int>();
+        var chosenTitles = new Dictionary<ulong, string>();
+        var rewardCounts = new Dictionary<ulong, int>();
         using IDisposable selector = CardSelectCmd.UseSelector(new FirstCardSelector(), localOnly: true);
         foreach (Player owner in state.Players)
         {
@@ -87,6 +89,27 @@ internal static class MultiplayerStartingEventDiagnostics
                 // This is the same network entry point as the native option button.
                 // Remote peers receive OptionIndexChosenMessage and never invoke this directly.
                 manager.EventSynchronizer.ChooseLocalOption(choice);
+            }
+            if (owner.Character is SakikoCharacter && choice == 2)
+            {
+                await Wait(() => ownerEvent.CurrentOptions[0].TextKey != originalOptions[0].TextKey,
+                    $"player {owner.NetId} normal blessing stage");
+                Require(!ownerEvent.IsFinished && owner.Relics.Count == 1 && owner.Deck.Cards.Count == 9,
+                    "normal blessing navigation granted a reward or completed the event");
+                EventOption[] normalOptions = ownerEvent.CurrentOptions.ToArray();
+                Require(normalOptions.Length == 3 && normalOptions.All(option => option.Relic != null), "native blessing options missing");
+                foreach (EventOption stale in originalOptions) { await stale.Chosen(); }
+                Require(ownerEvent.CurrentOptions.SequenceEqual(normalOptions), "stale custom options changed native choices");
+                await CompareSnapshot(state, root, $"normal-{owner.NetId}", barrier);
+                int normalChoice = SelectVanillaChoice(normalOptions);
+                chosenTitles[owner.NetId] = normalOptions[normalChoice].Title.LocEntryKey;
+                rewardCounts[owner.NetId] = 3;
+                if (LocalContext.IsMe(owner)) { manager.EventSynchronizer.ChooseLocalOption(normalChoice); }
+            }
+            else
+            {
+                chosenTitles[owner.NetId] = originalOptions[choice].Title.LocEntryKey;
+                rewardCounts[owner.NetId] = owner.Character is SakikoCharacter ? 2 : 3;
             }
             await Wait(() => ownerEvent.IsFinished, $"player {owner.NetId} native starting choice");
             await manager.EventSynchronizer.AwaitPendingOptionTasks();
@@ -147,8 +170,9 @@ internal static class MultiplayerStartingEventDiagnostics
                 VerifySakikoChoice(restoredPlayer, choice);
                 var history = reread.MapPointHistory.SelectMany(act => act).SelectMany(point => point.PlayerStats)
                     .Where(stats => stats.PlayerId == restoredPlayer.NetId).SelectMany(stats => stats.AncientChoices).ToArray();
-                Require(history.Length == 3 && history.Count(entry => entry.WasChosen) == 1 &&
-                    history.Single(entry => entry.WasChosen).TextKey == ChoiceKeys[choice],
+                Require(history.Length == rewardCounts[restoredPlayer.NetId] && history.Count(entry => entry.WasChosen) == 1 &&
+                    history.Single(entry => entry.WasChosen).Title.LocEntryKey == chosenTitles[restoredPlayer.NetId] &&
+                    history.All(entry => entry.TextKey != "NORMAL_BLESSING"),
                     $"player {restoredPlayer.NetId} ancient choice history was not saved independently");
                 if (restoredPlayer.GetRelic<AnotherMask>() is { } mask)
                 {
@@ -195,6 +219,13 @@ internal static class MultiplayerStartingEventDiagnostics
 
     private static void VerifySakikoChoice(Player player, int choice)
     {
+        if (choice == 2)
+        {
+            Require(player.GetRelic<AnotherMask>() == null && player.GetRelic<BlazingHairband>() == null &&
+                player.GetRelic<TheThirdMovement>() == null && player.Relics.Count >= 2,
+                "normal blessing did not preserve the native reward path");
+            return;
+        }
         Require(player.Deck.Cards.Count == 9 && player.Deck.Cards.Count(card => card is StrikeTogawaSakiko) == 4 &&
             player.Deck.Cards.Count(card => card is TheMoonlightSonataCard) == 1 &&
             player.Deck.Cards.Count(card => card is DefendTogawaSakiko) == (choice == 0 ? 0 : 4) &&
@@ -203,9 +234,7 @@ internal static class MultiplayerStartingEventDiagnostics
         Require(choice switch
         {
             0 => player.Relics.Count == 1 && player.GetRelic<AnotherMask>() is { AppliedStartingChange: true },
-            1 => player.Relics.Count == 2 && player.GetRelic<StarterRelicTogawaSakiko>() is not null &&
-                 player.GetRelic<TheThirdMovement>() is { RemainingUses: 3 },
-            2 => player.Relics.Count == 1 && player.GetRelic<BlazingHairband>() is not null,
+            1 => player.Relics.Count == 1 && player.GetRelic<BlazingHairband>() is not null,
             _ => false
         }, $"player {player.NetId} starting relic result was not exact");
     }
@@ -268,7 +297,7 @@ internal static class MultiplayerStartingEventDiagnostics
         return assertions;
     }
 
-    private static string InventorySnapshot(Player player) => JsonSerializer.Serialize(new
+    internal static string InventorySnapshot(Player player) => JsonSerializer.Serialize(new
     {
         Deck = player.Deck.Cards.Select(card => card.ToSerializable()).ToArray(),
         Relics = player.Relics.Select(relic => relic.ToSerializable()).ToArray()
@@ -327,7 +356,7 @@ internal static class MultiplayerStartingEventDiagnostics
         }
     }
 
-    private sealed class FirstCardSelector : ICardSelector
+    internal sealed class FirstCardSelector : ICardSelector
     {
         public Task<IEnumerable<CardModel>> GetSelectedCards(IEnumerable<CardModel> options, int minSelect, int maxSelect)
         {

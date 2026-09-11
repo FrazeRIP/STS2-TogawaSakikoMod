@@ -35,7 +35,7 @@ internal static class MultiplayerContentContractTests
                  { ModelDb.Card<MomentMemoryCard>(), ModelDb.Card<NovaHistoriaCard>() })
         {
             bool isMomentMemory = card is MomentMemoryCard;
-            Require(card.EnergyCost.Canonical == (isMomentMemory ? 4 : 2) && card.Type == CardType.Skill, "skill cost");
+            Require(card.EnergyCost.Canonical == (isMomentMemory ? 5 : 1) && card.Type == CardType.Skill, "skill cost");
             Require(card.Rarity == CardRarity.Token && card.TargetType == TargetType.AllAllies,
                 "test-only team card");
             Require(card.Keywords.SetEquals([CardKeyword.Exhaust]), "exhaust exactly once");
@@ -51,7 +51,7 @@ internal static class MultiplayerContentContractTests
             string description = mutable.GetDescriptionForPile(PileType.Deck);
             Require(description.Length > 0 && !description.Contains('{'), "base description formats");
             mutable.UpgradeInternal();
-            Require(mutable.EnergyCost.Canonical == (isMomentMemory ? 3 : 2), "upgraded cost");
+            Require(mutable.EnergyCost.GetWithModifiers(CostModifiers.None) == (isMomentMemory ? 4 : 1), "upgraded cost");
             Require(mutable.DynamicVars[variable].BaseValue == (isMomentMemory ? 1m : 3m), "upgraded effect");
             Require(!mutable.GetDescriptionForPile(PileType.Deck).Contains('{'), "upgrade description formats");
         }

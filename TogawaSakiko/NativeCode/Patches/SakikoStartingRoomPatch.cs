@@ -151,6 +151,11 @@ internal static class OceanOfMemoriesNativeTextPatch
 
     private static void Postfix(EventModel __instance, string entryName, ref LocString __result)
     {
+        if (__instance is OceanOfMemories && entryName.StartsWith("NEOW.", StringComparison.Ordinal))
+        {
+            __result = new LocString("ancients", entryName);
+            return;
+        }
         if (__instance is OceanOfMemories && entryName is
             OceanOfMemories.Entry + ".title" or
             OceanOfMemories.Entry + ".epithet" or

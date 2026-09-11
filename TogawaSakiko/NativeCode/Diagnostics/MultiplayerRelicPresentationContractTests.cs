@@ -49,19 +49,26 @@ internal static class MultiplayerRelicPresentationContractTests
         IReadOnlyList<EventOption> firstOptions = GenerateOptions(firstEvent);
         IReadOnlyList<EventOption> secondOptions = GenerateOptions(secondEvent);
         IReadOnlyList<EventOption> vanillaOptions = GenerateOptions(vanillaEvent);
-        string[] expected = ["ANOTHER_MASK", "THE_THIRD_MOVEMENT", "BLAZING_HAIRBAND"];
+        string[] expected = ["ANOTHER_MASK", "BLAZING_HAIRBAND", "NORMAL_BLESSING"];
         Require(firstOptions.Select(option => option.TextKey.Split('.').Last()).SequenceEqual(expected),
             "fixed choice ordering");
         Require(secondOptions.Select(option => option.TextKey).SequenceEqual(firstOptions.Select(option => option.TextKey)),
             "duplicate Sakiko option parity");
-        Require(firstOptions.All(option => ReferenceEquals(option.Relic?.Owner, first)) &&
-                secondOptions.All(option => ReferenceEquals(option.Relic?.Owner, second)), "relic preview owner isolation");
+        Require(firstOptions.Take(2).All(option => ReferenceEquals(option.Relic?.Owner, first)) &&
+                secondOptions.Take(2).All(option => ReferenceEquals(option.Relic?.Owner, second)), "relic preview owner isolation");
         Require(vanillaOptions.Count == 3 && vanillaOptions.All(option =>
                 !option.TextKey.StartsWith(OceanOfMemories.Entry, StringComparison.Ordinal)), "native vanilla options");
         Require(firstOptions.All(option => option.Title.Exists() && option.Description.Exists()), "fixed option localization");
         Require(firstEvent.DialogueSet.FirstVisitEverDialogue is null, "local Sakiko visit dialogue");
         Require(ModelDb.Event<Neow>().DialogueSet.FirstVisitEverDialogue is not null,
             "canonical Neow introduction preserved");
+
+        StartingOptionsDiagnostics.ValidateNativeChoices(first);
+        StartingOptionsDiagnostics.ValidateNativeChoices(second);
+        SakikoStartingRewards.ChooseAsync(firstEvent, SakikoStartingRewards.NormalBlessing).GetAwaiter().GetResult();
+        Require(!firstEvent.IsFinished && firstEvent.CurrentOptions.Count == 3 && firstEvent.CurrentOptions.All(o => o.Relic != null),
+            "first owner entered normal stage without finishing");
+        Require(secondOptions[2].Relic == null && !secondEvent.IsFinished, "second owner retained custom stage");
 
         WarmthInfusedPorcelainCup cup = (WarmthInfusedPorcelainCup)ModelDb.Relic<WarmthInfusedPorcelainCup>().ToMutable();
         cup.Owner = first;

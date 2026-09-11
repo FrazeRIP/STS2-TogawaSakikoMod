@@ -1,5 +1,7 @@
 # Native-First STS2 Port Workflow
 
+Two-stage Neow update, 2026-09-10: standard Sakiko starts in solo and multiplayer now offer Another Mask, The Blazing Hairband, and a speech-bubble option to choose normal blessings. The third option opens the game's three native generated rewards with no Back option. The Third Movement is temporarily absent from starting choices and the relic collection; its stable ID and saved gameplay behavior remain supported. This supersedes the fixed three-relic descriptions below. See [two-stage implementation and verification](NEOW_TWO_STAGE.md).
+
 > Current-state review, 2026-09-07: N1-N7 gameplay and September 7 feedback are implemented. Current starting choices are Another Mask, The Third Movement and Blazing Hairband using supplied cavern art; Amnesia is historical. The user authorized this checkpoint commit, push and merge to main, superseding the earlier wait-for-phrase instruction. All generated assets remain placeholders, not completed assets. See [current project state](CURRENT_STATE.md). This update supersedes conflicting current-state claims below; original records are retained as history.
 
 Status: canonical execution workflow

@@ -9,6 +9,11 @@ param(
     [ValidateRange(0, 2)]
     [int[]]$Choice = @(0, 1, 2),
 
+    [ValidateRange(0, 2)]
+    [int]$NormalChoice = 0,
+
+    [string]$Seed = 'OCEANSTART001',
+
     [ValidateSet('eng', 'zhs')]
     [string]$Language = 'eng',
 
@@ -16,6 +21,8 @@ param(
     [int]$Visit = 1,
 
     [switch]$CaptureScreenshot,
+
+    [switch]$VerifyCollection,
 
     [switch]$CaptureFeedback,
 
@@ -40,7 +47,7 @@ if (-not (Test-Path -LiteralPath $deployedManifest -PathType Leaf)) {
 
 $resolvedArtifactRoot = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($ArtifactRoot)
 $runRoot = Join-Path $resolvedArtifactRoot "$RunName-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
-$choiceKeys = @('ANOTHER_MASK', 'THE_THIRD_MOVEMENT', 'BLAZING_HAIRBAND')
+$choiceKeys = @('ANOTHER_MASK', 'BLAZING_HAIRBAND', 'NORMAL_BLESSING')
 $results = @()
 
 foreach ($choiceIndex in $Choice) {
@@ -71,8 +78,9 @@ foreach ($choiceIndex in $Choice) {
     $startInfo.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Hidden
     $startInfo.Environment['APPDATA'] = $appDataPath
     $startInfo.Environment['LOCALAPPDATA'] = $localAppDataPath
-    $arguments = @('--force-steam=off', '--autoslay', '--togawa-native-starting-room-smoke', "--togawa-starting-choice=$choiceIndex", '--seed=OCEANSTART001')
+    $arguments = @('--force-steam=off', '--autoslay', '--togawa-native-starting-room-smoke', "--togawa-starting-choice=$choiceIndex", "--seed=$Seed", "--togawa-normal-choice=$NormalChoice")
     $arguments += "--togawa-starting-visit=$Visit"
+    if ($VerifyCollection) { $arguments += '--togawa-starting-collection' }
     if ($CaptureScreenshot -or $CaptureFeedback) {
         $arguments += @('--windowed', '--resolution', '1920x1080', "--togawa-starting-screenshot=$screenshotPath")
     }
@@ -86,8 +94,8 @@ foreach ($choiceIndex in $Choice) {
         [void]$startInfo.ArgumentList.Add($argument)
     }
 
-    $uses = if ($choiceIndex -eq 1) { 3 } else { 0 }
-    $marker = "Starting room contract: passed. Choice=$choiceKey, Deck=9, Repeat=blocked, SavedChoice=exact, Reload=finished, ThirdMovementUses=$uses, Vanilla=preserved, NativeNeowLayout=resolved."
+    $uses = 0
+    $marker = "Starting room contract: passed. Choice=$choiceKey, NormalIndex=$NormalChoice,"
     $completionMarker = if ($CaptureFeedback) { 'Starting room contract: feedback visual rooms captured.' } else { $marker }
     $managedIssuePattern = '\[ERROR\]|Unhandled exception|[A-Za-z0-9_.]+Exception:|Failed to load mod|Could not load mod|Localization formatting error|Starting room contract failed'
     $gameProcess = [System.Diagnostics.Process]::Start($startInfo)
@@ -126,8 +134,10 @@ foreach ($choiceIndex in $Choice) {
         Language = $Language
         Visit = $Visit
         Passed = $logText.Contains($marker) -and $logText.Contains($completionMarker)
-        StartingDeckCount = 9
+        NormalChoice = if ($choiceIndex -eq 2) { $NormalChoice } else { $null }
+        Seed = $Seed
         ThirdMovementUses = $uses
+        CollectionVerified = $VerifyCollection.IsPresent -and $logText.Contains('collection passed. ThirdMovement=hidden')
         ManagedIssueCount = $managedIssues.Count
         Screenshot = if ($CaptureScreenshot -or $CaptureFeedback) { $screenshotPath } else { $null }
         FeedbackScreenshots = if ($CaptureFeedback) { $choiceRoot } else { $null }

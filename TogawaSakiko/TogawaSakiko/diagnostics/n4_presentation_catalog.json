@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "baseline": "Slay the Spire 2 v0.111.0 (41cef1ea)",
-  "textureCount": 345,
+  "textureCount": 350,
   "audioCount": 52,
   "resourceCount": 11,
   "localizationFileCount": 17,
@@ -1717,6 +1717,42 @@
       "sourceStatus": "Original"
     },
     {
+      "ownerType": "card",
+      "owner": "momentmemorycard",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/momentmemorycard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Native party card"
+    },
+    {
+      "ownerType": "card",
+      "owner": "momentmemorycard",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/momentmemorycard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Native party card"
+    },
+    {
+      "ownerType": "card",
+      "owner": "novahistoriacard",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/novahistoriacard.png",
+      "width": 250,
+      "height": 190,
+      "sourceStatus": "Native party card"
+    },
+    {
+      "ownerType": "card",
+      "owner": "novahistoriacard",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/novahistoriacard.png",
+      "width": 500,
+      "height": 380,
+      "sourceStatus": "Native party card"
+    },
+    {
       "ownerType": "power",
       "owner": "TOGAWASAKIKO-CHARISMATIC_FORM_POWER",
       "slot": "small",
@@ -2934,6 +2970,15 @@
     {
       "ownerType": "character-ui",
       "owner": "TogawaSakiko",
+      "slot": "normal-blessing",
+      "path": "res://TogawaSakiko/images/ui/normal_blessing.svg",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Native option speech bubble"
+    },
+    {
+      "ownerType": "character-ui",
+      "owner": "TogawaSakiko",
       "slot": "map-marker",
       "path": "res://TogawaSakiko/images/charui/map_marker_char_name.png",
       "width": 49,
@@ -3107,8 +3152,8 @@
       "owner": "TogawaSakiko",
       "slot": "manifest",
       "path": "res://TogawaSakiko/mod_image.png",
-      "width": 420,
-      "height": 420,
+      "width": 467,
+      "height": 467,
       "sourceStatus": "Original"
     }
   ],

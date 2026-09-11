@@ -94,7 +94,7 @@ internal static class SakikoCompendiumVisibility
 
     internal static void DiscoverRelics(ProgressState progress)
     {
-        foreach (RelicModel relic in ModelDb.RelicPool<TogawaSakikoRelicPool>().AllRelics)
+        foreach (RelicModel relic in SakikoTemporarilyHiddenRelicPatch.VisibleRelics(ModelDb.RelicPool<TogawaSakikoRelicPool>().AllRelics))
         {
             progress.MarkRelicAsSeen(relic.Id);
         }
@@ -125,7 +125,7 @@ internal static class SakikoRelicCollectionVisibilityPatch
     private static void Prefix(HashSet<RelicModel> seenRelics, HashSet<RelicModel> allUnlockedRelics)
     {
         SakikoCompendiumVisibility.DiscoverRelics(SaveManager.Instance.Progress);
-        IEnumerable<RelicModel> relics = ModelDb.RelicPool<TogawaSakikoRelicPool>().AllRelics;
+        IEnumerable<RelicModel> relics = SakikoTemporarilyHiddenRelicPatch.VisibleRelics(ModelDb.RelicPool<TogawaSakikoRelicPool>().AllRelics);
         seenRelics.UnionWith(relics);
         allUnlockedRelics.UnionWith(relics);
     }

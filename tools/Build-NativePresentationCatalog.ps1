@@ -80,7 +80,12 @@ function Add-Texture(
         throw "Presentation texture is missing: $RepoRelativePath"
     }
     $resourcePath = ConvertTo-ResourcePath $RepoRelativePath
-    $dimensions = Get-PngDimensions $absolute
+    $dimensions = if ([System.IO.Path]::GetExtension($absolute) -eq '.svg') {
+        [xml]$svg = Get-Content -Raw -LiteralPath $absolute
+        @{ width = [int]$svg.svg.width; height = [int]$svg.svg.height }
+    } else {
+        Get-PngDimensions $absolute
+    }
     if (-not $texturesByPath.Contains($resourcePath)) {
         $texturesByPath[$resourcePath] = [ordered]@{
             ownerType = $OwnerType
@@ -124,6 +129,12 @@ foreach ($card in @($inventory.cards | Sort-Object sts2StableId)) {
     Add-Texture "card" ([string]$card.sts2StableId) "large" ([string]$card.art.sts2Large) ([string]$card.art.status)
 }
 
+# Native party-card portraits were explicitly exported before the catalog knew about them.
+foreach ($stem in @('momentmemorycard', 'novahistoriacard')) {
+    Add-Texture "card" $stem "small" "TogawaSakiko/TogawaSakiko/images/card_portraits/$stem.png" "Native party card"
+    Add-Texture "card" $stem "large" "TogawaSakiko/TogawaSakiko/images/card_portraits/big/$stem.png" "Native party card"
+}
+
 foreach ($power in @($inventory.powers | Where-Object { -not $_.inheritsBasePresentation } | Sort-Object sts2StableId)) {
     Add-Texture "power" ([string]$power.sts2StableId) "small" ([string]$power.art.sts2Small) ([string]$power.art.status)
     Add-Texture "power" ([string]$power.sts2StableId) "large" ([string]$power.art.sts2Large) ([string]$power.art.status)
@@ -149,6 +160,7 @@ foreach ($item in @($inventory.presentationFiles | Sort-Object nativePath)) {
     Add-Texture "presentation" ([string]$item.relativePath) "source" $repoRelativePath "Original"
 }
 
+Add-Texture "character-ui" "TogawaSakiko" "normal-blessing" "TogawaSakiko/TogawaSakiko/images/ui/normal_blessing.svg" "Native option speech bubble"
 Add-Texture "character-ui" "TogawaSakiko" "map-marker" "TogawaSakiko/TogawaSakiko/images/charui/map_marker_char_name.png" "Native layout asset"
 Add-Texture "character-ui" "TogawaSakiko" "rest-site" "TogawaSakiko/TogawaSakiko/images/character/presentation/rest_site.png" "Generated full figure with elevated campfire perspective"
 Add-Texture "character-ui" "TogawaSakiko" "merchant" "TogawaSakiko/TogawaSakiko/images/character/presentation/merchant.png" "Generated standing merchant-room figure"

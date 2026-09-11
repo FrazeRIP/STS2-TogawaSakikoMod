@@ -1,5 +1,7 @@
 # Current project state
 
+Two-stage Neow update, 2026-09-10: standard Sakiko starts in solo and multiplayer now offer Another Mask, The Blazing Hairband, and a speech-bubble option to choose normal blessings. The third option opens the game's three native generated rewards with no Back option. The Third Movement is temporarily absent from starting choices and the relic collection; its stable ID and saved gameplay behavior remain supported. This supersedes the fixed three-relic descriptions below. See [two-stage implementation and verification](NEOW_TWO_STAGE.md).
+
 Multiplayer branch update, 2026-09-08: multiplayer adaptations and two explicit test cards are implemented on `codex/multiplayer-adaptations`, package `0.2.0-multiplayer.dev`. Six native ENet scenarios and 14 replay perspectives passed; single-player regression includes full AutoSlay victory and six save/reload checkpoints. This remains a development branch with Steam/WAN, live reconnect, and broad release acceptance limits recorded in [multiplayer implementation and fresh evidence](MULTIPLAYER_IMPLEMENTATION.md). The v0.1.0 single-player records below retain their original package identity and acceptance scope.
 
 Reviewed: 2026-09-07. This document supersedes current-state claims in earlier plans and phase records; those records retain their original implementation and acceptance history.

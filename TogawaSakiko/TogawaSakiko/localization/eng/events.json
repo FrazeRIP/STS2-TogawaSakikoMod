@@ -8,5 +8,7 @@
   "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.THE_THIRD_MOVEMENT.title": "The Third Movement",
   "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.THE_THIRD_MOVEMENT.description": "Gain [gold]The Third Movement[/gold]. Your next [blue]3[/blue] [gold]Moonlight Sonata[/gold] plays deal [blue]3[/blue] times damage.",
   "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.BLAZING_HAIRBAND.title": "The Blazing Hairband",
-  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.BLAZING_HAIRBAND.description": "Replace [red]Monochrome Hairband[/red] with [gold]Blazing Hairband[/gold]. After each combat victory, add a random card to your deck."
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.BLAZING_HAIRBAND.description": "Replace [red]Monochrome Hairband[/red] with [gold]Blazing Hairband[/gold]. After each combat victory, add a random card to your deck.",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.NORMAL_BLESSING.title": "Those are not what I'm looking for.",
+  "TOGAWASAKIKO-OCEAN_OF_MEMORIES.pages.INITIAL.options.NORMAL_BLESSING.description": "Choose a normal blessing instead."
 }
