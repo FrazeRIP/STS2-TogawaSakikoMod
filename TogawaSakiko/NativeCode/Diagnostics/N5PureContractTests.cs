@@ -133,11 +133,11 @@ internal static class N5PureContractTests
     private static void ValidateProtection()
     {
         ProtectionCard card = ModelDb.Card<ProtectionCard>();
-        Require(card.EnergyCost.Canonical == 0, "Protection cost");
+        Require(card.EnergyCost.Canonical == 1, "Protection cost");
         Require(card.Type == CardType.Power && card.Rarity == CardRarity.Token, "Protection type and rarity");
         Require(card.TargetType == TargetType.Self, "Protection target");
-        Require(card.DynamicVars.Repeat.BaseValue == 2m, "Protection repetitions");
-        Require(Upgraded(card).DynamicVars.Repeat.BaseValue == 3m, "Protection upgraded repetitions");
+        Require(card.DynamicVars.Repeat.BaseValue == 3m, "Protection repetitions");
+        Require(Upgraded(card).DynamicVars.Repeat.BaseValue == 4m, "Protection upgraded repetitions");
     }
 
     private static void ValidateRadiance()
@@ -1215,7 +1215,7 @@ internal static class N5PureContractTests
 
         CharismaticFormCard charismatic = ModelDb.Card<CharismaticFormCard>();
         Require(charismatic.EnergyCost.Canonical == 3, "Charismatic Form cost");
-        Require(charismatic.Type == CardType.Power && charismatic.Rarity == CardRarity.Rare,
+        Require(charismatic.Type == CardType.Power && charismatic.Rarity == CardRarity.Ancient,
             "Charismatic Form type and rarity");
         Require(charismatic.TargetType == TargetType.Self, "Charismatic Form target");
         Require(charismatic.Keywords.Count == 0, "Charismatic Form base keywords");

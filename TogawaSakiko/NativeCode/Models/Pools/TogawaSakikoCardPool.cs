@@ -34,7 +34,7 @@ public sealed class TogawaSakikoCardPool : CardPoolModel
     internal static bool IsEnabledCard(CardModel card)
     {
         return
-            card is ASplitMomentCard or TwoMoonsCard or SilentFarewellCard or GreetingsCard or
+            card is TheThirdMovementCard or ASplitMomentCard or TwoMoonsCard or SilentFarewellCard or GreetingsCard or
                 BlackAndWhiteKeysCard or InnerCryCard or MementoMoriCard or BudgetBentoCard or
                 PhantomOfSakikoCard or PhantomOfTakiCard or PhantomOfTomoriCard or SymbolIIAirCard or
                 DarkHeavenCard or GeorgetteMeGeorgetteYouCard or HeartsBarrierCard or DatenCard or

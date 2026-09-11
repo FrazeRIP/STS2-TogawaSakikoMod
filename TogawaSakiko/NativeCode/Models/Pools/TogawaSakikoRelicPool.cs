@@ -19,6 +19,6 @@ public sealed class TogawaSakikoRelicPool : RelicPoolModel
     public override IEnumerable<RelicModel> GetUnlockedRelics(UnlockState unlockState)
     {
         return AllRelics.Where(relic =>
-            relic is not StarterRelicTogawaSakiko and not TheThirdMovement and not AnotherMask);
+            relic is not StarterRelicTogawaSakiko and not TheThirdMovement and not AnotherMask and not EnchantedHairband);
     }
 }

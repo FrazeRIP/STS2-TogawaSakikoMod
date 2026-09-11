@@ -13,11 +13,13 @@ using TogawaSakiko.NativeCode.Presentation;
 
 namespace TogawaSakiko.NativeCode.Models.Relics;
 
-public sealed class BlazingHairband : SakikoRelicModel
+public class BlazingHairband : SakikoRelicModel
 {
     private ICombatState? _rewardedCombat;
 
     protected override string AssetStem => "blazinghairband";
+
+    protected virtual bool UpgradeReward => false;
 
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
@@ -60,14 +62,18 @@ public sealed class BlazingHairband : SakikoRelicModel
         }
 
         Flash();
+        if (UpgradeReward && randomCard.IsUpgradable)
+        {
+            CardCmd.Upgrade(randomCard, MegaCrit.Sts2.Core.Nodes.CommonUi.CardPreviewStyle.None);
+        }
         CardPileAddResult result = await PersistentDeckMutation.AddStatEquivalentAsync(Owner, randomCard);
         HairbandCardPreview.Show(result);
-        NativeSmokeTrace.Info($"Blazing Hairband added random card {randomCard.Id} to the deck; success={result.success}.");
+        NativeSmokeTrace.Info($"{GetType().Name} added random card {randomCard.Id} to the deck; upgraded={randomCard.IsUpgraded}; success={result.success}.");
     }
 
     internal static bool IsEligibleRandomCard(CardModel card)
     {
-        return card is not CarefreeCard and not WeaknessCard &&
+        return card is not CarefreeCard and not WeaknessCard && card.Rarity != CardRarity.Ancient &&
             card.Type is not CardType.Curse and not CardType.Status;
     }
 }

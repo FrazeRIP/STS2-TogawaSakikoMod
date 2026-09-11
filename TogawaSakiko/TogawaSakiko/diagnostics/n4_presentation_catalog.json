@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "baseline": "Slay the Spire 2 v0.111.0 (41cef1ea)",
-  "textureCount": 350,
+  "textureCount": 355,
   "audioCount": 52,
   "resourceCount": 11,
   "localizationFileCount": 17,
@@ -281,8 +281,8 @@
       "owner": "TOGAWASAKIKO-CHARISMATIC_FORM_CARD",
       "slot": "small",
       "path": "res://TogawaSakiko/images/card_portraits/charismaticformcard.png",
-      "width": 250,
-      "height": 190,
+      "width": 606,
+      "height": 852,
       "sourceStatus": "Original"
     },
     {
@@ -290,8 +290,8 @@
       "owner": "TOGAWASAKIKO-CHARISMATIC_FORM_CARD",
       "slot": "large",
       "path": "res://TogawaSakiko/images/card_portraits/big/charismaticformcard.png",
-      "width": 500,
-      "height": 380,
+      "width": 606,
+      "height": 852,
       "sourceStatus": "Original"
     },
     {
@@ -1753,6 +1753,24 @@
       "sourceStatus": "Native party card"
     },
     {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-THE_THIRD_MOVEMENT_CARD",
+      "slot": "small",
+      "path": "res://TogawaSakiko/images/card_portraits/thethirdmovementcard.png",
+      "width": 606,
+      "height": 852,
+      "sourceStatus": "Supplied full-art Ancient portrait"
+    },
+    {
+      "ownerType": "card",
+      "owner": "TOGAWASAKIKO-THE_THIRD_MOVEMENT_CARD",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/card_portraits/big/thethirdmovementcard.png",
+      "width": 606,
+      "height": 852,
+      "sourceStatus": "Supplied full-art Ancient portrait"
+    },
+    {
       "ownerType": "power",
       "owner": "TOGAWASAKIKO-CHARISMATIC_FORM_POWER",
       "slot": "small",
@@ -2525,6 +2543,33 @@
       "width": 256,
       "height": 256,
       "sourceStatus": "Generated from user-provided white-mask reference"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-ENCHANTED_HAIRBAND",
+      "slot": "icon",
+      "path": "res://TogawaSakiko/images/relics/enchantedhairband.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Supplied artwork"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-ENCHANTED_HAIRBAND",
+      "slot": "outline",
+      "path": "res://TogawaSakiko/images/relics/enchantedhairband_outline.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Existing hairband silhouette; source alpha is identical"
+    },
+    {
+      "ownerType": "relic",
+      "owner": "TOGAWASAKIKO-ENCHANTED_HAIRBAND",
+      "slot": "large",
+      "path": "res://TogawaSakiko/images/relics/big/enchantedhairband.png",
+      "width": 128,
+      "height": 128,
+      "sourceStatus": "Supplied artwork at original resolution"
     },
     {
       "ownerType": "potion",

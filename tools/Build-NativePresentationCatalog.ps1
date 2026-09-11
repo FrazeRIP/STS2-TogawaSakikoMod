@@ -135,6 +135,9 @@ foreach ($stem in @('momentmemorycard', 'novahistoriacard')) {
     Add-Texture "card" $stem "large" "TogawaSakiko/TogawaSakiko/images/card_portraits/big/$stem.png" "Native party card"
 }
 
+Add-Texture "card" "TOGAWASAKIKO-THE_THIRD_MOVEMENT_CARD" "small" "TogawaSakiko/TogawaSakiko/images/card_portraits/thethirdmovementcard.png" "Supplied full-art Ancient portrait"
+Add-Texture "card" "TOGAWASAKIKO-THE_THIRD_MOVEMENT_CARD" "large" "TogawaSakiko/TogawaSakiko/images/card_portraits/big/thethirdmovementcard.png" "Supplied full-art Ancient portrait"
+
 foreach ($power in @($inventory.powers | Where-Object { -not $_.inheritsBasePresentation } | Sort-Object sts2StableId)) {
     Add-Texture "power" ([string]$power.sts2StableId) "small" ([string]$power.art.sts2Small) ([string]$power.art.status)
     Add-Texture "power" ([string]$power.sts2StableId) "large" ([string]$power.art.sts2Large) ([string]$power.art.status)
@@ -148,6 +151,9 @@ foreach ($relic in @($inventory.relics | Sort-Object sts2StableId)) {
 Add-Texture "relic" "TOGAWASAKIKO-ANOTHER_MASK" "icon" "TogawaSakiko/TogawaSakiko/images/relics/anothermask.png" "Generated from user-provided white-mask reference"
 Add-Texture "relic" "TOGAWASAKIKO-ANOTHER_MASK" "outline" "TogawaSakiko/TogawaSakiko/images/relics/anothermask_outline.png" "Registered alpha silhouette"
 Add-Texture "relic" "TOGAWASAKIKO-ANOTHER_MASK" "large" "TogawaSakiko/TogawaSakiko/images/relics/big/anothermask.png" "Generated from user-provided white-mask reference"
+Add-Texture "relic" "TOGAWASAKIKO-ENCHANTED_HAIRBAND" "icon" "TogawaSakiko/TogawaSakiko/images/relics/enchantedhairband.png" "Supplied artwork"
+Add-Texture "relic" "TOGAWASAKIKO-ENCHANTED_HAIRBAND" "outline" "TogawaSakiko/TogawaSakiko/images/relics/enchantedhairband_outline.png" "Existing hairband silhouette; source alpha is identical"
+Add-Texture "relic" "TOGAWASAKIKO-ENCHANTED_HAIRBAND" "large" "TogawaSakiko/TogawaSakiko/images/relics/big/enchantedhairband.png" "Supplied artwork at original resolution"
 
 foreach ($potion in @($inventory.potions | Sort-Object sts2StableId)) {
     foreach ($layer in @($potion.art.layers | Sort-Object name)) {

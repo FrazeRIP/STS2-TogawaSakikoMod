@@ -13,7 +13,7 @@ namespace TogawaSakiko.NativeCode.Diagnostics;
 
 internal static partial class N4LocalizationDiagnostics
 {
-    public const int ExpectedEntryCount = 365; // Includes the two multiplayer test cards' titles and descriptions.
+    public const int ExpectedEntryCount = 371; // Includes the two multiplayer test cards' titles and descriptions, plus Ancient rewards.
 
     private static readonly string[] Tables =
     [

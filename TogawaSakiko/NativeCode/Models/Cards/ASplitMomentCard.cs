@@ -39,6 +39,7 @@ public sealed class ASplitMomentCard : CardModel
         await N3ContractDiagnostics.RunInCombatAsync(choiceContext, this);
         await KingsLifecycleDiagnostics.ArmAsync(choiceContext, this);
         await N6BatchDiagnostics.RunInCombatAsync(choiceContext, this);
+        await AncientRewardDiagnostics.RunAsync(choiceContext, this);
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
         await PowerCmd.Apply<DazzlingPower>(
             choiceContext,

@@ -1,6 +1,8 @@
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using TogawaSakiko.NativeCode.Commands;
@@ -26,12 +28,15 @@ public sealed class WishFulfilledCard : CardModel
         return cards.Where(card => card.IsRemovable).ToArray();
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay) =>
+        ChooseAndPurgeAsync(choiceContext, Owner, SelectionScreenPrompt);
+
+    internal static async Task ChooseAndPurgeAsync(PlayerChoiceContext choiceContext, Player owner, LocString prompt)
     {
         CardModel[] candidates = GetPurgeCandidates(
-            PileType.Hand.GetPile(Owner).Cards
-                .Concat(PileType.Discard.GetPile(Owner).Cards)
-                .Concat(PileType.Draw.GetPile(Owner).Cards));
+            PileType.Hand.GetPile(owner).Cards
+                .Concat(PileType.Discard.GetPile(owner).Cards)
+                .Concat(PileType.Draw.GetPile(owner).Cards));
         if (candidates.Length == 0)
         {
             return;
@@ -40,8 +45,8 @@ public sealed class WishFulfilledCard : CardModel
         CardModel? selected = (await CardSelectCmd.FromSimpleGrid(
                 choiceContext,
                 candidates,
-                Owner,
-                new CardSelectorPrefs(SelectionScreenPrompt, 1)))
+                owner,
+                new CardSelectorPrefs(prompt, 1)))
             .FirstOrDefault();
         if (selected is null)
         {

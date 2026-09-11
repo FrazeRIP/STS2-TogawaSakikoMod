@@ -708,6 +708,17 @@ foreach ($language in @('zhs')) {
 }
 
 $legacyMarkerPattern = '!\$\{modID\}:|![DBM]!|\[E\]|\bNL\b|togawasakikomod:|#[bgryp][^\s]|\*[^\s]|%d'
+# Ancient rewards are native-only additions; retain their reviewed live text.
+foreach ($language in $languages) {
+    foreach ($suffix in @('title', 'description', 'selectionScreenPrompt')) {
+        $key = "TOGAWASAKIKO-THE_THIRD_MOVEMENT_CARD.$suffix"
+        Add-Entry $generated[$language].cards $key $existing[$language].cards[$key]
+    }
+    foreach ($suffix in @('title', 'description', 'flavor')) {
+        $key = "TOGAWASAKIKO-ENCHANTED_HAIRBAND.$suffix"
+        Add-Entry $generated[$language].relics $key $existing[$language].relics[$key]
+    }
+}
 $unconverted = [System.Collections.Generic.List[object]]::new()
 foreach ($language in $languages) {
     foreach ($tableName in @("cards", "powers", "relics", "potions", "card_keywords")) {

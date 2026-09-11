@@ -50,6 +50,7 @@ internal static class NativeAssetPaths
     public const string StrikePortrait = Root + "/images/card_portraits/striketogawasakiko.png";
     public const string DefendPortrait = Root + "/images/card_portraits/defendtogawasakiko.png";
     public const string MoonlightSonataPortrait = Root + "/images/card_portraits/themoonlightsonatacard.png";
+    public const string ThirdMovementPortrait = Root + "/images/card_portraits/thethirdmovementcard.png";
     public const string SplitMomentPortrait = Root + "/images/card_portraits/asplitmomentcard.png";
     public const string DesirePortrait = Root + "/images/card_portraits/desirecard.png";
     public const string TwoMoonsPortrait = Root + "/images/card_portraits/twomoonscard.png";

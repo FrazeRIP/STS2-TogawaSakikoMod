@@ -26,6 +26,7 @@ internal static class NativeSmokeTrace
     private static int _modelDbInitialized;
 
     public static bool Enabled =>
+        AncientRewardDiagnostics.Enabled ||
         CommandLineHelper.HasArg(GameplayArgument) ||
         ContractEnabled ||
         N5BatchEnabled ||

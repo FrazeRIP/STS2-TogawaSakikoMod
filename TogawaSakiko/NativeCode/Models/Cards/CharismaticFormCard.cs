@@ -11,6 +11,10 @@ namespace TogawaSakiko.NativeCode.Models.Cards;
 
 public sealed class CharismaticFormCard : CardModel
 {
+    public override bool CanBeGeneratedInCombat => false;
+
+    public override bool CanBeGeneratedByModifiers => false;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("MagicNumber", 2m)];
 
@@ -20,7 +24,7 @@ public sealed class CharismaticFormCard : CardModel
     public override string PortraitPath => NativeAssetPaths.CharismaticFormPortrait;
 
     public CharismaticFormCard()
-        : base(3, CardType.Power, CardRarity.Rare, TargetType.Self)
+        : base(3, CardType.Power, CardRarity.Ancient, TargetType.Self)
     {
     }
 

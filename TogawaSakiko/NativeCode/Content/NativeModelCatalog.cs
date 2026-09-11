@@ -9,7 +9,7 @@ namespace TogawaSakiko.NativeCode.Content;
 
 internal static class NativeModelCatalog
 {
-    public const int GameplayModelCount = 141;
+    public const int GameplayModelCount = 143;
 
     private static bool _registered;
 
@@ -27,6 +27,7 @@ internal static class NativeModelCatalog
         ModHelper.AddModelToPool<TogawaSakikoCardPool, NovaHistoriaCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, DefendTogawaSakiko>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, TheMoonlightSonataCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, TheThirdMovementCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, ASplitMomentCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, DesireCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, TwoMoonsCard>();
@@ -114,6 +115,7 @@ internal static class NativeModelCatalog
         ModHelper.AddModelToPool<TogawaSakikoCardPool, WorldviewCard>();
         ModHelper.AddModelToPool<TogawaSakikoRelicPool, StarterRelicTogawaSakiko>();
         ModHelper.AddModelToPool<TogawaSakikoRelicPool, BlazingHairband>();
+        ModHelper.AddModelToPool<TogawaSakikoRelicPool, EnchantedHairband>();
         ModHelper.AddModelToPool<TogawaSakikoRelicPool, AnotherMask>();
         ModHelper.AddModelToPool<TogawaSakikoRelicPool, ColorfulNotebook>();
         ModHelper.AddModelToPool<TogawaSakikoRelicPool, CuteAnimalBandAid>();

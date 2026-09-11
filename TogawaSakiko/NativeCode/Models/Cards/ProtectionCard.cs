@@ -15,14 +15,14 @@ public sealed class ProtectionCard : CardModel
 
     public override bool CanBeGeneratedByModifiers => false;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new RepeatVar(2)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new RepeatVar(3)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<PlatingPower>()];
 
     public override string PortraitPath => NativeAssetPaths.ProtectionPortrait;
 
     public ProtectionCard()
-        : base(0, CardType.Power, CardRarity.Token, TargetType.Self)
+        : base(1, CardType.Power, CardRarity.Token, TargetType.Self)
     {
     }
 

@@ -1,4 +1,7 @@
 {
+  "TOGAWASAKIKO-THE_THIRD_MOVEMENT_CARD.title": "第三乐章",
+  "TOGAWASAKIKO-THE_THIRD_MOVEMENT_CARD.description": "选择卡组中的一张牌并[gold]移除[/gold]。\n造成{Damage:diff()}点伤害。",
+  "TOGAWASAKIKO-THE_THIRD_MOVEMENT_CARD.selectionScreenPrompt": "选择一张牌移除。",
   "TOGAWASAKIKO-MOMENT_MEMORY_CARD.title": "瞬间/记忆",
   "TOGAWASAKIKO-MOMENT_MEMORY_CARD.description": "战斗结束时，每位玩家获得{Rewards:diff()}次移除卡牌奖励。",
   "TOGAWASAKIKO-NOVA_HISTORIA_CARD.title": "新的篇章",

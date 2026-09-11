@@ -19,7 +19,7 @@ internal static class N4PresentationDiagnostics
 {
     public const string CatalogPath = "res://TogawaSakiko/diagnostics/n4_presentation_catalog.json";
     public const string CharacterManifestPath = "res://TogawaSakiko/diagnostics/n4_character_presentation_manifest.json";
-    public const int ExpectedTextureCount = 345;
+    public const int ExpectedTextureCount = 355;
     public const int ExpectedAudioCount = 52;
     public const int ExpectedResourceCount = 11;
     public const int ExpectedLocalizationFileCount = 17;
@@ -171,7 +171,7 @@ internal static class N4PresentationDiagnostics
         AssertPath("card-frame material", cardPool.FrameMaterialPath, NativeAssetPaths.CardFrameMaterial);
         AssertPath("attack card frame", ModelDb.Card<StrikeTogawaSakiko>().Frame.ResourcePath, NativeAssetPaths.AttackCardFrame);
         AssertPath("skill card frame", ModelDb.Card<DefendTogawaSakiko>().Frame.ResourcePath, NativeAssetPaths.SkillCardFrame);
-        AssertPath("power card frame", ModelDb.Card<CharismaticFormCard>().Frame.ResourcePath, NativeAssetPaths.PowerCardFrame);
+        AssertPath("power card frame", ModelDb.Card<WorldviewCard>().Frame.ResourcePath, NativeAssetPaths.PowerCardFrame);
 
         ValidateScene<NCreatureVisuals>(NativeAssetPaths.CharacterVisualsPreload, root =>
         {

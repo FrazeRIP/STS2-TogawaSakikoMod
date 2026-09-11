@@ -1,4 +1,7 @@
 {
+  "TOGAWASAKIKO-THE_THIRD_MOVEMENT_CARD.title": "The Third Movement",
+  "TOGAWASAKIKO-THE_THIRD_MOVEMENT_CARD.description": "Choose a card from your deck and [gold]Purge[/gold] it.\nDeal {Damage:diff()} damage.",
+  "TOGAWASAKIKO-THE_THIRD_MOVEMENT_CARD.selectionScreenPrompt": "Choose a card to Purge.",
   "TOGAWASAKIKO-MOMENT_MEMORY_CARD.title": "Moment/Memory",
   "TOGAWASAKIKO-MOMENT_MEMORY_CARD.description": "At the end of combat, grant {Rewards:diff()} [gold]Card Removal[/gold] to every player.",
   "TOGAWASAKIKO-NOVA_HISTORIA_CARD.title": "Nova Historia",
