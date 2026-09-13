@@ -50,10 +50,6 @@ internal static class N6PureContractTests
 
         Require(BlazingHairband.IsEligibleRandomCard(ModelDb.Card<StrikeTogawaSakiko>()),
             "Blazing Hairband accepts enabled cards");
-        Require(!BlazingHairband.IsEligibleRandomCard(ModelDb.Card<CarefreeCard>()),
-            "Blazing Hairband excludes disabled Carefree");
-        Require(!BlazingHairband.IsEligibleRandomCard(ModelDb.Card<WeaknessCard>()),
-            "Blazing Hairband excludes disabled Weakness");
 
         Require(FountainDrink.ShouldForceFor(true, MegaCrit.Sts2.Core.Rooms.RoomType.Monster, false),
             "Fountain Drink forces a full-slot combat reward");
@@ -70,7 +66,7 @@ internal static class N6PureContractTests
         CardModel[] characterCards = ModelDb.CardPool<TogawaSakikoCardPool>().AllCards.ToArray();
         CardModel[] curses = characterCards.Where(card => card.Type == CardType.Curse).ToArray();
         CardModel[] statuses = ModelDb.CardPool<StatusCardPool>().AllCards.ToArray();
-        Require(curses.Length == 6, "random generation probes cover all six Sakiko curses");
+        Require(curses.Length == 5, "random generation probes cover all five registered Sakiko curses");
         Require(statuses.Length > 0 && statuses.All(card => card.Type == CardType.Status),
             "random generation probes cover native statuses");
 
@@ -97,15 +93,29 @@ internal static class N6PureContractTests
                 $"native combat generation excludes {card.Id}");
         }
 
+        CardModel[] sourceHealingCards =
+        [
+            ModelDb.Card<AsYourHeartDesiresCard>(), ModelDb.Card<FearlessCard>(),
+            ModelDb.Card<BudgetBentoCard>(), ModelDb.Card<ClockOutCard>(),
+            ModelDb.Card<WishFulfilledCard>(), ModelDb.Card<StayEleganceCard>(),
+            ModelDb.Card<MementoMoriCard>(), ModelDb.Card<PerdereOmniaCard>(),
+            ModelDb.Card<DatenCard>()
+        ];
+        foreach (CardModel card in sourceHealingCards)
+        {
+            Require(!card.CanBeGeneratedInCombat && card.CanBeGeneratedByModifiers,
+                $"source Healing card {card.Id} opts out only from generic combat generation");
+            Require(!CardFactory.FilterForCombat([card]).Any(),
+                $"native combat generation excludes source Healing card {card.Id}");
+        }
+
         foreach ((string name, Func<CardModel, bool> filter) in new (string, Func<CardModel, bool>)[]
         {
             ("Hairband", BlazingHairband.IsEligibleRandomCard),
             ("Perfection", PerfectionCard.IsEligibleRandomCard)
         })
         {
-            CardModel[] previousPool = CardFactory.FilterForCombat(characterCards)
-                .Where(card => name != "Hairband" || card is not CarefreeCard and not WeaknessCard)
-                .ToArray();
+            CardModel[] previousPool = CardFactory.FilterForCombat(characterCards).ToArray();
             HashSet<CardModel> expected = previousPool
                 .Where(card => card.Type is not CardType.Curse and not CardType.Status).ToHashSet();
             HashSet<CardModel> actual = CardFactory.FilterForCombat(characterCards.Where(filter)).ToHashSet();

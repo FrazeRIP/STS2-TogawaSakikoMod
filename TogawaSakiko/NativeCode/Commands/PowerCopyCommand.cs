@@ -52,6 +52,7 @@ public static class PowerCopyCommand
     [
         typeof(StranglePower),
         typeof(OblivionPower),
+        typeof(VigorPower),
         typeof(CuriosityPower),
         typeof(OurSongPower),
         typeof(SharedDestinyPower)

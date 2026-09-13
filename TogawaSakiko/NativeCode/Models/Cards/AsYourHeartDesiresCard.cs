@@ -13,6 +13,8 @@ public sealed class AsYourHeartDesiresCard : CardModel
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
+    public override bool CanBeGeneratedInCombat => false;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("MagicNumber", 1m)];
 

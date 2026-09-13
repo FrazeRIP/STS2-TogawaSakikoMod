@@ -13,8 +13,10 @@ using MegaCrit.Sts2.Core.ValueProps;
 using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.Models.Cards;
 using TogawaSakiko.NativeCode.Models.Modifiers;
+using TogawaSakiko.NativeCode.Models.Pools;
 using TogawaSakiko.NativeCode.Models.Powers;
 using TogawaSakiko.NativeCode.Models.Relics;
+using TogawaSakiko.NativeCode.Presentation.Godot;
 using TogawaSakiko.NativeCode.Tracking;
 using SakikoCrueltyPower = TogawaSakiko.NativeCode.Models.Powers.CrueltyPower;
 
@@ -22,7 +24,7 @@ namespace TogawaSakiko.NativeCode.Diagnostics;
 
 internal static class N5PureContractTests
 {
-    public const int AssertionCount = 725;
+    public const int AssertionCount = 722;
     private static bool _ran;
     private static int _assertions;
 
@@ -66,11 +68,9 @@ internal static class N5PureContractTests
         ValidateQuaerereLumina();
         ValidateKings();
         ValidateAccomplice();
-        ValidateCarefree();
         ValidateDesuWa();
         ValidateEdgeOfBreakdown();
         ValidateMasqueradeRhapsodyRequest();
-        ValidateWeakness();
         ValidateClockOut();
         ValidateFallenFlowers();
         ValidateHachibouseiDance();
@@ -83,6 +83,8 @@ internal static class N5PureContractTests
         ValidateRareCards();
         ValidateRarePowers();
         ValidateWishFulfilledSelection();
+        ValidateDisabledSourceCardsAbsent();
+        ValidateStaticSpriteFacing();
         ValidateVoiceRoutes();
         Require(_assertions == AssertionCount, $"expected {AssertionCount} assertions, executed {_assertions}");
         _ran = true;
@@ -684,19 +686,6 @@ internal static class N5PureContractTests
             "Accomplice Desire hand filter identity and order");
     }
 
-    private static void ValidateCarefree()
-    {
-        CarefreeCard card = ModelDb.Card<CarefreeCard>();
-        Require(card.EnergyCost.Canonical == 1, "Carefree cost");
-        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Common,
-            "Carefree type and rarity");
-        Require(card.TargetType == TargetType.Self, "Carefree target");
-        Require(card.Keywords.Count == 0, "Carefree unexpected keyword");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 2m, "Carefree draw count");
-        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 3m,
-            "Carefree upgraded draw count");
-    }
-
     private static void ValidateDesuWa()
     {
         DesuWaCard card = ModelDb.Card<DesuWaCard>();
@@ -776,17 +765,6 @@ internal static class N5PureContractTests
         upgraded.IncreaseFromPurge(upgraded.DynamicVars["MagicNumber"].IntValue);
         Require(upgraded.PermanentDamageIncrease == 2 && upgraded.DynamicVars.Damage.BaseValue == 3m,
             "Masquerade upgraded purge increment");
-    }
-
-    private static void ValidateWeakness()
-    {
-        WeaknessCard card = ModelDb.Card<WeaknessCard>();
-        Require(card.EnergyCost.Canonical == -1, "Weakness unplayable cost");
-        Require(card.Type == CardType.Curse && card.Rarity == CardRarity.Curse,
-            "Weakness type and rarity");
-        Require(card.TargetType == TargetType.None, "Weakness target");
-        Require(card.Keywords.SetEquals([CardKeyword.Unplayable]), "Weakness keyword");
-        Require(card.MaxUpgradeLevel == 0, "Weakness upgrade policy");
     }
 
     private static void ValidateClockOut()
@@ -994,6 +972,8 @@ internal static class N5PureContractTests
         Require(perdere.DynamicVars["MagicNumber"].BaseValue == 1m, "Perdere Omnia count");
         Require(Upgraded(perdere).DynamicVars["MagicNumber"].BaseValue == 2m,
             "Perdere Omnia upgraded count");
+        Require(!perdere.CanBeGeneratedInCombat && perdere.CanBeGeneratedByModifiers,
+            "Perdere Omnia combat-only generation exclusion");
 
         PrimoDieInScaenaCard primo = ModelDb.Card<PrimoDieInScaenaCard>();
         Require(primo.EnergyCost.Canonical == 0, "Primo Die In Scaena cost");
@@ -1433,6 +1413,60 @@ internal static class N5PureContractTests
         Require(!string.IsNullOrWhiteSpace(prideCompatibility.Reason),
             "Pride power-copy rejection reason");
 
+        PowerModel[] excludedEnemyPowers =
+        [
+            ModelDb.Power<AdaptablePower>(),
+            ModelDb.Power<AsleepPower>(),
+            ModelDb.Power<BackAttackLeftPower>(),
+            ModelDb.Power<BackAttackRightPower>(),
+            ModelDb.Power<BattlewornDummyTimeLimitPower>(),
+            ModelDb.Power<BurrowedPower>(),
+            ModelDb.Power<CrabRagePower>(),
+            ModelDb.Power<CurlUpPower>(),
+            ModelDb.Power<EnragePower>(),
+            ModelDb.Power<EscapeArtistPower>(),
+            ModelDb.Power<FlutterPower>(),
+            ModelDb.Power<GalvanicPower>(),
+            ModelDb.Power<HardToKillPower>(),
+            ModelDb.Power<HardenedShellPower>(),
+            ModelDb.Power<HatchPower>(),
+            ModelDb.Power<HeistPower>(),
+            ModelDb.Power<HighVoltagePower>(),
+            ModelDb.Power<IllusionPower>(),
+            ModelDb.Power<InfestedPower>(),
+            ModelDb.Power<MinionPower>(),
+            ModelDb.Power<NemesisPower>(),
+            ModelDb.Power<PainfulStabsPower>(),
+            ModelDb.Power<PaperCutsPower>(),
+            ModelDb.Power<PersonalHivePower>(),
+            ModelDb.Power<PossessSpeedPower>(),
+            ModelDb.Power<PossessStrengthPower>(),
+            ModelDb.Power<RampartPower>(),
+            ModelDb.Power<RavenousPower>(),
+            ModelDb.Power<ReattachPower>(),
+            ModelDb.Power<SandpitPower>(),
+            ModelDb.Power<SkittishPower>(),
+            ModelDb.Power<SlumberPower>(),
+            ModelDb.Power<SoarPower>(),
+            ModelDb.Power<SteamEruptionPower>(),
+            ModelDb.Power<StockPower>(),
+            ModelDb.Power<SuckPower>(),
+            ModelDb.Power<SurprisePower>(),
+            ModelDb.Power<SwipePower>(),
+            ModelDb.Power<ThieveryPower>(),
+            ModelDb.Power<VitalSparkPower>(),
+            ModelDb.Power<WitheringPresencePower>()
+        ];
+        Require(CharismaticFormPower.ExcludedEnemyPowerTypeCount == 41 &&
+                excludedEnemyPowers.Length == CharismaticFormPower.ExcludedEnemyPowerTypeCount &&
+                excludedEnemyPowers.All(CharismaticFormPower.IsExcludedEnemyPower),
+            "Charismatic Form exact enemy-power exclusion list");
+        VigorPower vigor = ModelDb.Power<VigorPower>();
+        Require(!CharismaticFormPower.IsExcludedEnemyPower(vigor),
+            "Charismatic Form allows Vigor");
+        Require(PowerCopyCommand.GetCompatibility(vigor).Supported,
+            "Vigor reset-safe power-copy policy");
+
         Require(ModelDb.GetId<CharismaticFormPower>().Entry == "TOGAWASAKIKO-CHARISMATIC_FORM_POWER",
             "Charismatic Form power stable ID");
         Require(ModelDb.GetId<SakikoCrueltyPower>().Entry == "TOGAWASAKIKO-CRUELTY_POWER",
@@ -1454,6 +1488,37 @@ internal static class N5PureContractTests
         CardModel[] candidates = WishFulfilledCard.GetPurgeCandidates([removable, protectedCard]);
         Require(candidates.Length == 1, "Wish Fulfilled filters non-removable cards");
         Require(ReferenceEquals(candidates[0], removable), "Wish Fulfilled preserves candidate order");
+        CardModel defend = ModelDb.Card<DefendTogawaSakiko>();
+        Require(WishFulfilledCard.ComparePurgeCandidates(removable, defend) == removable.CompareTo(defend) &&
+                WishFulfilledCard.ComparePurgeCandidates(defend, removable) == defend.CompareTo(removable),
+            "Wish Fulfilled uses the native stable card comparison");
+        CardModel[] displayOrder = [removable, defend];
+        Array.Sort(displayOrder, WishFulfilledCard.ComparePurgeCandidates);
+        Require(displayOrder.SequenceEqual(new[] { removable, defend }.Order()),
+            "Wish Fulfilled display order is independent of source-pile order");
+    }
+
+    private static void ValidateDisabledSourceCardsAbsent()
+    {
+        HashSet<string> registeredCardEntries = ModelDb.CardPool<TogawaSakikoCardPool>()
+            .AllCards
+            .Select(card => card.Id.Entry)
+            .ToHashSet(StringComparer.Ordinal);
+        Require(!registeredCardEntries.Contains("TOGAWASAKIKO-CAREFREE_CARD") &&
+                !registeredCardEntries.Contains("TOGAWASAKIKO-WEAKNESS_CARD"),
+            "disabled Carefree and Weakness models are absent from the registered card pool");
+    }
+
+    private static void ValidateStaticSpriteFacing()
+    {
+        Require(SakikoCreatureVisualsNode.GetFacingSign(-0.25f) == -1f &&
+                SakikoCreatureVisualsNode.GetFacingSign(0f) == 1f,
+            "static sprite facing sign detection");
+        Require(SakikoCreatureVisualsNode.CreateFacingScale(0.5f, -1f) == new Vector2(-0.5f, 0.5f) &&
+                SakikoCreatureVisualsNode.CreateFacingScale(0.5f, 1f) == new Vector2(0.5f, 0.5f),
+            "static sprite scale preserves native facing");
+        Require(SakikoCreatureVisualsNode.MirrorOffsetForFacing(12f, -1f) == -12f,
+            "static corpse offset follows native facing");
     }
 
     private static PowerChangeEvent LossEvent(
@@ -1488,7 +1553,6 @@ internal static class N5PureContractTests
         string phantomOfTomori = SakikoAudioCmd.GetCardVoicePath("PhantomOfTomori");
         string heartsBarrier = SakikoAudioCmd.GetCardVoicePath("HeartsBarrier");
         string accomplice = SakikoAudioCmd.GetCardVoicePath("Accomplice");
-        string carefree = SakikoAudioCmd.GetCardVoicePath("Carefree");
         string desuWa = SakikoAudioCmd.GetCardVoicePath("DesuWa");
         string edgeOfBreakdown = SakikoAudioCmd.GetCardVoicePath("EdgeOfBreakdown");
         string clockOut = SakikoAudioCmd.GetCardVoicePath("ClockOut");
@@ -1529,7 +1593,6 @@ internal static class N5PureContractTests
         Require(heartsBarrier.EndsWith("/heartsbarrier.wav", StringComparison.Ordinal),
             "Heart's Barrier voice route");
         Require(accomplice.EndsWith("/accomplice.wav", StringComparison.Ordinal), "Accomplice voice route");
-        Require(carefree.EndsWith("/carefree.wav", StringComparison.Ordinal), "Carefree voice route");
         Require(desuWa.EndsWith("/desuwa.wav", StringComparison.Ordinal), "Desu Wa voice route");
         Require(edgeOfBreakdown.EndsWith("/edgeofbreakdown.wav", StringComparison.Ordinal),
             "Edge of Breakdown voice route");
@@ -1565,7 +1628,6 @@ internal static class N5PureContractTests
         Require(ResourceLoader.Exists(phantomOfTomori, "AudioStream"), "Phantom of Tomori voice resource");
         Require(ResourceLoader.Exists(heartsBarrier, "AudioStream"), "Heart's Barrier voice resource");
         Require(ResourceLoader.Exists(accomplice, "AudioStream"), "Accomplice voice resource");
-        Require(ResourceLoader.Exists(carefree, "AudioStream"), "Carefree voice resource");
         Require(ResourceLoader.Exists(desuWa, "AudioStream"), "Desu Wa voice resource");
         Require(ResourceLoader.Exists(edgeOfBreakdown, "AudioStream"),
             "Edge of Breakdown voice resource");

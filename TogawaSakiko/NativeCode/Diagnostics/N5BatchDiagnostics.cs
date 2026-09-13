@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -10,7 +11,9 @@ using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
@@ -90,9 +93,9 @@ internal static partial class N5BatchDiagnostics
         await VerifySelectionAndRetrievalCommonCardsAsync(combatState, player, target, choiceContext);
         await VerifyQuaerereLuminaAsync(combatState, player, choiceContext);
         await VerifyKingsAsync(combatState, player, target, choiceContext);
-        await VerifyAccompliceAndCarefreeAsync(combatState, player, choiceContext);
+        await VerifyAccompliceAsync(combatState, player, choiceContext);
         await VerifyDesuWaAsync(combatState, player, target, choiceContext);
-        await VerifyEdgeMasqueradeAndWeaknessAsync(combatState, player, target, choiceContext);
+        await VerifyEdgeAndMasqueradeAsync(combatState, player, target, choiceContext);
         await VerifyUncommonDirectCardsAsync(combatState, player, target, choiceContext);
         await VerifyProtectionAsync(combatState, player, choiceContext);
         await VerifyRadianceAsync(combatState, player, choiceContext);
@@ -107,7 +110,7 @@ internal static partial class N5BatchDiagnostics
         await VerifySymbolIIIWaterAsync(combatState, player, choiceContext, session);
 
         NativeSmokeTrace.N5Info(
-            "native card batches passed. GreetingsEnergy=5, TirednessDraw=3, MelodyDamage=15, IdealFreeAttacks=5, ProtectionPlating=14, Dazzling=10, KindnessCurrentAndPriorLossSelection=passed, Keys=Black5+White5, MelodiaDivinity=PlayerEnemyTriple+Voice10+InnerCry7, MementoMori=BaseExhaust6+UpgradePurge5+CombatOnly1+Triple60, PersistentAdds=Tiredness2+Radiance2+Ideal2+Voice2+Amoris2+Mortis2, CommonDamage=Phantom24+24+28+Symbol28, Regen=9, SymbolDraw=7, StrengthTrade=Dark27+ActualSteal3+Georgette27+EnemyStrength2+EnemyHype1, HeartsBarrier=DeckSizedBlock+Retain, SelectionCards=Daten30+ExactPersistentPurge2+Kill19+DesireRetrieve3+EarthProjectedBlockDamage, Quaerere=Scry7+9+DiscardBlock7, Kings=Damage34+Single+Reward2+Reroll2+Clear3+Saved, CommonTail=Accomplice5+CarefreeRetain2+DesuWaDrawPriority3+EdgeFrail3+PurgeGeneratedAndPersistent+MasqueradeDamage8+SavedGrowth+WeaknessDiscard, UncommonDirect=Gold35+Tiredness2+Dazzling16+Plating16+Mutsumi12AndBlock12+Protection2+SoyoAoE14+Kindness2+RhinoBlock17WithoutDexterity+CountingBuffTypes, Curses=AmorisRetain+DolorisBlockable2+MortisInjury+OblivionisHandExhaust+TimorisVulnerable, RemainingUncommon=20Cards+10Powers, VoiceRoutes=25.");
+            "native card batches passed. GreetingsEnergy=5, TirednessDraw=3, MelodyDamage=15, IdealFreeAttacks=5, ProtectionPlating=14, Dazzling=10, KindnessCurrentAndPriorLossSelection=passed, Keys=Black5+White5, MelodiaDivinity=PlayerEnemyTriple+Voice10+InnerCry7, MementoMori=BaseExhaust6+UpgradePurge5+CombatOnly1+DamageNormal7+13+AlreadyActive21+StaticFacingPreserved, PersistentAdds=Tiredness2+Radiance2+Ideal2+Voice2+Amoris2+Mortis2, CommonDamage=Phantom24+24+28+Symbol28, Regen=9, SymbolDraw=7, StrengthTrade=Dark27+ActualSteal3+Georgette27+EnemyStrength2+EnemyHype1, HeartsBarrier=DeckSizedBlock+Retain, SelectionCards=Daten30+ExactPersistentPurge2+Kill19+DesireRetrieve3+EarthProjectedBlockDamage, Quaerere=Scry7+9+DiscardBlock7, Kings=Damage34+Single+Reward2+Reroll2+Clear3+Saved, CommonTail=Accomplice5+DesuWaDrawPriority3+EdgeFrail3+PurgeGeneratedAndPersistent+MasqueradeDamage8+SavedGrowth, UncommonDirect=Gold35+Tiredness2+Dazzling16+Plating16+Mutsumi12AndBlock12+Protection2+SoyoAoE14+Kindness2+RhinoBlock17WithoutDexterity+CountingBuffTypes, Curses=AmorisRetain+DolorisBlockable2+MortisInjury+OblivionisHandExhaust+TimorisVulnerable, RemainingUncommon=20Cards+10Powers, VoiceRoutes=24.");
     }
 
     private static async Task VerifyMelodyAsync(
@@ -700,6 +703,11 @@ internal static partial class N5BatchDiagnostics
         int strengthBefore = player.Creature.GetPower<StrengthPower>()?.Amount ?? 0;
         await PowerCmd.Remove(player.Creature.GetPower<StrengthPower>());
         await CreatureCmd.GainBlock(target, 100m, ValueProp.Unpowered, null, fast: true);
+        Sprite2D portrait = NCombatRoom.Instance!.GetCreatureNode(player.Creature)!.Visuals
+            .GetNode<Sprite2D>("%Visuals");
+        Vector2 originalPortraitScale = portrait.Scale;
+        portrait.Scale = new Vector2(-Mathf.Abs(originalPortraitScale.X), originalPortraitScale.Y);
+        bool staticFacingPreserved = true;
 
         CardModel[] baseWindow = Enumerable.Range(0, 8)
             .Select(_ => combatState.CreateCard<DefendTogawaSakiko>(player))
@@ -712,6 +720,7 @@ internal static partial class N5BatchDiagnostics
         int exhaustEvents = 0;
         bool baseOrderingPassed = true;
         decimal blockBeforeBase = target.Block;
+        decimal? blockAtBaseDivinityApplication = null;
         void OnCardExhausted(CardModel card)
         {
             if (!expectedExhausted.Contains(card))
@@ -723,9 +732,17 @@ internal static partial class N5BatchDiagnostics
             baseOrderingPassed &= player.Creature.GetPower<MonsterDivinityPower>() is null &&
                                   target.Block == blockBeforeBase;
         }
+        void OnBasePowerApplied(PowerModel power)
+        {
+            if (power is MonsterDivinityPower)
+            {
+                blockAtBaseDivinityApplication = target.Block;
+            }
+        }
 
         CardPile exhaustPile = PileType.Exhaust.GetPile(player);
         exhaustPile.CardAdded += OnCardExhausted;
+        player.Creature.PowerApplied += OnBasePowerApplied;
         MementoMoriCard baseCard;
         decimal energyBefore = playerState.Energy;
         try
@@ -740,21 +757,50 @@ internal static partial class N5BatchDiagnostics
         finally
         {
             exhaustPile.CardAdded -= OnCardExhausted;
+            player.Creature.PowerApplied -= OnBasePowerApplied;
         }
 
         Require(exhaustEvents == 6 && expectedExhausted.All(card => card.Pile?.Type == PileType.Exhaust),
             "base Memento Mori did not Exhaust the six removable cards in its top-seven window");
         Require(baseWindow[2].Pile?.Type == PileType.Draw && baseWindow[7].Pile?.Type == PileType.Draw,
             "base Memento Mori removed Eternal or backfilled past the top-seven window");
-        Require(baseOrderingPassed, "base Memento Mori did not finish draw-pile Exhausts before Divinity and damage");
-        Require(blockBeforeBase - target.Block == 21m,
-            "base Memento Mori did not enter Divinity before dealing 7 damage");
+        Require(baseOrderingPassed, "base Memento Mori did not finish draw-pile Exhausts before damage and Divinity");
+        Require(blockBeforeBase - target.Block == 7m &&
+                blockAtBaseDivinityApplication == target.Block,
+            "base Memento Mori did not deal normal damage before entering Divinity");
         Require(playerState.Energy - energyBefore == SakikoStanceCmd.DivinityEnergyGain,
             "base Memento Mori Divinity did not grant 3 Energy");
         Require(baseCard.Pile?.Type == PileType.Discard, "base Memento Mori did not enter Discard");
+        staticFacingPreserved &= portrait.Scale.X < 0f;
         MonsterDivinityPower baseDivinity = player.Creature.GetPower<MonsterDivinityPower>()
             ?? throw new InvalidOperationException("Base Memento Mori did not enter Divinity.");
+
+        CardModel[] activeDivinityWindow = Enumerable.Range(0, MementoMoriCard.DrawPileWindowSize)
+            .Select(_ => combatState.CreateCard<DefendTogawaSakiko>(player))
+            .ToArray();
+        foreach (CardModel card in activeDivinityWindow)
+        {
+            card.AddKeyword(CardKeyword.Eternal);
+        }
+        await AddDrawWindowAsync(activeDivinityWindow);
+        decimal blockBeforeActiveDivinity = target.Block;
+        decimal energyBeforeActiveDivinity = playerState.Energy;
+        MementoMoriCard activeDivinityCard = await CreateAndAutoPlayAsync<MementoMoriCard>(
+            combatState,
+            player,
+            choiceContext,
+            target,
+            upgraded: false);
+        Require(blockBeforeActiveDivinity - target.Block == 21m,
+            "Memento Mori did not receive the multiplier from already-active Divinity");
+        Require(playerState.Energy == energyBeforeActiveDivinity,
+            "Memento Mori re-entry into already-active Divinity granted Energy twice");
+        Require(activeDivinityWindow.All(card => card.Pile?.Type == PileType.Draw),
+            "active-Divinity Memento Mori removed an Eternal top-seven card");
+        await CardPileCmd.RemoveFromCombat([.. activeDivinityWindow, activeDivinityCard], skipVisuals: true);
+
         await baseDivinity.AfterSideTurnEnd(choiceContext, CombatSide.Player, [player.Creature]);
+        staticFacingPreserved &= portrait.Scale.X < 0f;
         await CardPileCmd.RemoveFromCombat([.. baseWindow, baseCard], skipVisuals: true);
 
         CardModel[] persistentCards = new CardModel[7];
@@ -792,6 +838,7 @@ internal static partial class N5BatchDiagnostics
         List<PersistentDeckRemovalResult> removalEvents = [];
         bool upgradedOrderingPassed = true;
         decimal blockBeforeUpgrade = target.Block;
+        decimal? blockAtUpgradedDivinityApplication = null;
         void OnPersistentCardRemoved(PersistentDeckRemovalResult result)
         {
             if (!expectedPersistentRemovals.Contains(result.PersistentCard))
@@ -803,9 +850,17 @@ internal static partial class N5BatchDiagnostics
             upgradedOrderingPassed &= player.Creature.GetPower<MonsterDivinityPower>() is null &&
                                       target.Block == blockBeforeUpgrade;
         }
+        void OnUpgradedPowerApplied(PowerModel power)
+        {
+            if (power is MonsterDivinityPower)
+            {
+                blockAtUpgradedDivinityApplication = target.Block;
+            }
+        }
 
         int removalHistoryBefore = GetRemovalHistoryCount(player);
         PersistentDeckMutation.PersistentCardRemoved += OnPersistentCardRemoved;
+        player.Creature.PowerApplied += OnUpgradedPowerApplied;
         MementoMoriCard upgradedCard;
         try
         {
@@ -819,6 +874,7 @@ internal static partial class N5BatchDiagnostics
         finally
         {
             PersistentDeckMutation.PersistentCardRemoved -= OnPersistentCardRemoved;
+            player.Creature.PowerApplied -= OnUpgradedPowerApplied;
         }
 
         Require(removalEvents.Count == 5 &&
@@ -840,16 +896,22 @@ internal static partial class N5BatchDiagnostics
         Require(GetRemovalHistoryCount(player) - removalHistoryBefore == 5,
             "upgraded Memento Mori did not write exactly five native persistent-removal history entries");
         Require(upgradedOrderingPassed,
-            "upgraded Memento Mori did not finish synchronized persistent removals before Divinity and damage");
-        Require(blockBeforeUpgrade - target.Block == 39m,
-            "upgraded Memento Mori did not enter Divinity before dealing 13 damage");
+            "upgraded Memento Mori did not finish synchronized persistent removals before damage and Divinity");
+        Require(blockBeforeUpgrade - target.Block == 13m &&
+                blockAtUpgradedDivinityApplication == target.Block,
+            "upgraded Memento Mori did not deal normal damage before entering Divinity");
         Require(playerState.Energy - energyBefore == SakikoStanceCmd.DivinityEnergyGain * 2,
             "both Memento Mori plays did not grant 3 Energy on separate Divinity entries");
         Require(upgradedCard.Pile?.Type == PileType.Discard, "upgraded Memento Mori did not enter Discard");
+        staticFacingPreserved &= portrait.Scale.X < 0f;
 
         MonsterDivinityPower upgradedDivinity = player.Creature.GetPower<MonsterDivinityPower>()
             ?? throw new InvalidOperationException("Upgraded Memento Mori did not enter Divinity.");
         await upgradedDivinity.AfterSideTurnEnd(choiceContext, CombatSide.Player, [player.Creature]);
+        staticFacingPreserved &= portrait.Scale.X < 0f;
+        portrait.Scale = originalPortraitScale;
+        Require(staticFacingPreserved,
+            "sprite-only Sakiko did not preserve native facing across portrait changes");
         persistentCards[2].RemoveKeyword(CardKeyword.Eternal);
         foreach (CardModel persistentCard in persistentCards.Where(card => !card.HasBeenRemovedFromState))
         {
@@ -1883,7 +1945,7 @@ internal static partial class N5BatchDiagnostics
         await RemoveAddedBlockAsync(choiceContext, target, targetBlockBefore);
     }
 
-    private static async Task VerifyAccompliceAndCarefreeAsync(
+    private static async Task VerifyAccompliceAsync(
         CombatState combatState,
         Player player,
         PlayerChoiceContext choiceContext)
@@ -1924,60 +1986,6 @@ internal static partial class N5BatchDiagnostics
             "Accomplice changed the persistent deck");
         await RemoveCombatCardsAsync(
             desires.Cast<CardModel>().Append(baseAccomplice).Append(upgradedAccomplice));
-
-        CardModel[] baseDrawCards =
-        [
-            combatState.CreateCard<DefendTogawaSakiko>(player),
-            combatState.CreateCard<StrikeTogawaSakiko>(player)
-        ];
-        await AddDrawWindowAsync(baseDrawCards);
-        TestCardSelector baseSelector = new();
-        baseSelector.PrepareToSelect([0]);
-        CarefreeCard baseCarefree;
-        using (CardSelectCmd.PushSelector(baseSelector))
-        {
-            baseCarefree = await CreateAndAutoPlayAsync<CarefreeCard>(
-                combatState,
-                player,
-                choiceContext,
-                null,
-                upgraded: false);
-        }
-        Require(baseDrawCards.All(card => card.Pile?.Type == PileType.Hand),
-            "base Carefree did not draw both prepared cards");
-        Require(baseDrawCards.Count(card => card.Keywords.Contains(CardKeyword.Retain)) == 1,
-            "base Carefree did not grant combat-long Retain to exactly one selected card");
-        await RemoveCombatCardsAsync(baseDrawCards.Append(baseCarefree));
-
-        CardModel[] upgradedDrawCards =
-        [
-            combatState.CreateCard<DefendTogawaSakiko>(player),
-            combatState.CreateCard<StrikeTogawaSakiko>(player),
-            combatState.CreateCard<DefendTogawaSakiko>(player)
-        ];
-        await AddDrawWindowAsync(upgradedDrawCards);
-        TestCardSelector upgradedSelector = new();
-        upgradedSelector.PrepareToSelect([1]);
-        CarefreeCard upgradedCarefree;
-        using (CardSelectCmd.PushSelector(upgradedSelector))
-        {
-            upgradedCarefree = await CreateAndAutoPlayAsync<CarefreeCard>(
-                combatState,
-                player,
-                choiceContext,
-                null,
-                upgraded: true);
-        }
-        Require(upgradedDrawCards.All(card => card.Pile?.Type == PileType.Hand),
-            "upgraded Carefree did not draw all three prepared cards");
-        Require(upgradedDrawCards.Count(card => card.Keywords.Contains(CardKeyword.Retain)) == 1,
-            "upgraded Carefree did not grant combat-long Retain to exactly one selected card");
-        Require(baseCarefree.Pile is null && upgradedCarefree.Pile?.Type == PileType.Discard,
-            "Carefree source-card cleanup or result pile was incorrect");
-        Require(player.Deck.Cards.Count == deckSizeBefore && GetGainHistoryCount(player) == gainHistoryBefore,
-            "Carefree changed the persistent deck");
-
-        await RemoveCombatCardsAsync(upgradedDrawCards.Append(upgradedCarefree));
         await RestoreCombatCardsAsync(cardsMovedAside);
     }
 
@@ -2064,7 +2072,7 @@ internal static partial class N5BatchDiagnostics
         await RemoveAddedBlockAsync(choiceContext, target, targetBlockBefore);
     }
 
-    private static async Task VerifyEdgeMasqueradeAndWeaknessAsync(
+    private static async Task VerifyEdgeAndMasqueradeAsync(
         CombatState combatState,
         Player player,
         Creature target,
@@ -2200,13 +2208,7 @@ internal static partial class N5BatchDiagnostics
         Require(baseCombat.Pile?.Type == PileType.Discard && upgradedCombat.Pile?.Type == PileType.Discard,
             "Masquerade cards did not enter Discard after play");
 
-        WeaknessCard weakness = combatState.CreateCard<WeaknessCard>(player);
-        await CardPileCmd.AddGeneratedCardToCombat(weakness, PileType.Draw, player);
-        await weakness.BeforeCombatStart();
-        Require(weakness.Pile?.Type == PileType.Discard,
-            "Weakness did not move from Draw to Discard during its combat-start hook");
-
-        await RemoveCombatCardsAsync([baseEdge, upgradedEdge, weakness]);
+        await RemoveCombatCardsAsync([baseEdge, upgradedEdge]);
         PersistentDeckRemovalResult baseCleanup = await PersistentDeckMutation.RemoveAsync(
             basePersistent,
             showPersistentPreview: false,

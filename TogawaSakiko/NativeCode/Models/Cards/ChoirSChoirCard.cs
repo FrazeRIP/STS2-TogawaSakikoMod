@@ -28,8 +28,7 @@ public sealed class ChoirSChoirCard : CardModel
 
     public override Task BeforeCardPlayed(CardPlay cardPlay)
     {
-        if (Pile?.Type == PileType.Hand &&
-            cardPlay.Card.Owner == Owner &&
+        if (cardPlay.Card.Owner == Owner &&
             cardPlay.Card is DesireCard)
         {
             EnergyCost.AddUntilPlayed(-1);

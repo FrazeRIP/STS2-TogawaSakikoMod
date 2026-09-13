@@ -128,9 +128,13 @@ internal static partial class N5BatchDiagnostics
         await PowerCmd.Remove(target.GetPower<GodsCreationPower>());
         cardsToRemove.AddRange([baseAngles, upgradedAngles]);
 
-        ChoirSChoirCard choir = combatState.CreateCard<ChoirSChoirCard>(player);
-        await CardPileCmd.AddGeneratedCardToCombat(choir, PileType.Hand, player);
-        Require(choir.ShouldRetainThisTurn,
+        ChoirSChoirCard drawChoir = combatState.CreateCard<ChoirSChoirCard>(player);
+        ChoirSChoirCard handChoir = combatState.CreateCard<ChoirSChoirCard>(player);
+        ChoirSChoirCard discardChoir = combatState.CreateCard<ChoirSChoirCard>(player);
+        await CardPileCmd.AddGeneratedCardToCombat(drawChoir, PileType.Draw, player);
+        await CardPileCmd.AddGeneratedCardToCombat(handChoir, PileType.Hand, player);
+        await CardPileCmd.AddGeneratedCardToCombat(discardChoir, PileType.Discard, player);
+        Require(handChoir.ShouldRetainThisTurn,
             "Choir's Choir did not use native Retain while in Hand");
         DesireCard desire = await CreateAndAutoPlayAsync<DesireCard>(
             combatState,
@@ -138,18 +142,21 @@ internal static partial class N5BatchDiagnostics
             choiceContext,
             null,
             upgraded: false);
-        Require(choir.EnergyCost.GetWithModifiers(CostModifiers.Local) == 2,
-            "Choir's Choir did not reduce the exact Hand copy by one after Desire");
+        Require(new[] { drawChoir, handChoir, discardChoir }
+                .All(choir => choir.EnergyCost.GetWithModifiers(CostModifiers.Local) == 2),
+            "Choir's Choir did not count Desire from Draw, Hand, and Discard");
         decimal targetBlockBeforeChoir = target.Block;
         await CardCmd.AutoPlay(
             choiceContext,
-            choir,
+            handChoir,
             target,
             AutoPlayType.Default,
             skipCardPileVisuals: true);
         Require(targetBlockBeforeChoir - target.Block == 18m,
             "Choir's Choir did not deal six damage three times");
-        cardsToRemove.AddRange([choir, desire]);
+        Require(handChoir.EnergyCost.GetWithModifiers(CostModifiers.Local) == 3,
+            "Choir's Choir did not reset to its original cost after being played");
+        cardsToRemove.AddRange([drawChoir, handChoir, discardChoir, desire]);
 
         CrucifixXCard crucifix = combatState.CreateCard<CrucifixXCard>(player);
         crucifix.EnergyCost.CapturedXValue = 2;
@@ -375,6 +382,24 @@ internal static partial class N5BatchDiagnostics
                 GetRemovalHistoryCount(player) - removalHistoryBeforePerdere == 1,
             "Perdere Omnia did not purge the exact linked Unplayable draw and draw one replacement");
         cardsToRemove.AddRange([perdere, replacement]);
+
+        await PowerCmd.Apply<PerdereOmniaPower>(
+            choiceContext,
+            player.Creature,
+            1m,
+            player.Creature,
+            null);
+        PerdereOmniaCard upgradedPerdere = combatState.CreateCard<PerdereOmniaCard>(player);
+        CardCmd.Upgrade(upgradedPerdere, MegaCrit.Sts2.Core.Nodes.CommonUi.CardPreviewStyle.None);
+        CardModel stackedReplacement = combatState.CreateCard<DefendTogawaSakiko>(player);
+        await AddDrawWindowAsync([upgradedPerdere, stackedReplacement]);
+        await CardPileCmd.Draw(choiceContext, 1, player);
+        Require(upgradedPerdere.HasBeenRemovedFromState &&
+                upgradedPerdere.Pile is null &&
+                stackedReplacement.Pile?.Type == PileType.Hand &&
+                player.Creature.GetPower<PerdereOmniaPower>() is null,
+            "an active Perdere Omnia did not purge its drawn copy without applying new stacks");
+        cardsToRemove.Add(stackedReplacement);
 
         PrimoDieInScaenaCard primoCard = await CreateAndAutoPlayAsync<PrimoDieInScaenaCard>(
             combatState,

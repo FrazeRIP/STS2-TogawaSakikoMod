@@ -17,6 +17,8 @@ public sealed class DatenCard : CardModel
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
+    public override bool CanBeGeneratedInCombat => false;
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(13m, ValueProp.Move)];
 
     public override string PortraitPath => NativeAssetPaths.DatenPortrait;

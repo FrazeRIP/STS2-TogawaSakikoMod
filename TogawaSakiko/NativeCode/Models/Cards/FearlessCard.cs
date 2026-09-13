@@ -11,6 +11,8 @@ namespace TogawaSakiko.NativeCode.Models.Cards;
 
 public sealed class FearlessCard : CardModel
 {
+    public override bool CanBeGeneratedInCombat => false;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("MagicNumber", 2m)];
 

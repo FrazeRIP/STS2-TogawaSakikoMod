@@ -226,7 +226,7 @@ $runSave = $null
 $saveReady = $false
 
 $requiredGameplayMarkers = @(
-    'Phase N5 pure contract tests passed (725 assertions).',
+    'Phase N5 pure contract tests passed (722 assertions).',
     'Kings lifecycle: verified one hidden native run carrier for the Sakiko player.',
     'Kings lifecycle: removed the starter relic and verified no persistent Kings card before victory.',
     'Kings lifecycle: armed one nonstacking Kings power through native PowerCmd.Apply.',
@@ -384,7 +384,7 @@ $reloadIssueLines = @(
 
 $summary = [pscustomobject]@{
     Seed = $Seed
-    PureAssertionCount = 725
+    PureAssertionCount = 722
     GameplayMarkerCount = $requiredGameplayMarkers.Count
     GameplayMarkersPassed = $true
     SavedPendingStateCaptured = $true

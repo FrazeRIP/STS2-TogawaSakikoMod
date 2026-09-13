@@ -17,6 +17,8 @@ public sealed class MementoMoriCard : CardModel
 {
     public const int DrawPileWindowSize = 7;
 
+    public override bool CanBeGeneratedInCombat => false;
+
     internal static bool SkipPurgeVisuals => SaveManager.Instance.PrefsSave.FastMode != FastModeType.Normal;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
@@ -61,16 +63,16 @@ public sealed class MementoMoriCard : CardModel
             }
         }
 
-        await SakikoStanceCmd.EnterDivinityAsync(
-            choiceContext,
-            Owner.Creature,
-            Owner.Creature,
-            this);
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_heavy_blunt")
             .Execute(choiceContext);
+        await SakikoStanceCmd.EnterDivinityAsync(
+            choiceContext,
+            Owner.Creature,
+            Owner.Creature,
+            this);
     }
 
     protected override void OnUpgrade()

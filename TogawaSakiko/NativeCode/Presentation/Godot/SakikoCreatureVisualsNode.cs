@@ -85,8 +85,9 @@ public partial class SakikoCreatureVisualsNode : NCreatureVisuals
         }
         Texture2D texture = ResourceLoader.Load<Texture2D>(path);
         _portrait.Texture = texture;
+        float facingSign = GetFacingSign(_portrait.Scale.X);
         // All combat variants share the same ground pivot and visible body height.
-        _portrait.Scale = Vector2.One * (320f / texture.GetHeight());
+        _portrait.Scale = CreateFacingScale(320f / texture.GetHeight(), facingSign);
         _portrait.Position = new Vector2(0f, -160f);
         if (path == NativeAssetPaths.CharacterDeadPortrait)
         {
@@ -94,11 +95,21 @@ public partial class SakikoCreatureVisualsNode : NCreatureVisuals
             // Center its visible pixels over the existing pivot and place its bottom on the floor.
             using Image pixels = texture.GetImage();
             Rect2I used = pixels.GetUsedRect();
-            _portrait.Scale = Vector2.One;
+            _portrait.Scale = CreateFacingScale(1f, facingSign);
             _portrait.Position = new Vector2(
-                texture.GetWidth() * 0.5f - used.Position.X - used.Size.X * 0.5f,
+                MirrorOffsetForFacing(
+                    texture.GetWidth() * 0.5f - used.Position.X - used.Size.X * 0.5f,
+                    facingSign),
                 texture.GetHeight() * 0.5f - used.End.Y);
         }
         _portraitPath = path;
     }
+
+    internal static float GetFacingSign(float scaleX) => scaleX < 0f ? -1f : 1f;
+
+    internal static Vector2 CreateFacingScale(float magnitude, float facingSign) =>
+        new(GetFacingSign(facingSign) * magnitude, magnitude);
+
+    internal static float MirrorOffsetForFacing(float offset, float facingSign) =>
+        GetFacingSign(facingSign) * offset;
 }

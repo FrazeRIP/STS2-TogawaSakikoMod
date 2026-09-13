@@ -1,6 +1,10 @@
 # Current project state
 
-Ancient reward update, 2026-09-10: Archaic Tooth now replaces Moonlight Sonata with the Ancient The Third Movement card; Dusty Tome grants Charismatic Form+; Touch of Orobas refines Monochrome Hairband, Blazing Hairband, or Another Mask into Enchanted Hairband. Both Ancient cards use supplied full-art portraits and are excluded from other generation/reward pools, while As Your Heart Desires may copy owned copies. Registration is now 143 gameplay models. Rendered EN/zh-Hans suites each passed 149 assertions with no managed issues, and both asset/localization catalogs and the staged package passed. The Steam installation is unchanged. See [Ancient reward implementation and evidence](ANCIENT_REWARDS.md).
+Gameplay correction update, 2026-09-13: Perdere Omnia now consumes its final stack and has deterministic draw/purge ordering; Memento Mori deals damage before entering Master of Melodia, receiving the Divinity multiplier only when Master was already active; Choir 'S' Choir tracks Desire plays from every combat pile; Charismatic Form copies Vigor while rejecting the explicit enemy-only power list; all nine STS1-disabled cards now have no canonical native model; STS1 Healing-tag equivalents are excluded from generic combat generation; Wish Fulfilled sorts its selection UI without exposing Draw-pile order; and static Sakiko portraits preserve native facing changes. Registration is now 141 gameplay models. Focused validation is recorded below.
+
+Correction validation: the Release build passed with zero warnings/errors, and the staged package passed identity, dependency, removed-type, and excluded-content checks. The final isolated-game N5 run passed 722 pure assertions and every gameplay marker with zero managed issues, including Memento Mori's normal 7/13 damage before a new Divinity entry, 21 damage under already-active Divinity, and live static-facing preservation (`artifacts/bugfix-validation/native-memento-current-divinity-20260913-022734`). The exact same package passed the N6 suite with 183 pure assertions, all 15 gameplay markers, save capture, and fresh-process reload with zero managed issues (`artifacts/bugfix-validation/native-memento-current-divinity-n6-20260913-022921`). The Steam installation was not changed.
+
+Ancient reward update, 2026-09-10: Archaic Tooth now replaces Moonlight Sonata with the Ancient The Third Movement card; Dusty Tome grants Charismatic Form+; Touch of Orobas refines Monochrome Hairband, Blazing Hairband, or Another Mask into Enchanted Hairband. Both Ancient cards use supplied full-art portraits and are excluded from other generation/reward pools, while As Your Heart Desires may copy owned copies. Registration increased from 141 to 143 gameplay models at that checkpoint. Rendered EN/zh-Hans suites each passed 149 assertions with no managed issues, and both asset/localization catalogs and the staged package passed. The Steam installation was unchanged. See [Ancient reward implementation and evidence](ANCIENT_REWARDS.md).
 
 Two-stage Neow update, 2026-09-10: standard Sakiko starts in solo and multiplayer now offer Another Mask, The Blazing Hairband, and a speech-bubble option to choose normal blessings. The third option opens the game's three native generated rewards with no Back option. The Third Movement is temporarily absent from starting choices and the relic collection; its stable ID and saved gameplay behavior remain supported. This supersedes the fixed three-relic descriptions below. See [two-stage implementation and verification](NEOW_TWO_STAGE.md).
 
@@ -18,11 +22,11 @@ The native v0.1.0 single-player port has completed gameplay implementation for P
 
 | Content | Current state |
 | --- | --- |
-| Cards | 86 enabled STS1 cards; 88 registered/library-visible models including Carefree and Weakness compatibility models. All nine STS1-disabled cards remain excluded from normal generation. |
+| Cards | 86 enabled STS1 cards and 86 registered/library-visible models. All nine STS1-disabled cards have no canonical native model or generation route. |
 | Powers | 25 STS1 player-relevant powers plus native Melodia support. |
 | Relics | 11 STS1 relics plus the approved Another Mask relic: 12 total. |
 | Potions | Six native potions. |
-| Registration | 139 gameplay models in NativeModelCatalog. |
+| Registration | 141 gameplay models in NativeModelCatalog. |
 | Localization | English and Simplified Chinese; 17 packaged localization files. Source-inventory card descriptions cover 95 models and do not imply 95 playable cards. |
 | Presentation | 345 textures, 52 audio assets, 11 standalone resources in the recorded feedback package. All generated art remains placeholder art, including rest/shop/mask and compatibility assets; rendering checks do not certify finished assets. |
 

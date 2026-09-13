@@ -125,9 +125,8 @@ internal static class N6BatchDiagnostics
         CardModel[] addedCards = player.Deck.Cards.Where(card => !cardsBefore.Contains(card)).ToArray();
         Require(player.Deck.Cards.Count == deckBefore + 1 && addedCards.Length == 1,
             "Blazing Hairband did not add exactly one persistent card through the victory hook");
-        Require(BlazingHairband.IsEligibleRandomCard(addedCards[0]) &&
-                addedCards[0] is not CarefreeCard and not WeaknessCard,
-            "Blazing Hairband selected a disabled compatibility card");
+        Require(BlazingHairband.IsEligibleRandomCard(addedCards[0]),
+            "Blazing Hairband selected an ineligible card");
         Require(player.Character.CardPool.AllCards.Any(card => card.Id == addedCards[0].Id),
             "Blazing Hairband generated a card outside the current character's pool");
         Require(addedCards[0].Type is not CardType.Curse and not CardType.Status,

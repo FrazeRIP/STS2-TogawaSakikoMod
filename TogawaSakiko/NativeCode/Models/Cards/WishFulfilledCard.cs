@@ -16,6 +16,8 @@ public sealed class WishFulfilledCard : CardModel
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [CardKeyword.Exhaust, CardKeyword.Ethereal];
 
+    public override bool CanBeGeneratedInCombat => false;
+
     public override string PortraitPath => NativeAssetPaths.WishFulfilledPortrait;
 
     public WishFulfilledCard()
@@ -26,6 +28,13 @@ public sealed class WishFulfilledCard : CardModel
     internal static CardModel[] GetPurgeCandidates(IEnumerable<CardModel> cards)
     {
         return cards.Where(card => card.IsRemovable).ToArray();
+    }
+
+    internal static int ComparePurgeCandidates(CardModel left, CardModel right)
+    {
+        ArgumentNullException.ThrowIfNull(left);
+        ArgumentNullException.ThrowIfNull(right);
+        return left.CompareTo(right);
     }
 
     protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay) =>
@@ -46,7 +55,10 @@ public sealed class WishFulfilledCard : CardModel
                 choiceContext,
                 candidates,
                 owner,
-                new CardSelectorPrefs(prompt, 1)))
+                new CardSelectorPrefs(prompt, 1)
+                {
+                    Comparison = ComparePurgeCandidates
+                }))
             .FirstOrDefault();
         if (selected is null)
         {

@@ -12,6 +12,8 @@ public sealed class StayEleganceCard : CardModel
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
+    public override bool CanBeGeneratedInCombat => false;
+
     public override string PortraitPath => NativeAssetPaths.StayElegancePortrait;
 
     public StayEleganceCard()

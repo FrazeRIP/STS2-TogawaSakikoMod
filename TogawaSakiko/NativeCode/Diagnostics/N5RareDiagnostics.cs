@@ -505,10 +505,14 @@ internal static partial class N5BatchDiagnostics
         int playerWeakBefore = await RemoveAndRememberPowerAsync<WeakPower>(player.Creature);
         int playerVulnerableBefore = await RemoveAndRememberPowerAsync<VulnerablePower>(player.Creature);
         int playerHypeBefore = await RemoveAndRememberPowerAsync<HypePower>(player.Creature);
+        int playerVigorBefore = await RemoveAndRememberPowerAsync<VigorPower>(player.Creature);
+        int playerBackAttackBefore = await RemoveAndRememberPowerAsync<BackAttackLeftPower>(player.Creature);
         int playerThornsBefore = await RemoveAndRememberPowerAsync<ThornsPower>(player.Creature);
         int playerArtifactBefore = await RemoveAndRememberPowerAsync<ArtifactPower>(player.Creature);
         int targetStrengthBefore = await RemoveAndRememberPowerAsync<StrengthPower>(target);
         int targetVulnerableBefore = await RemoveAndRememberPowerAsync<VulnerablePower>(target);
+        int targetVigorBefore = await RemoveAndRememberPowerAsync<VigorPower>(target);
+        int targetBackAttackBefore = await RemoveAndRememberPowerAsync<BackAttackLeftPower>(target);
         Creature[] powerTargets = combatState.GetOpponentsOf(player.Creature)
             .Where(creature => creature.CanReceivePowers)
             .ToArray();
@@ -544,6 +548,14 @@ internal static partial class N5BatchDiagnostics
         Require(target.GetPower<StrengthPower>()?.Amount == 3 &&
                 player.Creature.GetPower<StrengthPower>()?.Amount == 3,
             "Charismatic Form did not copy an enemy's actual three-Strength gain");
+        await PowerCmd.Apply<VigorPower>(choiceContext, target, 4m, target, null);
+        Require(target.GetPower<VigorPower>()?.Amount == 4 &&
+                player.Creature.GetPower<VigorPower>()?.Amount == 4,
+            "Charismatic Form did not copy an enemy's actual four-Vigor gain");
+        await PowerCmd.Apply<BackAttackLeftPower>(choiceContext, target, 1m, target, null);
+        Require(target.GetPower<BackAttackLeftPower>() is not null &&
+                player.Creature.GetPower<BackAttackLeftPower>() is null,
+            "Charismatic Form copied excluded Back Attack state");
         await PowerCmd.Apply<PridePower>(choiceContext, target, 1m, target, null);
         Require(player.Creature.GetPower<PridePower>() is null,
             "Charismatic Form copied unsupported Pride internal state");
@@ -551,7 +563,11 @@ internal static partial class N5BatchDiagnostics
         await PowerCmd.Remove(player.Creature.GetPower<CharismaticFormPower>());
         await PowerCmd.Remove(player.Creature.GetPower<HypePower>());
         await PowerCmd.Remove(player.Creature.GetPower<StrengthPower>());
+        await PowerCmd.Remove(player.Creature.GetPower<VigorPower>());
+        await PowerCmd.Remove(player.Creature.GetPower<BackAttackLeftPower>());
         await PowerCmd.Remove(target.GetPower<StrengthPower>());
+        await PowerCmd.Remove(target.GetPower<VigorPower>());
+        await PowerCmd.Remove(target.GetPower<BackAttackLeftPower>());
         foreach (Creature opponent in powerTargets)
         {
             await PowerCmd.Remove(opponent.GetPower<HypePower>());
@@ -720,10 +736,20 @@ internal static partial class N5BatchDiagnostics
         await RestoreRememberedPowerAsync<WeakPower>(choiceContext, player.Creature, playerWeakBefore);
         await RestoreRememberedPowerAsync<VulnerablePower>(choiceContext, player.Creature, playerVulnerableBefore);
         await RestoreRememberedPowerAsync<HypePower>(choiceContext, player.Creature, playerHypeBefore);
+        await RestoreRememberedPowerAsync<VigorPower>(choiceContext, player.Creature, playerVigorBefore);
+        await RestoreRememberedPowerAsync<BackAttackLeftPower>(
+            choiceContext,
+            player.Creature,
+            playerBackAttackBefore);
         await RestoreRememberedPowerAsync<ThornsPower>(choiceContext, player.Creature, playerThornsBefore);
         await RestoreRememberedPowerAsync<ArtifactPower>(choiceContext, player.Creature, playerArtifactBefore);
         await RestoreRememberedPowerAsync<StrengthPower>(choiceContext, target, targetStrengthBefore);
         await RestoreRememberedPowerAsync<VulnerablePower>(choiceContext, target, targetVulnerableBefore);
+        await RestoreRememberedPowerAsync<VigorPower>(choiceContext, target, targetVigorBefore);
+        await RestoreRememberedPowerAsync<BackAttackLeftPower>(
+            choiceContext,
+            target,
+            targetBackAttackBefore);
         foreach (Creature opponent in powerTargets)
         {
             await RestoreRememberedPowerAsync<HypePower>(
@@ -738,7 +764,7 @@ internal static partial class N5BatchDiagnostics
         await RestoreCombatCardsAsync(cardsMovedAside);
 
         NativeSmokeTrace.N5Info(
-            "rare powers passed. Charismatic=EnemyHype+ActualStrengthCopy+PrideRejected, Cruelty=Vulnerable2+1+DesireDraw2, WishGoodLuck=FullBlockThorns2, Worldview=ExactUnplayableReplacement, CrychicPower=FreePhantom+Decrement, Pride=DrawPriority2+DelayedTopReturn.");
+            "rare powers passed. Charismatic=EnemyHype+ActualStrength+VigorCopy+BackAttackAndPrideRejected, Cruelty=Vulnerable2+1+DesireDraw2, WishGoodLuck=FullBlockThorns2, Worldview=ExactUnplayableReplacement, CrychicPower=FreePhantom+Decrement, Pride=DrawPriority2+DelayedTopReturn.");
     }
 
     private static async Task VerifyRareCoreAsync(

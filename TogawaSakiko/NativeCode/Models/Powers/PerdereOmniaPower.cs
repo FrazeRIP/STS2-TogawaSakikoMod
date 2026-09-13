@@ -47,6 +47,10 @@ public sealed class PerdereOmniaPower : PowerModel
 
         Flash();
         await PowerCmd.Decrement(this);
+        if (Amount <= 0 && Owner.Powers.Contains(this))
+        {
+            await PowerCmd.Remove(this);
+        }
         if (Owner.Player is not null)
         {
             await CardPileCmd.Draw(choiceContext, 1, Owner.Player);

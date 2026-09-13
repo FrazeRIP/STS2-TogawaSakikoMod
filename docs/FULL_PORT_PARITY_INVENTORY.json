@@ -979,7 +979,7 @@
       "sts2Type": "CarefreeCard",
       "sts2StableId": "TOGAWASAKIKO-CAREFREE_CARD",
       "portStatus": "Excluded",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/CarefreeCard.cs",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/CarefreeCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/Carefree.java",
       "customImports": [
@@ -1025,7 +1025,8 @@
         "requiredLarge": "500x380"
       },
       "differences": [
-        "disabled in STS1; excluded from the port by scope policy"
+        "disabled in STS1; excluded from the port by scope policy",
+        "native behavior missing"
       ]
     },
     {
@@ -5290,7 +5291,7 @@
       "sts2Type": "WeaknessCard",
       "sts2StableId": "TOGAWASAKIKO-WEAKNESS_CARD",
       "portStatus": "Excluded",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/WeaknessCard.cs",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Curse/WeaknessCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Curses/Weakness.java",
       "customImports": [
@@ -5333,7 +5334,8 @@
       },
       "differences": [
         "STS1 original art missing",
-        "disabled in STS1; excluded from the port by scope policy"
+        "disabled in STS1; excluded from the port by scope policy",
+        "native behavior missing"
       ]
     },
     {

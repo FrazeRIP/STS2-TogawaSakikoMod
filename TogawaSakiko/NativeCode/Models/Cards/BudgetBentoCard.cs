@@ -14,6 +14,8 @@ public sealed class BudgetBentoCard : CardModel
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
+    public override bool CanBeGeneratedInCombat => false;
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("MagicNumber", 4m)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>

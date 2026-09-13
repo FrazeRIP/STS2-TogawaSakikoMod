@@ -30,7 +30,7 @@ These nine cards are disabled in STS1 and are excluded from completion and all n
 - `RaiseTheBet` — `TOGAWASAKIKO-RAISE_THE_BET_CARD`
 - `Weakness` — `TOGAWASAKIKO-WEAKNESS_CARD`
 
-`Carefree` and `Weakness` retain hidden native compatibility models so existing references to those previously established stable IDs can deserialize. The card-pool filter rejects both, and the full-run harness scans all captured saves for every disabled ID. The other seven disabled cards have no canonical native model.
+All nine disabled cards have no canonical native model or registration. Their IDs, localization, audio, and art can remain in the source inventory, but console unlocks and runtime pools cannot instantiate them.
 
 ## Custom-world content removed
 
@@ -46,7 +46,7 @@ Ordinary STS2 acts, rooms, encounters, rewards, bosses, and the native finale ar
 ## Source files missing in STS1
 
 - `sakiko/WishFulfilled.wav` is both registered and requested by the STS1 code, but the file does not exist in the STS1 repository. The card behavior is complete; no invented placeholder audio was fabricated.
-- `Weakness` has STS1 localization and a disabled source model but no small or large STS1 portrait. Its compatibility-only placeholder pair uses the exact 250x190 and 500x380 card slots and stable destination filenames. Because the card is skipped, this art is not presented as active content.
+- `Weakness` has STS1 localization and a disabled source model but no small or large STS1 portrait. Its source-inventory-only placeholder pair uses the exact 250x190 and 500x380 card slots and stable destination filenames. Because the card has no native model, this art is not presented as active content.
 
 There are no missing art assets for any enabled card, in-scope power, relic, potion, character surface, or active VFX.
 

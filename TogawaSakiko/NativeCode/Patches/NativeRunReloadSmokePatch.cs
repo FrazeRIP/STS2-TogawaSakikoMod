@@ -15,6 +15,19 @@ namespace TogawaSakiko.NativeCode.Patches;
 [HarmonyPatch(typeof(SaveManager), nameof(SaveManager.LoadRunSave))]
 internal static class NativeRunReloadSmokePatch
 {
+    private static readonly HashSet<string> DisabledSourceCardEntries =
+    [
+        "TOGAWASAKIKO-ARE_THESE_LYRICS_CARD",
+        "TOGAWASAKIKO-AUTHORITY_RESTORATION_CARD",
+        "TOGAWASAKIKO-CAREFREE_CARD",
+        "TOGAWASAKIKO-I_WANT_TO_BE_YOUR_GOD_CARD",
+        "TOGAWASAKIKO-NEVER_GIVE_YOU_UP_CARD",
+        "TOGAWASAKIKO-NUMBERS_AND_FACES_CARD",
+        "TOGAWASAKIKO-PASSION_CARD",
+        "TOGAWASAKIKO-RAISE_THE_BET_CARD",
+        "TOGAWASAKIKO-WEAKNESS_CARD"
+    ];
+
     private static int _validationStarted;
 
     private static void Postfix(ReadSaveResult<SerializableRun> __result)
@@ -46,11 +59,12 @@ internal static class NativeRunReloadSmokePatch
                 throw new InvalidOperationException("The Phase N7 reloaded Sakiko deck is empty or contains an unresolved model ID.");
             }
 
-            int disabledCompatibilityCards = player.Deck.Cards.Count(card => card is CarefreeCard or WeaknessCard);
-            if (disabledCompatibilityCards != 0)
+            int disabledSourceCards = player.Deck.Cards.Count(card =>
+                DisabledSourceCardEntries.Contains(card.Id.Entry));
+            if (disabledSourceCards != 0)
             {
                 throw new InvalidOperationException(
-                    $"The Phase N7 natural run generated {disabledCompatibilityCards} disabled compatibility card(s).");
+                    $"The Phase N7 natural run generated {disabledSourceCards} disabled source card(s).");
             }
 
             NativeSmokeTrace.N7Info(

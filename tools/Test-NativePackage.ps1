@@ -56,6 +56,8 @@ if ('BaseLib' -in $assemblyReferences) {
 }
 
 $forbiddenRuntimeTypeNames = @(
+    'CarefreeCard',
+    'WeaknessCard',
     'GetForked',
     'TheOblivion',
     'AltNeowEvent',
