@@ -5,12 +5,14 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Potions;
+using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Rewards;
@@ -87,6 +89,7 @@ internal static class N6BatchDiagnostics
             .FirstOrDefault(creature => creature.IsHittable)
             ?? throw Failure("the combat had no hittable enemy");
 
+        await VerifyDarkstonePeriaptExclusionAsync(player);
         await VerifyBlazingHairbandAsync(combatState, player, room);
         await VerifyColorfulNotebookAsync(choiceContext, player, room);
         await VerifyPotionsAsync(combatState, choiceContext, player, target);
@@ -104,6 +107,19 @@ internal static class N6BatchDiagnostics
 
         NativeSmokeTrace.N6Info(
             "all relic, potion, hook-order, reward, and save preparation checks passed. Relics=11/11, Potions=6/6.");
+    }
+
+    private static async Task VerifyDarkstonePeriaptExclusionAsync(Player player)
+    {
+        RelicModel obtained = await RelicCmd.Obtain(ModelDb.Relic<DarkstonePeriapt>().ToMutable(), player);
+        Require(obtained is not DarkstonePeriapt && obtained.Rarity == RelicRarity.Event,
+            "Darkstone Periapt was not replaced by another Event relic");
+        Require(player.Relics.Contains(obtained) && player.Relics.All(relic => relic is not DarkstonePeriapt),
+            "the replacement did not enter Sakiko's inventory cleanly");
+        await RelicCmd.Remove(obtained);
+
+        NativeSmokeTrace.N6Info(
+            "Darkstone Periapt direct acquisition was replaced by another Event relic.");
     }
 
     private static async Task VerifyBlazingHairbandAsync(

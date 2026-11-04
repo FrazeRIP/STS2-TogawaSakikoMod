@@ -2,10 +2,14 @@ using System.Reflection;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Models.Characters;
+using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.Models.PotionPools;
+using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.Unlocks;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -15,6 +19,9 @@ using TogawaSakiko.NativeCode.Models.Potions;
 using TogawaSakiko.NativeCode.Models.Pools;
 using TogawaSakiko.NativeCode.Models.Powers;
 using TogawaSakiko.NativeCode.Models.Relics;
+using TogawaSakiko.NativeCode.Patches;
+using SakikoCharacter = TogawaSakiko.NativeCode.Models.Characters.TogawaSakiko;
+using DarkstonePeriapt = MegaCrit.Sts2.Core.Models.Relics.DarkstonePeriapt;
 
 namespace TogawaSakiko.NativeCode.Diagnostics;
 
@@ -28,11 +35,59 @@ internal static class N6PureContractTests
     {
         _assertionCount = 0;
         ValidateRelicModels();
+        ValidateDarkstonePeriaptExclusion();
         ValidateRandomCardEligibility();
         ValidatePersistentCounters();
         ValidateSelectionLogic();
         ValidatePotionModels();
         ValidatePools();
+    }
+
+    private static void ValidateDarkstonePeriaptExclusion()
+    {
+        Player vanilla = Player.CreateForNewRun<Ironclad>(UnlockState.all, 6100);
+        _ = RunState.CreateForTest([vanilla], seed: "DARKSTONE-VANILLA");
+        RelicModel vanillaDarkstone = ModelDb.Relic<DarkstonePeriapt>().ToMutable();
+        Require(ReferenceEquals(
+                SakikoDarkstonePeriaptExclusionPatch.ReplaceIfForbidden(vanillaDarkstone, vanilla),
+                vanillaDarkstone),
+            "Darkstone Periapt remains unchanged for other characters");
+
+        Player sakiko = Player.CreateForNewRun<SakikoCharacter>(UnlockState.all, 6101);
+        _ = RunState.CreateForTest([sakiko], seed: "DARKSTONE-SAKIKO");
+        RelicModel ordinaryRelic = ModelDb.Relic<DreamCatcher>().ToMutable();
+        Require(ReferenceEquals(
+                SakikoDarkstonePeriaptExclusionPatch.ReplaceIfForbidden(ordinaryRelic, sakiko),
+                ordinaryRelic),
+            "other relics remain unchanged for Sakiko");
+
+        IReadOnlyList<RelicModel> candidates =
+            SakikoDarkstonePeriaptExclusionPatch.GetReplacementCandidates(sakiko);
+        Require(candidates.Count == 4, "all four Trash Heap alternatives are replacement candidates");
+        Require(candidates.All(relic => relic.Rarity == RelicRarity.Event),
+            "every Darkstone replacement preserves Event rarity");
+        Require(candidates.All(relic => relic is DreamCatcher or HandDrill or MawBank or TheBoot),
+            "only safe Trash Heap alternatives can replace Darkstone Periapt");
+
+        HashSet<Type> rolledTypes = [];
+        bool allRollsValid = true;
+        for (ulong seed = 1; seed <= 32; seed++)
+        {
+            Player probe = Player.CreateForNewRun<SakikoCharacter>(UnlockState.all, seed);
+            _ = RunState.CreateForTest([probe], seed: "DARKSTONE-" + seed);
+            RelicModel replacement = SakikoDarkstonePeriaptExclusionPatch.ReplaceIfForbidden(
+                ModelDb.Relic<DarkstonePeriapt>().ToMutable(),
+                probe);
+            rolledTypes.Add(replacement.GetType());
+            allRollsValid &= replacement is not DarkstonePeriapt && replacement.Rarity == RelicRarity.Event;
+        }
+        Require(allRollsValid, "every Sakiko Darkstone roll becomes another Event relic");
+        Require(rolledTypes.Count > 1, "replacement selection is not fixed to one relic");
+
+        sakiko.AddRelicInternal(ModelDb.Relic<DreamCatcher>().ToMutable());
+        Require(SakikoDarkstonePeriaptExclusionPatch.GetReplacementCandidates(sakiko)
+                .All(relic => relic is not DreamCatcher),
+            "owned alternatives are excluded while other replacements remain");
     }
 
     private static void ValidateRelicModels()

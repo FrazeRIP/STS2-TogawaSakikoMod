@@ -116,8 +116,9 @@ $runSave = $null
 $saveReady = $false
 
 $requiredGameplayMarkers = @(
-    'Phase N6 pure contract tests passed (183 assertions).',
+    'Phase N6 pure contract tests passed (191 assertions).',
     'Embarking on a singleplayer TOGAWASAKIKO-TOGAWA_SAKIKO run.',
+    'Phase N6 contract: Darkstone Periapt direct acquisition was replaced by another Event relic.',
     'Phase N6 contract: Blazing Hairband boss swap, random persistent add, disabled-card exclusion, and combat idempotence passed.',
     'Phase N6 contract: Colorful Notebook combat-entry hook applied exactly 1 Dazzling.',
     'Phase N6 contract: all six potions consumed through native hooks.',
@@ -217,7 +218,7 @@ $reloadIssueLines = @(
 
 $summary = [pscustomobject]@{
     Seed = $Seed
-    PureAssertionCount = 183
+    PureAssertionCount = 191
     GameplayMarkerCount = $requiredGameplayMarkers.Count
     GameplayMarkersPassed = $true
     RelicsVerified = 11
