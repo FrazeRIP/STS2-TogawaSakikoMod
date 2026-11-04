@@ -38,7 +38,7 @@ internal static class SakikoStartingRoomPatch
         runState.ExtraFields.StartedWithNeow &&
         runState.Players.Count == 1 &&
         runState.Players[0].Character is SakikoCharacter &&
-        KingsRewardCarrierNeowPatch.VisibleModifiers(runState.Modifiers).Count == 0 &&
+        runState.Modifiers.Count == 0 &&
         runState.CurrentMapCoord == runState.Map.StartingMapPoint.coord;
 }
 

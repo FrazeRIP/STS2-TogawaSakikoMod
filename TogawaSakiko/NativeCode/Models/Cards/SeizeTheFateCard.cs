@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Saves.Runs;
-using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.Content;
 using TogawaSakiko.NativeCode.Models.Powers;
 
@@ -83,13 +82,8 @@ public sealed class SeizeTheFateCard : CardModel
             return;
         }
 
+        TimesPlayed = timesPlayed;
         persistentCard.TimesPlayed = timesPlayed;
-        foreach (SeizeTheFateCard linkedCopy in PersistentDeckMutation
-                     .SnapshotLinkedCombatCopies(persistentCard)
-                     .OfType<SeizeTheFateCard>())
-        {
-            linkedCopy.TimesPlayed = timesPlayed;
-        }
     }
 
     private void RefreshHypeAmount()

@@ -1,5 +1,4 @@
 using MegaCrit.Sts2.Core.Helpers;
-using System.Threading;
 using GameLogger = MegaCrit.Sts2.Core.Logging.Logger;
 using LogType = MegaCrit.Sts2.Core.Logging.LogType;
 
@@ -14,23 +13,23 @@ internal static class NativeSmokeTrace
     public const string ContractReloadArgument = "togawa-native-n3-contract-reload";
     public const string CatalogArgument = "togawa-native-n4-catalog-smoke";
     public const string N5BatchArgument = "togawa-native-n5-batch-smoke";
-    public const string KingsContractArgument = "togawa-native-kings-contract-smoke";
-    public const string KingsReloadArgument = "togawa-native-kings-contract-reload";
     public const string N6ContractArgument = "togawa-native-n6-contract-smoke";
     public const string N6ReloadArgument = "togawa-native-n6-contract-reload";
     public const string N7FullRunArgument = "togawa-native-n7-full-run";
     public const string N7ReloadArgument = "togawa-native-n7-reload";
     public const string StartingRoomArgument = "togawa-native-starting-room-smoke";
+    public const string Sts2MechanicsArgument = "togawa-sts2-mechanics-test";
+    public const string Sts2MechanicsLethalArgument = "togawa-sts2-mechanics-lethal";
 
     private static readonly GameLogger Logger = new(Bootstrap.ModEntryPoint.ModId, LogType.Generic);
     private static int _modelDbInitialized;
 
     public static bool Enabled =>
+        Sts2MechanicsDiagnostics.Enabled ||
         AncientRewardDiagnostics.Enabled ||
         CommandLineHelper.HasArg(GameplayArgument) ||
         ContractEnabled ||
         N5BatchEnabled ||
-        KingsContractEnabled ||
         N6ContractEnabled;
 
     public static bool ContractEnabled => CommandLineHelper.HasArg(ContractArgument);
@@ -46,10 +45,6 @@ internal static class NativeSmokeTrace
     public static bool CatalogEnabled => CommandLineHelper.HasArg(CatalogArgument);
 
     public static bool N5BatchEnabled => CommandLineHelper.HasArg(N5BatchArgument);
-
-    public static bool KingsContractEnabled => CommandLineHelper.HasArg(KingsContractArgument);
-
-    public static bool KingsReloadEnabled => CommandLineHelper.HasArg(KingsReloadArgument);
 
     public static bool N6ContractEnabled => CommandLineHelper.HasArg(N6ContractArgument);
 
@@ -97,14 +92,6 @@ internal static class NativeSmokeTrace
         if (N5BatchEnabled)
         {
             Logger.Info("Phase N5 batch: " + message);
-        }
-    }
-
-    public static void KingsInfo(string message)
-    {
-        if (KingsContractEnabled || KingsReloadEnabled)
-        {
-            Logger.Info("Kings lifecycle: " + message);
         }
     }
 

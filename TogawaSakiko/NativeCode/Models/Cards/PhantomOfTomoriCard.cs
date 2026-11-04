@@ -14,33 +14,26 @@ public sealed class PhantomOfTomoriCard : CardModel
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(14m, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6m, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<VoiceCard>()];
 
     public override string PortraitPath => NativeAssetPaths.PhantomOfTomoriPortrait;
 
     public PhantomOfTomoriCard()
-        : base(2, CardType.Attack, CardRarity.Common, TargetType.RandomEnemy)
+        : base(2, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var combatState = CombatState
-            ?? throw new InvalidOperationException("Phantom of Tomori requires an active combat.");
+        ArgumentNullException.ThrowIfNull(cardPlay.Target);
         SakikoAudioCmd.TryPlayCardVoice(Owner, "PhantomOfTomori");
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
-            .TargetingRandomOpponents(combatState)
+            .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_heavy_blunt")
             .Execute(choiceContext);
-        PersistentDeckAndCombatAddResult addition =
-            await PersistentDeckMutation.AddCanonicalWithCombatCopyAsync<VoiceCard>(
-                Owner,
-                combatState,
-                PileType.Discard,
-                upgradeLevel: IsUpgraded ? 1 : 0);
-        CardCmd.PreviewCardPileAdd(addition.PersistentResult);
+        await CombatRewardCardCommand.AddAsync<VoiceCard>(Owner, upgraded: IsUpgraded);
     }
 }

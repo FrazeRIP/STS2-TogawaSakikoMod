@@ -1,4 +1,3 @@
-using System.Threading;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -26,9 +25,10 @@ internal static class SakikoPresentationDiagnostics
             {
                 CardModel card = CreateCard(canonical, upgrade);
                 RotatingSakikoCardHoverTip preview = card.HoverTips.OfType<RotatingSakikoCardHoverTip>().Single();
-                Require(preview.Variants.Count == 5 && preview.Variants.Select(variant => variant.Id).Distinct().Count() == 5 &&
+                int expected = card is AveMujicaCard ? 4 : 5;
+                Require(preview.Variants.Count == expected && preview.Variants.Select(variant => variant.Id).Distinct().Count() == expected &&
                         preview.Variants.All(variant => variant.IsUpgraded == upgrade),
-                    "Element and Phantom previews must contain all five variants at the matching upgrade level");
+                    "Element and Phantom previews must contain their available variants at the matching upgrade level");
             }
         }
         foreach (CardModel canonical in new CardModel[]
@@ -46,12 +46,9 @@ internal static class SakikoPresentationDiagnostics
         Require(HasKeywordTip(ModelDb.Card<TheMoonlightSonataCard>().ToMutable(), "PURGE") &&
                 !HasKeywordTip(ModelDb.Card<BlackBirthdayCard>().ToMutable(), "PURGE"),
             "card removal tooltips must describe deck removal rather than power removal");
-        Require(HasKeywordTip(ModelDb.Card<QuaerereLuminaCard>().ToMutable(), "SCRY"),
-            "Scry was missing its keyword description");
 
         string avePreview = ModelDb.Card<AveMujicaCard>().ToMutable().GetDescriptionForUpgradePreview();
         string crychicPreview = ModelDb.Card<CrychicCard>().ToMutable().GetDescriptionForUpgradePreview();
-        string aleaPreview = ModelDb.Card<AleaIactaEstCard>().ToMutable().GetDescriptionForUpgradePreview();
         string mementoPreview = ModelDb.Card<MementoMoriCard>().ToMutable().GetDescriptionForUpgradePreview();
         bool chinese = LocManager.Instance.Language.ToString() == "zhs";
         string playerDivinityName = chinese ? "旋律之主" : "Master of Melodia";
@@ -62,14 +59,13 @@ internal static class SakikoPresentationDiagnostics
                 !new LocString("cards", "TOGAWASAKIKO-I_WANT_TO_BE_YOUR_GOD_CARD.description").GetRawText()
                     .Contains(chinese ? "神格" : "Divinity", StringComparison.Ordinal),
             "a player buff source still used the old Divinity name");
-        Require(avePreview.Contains(chinese ? "[green]元素+[/green]" : "[green]Element+[/green]", StringComparison.Ordinal) &&
-                !avePreview.Contains(chinese ? "[green]从3张" : "[green]Choose 1", StringComparison.Ordinal),
-            "Ave Mujica highlighted its whole description instead of Element+");
+        Require(avePreview.Contains(chinese ? "[green]升级过的元素[/green]" : "[green]upgraded Elements[/green]", StringComparison.Ordinal) &&
+                !avePreview.Contains(chinese ? "[green]选择1张" : "[green]Choose 1", StringComparison.Ordinal),
+            "Ave Mujica highlighted its whole description instead of upgraded Elements");
         Require(crychicPreview.Contains(chinese ? "[green]幻影+[/green]" : "[green]Phantoms+[/green]", StringComparison.Ordinal) &&
                 !crychicPreview.Contains(chinese ? "[green]将X张" : "[green]Add X", StringComparison.Ordinal),
             "Crychic highlighted its whole description instead of Phantoms+");
-        Require(!aleaPreview.Contains(chinese ? "[green]本场战斗中" : "[green]Upgrade all cards", StringComparison.Ordinal) &&
-                !mementoPreview.Contains(chinese ? "[green]造成" : "[green]Deal ", StringComparison.Ordinal),
+        Require(!mementoPreview.Contains(chinese ? "[green]造成" : "[green]Deal ", StringComparison.Ordinal),
             "shared upgrade rendering still highlighted unchanged description text");
         if (!chinese)
         {

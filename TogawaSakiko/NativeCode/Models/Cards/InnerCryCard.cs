@@ -18,7 +18,7 @@ public sealed class InnerCryCard : CardModel
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("MagicNumber", 3m),
-        new BlockVar(8m, ValueProp.Move)
+        new BlockVar(9m, ValueProp.Move)
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -27,20 +27,20 @@ public sealed class InnerCryCard : CardModel
     public override string PortraitPath => NativeAssetPaths.InnerCryPortrait;
 
     public InnerCryCard()
-        : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         SakikoAudioCmd.TryPlayCardVoice(Owner, "InnerCry");
+        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
         await PowerCmd.Apply<MelodiaPower>(
             choiceContext,
             Owner.Creature,
             DynamicVars["MagicNumber"].BaseValue,
             Owner.Creature,
             this);
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
     }
 
     protected override void OnUpgrade()

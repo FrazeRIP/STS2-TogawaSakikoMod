@@ -1,9 +1,9 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
+using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.Content;
 
 namespace TogawaSakiko.NativeCode.Models.Cards;
@@ -12,12 +12,7 @@ public sealed class DolorisCard : CardModel
 {
     public override int MaxUpgradeLevel => 0;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(2m, ValueProp.Unpowered | ValueProp.Move)];
-
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Unplayable];
-
-    public override bool HasTurnEndInHandEffect => true;
 
     public override string PortraitPath => NativeAssetPaths.DolorisPortrait;
 
@@ -26,8 +21,18 @@ public sealed class DolorisCard : CardModel
     {
     }
 
-    protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
+    public override async Task AfterCardDrawn(PlayerChoiceContext choiceContext, CardModel card, bool fromHandDraw)
     {
-        await CreatureCmd.Damage(choiceContext, Owner.Creature, DynamicVars.Damage, this, null);
+        if (!ElementCurseDraw.ShouldTrigger(this, card))
+        {
+            return;
+        }
+
+        await CreatureCmd.Damage(
+            choiceContext,
+            Owner.Creature,
+            2,
+            ValueProp.Unpowered | ValueProp.Unblockable,
+            Owner.Creature);
     }
 }

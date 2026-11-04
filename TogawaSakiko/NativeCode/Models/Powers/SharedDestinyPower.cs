@@ -1,5 +1,4 @@
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -34,7 +33,7 @@ public sealed class SharedDestinyPower : PowerModel
         if (target == Owner &&
             amount > 0m &&
             power.Type == PowerType.Buff &&
-            power is not AmbergrisPower &&
+            power is not AmbergrisPower and not SharedDestinyPower &&
             !target.HasPower(power.Id))
         {
             GetInternalData<Data>().NewlyAppliedBuffs.Add(power);

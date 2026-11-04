@@ -24,7 +24,7 @@ public sealed class DazzlingPower : PowerModel
         Creature? applier,
         CardModel? cardSource)
     {
-        if (amount <= 0m ||
+        if (amount <= 0m || power.Amount <= 0 ||
             power.Owner != Owner ||
             power.TypeForCurrentAmount != PowerType.Buff ||
             power is MonsterDivinityPower or AmbergrisPower)
@@ -56,11 +56,6 @@ public sealed class DazzlingPower : PowerModel
         Flash();
         target.GetVfxContainer()?.AddChildSafely(SakikoDazzlingImpactVfxNode.Create(target));
         await CreatureCmd.Damage(choiceContext, target, damage, ValueProp.Unpowered, Owner);
-        GirlOfSpringPower? girlOfSpring = Owner.Powers.OfType<GirlOfSpringPower>().FirstOrDefault();
-        if (girlOfSpring is not null)
-        {
-            await CreatureCmd.GainBlock(Owner, girlOfSpring.Amount, ValueProp.Unpowered, null);
-        }
 
         NativeSmokeTrace.Info($"Dazzling dealt {damage} damage after {power.Id} increased.");
     }

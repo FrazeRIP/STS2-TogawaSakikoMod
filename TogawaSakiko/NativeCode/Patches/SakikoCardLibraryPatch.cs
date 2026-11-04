@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
 using MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary;
 using MegaCrit.Sts2.Core.Nodes.Screens.RelicCollection;
 using MegaCrit.Sts2.Core.Saves;
@@ -86,7 +85,9 @@ internal static class SakikoCompendiumVisibility
     internal static void DiscoverCards(ProgressState progress)
     {
         // Native card inspection reads progress directly, so grid-only visibility would leave known cards unclickable.
-        foreach (CardModel card in ModelDb.CardPool<TogawaSakikoCardPool>().AllCards)
+        IEnumerable<CardModel> cards = ModelDb.CardPool<TogawaSakikoCardPool>().AllCards
+            .Where(TogawaSakikoCardPool.IsVisibleInLibrary);
+        foreach (CardModel card in cards)
         {
             progress.MarkCardAsSeen(card.Id);
         }
@@ -111,7 +112,8 @@ internal static class SakikoCardLibraryVisibilityPatch
     private static void Postfix(NCardLibraryGrid __instance)
     {
         // Include starters and generated cards for inspection without adding them to normal card reward pools.
-        ((HashSet<CardModel>)UnlockedCardsField.GetValue(__instance)!).UnionWith(ModelDb.CardPool<TogawaSakikoCardPool>().AllCards);
+        ((HashSet<CardModel>)UnlockedCardsField.GetValue(__instance)!).UnionWith(
+            ModelDb.CardPool<TogawaSakikoCardPool>().AllCards.Where(TogawaSakikoCardPool.IsVisibleInLibrary));
     }
 }
 
@@ -159,5 +161,18 @@ internal static class SakikoRelicCollectionVisibilityPatch
         title.Add("Ancient", ancient.Title);
         LoadSubcategoryMethod.Invoke(category, [collection, title, relics, seenRelics, allUnlockedRelics]);
         LoadIconMethod.Invoke(category, [ancient.RunHistoryIcon]);
+    }
+}
+
+// Pool cards outside the library allowlist, such as the multiplayer test cards, stay hidden.
+[HarmonyPatch(typeof(CardModel), nameof(CardModel.ShouldShowInCardLibrary), MethodType.Getter)]
+internal static class SakikoHiddenCardLibraryPatch
+{
+    private static void Postfix(CardModel __instance, ref bool __result)
+    {
+        if (__instance.Pool is TogawaSakikoCardPool && !TogawaSakikoCardPool.IsVisibleInLibrary(__instance))
+        {
+            __result = false;
+        }
     }
 }

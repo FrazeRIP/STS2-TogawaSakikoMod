@@ -201,8 +201,6 @@ function Split-NativeUpgradeHighlights([string]$Text) {
 }
 
 function Repair-NativePresentationText([string]$Text, [string]$Language) {
-    # Translate the historical STS1 mechanic name into the native Melodia terminology.
-    $Text = $Text.Replace('Mantra', 'Melodia').Replace('真言', '旋律')
     do {
         $previous = $Text
         $Text = [regex]::Replace($Text, '\[gold\]\[gold\](.*?)\[/gold\]\[/gold\]', '[gold]$1[/gold]')
@@ -335,16 +333,66 @@ $preservedLiveCardIds = @(
         ForEach-Object { [string]$_.sts2StableId }
 )
 $preservedLivePowerIds = @(
+    "TOGAWASAKIKO-CHARISMATIC_FORM_POWER",
     "TOGAWASAKIKO-DAZZLING_POWER",
     "TOGAWASAKIKO-DOLORIS_POWER",
+    "TOGAWASAKIKO-FEARLESS_POWER",
     "TOGAWASAKIKO-HYPE_POWER",
     "TOGAWASAKIKO-KINGS_POWER",
     "TOGAWASAKIKO-MORTIS_POWER",
     "TOGAWASAKIKO-OBLIVIONIS_POWER",
     "TOGAWASAKIKO-MONSTER_DIVINITY_POWER",
-    "TOGAWASAKIKO-TIMORIS_POWER"
+    "TOGAWASAKIKO-OUR_SONG_POWER",
+    "TOGAWASAKIKO-TIMORIS_POWER",
+    "TOGAWASAKIKO-WORLDVIEW_POWER"
 )
-$preservedLiveRelicIds = @("TOGAWASAKIKO-STARTER_RELIC_TOGAWA_SAKIKO")
+$preservedLiveRelicIds = @("TOGAWASAKIKO-MASQUERADE_MASK", "TOGAWASAKIKO-STARTER_RELIC_TOGAWA_SAKIKO")
+# Native-only models have no STS1 source entry; every key under their ID is reviewed live text.
+$nativeOnlyCardIds = @(
+    "TOGAWASAKIKO-ALL_WILLS_BECOME_ONE_CARD",
+    "TOGAWASAKIKO-A_SONG_OF_ROMANCE_CARD",
+    "TOGAWASAKIKO-BADDY_BADDY_CARD",
+    "TOGAWASAKIKO-BAND_AFFAIRS_CARD",
+    "TOGAWASAKIKO-DIVINE_CARD",
+    "TOGAWASAKIKO-ENCORE_CARD",
+    "TOGAWASAKIKO-FOREVER_DREAM_CARD",
+    "TOGAWASAKIKO-GODS_BLOOD_CARD",
+    "TOGAWASAKIKO-IMPROVISATION_CARD",
+    "TOGAWASAKIKO-IN_YOUR_BLUE_EYES_CARD",
+    "TOGAWASAKIKO-MOMENT_MEMORY_CARD",
+    "TOGAWASAKIKO-NOVA_HISTORIA_CARD",
+    "TOGAWASAKIKO-SLASH_THE_WAY_CARD",
+    "TOGAWASAKIKO-SOFTNESS_CARD",
+    "TOGAWASAKIKO-SOPHIE_CARD",
+    "TOGAWASAKIKO-SUCCUBUS_FORM_CARD",
+    "TOGAWASAKIKO-SWEET_DREAMS_CARD",
+    "TOGAWASAKIKO-THE_THIRD_MOVEMENT_CARD",
+    "TOGAWASAKIKO-THE_WHOLE_BLUE_WORLD_CARD",
+    "TOGAWASAKIKO-UNCEASING_MELODY_CARD",
+    "TOGAWASAKIKO-UNNAMED_FIVE_CARD",
+    "TOGAWASAKIKO-UNNAMED_FOUR_CARD",
+    "TOGAWASAKIKO-UNNAMED_HYPE_CARD",
+    "TOGAWASAKIKO-UNNAMED_ONE_CARD",
+    "TOGAWASAKIKO-UNNAMED_THREE_CARD",
+    "TOGAWASAKIKO-UNNAMED_TWO_CARD",
+    "TOGAWASAKIKO-UNRESTRAINED_CARD"
+)
+$nativeOnlyPowerIds = @(
+    "TOGAWASAKIKO-ALL_WILLS_BECOME_ONE_POWER",
+    "TOGAWASAKIKO-ANGLES_POWER",
+    "TOGAWASAKIKO-ARDOR_POWER",
+    "TOGAWASAKIKO-DARK_HEAVEN_POWER",
+    "TOGAWASAKIKO-ENCORE_POWER",
+    "TOGAWASAKIKO-FIRE_ECHO_POWER",
+    "TOGAWASAKIKO-FOREVER_DREAM_POWER",
+    "TOGAWASAKIKO-FREE_NEXT_CARD_POWER",
+    "TOGAWASAKIKO-KINDNESS_POWER",
+    "TOGAWASAKIKO-NEXT_TURN_ARDOR_POWER",
+    "TOGAWASAKIKO-STAY_ELEGANCE_POWER",
+    "TOGAWASAKIKO-SWEET_DREAMS_POWER",
+    "TOGAWASAKIKO-UNRESTRAINED_POWER"
+)
+$nativeOnlyRelicIds = @("TOGAWASAKIKO-ENCHANTED_HAIRBAND")
 
 $existing = @{}
 foreach ($language in $languages) {
@@ -453,17 +501,18 @@ foreach ($language in $languages) {
         Add-Entry $generated[$language].powers $titleKey (ConvertTo-NativeTitle ([string]$source.NAME) $language)
     }
 
+    # MelodiaPower keeps its stable ID but displays the STS1 name, Mantra.
     $melodiaLocalization = if ($language -eq "eng") {
         [ordered]@{
-            "TOGAWASAKIKO-MELODIA_POWER.description" = "At 10 Melodia, lose 10 Melodia and enter Divinity."
-            "TOGAWASAKIKO-MELODIA_POWER.smartDescription" = "At 10 Melodia, lose 10 Melodia and enter Divinity."
-            "TOGAWASAKIKO-MELODIA_POWER.title" = "Melodia"
+            "TOGAWASAKIKO-MELODIA_POWER.description" = "At 10 Mantra, lose 10 Mantra and enter Divinity."
+            "TOGAWASAKIKO-MELODIA_POWER.smartDescription" = "At 10 Mantra, lose 10 Mantra and enter Divinity."
+            "TOGAWASAKIKO-MELODIA_POWER.title" = "Mantra"
         }
     } else {
         [ordered]@{
-            "TOGAWASAKIKO-MELODIA_POWER.description" = "达到10层旋律时，失去10层旋律并进入神格。"
-            "TOGAWASAKIKO-MELODIA_POWER.smartDescription" = "达到10层旋律时，失去10层旋律并进入神格。"
-            "TOGAWASAKIKO-MELODIA_POWER.title" = "旋律"
+            "TOGAWASAKIKO-MELODIA_POWER.description" = "达到10层真言时，失去10层真言并进入神格。"
+            "TOGAWASAKIKO-MELODIA_POWER.smartDescription" = "达到10层真言时，失去10层真言并进入神格。"
+            "TOGAWASAKIKO-MELODIA_POWER.title" = "真言"
         }
     }
     foreach ($key in $melodiaLocalization.Keys) {
@@ -488,9 +537,9 @@ foreach ($language in $languages) {
     }
 
     $fearlessPrompt = if ($language -eq "eng") {
-        "Choose up to 1 card in your hand to Purge."
+        "Choose up to 1 card from your deck to remove."
     } else {
-        "选择至多1张手牌并移除。"
+        "选择至多1张牌组中的牌并移除。"
     }
     Add-Entry $generated[$language].powers "TOGAWASAKIKO-FEARLESS_POWER.selectionScreenPrompt" $fearlessPrompt
 
@@ -605,30 +654,12 @@ foreach ($semanticName in $allKeywordNames) {
 
 # Apply the same presentation rules to imported descriptions and preserved live overrides.
 foreach ($language in $languages) {
-    $generated[$language].cards['TOGAWASAKIKO-WISH_TO_BECOME_HUMAN_CARD.description'] = if ($language -eq 'eng') {
-        'Deal {Damage:diff()} damage twice.' + "`n" + 'After each hit, gain [gold]Dazzling[/gold] equal to the unblocked damage dealt by that hit.'
-    } else {
-        '造成{Damage:diff()}点伤害2次。' + "`n" + '每次命中后，获得与该次造成的未被格挡的伤害相等层数的[gold]闪耀[/gold]。'
-    }
-    $worldviewDescription = if ($language -eq 'eng') {
-        "Whenever you draw an [gold]Unplayable[/gold] card, replace it with a random Attack from your character's card pool."
-    } else {
-        '每当你抽到[gold]不能被打出[/gold]的卡牌时，将其替换为本角色牌池中的1张随机攻击牌。'
-    }
-    $generated[$language].cards['TOGAWASAKIKO-WORLDVIEW_CARD.description'] = $worldviewDescription
-    $generated[$language].powers['TOGAWASAKIKO-WORLDVIEW_POWER.description'] = $worldviewDescription
-    $generated[$language].powers['TOGAWASAKIKO-WORLDVIEW_POWER.smartDescription'] = $worldviewDescription
-    $generated[$language].cards['TOGAWASAKIKO-KAO_CARD.description'] = if ($language -eq 'eng') {
-        'Deal {Damage:diff()} damage.' + "`n" + 'While in your hand, whenever an enemy gains a buff, this card gains {MagicNumber:diff()} damage for the rest of combat.'
-    } else {
-        '造成{Damage:diff()}点伤害。' + "`n" + '此牌在手牌中时，每当敌人获得增益效果，其伤害在本场战斗中增加{MagicNumber:diff()}。'
-    }
     $playerDivinityName = if ($language -eq 'eng') { 'Master of Melodia' } else { '旋律之主' }
     $generated[$language].powers['TOGAWASAKIKO-MONSTER_DIVINITY_POWER.playerTitle'] = $playerDivinityName
     $playerMelodiaDescription = if ($language -eq 'eng') {
-        'At 10 Melodia, lose 10 Melodia and enter [gold]Master of Melodia[/gold].'
+        'At 10 Mantra, lose 10 Mantra and enter [gold]Master of Melodia[/gold].'
     } else {
-        '达到10层旋律时，失去10层旋律并进入[gold]旋律之主[/gold]。'
+        '达到10层真言时，失去10层真言并进入[gold]旋律之主[/gold]。'
     }
     $generated[$language].powers['TOGAWASAKIKO-MELODIA_POWER.playerDescription'] = $playerMelodiaDescription
     $generated[$language].powers['TOGAWASAKIKO-MELODIA_POWER.playerSmartDescription'] = $playerMelodiaDescription
@@ -651,10 +682,21 @@ foreach ($language in $languages) {
     $generated[$language].relics['TOGAWASAKIKO-ANOTHER_MASK.flavor'] = if ($language -eq 'eng') { 'A white mask, and a chance to begin again.' } else { '一张白色假面，一次重新开始的机会。' }
     $generated[$language].card_keywords['TOGAWASAKIKO-SCRY.title'] = if ($language -eq 'eng') { 'Scry' } else { '预见' }
     $generated[$language].card_keywords['TOGAWASAKIKO-SCRY.description'] = if ($language -eq 'eng') { 'Look at the top cards of your draw pile. Choose any of them to discard, then return the rest in their original order.' } else { '查看抽牌堆顶的若干张牌。选择任意张丢弃，其余牌按原顺序放回。' }
+    $generated[$language].card_keywords['TOGAWASAKIKO-DAZZLING_POWER.description'] = if ($language -eq 'eng') { 'Whenever you gain a buff, deal damage equal to your Dazzling stacks to a random enemy.' } else { '每当获得正面状态时，对随机一名敌人造成等同于闪耀层数的伤害。' }
     $generated[$language].card_keywords['TOGAWASAKIKO-PURGE.title'] = if ($language -eq 'eng') { 'Purge' } else { '移除' }
+    $generated[$language].card_keywords['TOGAWASAKIKO-PURGE.description'] = if ($language -eq 'eng') { 'Remove the chosen card from your permanent deck.' } else { '从永久卡组移除所选卡牌。' }
+    # Purge selection hover tip: where the chosen permanent card's combat copies are.
+    $purgeLocations = if ($language -eq 'eng') {
+        [ordered]@{ title = 'Current Location'; HAND = 'Hand'; DRAW = 'Draw pile'; DISCARD = 'Discard pile'; EXHAUST = 'Exhaust pile'; PLAY = 'Being played'; NONE = 'No corresponding combat copy currently exists.' }
+    } else {
+        [ordered]@{ title = '当前所在位置'; HAND = '手牌'; DRAW = '抽牌堆'; DISCARD = '弃牌堆'; EXHAUST = '消耗牌堆'; PLAY = '正在打出'; NONE = '当前没有对应的战斗实例。' }
+    }
+    foreach ($suffix in $purgeLocations.Keys) {
+        Add-Entry $generated[$language].card_keywords "TOGAWASAKIKO-PURGE_LOCATION.$suffix" $purgeLocations[$suffix]
+    }
     $generated[$language].card_keywords['TOGAWASAKIKO-SYMBOL.title'] = if ($language -eq 'eng') { 'Element' } else { '元素' }
     $generated[$language].card_keywords['TOGAWASAKIKO-SYMBOL_PLUS.title'] = if ($language -eq 'eng') { 'Element+' } else { '元素+' }
-    $elementNames = if ($language -eq 'eng') { @('Symbol I: Fire', 'Symbol II: Air', 'Symbol III: Water', 'Symbol IV: Earth', 'Ether') } else { @('第一元素：恐惧之火', '第二元素：爱恋之风', '第三元素：悲伤之水', '第四元素：葬送之土', '遗忘之光') }
+    $elementNames = if ($language -eq 'eng') { @('Symbol I: Fire', 'Symbol II: Air', 'Symbol III: Water', 'Symbol IV: Earth') } else { @('第一元素：恐惧之火', '第二元素：爱恋之风', '第三元素：悲伤之水', '第四元素：葬送之土') }
     $phantomNames = if ($language -eq 'eng') { @('Phantom of Mutsumi', 'Phantom of Sakiko', 'Phantom of Soyo', 'Phantom of Taki', 'Phantom of Tomori') } else { @('睦的幻影', '祥子的幻影', '素世的幻影', '立希的幻影', '灯的幻影') }
     foreach ($group in @(@{ Key = 'SYMBOL'; Names = $elementNames }, @{ Key = 'PHANTOMS'; Names = $phantomNames })) {
         $separator = if ($language -eq 'eng') { ', ' } else { '、' }
@@ -684,19 +726,6 @@ foreach ($card in $inventory.cards) {
     }
 }
 
-# Native-only diagnostic cards have no STS1 source entry. Preserve their reviewed copy.
-foreach ($language in $languages) {
-    foreach ($entry in @('MOMENT_MEMORY_CARD', 'NOVA_HISTORIA_CARD')) {
-        foreach ($suffix in @('title', 'description')) {
-            $key = "TOGAWASAKIKO-$entry.$suffix"
-            if (-not $existing[$language].cards.Contains($key)) {
-                throw "Missing native multiplayer test-card localization: $language/$key"
-            }
-            Add-Entry $generated[$language].cards $key $existing[$language].cards[$key]
-        }
-    }
-}
-
 foreach ($language in @('zhs')) {
     foreach ($tableName in @('powers', 'relics', 'potions', 'card_keywords')) {
         foreach ($key in @($generated[$language][$tableName].Keys)) {
@@ -708,15 +737,21 @@ foreach ($language in @('zhs')) {
 }
 
 $legacyMarkerPattern = '!\$\{modID\}:|![DBM]!|\[E\]|\bNL\b|togawasakikomod:|#[bgryp][^\s]|\*[^\s]|%d'
-# Ancient rewards are native-only additions; retain their reviewed live text.
+# Native-only additions (new cards and powers, ancient rewards, multiplayer test cards) retain their reviewed live text.
 foreach ($language in $languages) {
-    foreach ($suffix in @('title', 'description', 'selectionScreenPrompt')) {
-        $key = "TOGAWASAKIKO-THE_THIRD_MOVEMENT_CARD.$suffix"
-        Add-Entry $generated[$language].cards $key $existing[$language].cards[$key]
-    }
-    foreach ($suffix in @('title', 'description', 'flavor')) {
-        $key = "TOGAWASAKIKO-ENCHANTED_HAIRBAND.$suffix"
-        Add-Entry $generated[$language].relics $key $existing[$language].relics[$key]
+    foreach ($table in @(
+            @{ Name = 'cards'; Ids = $nativeOnlyCardIds },
+            @{ Name = 'powers'; Ids = $nativeOnlyPowerIds },
+            @{ Name = 'relics'; Ids = $nativeOnlyRelicIds })) {
+        $live = $existing[$language][$table.Name]
+        foreach ($id in $table.Ids) {
+            if (-not $live.Contains("$id.title") -or -not $live.Contains("$id.description")) {
+                throw "Native-only localization is missing for $id ($language)."
+            }
+            foreach ($key in @($live.Keys | Where-Object { $_.StartsWith("$id.", [StringComparison]::Ordinal) } | Sort-Object)) {
+                Add-Entry $generated[$language][$table.Name] $key $live[$key]
+            }
+        }
     }
 }
 $unconverted = [System.Collections.Generic.List[object]]::new()
@@ -927,9 +962,9 @@ $md = [System.Text.StringBuilder]::new()
 [void]$md.AppendLine()
 [void]$md.AppendLine("## Native catalog result")
 [void]$md.AppendLine()
-[void]$md.AppendLine("- Cards: $($generated.eng.cards.Count) keys per language for 95 models.")
-[void]$md.AppendLine("- Powers: $($generated.eng.powers.Count) keys per language for 25 in-scope player-card-relevant STS1 models plus the native Melodia support model.")
-[void]$md.AppendLine("- Relics: $($generated.eng.relics.Count) keys per language for 11 STS1 relics and the approved Another Mask starting relic.")
+[void]$md.AppendLine("- Cards: $($generated.eng.cards.Count) keys per language for $($inventory.cards.Count) STS1 source-inventory models plus $($nativeOnlyCardIds.Count) native-only cards.")
+[void]$md.AppendLine("- Powers: $($generated.eng.powers.Count) keys per language for $($inventory.powers.Count) in-scope player-card-relevant STS1 models, the native Melodia and Curiosity support models, and $($nativeOnlyPowerIds.Count) native-only powers.")
+[void]$md.AppendLine("- Relics: $($generated.eng.relics.Count) keys per language for $($inventory.relics.Count) STS1 relics, the approved Another Mask starting relic, and the Enchanted Hairband ancient reward.")
 [void]$md.AppendLine("- Potions: $($generated.eng.potions.Count) keys per language for 6 concrete models.")
 [void]$md.AppendLine("- Custom keyword records: $($generated.eng.card_keywords.Count) keys per language.")
 [void]$md.AppendLine("- Unconverted STS1 markers: $($unconverted.Count). English/zh-Hans key mismatches: $($languageKeyMismatches.Count).")

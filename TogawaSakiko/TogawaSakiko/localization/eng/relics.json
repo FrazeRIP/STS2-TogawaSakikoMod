@@ -1,7 +1,4 @@
 {
-  "TOGAWASAKIKO-ENCHANTED_HAIRBAND.title": "Enchanted Hairband",
-  "TOGAWASAKIKO-ENCHANTED_HAIRBAND.description": "At the end of combat, add a random [gold]upgraded[/gold] card to your deck.",
-  "TOGAWASAKIKO-ENCHANTED_HAIRBAND.flavor": "The melody burns brighter.",
   "TOGAWASAKIKO-BLAZING_HAIRBAND.description": "Replace [red]Monochrome[/red] [red]Hairband[/red]. At the end of combat, add a random card to your deck.",
   "TOGAWASAKIKO-BLAZING_HAIRBAND.flavor": "The past turns into ashes.",
   "TOGAWASAKIKO-BLAZING_HAIRBAND.title": "Blazing Hairband",
@@ -17,10 +14,10 @@
   "TOGAWASAKIKO-GOLDEN_POCKET_WATCH.description": "Every 12 cards played, gain [blue]2[/blue] [gold]Strength[/gold].",
   "TOGAWASAKIKO-GOLDEN_POCKET_WATCH.flavor": "Guess what time it is.",
   "TOGAWASAKIKO-GOLDEN_POCKET_WATCH.title": "Golden Pocket Watch",
-  "TOGAWASAKIKO-MASQUERADE_MASK.description": "Whenever you [gold]Purge[/gold] 3 card during battle, gain a [gold]Purge[/gold] reward at the end of the battle.",
+  "TOGAWASAKIKO-MASQUERADE_MASK.description": "Whenever you [gold]Purge[/gold] 5 card during battle, gain a [gold]Purge[/gold] reward at the end of the battle.",
   "TOGAWASAKIKO-MASQUERADE_MASK.flavor": "An abandoned mask lay right on the floor. Seems cheaply made.",
   "TOGAWASAKIKO-MASQUERADE_MASK.title": "Masquerade Mask",
-  "TOGAWASAKIKO-STARTER_RELIC_TOGAWA_SAKIKO.description": "At the end of combat, add a [gold]Desire[/gold] to your [gold]Deck[/gold].",
+  "TOGAWASAKIKO-STARTER_RELIC_TOGAWA_SAKIKO.description": "At the start of each combat, add a [gold]Desire[/gold] to your [gold]Deck[/gold] and hand.",
   "TOGAWASAKIKO-STARTER_RELIC_TOGAWA_SAKIKO.flavor": "The past sustained, the self constrained, and the knot of conflicting desire.",
   "TOGAWASAKIKO-STARTER_RELIC_TOGAWA_SAKIKO.title": "Monochrome Hairband",
   "TOGAWASAKIKO-THE_COMPASS.description": "Whenever your turn ends, you gain [blue]2[/blue] [gold]Dazzling[/gold], all enemies gain [blue]1[/blue] [gold]Dazzling[/gold].",
@@ -38,5 +35,8 @@
   "TOGAWASAKIKO-WARMTH_INFUSED_PORCELAIN_CUP.title": "Warmth-Infused Porcelain Cup",
   "TOGAWASAKIKO-ANOTHER_MASK.title": "Another Mask",
   "TOGAWASAKIKO-ANOTHER_MASK.description": "Replaces [red]Monochrome Hairband[/red]. Replace all starting [gold]Defend[/gold] cards with [gold]Desire[/gold].",
-  "TOGAWASAKIKO-ANOTHER_MASK.flavor": "A white mask, and a chance to begin again."
+  "TOGAWASAKIKO-ANOTHER_MASK.flavor": "A white mask, and a chance to begin again.",
+  "TOGAWASAKIKO-ENCHANTED_HAIRBAND.description": "At the end of combat, add a random [gold]upgraded[/gold] card to your deck.",
+  "TOGAWASAKIKO-ENCHANTED_HAIRBAND.flavor": "The melody burns brighter.",
+  "TOGAWASAKIKO-ENCHANTED_HAIRBAND.title": "Enchanted Hairband"
 }

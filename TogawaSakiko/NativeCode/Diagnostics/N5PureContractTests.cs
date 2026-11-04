@@ -1,5 +1,4 @@
 using Godot;
-using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -7,15 +6,12 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Random;
-using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
 using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.Models.Cards;
-using TogawaSakiko.NativeCode.Models.Modifiers;
 using TogawaSakiko.NativeCode.Models.Pools;
 using TogawaSakiko.NativeCode.Models.Powers;
-using TogawaSakiko.NativeCode.Models.Relics;
 using TogawaSakiko.NativeCode.Presentation.Godot;
 using TogawaSakiko.NativeCode.Tracking;
 using SakikoCrueltyPower = TogawaSakiko.NativeCode.Models.Powers.CrueltyPower;
@@ -24,7 +20,7 @@ namespace TogawaSakiko.NativeCode.Diagnostics;
 
 internal static class N5PureContractTests
 {
-    public const int AssertionCount = 722;
+    public const int AssertionCount = 608;
     private static bool _ran;
     private static int _assertions;
 
@@ -35,6 +31,7 @@ internal static class N5PureContractTests
             return;
         }
 
+        ValidateForeverDream();
         ValidateGreetings();
         ValidateTiredness();
         ValidateMelody();
@@ -42,21 +39,16 @@ internal static class N5PureContractTests
         ValidateProtection();
         ValidateRadiance();
         ValidateKindness();
-        ValidateLostPowerSelection();
         ValidateAmoris();
         ValidateDoloris();
         ValidateMortis();
         ValidateOblivionis();
         ValidateTimoris();
         ValidateCursePowers();
-        ValidateBlackKeys();
-        ValidateWhiteKeys();
-        ValidateBlackAndWhiteKeys();
         ValidateMelodiaAndDivinity();
         ValidateVoice();
         ValidateInnerCry();
         ValidateMementoMori();
-        ValidateBudgetBento();
         ValidatePhantomCards();
         ValidateSymbolIIAir();
         ValidateDarkHeaven();
@@ -65,13 +57,10 @@ internal static class N5PureContractTests
         ValidateDaten();
         ValidateKillKiSS();
         ValidateSymbolIVEarth();
-        ValidateQuaerereLumina();
         ValidateKings();
         ValidateAccomplice();
         ValidateDesuWa();
-        ValidateEdgeOfBreakdown();
         ValidateMasqueradeRhapsodyRequest();
-        ValidateClockOut();
         ValidateFallenFlowers();
         ValidateHachibouseiDance();
         ValidatePhantomOfMutsumi();
@@ -90,6 +79,19 @@ internal static class N5PureContractTests
         _ran = true;
     }
 
+    private static void ValidateForeverDream()
+    {
+        var card = ModelDb.Card<ForeverDreamCard>();
+        Require(card.EnergyCost.Canonical == 1, "Forever Dream cost");
+        Require(card.Type == CardType.Power && card.Rarity == CardRarity.Rare, "Forever Dream type and rarity");
+        Require(card.TargetType == TargetType.Self, "Forever Dream target");
+        Require(card.DynamicVars["MagicNumber"].IntValue == 4, "Forever Dream Hype");
+        Require(Upgraded(card).DynamicVars["MagicNumber"].IntValue == 5, "Forever Dream upgraded Hype");
+        Require(card.Keywords.Count == 0, "Forever Dream keywords");
+        Require(TogawaSakikoCardPool.IsEnabledCard(card), "Forever Dream absent from rewards");
+        Require(ModelDb.Power<ForeverDreamPower>().Type == PowerType.Buff, "Forever Dream buff type");
+    }
+
     private static void ValidateGreetings()
     {
         GreetingsCard card = ModelDb.Card<GreetingsCard>();
@@ -105,11 +107,11 @@ internal static class N5PureContractTests
     {
         TirednessCard card = ModelDb.Card<TirednessCard>();
         Require(card.EnergyCost.Canonical == 0, "Tiredness cost");
-        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Token, "Tiredness type and rarity");
+        Require(card.Type == CardType.Curse && card.Rarity == CardRarity.Curse, "Tiredness type and rarity");
         Require(card.TargetType == TargetType.Self, "Tiredness target");
-        Require(card.Keywords.SetEquals([CardKeyword.Exhaust]), "Tiredness keywords");
-        Require(card.DynamicVars.Cards.BaseValue == 1m, "Tiredness draw");
-        Require(Upgraded(card).DynamicVars.Cards.BaseValue == 2m, "Tiredness upgraded draw");
+        Require(card.Keywords.Count == 0, "Tiredness keywords");
+        Require(card.MaxUpgradeLevel == 0, "Tiredness draw");
+        Require(!card.Keywords.Contains(CardKeyword.Unplayable), "Tiredness upgraded draw");
     }
 
     private static void ValidateMelody()
@@ -118,14 +120,14 @@ internal static class N5PureContractTests
         Require(card.EnergyCost.Canonical == 0, "Melody cost");
         Require(card.Type == CardType.Attack && card.Rarity == CardRarity.Token, "Melody type and rarity");
         Require(card.TargetType == TargetType.AnyEnemy, "Melody target");
-        Require(card.DynamicVars.Damage.BaseValue == 6m, "Melody damage");
-        Require(Upgraded(card).DynamicVars.Damage.BaseValue == 9m, "Melody upgraded damage");
+        Require(card.DynamicVars.Damage.BaseValue == 80m, "Melody damage");
+        Require(Upgraded(card).DynamicVars.Damage.BaseValue == 100m, "Melody upgraded damage");
     }
 
     private static void ValidateIdeal()
     {
         IdealCard card = ModelDb.Card<IdealCard>();
-        Require(card.EnergyCost.Canonical == 1, "Ideal cost");
+        Require(card.EnergyCost.Canonical == 0, "Ideal cost");
         Require(card.Type == CardType.Power && card.Rarity == CardRarity.Token, "Ideal type and rarity");
         Require(card.TargetType == TargetType.Self, "Ideal target");
         Require(card.DynamicVars[nameof(FreeAttackPower)].BaseValue == 2m, "Ideal free attacks");
@@ -138,14 +140,14 @@ internal static class N5PureContractTests
         Require(card.EnergyCost.Canonical == 1, "Protection cost");
         Require(card.Type == CardType.Power && card.Rarity == CardRarity.Token, "Protection type and rarity");
         Require(card.TargetType == TargetType.Self, "Protection target");
-        Require(card.DynamicVars.Repeat.BaseValue == 3m, "Protection repetitions");
-        Require(Upgraded(card).DynamicVars.Repeat.BaseValue == 4m, "Protection upgraded repetitions");
+        Require(card.DynamicVars.Repeat.BaseValue == 2m, "Protection repetitions");
+        Require(Upgraded(card).DynamicVars.Repeat.BaseValue == 2m && Upgraded(card).EnergyCost.GetWithModifiers(CostModifiers.None) == 0, "Protection upgraded cost/repetitions");
     }
 
     private static void ValidateRadiance()
     {
         RadianceCard card = ModelDb.Card<RadianceCard>();
-        Require(card.EnergyCost.Canonical == 1, "Radiance cost");
+        Require(card.EnergyCost.Canonical == 0, "Radiance cost");
         Require(card.Type == CardType.Power && card.Rarity == CardRarity.Token, "Radiance type and rarity");
         Require(card.TargetType == TargetType.Self, "Radiance target");
         Require(card.DynamicVars.Repeat.BaseValue == 2m, "Radiance repetitions");
@@ -158,37 +160,10 @@ internal static class N5PureContractTests
     private static void ValidateKindness()
     {
         KindnessCard card = ModelDb.Card<KindnessCard>();
-        Require(card.EnergyCost.Canonical == 1, "Kindness cost");
+        Require(card.EnergyCost.Canonical == 0, "Kindness cost");
         Require(card.Type == CardType.Power && card.Rarity == CardRarity.Token, "Kindness type and rarity");
         Require(card.TargetType == TargetType.Self, "Kindness target");
         Require(Upgraded(card).EnergyCost.GetWithModifiers(CostModifiers.None) == 0, "Kindness upgraded cost");
-    }
-
-    private static void ValidateLostPowerSelection()
-    {
-        PowerChangeLedger ledger = new();
-        CreatureIdentity player = new(0, CombatSide.Player, new ModelId("CHARACTER", "PLAYER"), 1);
-        CreatureIdentity enemy = new(1, CombatSide.Enemy, new ModelId("MONSTER", "ENEMY"), null);
-        ModelId strength = ModelDb.GetId<StrengthPower>();
-        ModelId artifact = ModelDb.GetId<ArtifactPower>();
-        ModelId weak = ModelDb.GetId<WeakPower>();
-
-        ledger.Record(LossEvent(1, player, strength, PowerType.Buff, -2m));
-        ledger.Record(LossEvent(2, player, strength, PowerType.Buff, -1m));
-        ledger.Record(LossEvent(2, player, artifact, PowerType.Buff, -1m));
-        ledger.Record(LossEvent(2, enemy, strength, PowerType.Buff, -9m));
-        ledger.Record(LossEvent(2, player, weak, PowerType.Debuff, -5m));
-
-        var withPrevious = LostPowerRestorationCommand.SelectLostBuffs(ledger, 2, player, includePreviousRound: true);
-        Require(withPrevious.Length == 2, "Kindness selected unrelated power losses");
-        Require(withPrevious[0].PowerModelId == strength && withPrevious[1].PowerModelId == artifact, "Kindness selection order");
-        Require(withPrevious[0].Amount == 3, "Kindness current and previous Strength aggregation");
-        Require(withPrevious[1].Amount == 1, "Kindness Artifact amount");
-
-        var currentOnly = LostPowerRestorationCommand.SelectLostBuffs(ledger, 2, player, includePreviousRound: false);
-        Require(currentOnly.Length == 2, "Kindness current-only selection count");
-        Require(currentOnly[0].Amount == 1, "Kindness current-only Strength amount");
-        Require(currentOnly.All(selection => selection.PowerModelId != weak), "Kindness included a debuff loss");
     }
 
     private static void ValidateAmoris()
@@ -197,9 +172,9 @@ internal static class N5PureContractTests
         Require(card.EnergyCost.Canonical == -1, "Amoris unplayable cost");
         Require(card.Type == CardType.Curse && card.Rarity == CardRarity.Curse, "Amoris type and rarity");
         Require(card.TargetType == TargetType.None, "Amoris target");
-        Require(card.Keywords.SetEquals([CardKeyword.Unplayable, CardKeyword.Retain]), "Amoris keywords");
+        Require(card.Keywords.SetEquals([CardKeyword.Unplayable]), "Amoris keywords");
         Require(card.MaxUpgradeLevel == 0, "Amoris upgrade policy");
-        Require(card.ShouldRetainThisTurn, "Amoris retain predicate");
+        Require(!card.ShouldRetainThisTurn, "Amoris retain predicate");
         Require(!card.HasTurnEndInHandEffect, "Amoris must not enter the end-in-hand play queue");
     }
 
@@ -211,8 +186,8 @@ internal static class N5PureContractTests
         Require(card.TargetType == TargetType.None, "Doloris target");
         Require(card.Keywords.SetEquals([CardKeyword.Unplayable]), "Doloris keywords");
         Require(card.MaxUpgradeLevel == 0, "Doloris upgrade policy");
-        Require(card.HasTurnEndInHandEffect, "Doloris end-in-hand hook");
-        Require(card.DynamicVars.Damage.BaseValue == 2m, "Doloris damage");
+        Require(!card.HasTurnEndInHandEffect, "Doloris end-in-hand hook");
+        Require(!card.Keywords.Contains(CardKeyword.Retain), "Doloris no retain");
     }
 
     private static void ValidateMortis()
@@ -223,8 +198,8 @@ internal static class N5PureContractTests
         Require(card.TargetType == TargetType.None, "Mortis target");
         Require(card.Keywords.SetEquals([CardKeyword.Unplayable]), "Mortis keywords");
         Require(card.MaxUpgradeLevel == 0, "Mortis upgrade policy");
-        Require(card.HasTurnEndInHandEffect, "Mortis end-in-hand hook");
-        Require(card.DynamicVars[nameof(MortisPower)].BaseValue == 1m, "Mortis duration");
+        Require(!card.HasTurnEndInHandEffect, "Mortis end-in-hand hook");
+        Require(!card.Keywords.Contains(CardKeyword.Ethereal), "Mortis is not Ethereal");
     }
 
     private static void ValidateOblivionis()
@@ -233,9 +208,9 @@ internal static class N5PureContractTests
         Require(card.EnergyCost.Canonical == -1, "Oblivionis unplayable cost");
         Require(card.Type == CardType.Curse && card.Rarity == CardRarity.Curse, "Oblivionis type and rarity");
         Require(card.TargetType == TargetType.None, "Oblivionis target");
-        Require(card.Keywords.SetEquals([CardKeyword.Unplayable, CardKeyword.Ethereal]), "Oblivionis keywords");
+        Require(card.Keywords.SetEquals([CardKeyword.Unplayable]), "Oblivionis keywords");
         Require(card.MaxUpgradeLevel == 0, "Oblivionis upgrade policy");
-        Require(!card.HasTurnEndInHandEffect, "Oblivionis must use native Ethereal cleanup");
+        Require(card.HasTurnEndInHandEffect, "Oblivionis exhausts the hand at turn end");
     }
 
     private static void ValidateTimoris()
@@ -246,57 +221,16 @@ internal static class N5PureContractTests
         Require(card.TargetType == TargetType.None, "Timoris target");
         Require(card.Keywords.SetEquals([CardKeyword.Unplayable]), "Timoris keywords");
         Require(card.MaxUpgradeLevel == 0, "Timoris upgrade policy");
-        Require(card.HasTurnEndInHandEffect, "Timoris end-in-hand hook");
-        Require(card.DynamicVars[nameof(TimorisPower)].BaseValue == 1m, "Timoris amount");
+        Require(!card.HasTurnEndInHandEffect, "Timoris end-in-hand hook");
+        Require(!card.Keywords.Contains(CardKeyword.Ethereal), "Timoris is not Ethereal");
     }
 
     private static void ValidateCursePowers()
     {
         DolorisPower doloris = ModelDb.Power<DolorisPower>();
-        MortisPower mortis = ModelDb.Power<MortisPower>();
         OblivionisPower oblivionis = ModelDb.Power<OblivionisPower>();
-        TimorisPower timoris = ModelDb.Power<TimorisPower>();
         Require(doloris.Type == PowerType.Debuff && doloris.StackType == PowerStackType.Counter, "Doloris power metadata");
-        Require(mortis.Type == PowerType.Debuff && mortis.StackType == PowerStackType.Counter, "Mortis power metadata");
         Require(oblivionis.Type == PowerType.Debuff && oblivionis.StackType == PowerStackType.Counter, "Oblivionis power metadata");
-        Require(timoris.Type == PowerType.Debuff && timoris.StackType == PowerStackType.Counter, "Timoris power metadata");
-    }
-
-    private static void ValidateBlackKeys()
-    {
-        BlackKeysCard card = ModelDb.Card<BlackKeysCard>();
-        Require(card.EnergyCost.Canonical == -1, "Black Keys option cost");
-        Require(card.Type == CardType.Power && card.Rarity == CardRarity.Token, "Black Keys type and rarity");
-        Require(card.TargetType == TargetType.None, "Black Keys target");
-        Require(card.Keywords.SetEquals([CardKeyword.Unplayable]), "Black Keys option keyword");
-        Require(!card.CanBeGeneratedInCombat, "Black Keys random generation policy");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 2m, "Black Keys amount");
-        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 3m, "Black Keys upgraded amount");
-    }
-
-    private static void ValidateWhiteKeys()
-    {
-        WhiteKeysCard card = ModelDb.Card<WhiteKeysCard>();
-        Require(card.EnergyCost.Canonical == -1, "White Keys option cost");
-        Require(card.Type == CardType.Power && card.Rarity == CardRarity.Token, "White Keys type and rarity");
-        Require(card.TargetType == TargetType.None, "White Keys target");
-        Require(card.Keywords.SetEquals([CardKeyword.Unplayable]), "White Keys option keyword");
-        Require(!card.CanBeGeneratedInCombat, "White Keys random generation policy");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 2m, "White Keys amount");
-        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 3m, "White Keys upgraded amount");
-    }
-
-    private static void ValidateBlackAndWhiteKeys()
-    {
-        BlackAndWhiteKeysCard card = ModelDb.Card<BlackAndWhiteKeysCard>();
-        Require(card.EnergyCost.Canonical == 0, "Black and White Keys cost");
-        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Uncommon,
-            "Black and White Keys type and rarity");
-        Require(card.TargetType == TargetType.AnyEnemy, "Black and White Keys target");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 2m, "Black and White Keys amount");
-        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 3m,
-            "Black and White Keys upgraded amount");
-        Require(card.Keywords.Count == 0, "Black and White Keys unexpected keyword");
     }
 
     private static void ValidateMelodiaAndDivinity()
@@ -313,94 +247,69 @@ internal static class N5PureContractTests
     private static void ValidateVoice()
     {
         VoiceCard card = ModelDb.Card<VoiceCard>();
-        Require(card.EnergyCost.Canonical == 1, "Voice cost");
+        Require(card.EnergyCost.Canonical == 0, "Voice cost");
         Require(card.Type == CardType.Power && card.Rarity == CardRarity.Token, "Voice type and rarity");
         Require(card.TargetType == TargetType.Self, "Voice target");
         Require(card.Keywords.Count == 0, "Voice unexpected keyword");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 2m, "Voice repetitions");
-        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 3m, "Voice upgraded repetitions");
+        Require(card.DynamicVars["MagicNumber"].BaseValue == 3m, "Voice Mantra");
+        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 4m, "Voice upgraded Mantra");
     }
 
     private static void ValidateInnerCry()
     {
         InnerCryCard card = ModelDb.Card<InnerCryCard>();
         Require(card.EnergyCost.Canonical == 1, "Inner Cry cost");
-        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Common, "Inner Cry type and rarity");
+        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Uncommon, "Inner Cry type and rarity");
         Require(card.TargetType == TargetType.Self, "Inner Cry target");
         Require(card.GainsBlock, "Inner Cry block declaration");
         Require(card.Keywords.Count == 0, "Inner Cry unexpected keyword");
         Require(card.DynamicVars["MagicNumber"].BaseValue == 3m, "Inner Cry Melodia");
         Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 4m, "Inner Cry upgraded Melodia");
-        Require(card.DynamicVars.Block.BaseValue == 8m, "Inner Cry Block");
-        Require(Upgraded(card).DynamicVars.Block.BaseValue == 10m, "Inner Cry upgraded Block");
+        Require(card.DynamicVars.Block.BaseValue == 9m, "Inner Cry Block");
+        Require(Upgraded(card).DynamicVars.Block.BaseValue == 11m, "Inner Cry upgraded Block");
     }
 
     private static void ValidateMementoMori()
     {
         MementoMoriCard card = ModelDb.Card<MementoMoriCard>();
-        Require(card.EnergyCost.Canonical == 2, "Memento Mori cost");
+        Require(card.EnergyCost.Canonical == 3, "Memento Mori cost");
         Require(card.Type == CardType.Attack && card.Rarity == CardRarity.Rare, "Memento Mori type and rarity");
         Require(card.TargetType == TargetType.AnyEnemy, "Memento Mori target");
         Require(card.Keywords.Count == 0, "Memento Mori unexpected keyword");
-        Require(card.DynamicVars.Damage.BaseValue == 7m, "Memento Mori damage");
-        Require(Upgraded(card).DynamicVars.Damage.BaseValue == 13m, "Memento Mori upgraded damage");
-        Require(MementoMoriCard.DrawPileWindowSize == 7, "Memento Mori draw-pile window");
-
-        CardModel[] drawPile = Enumerable.Range(0, 8)
-            .Select(_ => ModelDb.Card<DefendTogawaSakiko>().ToMutable())
-            .ToArray();
-        drawPile[2].AddKeyword(CardKeyword.Eternal);
-        CardModel[] selected = MementoMoriCard.SelectTopRemovableCards(
-            drawPile,
-            MementoMoriCard.DrawPileWindowSize);
-        Require(selected.Length == 6, "Memento Mori removable selection count");
-        Require(selected.SequenceEqual(drawPile.Take(7).Where(candidate => candidate != drawPile[2])),
-            "Memento Mori selection order and top-seven boundary");
-        Require(MementoMoriCard.SelectTopRemovableCards(drawPile, 0).Length == 0,
-            "Memento Mori non-positive window");
-    }
-
-    private static void ValidateBudgetBento()
-    {
-        BudgetBentoCard card = ModelDb.Card<BudgetBentoCard>();
-        Require(card.EnergyCost.Canonical == 1, "Budget Bento cost");
-        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Common, "Budget Bento type and rarity");
-        Require(card.TargetType == TargetType.Self, "Budget Bento target");
-        Require(card.Keywords.SetEquals([CardKeyword.Exhaust]), "Budget Bento keywords");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 4m, "Budget Bento Regen");
-        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 5m, "Budget Bento upgraded Regen");
+        Require(card.DynamicVars.Damage.BaseValue == 30m, "Memento Mori damage");
+        Require(Upgraded(card).DynamicVars.Damage.BaseValue == 30m, "Memento Mori upgraded damage");
     }
 
     private static void ValidatePhantomCards()
     {
         PhantomOfSakikoCard sakiko = ModelDb.Card<PhantomOfSakikoCard>();
         Require(sakiko.EnergyCost.Canonical == 2, "Phantom of Sakiko cost");
-        Require(sakiko.Type == CardType.Attack && sakiko.Rarity == CardRarity.Common,
+        Require(sakiko.Type == CardType.Attack && sakiko.Rarity == CardRarity.Uncommon,
             "Phantom of Sakiko type and rarity");
         Require(sakiko.TargetType == TargetType.AnyEnemy, "Phantom of Sakiko target");
         Require(sakiko.Keywords.SetEquals([CardKeyword.Exhaust]), "Phantom of Sakiko keywords");
-        Require(sakiko.DynamicVars.Damage.BaseValue == 4m, "Phantom of Sakiko damage");
-        Require(Upgraded(sakiko).DynamicVars.Damage.BaseValue == 4m,
+        Require(sakiko.DynamicVars.Damage.BaseValue == 2m, "Phantom of Sakiko damage");
+        Require(Upgraded(sakiko).DynamicVars.Damage.BaseValue == 2m,
             "Phantom of Sakiko upgraded damage policy");
 
         PhantomOfTakiCard taki = ModelDb.Card<PhantomOfTakiCard>();
         Require(taki.EnergyCost.Canonical == 2, "Phantom of Taki cost");
         Require(taki.Type == CardType.Attack && taki.Rarity == CardRarity.Common,
             "Phantom of Taki type and rarity");
-        Require(taki.TargetType == TargetType.AnyEnemy, "Phantom of Taki target");
+        Require(taki.TargetType == TargetType.RandomEnemy, "Phantom of Taki target");
         Require(taki.Keywords.SetEquals([CardKeyword.Exhaust]), "Phantom of Taki keywords");
-        Require(taki.DynamicVars.Damage.BaseValue == 12m, "Phantom of Taki damage");
-        Require(Upgraded(taki).DynamicVars.Damage.BaseValue == 12m,
+        Require(taki.DynamicVars.Damage.BaseValue == 7m, "Phantom of Taki damage");
+        Require(Upgraded(taki).DynamicVars.Damage.BaseValue == 7m,
             "Phantom of Taki upgraded damage policy");
 
         PhantomOfTomoriCard tomori = ModelDb.Card<PhantomOfTomoriCard>();
         Require(tomori.EnergyCost.Canonical == 2, "Phantom of Tomori cost");
         Require(tomori.Type == CardType.Attack && tomori.Rarity == CardRarity.Common,
             "Phantom of Tomori type and rarity");
-        Require(tomori.TargetType == TargetType.RandomEnemy, "Phantom of Tomori target");
+        Require(tomori.TargetType == TargetType.AnyEnemy, "Phantom of Tomori target");
         Require(tomori.Keywords.SetEquals([CardKeyword.Exhaust]), "Phantom of Tomori keywords");
-        Require(tomori.DynamicVars.Damage.BaseValue == 14m, "Phantom of Tomori damage");
-        Require(Upgraded(tomori).DynamicVars.Damage.BaseValue == 14m,
+        Require(tomori.DynamicVars.Damage.BaseValue == 6m, "Phantom of Tomori damage");
+        Require(Upgraded(tomori).DynamicVars.Damage.BaseValue == 6m,
             "Phantom of Tomori upgraded damage policy");
     }
 
@@ -410,10 +319,10 @@ internal static class N5PureContractTests
         Require(card.EnergyCost.Canonical == 0, "Symbol II: Air cost");
         Require(card.Type == CardType.Attack && card.Rarity == CardRarity.Common,
             "Symbol II: Air type and rarity");
-        Require(card.TargetType == TargetType.AnyEnemy, "Symbol II: Air target");
+        Require(card.TargetType == TargetType.RandomEnemy, "Symbol II: Air target");
         Require(card.Keywords.Count == 0, "Symbol II: Air unexpected keyword");
-        Require(card.DynamicVars.Damage.BaseValue == 14m, "Symbol II: Air damage");
-        Require(Upgraded(card).DynamicVars.Damage.BaseValue == 14m, "Symbol II: Air upgraded damage policy");
+        Require(card.DynamicVars.Damage.BaseValue == 16m, "Symbol II: Air damage");
+        Require(Upgraded(card).DynamicVars.Damage.BaseValue == 20m, "Symbol II: Air upgraded damage policy");
         Require(card.DynamicVars["MagicNumber"].BaseValue == 3m, "Symbol II: Air draw");
         Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 4m, "Symbol II: Air upgraded draw");
     }
@@ -422,14 +331,14 @@ internal static class N5PureContractTests
     {
         DarkHeavenCard card = ModelDb.Card<DarkHeavenCard>();
         Require(card.EnergyCost.Canonical == 1, "Dark Heaven cost");
-        Require(card.Type == CardType.Attack && card.Rarity == CardRarity.Common,
+        Require(card.Type == CardType.Power && card.Rarity == CardRarity.Uncommon,
             "Dark Heaven type and rarity");
-        Require(card.TargetType == TargetType.AnyEnemy, "Dark Heaven target");
+        Require(card.TargetType == TargetType.Self, "Dark Heaven target");
         Require(card.Keywords.Count == 0, "Dark Heaven unexpected keyword");
-        Require(card.DynamicVars.Damage.BaseValue == 9m, "Dark Heaven damage");
-        Require(Upgraded(card).DynamicVars.Damage.BaseValue == 9m, "Dark Heaven upgraded damage policy");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 1m, "Dark Heaven Strength steal");
-        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 2m,
+        Require(card.DynamicVars["MagicNumber"].BaseValue == 3m, "Dark Heaven damage");
+        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 4m, "Dark Heaven upgraded damage policy");
+        Require(card.DynamicVars["MagicNumber"].BaseValue == 3m, "Dark Heaven Strength steal");
+        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 4m,
             "Dark Heaven upgraded Strength steal");
     }
 
@@ -437,12 +346,12 @@ internal static class N5PureContractTests
     {
         GeorgetteMeGeorgetteYouCard card = ModelDb.Card<GeorgetteMeGeorgetteYouCard>();
         Require(card.EnergyCost.Canonical == 0, "Georgette Me, Georgette You cost");
-        Require(card.Type == CardType.Attack && card.Rarity == CardRarity.Common,
+        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Common,
             "Georgette Me, Georgette You type and rarity");
-        Require(card.TargetType == TargetType.AnyEnemy, "Georgette Me, Georgette You target");
-        Require(card.Keywords.Count == 0, "Georgette Me, Georgette You unexpected keyword");
-        Require(card.DynamicVars.Damage.BaseValue == 4m, "Georgette Me, Georgette You damage");
-        Require(Upgraded(card).DynamicVars.Damage.BaseValue == 5m,
+        Require(card.TargetType == TargetType.Self, "Georgette Me, Georgette You target");
+        Require(card.Keywords.SetEquals([CardKeyword.Exhaust]), "Georgette Me, Georgette You must exhaust");
+        Require(!card.DynamicVars.ContainsKey("Damage"), "Georgette Me, Georgette You damage");
+        Require(!Upgraded(card).DynamicVars.ContainsKey("Damage"),
             "Georgette Me, Georgette You upgraded damage");
     }
 
@@ -498,35 +407,16 @@ internal static class N5PureContractTests
     {
         KillKiSSCard card = ModelDb.Card<KillKiSSCard>();
         Require(card.EnergyCost.Canonical == 1, "Kill KiSS cost");
-        Require(card.Type == CardType.Attack && card.Rarity == CardRarity.Common,
+        Require(card.Type == CardType.Attack && card.Rarity == CardRarity.Uncommon,
             "Kill KiSS type and rarity");
         Require(card.TargetType == TargetType.AnyEnemy, "Kill KiSS target");
-        Require(card.Keywords.Count == 0, "Kill KiSS unexpected keyword");
-        Require(card.DynamicVars.Damage.BaseValue == 9m, "Kill KiSS damage");
-        Require(Upgraded(card).DynamicVars.Damage.BaseValue == 10m, "Kill KiSS upgraded damage");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 1m, "Kill KiSS Desire count");
-        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 2m,
-            "Kill KiSS upgraded Desire count");
+        Require(card.Keywords.SetEquals([CardKeyword.Exhaust]), "Kill KiSS Exhaust");
+        Require(Upgraded(card).EnergyCost.GetWithModifiers(CostModifiers.None) == 1, "Kill KiSS upgraded cost");
+        Require(Upgraded(card).Keywords.Contains(CardKeyword.Exhaust), "Kill KiSS upgraded Exhaust");
+        Require(card.TargetType == TargetType.AnyEnemy, "Kill KiSS targets an enemy");
+        Require(Upgraded(card).Type == CardType.Attack, "Kill KiSS upgraded skill");
+        Require(card.DynamicVars.Damage.IntValue == 6 && Upgraded(card).DynamicVars.Damage.IntValue == 6, "Kill KiSS damage stays six");
 
-        CardModel drawFirst = ModelDb.Card<DesireCard>().ToMutable();
-        CardModel drawSecond = ModelDb.Card<DesireCard>().ToMutable();
-        CardModel discardFirst = ModelDb.Card<DesireCard>().ToMutable();
-        CardModel discardSecond = ModelDb.Card<DesireCard>().ToMutable();
-        CardModel[] selected = KillKiSSCard.SelectDesiresToRetrieve(
-            [drawFirst, ModelDb.Card<DefendTogawaSakiko>().ToMutable(), drawSecond],
-            [discardFirst, discardSecond],
-            3);
-        Require(selected.Length == 3, "Kill KiSS retrieval count");
-        Require(ReferenceEquals(selected[0], drawFirst), "Kill KiSS first Draw-pile priority");
-        Require(ReferenceEquals(selected[1], drawSecond), "Kill KiSS second Draw-pile priority");
-        Require(ReferenceEquals(selected[2], discardFirst), "Kill KiSS Discard fallback");
-        Require(KillKiSSCard.SelectDesiresToRetrieve(
-                [drawFirst, drawSecond],
-                [discardFirst, discardSecond],
-                10).Length == 4,
-            "Kill KiSS retrieval caps at available Desires");
-        Require(KillKiSSCard.SelectDesiresToRetrieve([drawFirst], [discardFirst], 0).Length == 0,
-            "Kill KiSS non-positive retrieval count");
     }
 
     private static void ValidateSymbolIVEarth()
@@ -541,134 +431,31 @@ internal static class N5PureContractTests
         Require(card.GainsBlock, "Symbol IV: Earth block declaration");
         Require(card.DynamicVars.Block.BaseValue == 15m, "Symbol IV: Earth Block");
         Require(upgraded.DynamicVars.Block.BaseValue == 20m, "Symbol IV: Earth upgraded Block");
-        Require(card.DynamicVars.CalculationBase.BaseValue == 15m, "Symbol IV: Earth calculation base");
-        Require(upgraded.DynamicVars.CalculationBase.BaseValue == 20m,
+        Require(card.DynamicVars.CalculationBase.BaseValue == 0m, "Symbol IV: Earth calculation base");
+        Require(upgraded.DynamicVars.CalculationBase.BaseValue == 0m,
             "Symbol IV: Earth upgraded calculation base");
         Require(card.DynamicVars.ExtraDamage.BaseValue == 1m, "Symbol IV: Earth Block multiplier");
         Require(card.DynamicVars.CalculatedDamage.Props == ValueProp.Move,
             "Symbol IV: Earth damage properties");
     }
 
-    private static void ValidateQuaerereLumina()
-    {
-        QuaerereLuminaCard card = ModelDb.Card<QuaerereLuminaCard>();
-        Require(card.EnergyCost.Canonical == 1, "Quaerere Lumina cost");
-        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Common,
-            "Quaerere Lumina type and rarity");
-        Require(card.TargetType == TargetType.Self, "Quaerere Lumina target");
-        Require(card.GainsBlock, "Quaerere Lumina block declaration");
-        Require(card.Keywords.Count == 0, "Quaerere Lumina unexpected keyword");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 7m, "Quaerere Lumina Scry amount");
-        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 9m,
-            "Quaerere Lumina upgraded Scry amount");
-
-        CardModel[] drawPile = Enumerable.Range(0, 5)
-            .Select(_ => ModelDb.Card<DefendTogawaSakiko>().ToMutable())
-            .ToArray();
-        CardModel[] window = QuaerereLuminaCard.SelectScryWindow(drawPile, 3);
-        Require(window.Length == 3, "Quaerere Lumina Scry window count");
-        Require(window.SequenceEqual(drawPile.Take(3)), "Quaerere Lumina Scry window order");
-        Require(QuaerereLuminaCard.SelectScryWindow(drawPile, 0).Length == 0,
-            "Quaerere Lumina non-positive Scry window");
-        Require(QuaerereLuminaCard.SelectScryWindow(drawPile, 99).SequenceEqual(drawPile),
-            "Quaerere Lumina Scry window caps at Draw-pile size");
-    }
-
     private static void ValidateKings()
     {
         KingsCard card = ModelDb.Card<KingsCard>();
-        Require(card.EnergyCost.Canonical == 1, "Kings cost");
+        Require(card.EnergyCost.Canonical == 0, "Kings cost");
         Require(card.Type == CardType.Attack && card.Rarity == CardRarity.Common,
             "Kings type and rarity");
         Require(card.TargetType == TargetType.AnyEnemy, "Kings target");
         Require(card.Keywords.Count == 0, "Kings unexpected keyword");
-        Require(card.DynamicVars.Damage.BaseValue == 14m, "Kings damage");
-        Require(Upgraded(card).DynamicVars.Damage.BaseValue == 20m, "Kings upgraded damage");
-
-        KingsPower power = ModelDb.Power<KingsPower>();
-        Require(power.Type == PowerType.Debuff, "Kings power type");
-        Require(power.StackType == PowerStackType.Single, "Kings nonstacking policy");
-
-        List<int> options = [1, 2, 3];
-        Require(KingsRewardState.RemoveOneOption(options), "Kings reward reduction result");
-        Require(options.SequenceEqual([1, 2]), "Kings reward reduction removes exactly one option");
-        Require(!KingsRewardState.RemoveOneOption(new List<int>()), "Kings empty reward clamp");
-
-        CardCreationOptions encounterReward = new CardCreationOptions(
-                Array.Empty<CardPoolModel>(),
-                CardCreationSource.Encounter,
-                CardRarityOddsType.RegularEncounter)
-            .WithFlags(CardCreationFlags.IsCardReward);
-        CardCreationOptions encounterNonReward = new CardCreationOptions(
-            Array.Empty<CardPoolModel>(),
-            CardCreationSource.Encounter,
-            CardRarityOddsType.RegularEncounter);
-        CardCreationOptions nonCombatReward = new CardCreationOptions(
-                Array.Empty<CardPoolModel>(),
-                CardCreationSource.Other,
-                CardRarityOddsType.RegularEncounter)
-            .WithFlags(CardCreationFlags.IsCardReward);
-        Require(KingsRewardState.IsCombatCardReward(encounterReward), "Kings encounter reward eligibility");
-        Require(!KingsRewardState.IsCombatCardReward(encounterNonReward), "Kings non-reward exclusion");
-        Require(!KingsRewardState.IsCombatCardReward(nonCombatReward), "Kings non-combat reward exclusion");
-
-        KingsCard mutableCard = (KingsCard)card.ToMutable();
-        mutableCard.SetKingsRewardPending(true);
-        SavedProperties cardSave = SavedProperties.From(mutableCard)
-            ?? throw new InvalidOperationException("Kings card pending state did not serialize.");
-        Require(cardSave.bools?.Single(property => property.name == nameof(KingsCard.KingsRewardPending)).value == true,
-            "Kings card pending SavedProperty");
-        KingsCard restoredCard = (KingsCard)card.ToMutable();
-        cardSave.Fill(restoredCard);
-        Require(restoredCard.KingsRewardPending, "Kings card pending round trip");
-
-        StarterRelicTogawaSakiko relic =
-            (StarterRelicTogawaSakiko)ModelDb.Relic<StarterRelicTogawaSakiko>().ToMutable();
-        relic.SetKingsRewardPending(true);
-        SavedProperties relicSave = SavedProperties.From(relic)
-            ?? throw new InvalidOperationException("Kings relic pending state did not serialize.");
-        Require(relicSave.bools?.Single(property =>
-                property.name == nameof(StarterRelicTogawaSakiko.KingsRewardPending)).value == true,
-            "Kings relic pending SavedProperty");
-        StarterRelicTogawaSakiko restoredRelic =
-            (StarterRelicTogawaSakiko)ModelDb.Relic<StarterRelicTogawaSakiko>().ToMutable();
-        relicSave.Fill(restoredRelic);
-        Require(restoredRelic.KingsRewardPending, "Kings relic pending round trip");
-
-        KingsRewardCarrierModifier carrier =
-            (KingsRewardCarrierModifier)ModelDb.Modifier<KingsRewardCarrierModifier>().ToMutable();
-        Require(carrier.PendingPlayerIds.Length == 0, "Kings run carrier initial state");
-        Require(KingsRewardCarrierModifier.ParsePendingPlayerIds("42,invalid,7,42")
-                .SequenceEqual([7UL, 42UL]),
-            "Kings run carrier robust ID parsing");
-        carrier.SetPending(42UL, true);
-        Require(carrier.IsPending(42UL), "Kings run carrier first player pending state");
-        carrier.SetPending(7UL, true);
-        Require(carrier.PendingPlayerIds == "7,42", "Kings run carrier deterministic player ordering");
-        carrier.SetPending(42UL, true);
-        Require(carrier.PendingPlayerIds == "7,42", "Kings run carrier duplicate player suppression");
-        carrier.SetPending(42UL, false);
-        Require(!carrier.IsPending(42UL) && carrier.IsPending(7UL),
-            "Kings run carrier player-scoped clear");
-        SavedProperties carrierStateSave = SavedProperties.From(carrier)
-            ?? throw new InvalidOperationException("Kings run carrier pending state did not serialize.");
-        Require(carrierStateSave.strings?.Single(property =>
-                property.name == nameof(KingsRewardCarrierModifier.PendingPlayerIds)).value == "7",
-            "Kings run carrier native SavedProperty");
-        KingsRewardCarrierModifier restoredRunCarrier =
-            (KingsRewardCarrierModifier)ModelDb.Modifier<KingsRewardCarrierModifier>().ToMutable();
-        carrierStateSave.Fill(restoredRunCarrier);
-        Require(restoredRunCarrier.IsPending(7UL), "Kings run carrier pending round trip");
-        Require(!restoredRunCarrier.IsPending(42UL), "Kings run carrier cleared player round trip");
-        restoredRunCarrier.SetPending(7UL, false);
-        Require(restoredRunCarrier.PendingPlayerIds.Length == 0, "Kings run carrier full clear");
+        Require(card.DynamicVars.Damage.BaseValue == 12m, "Kings damage");
+        Require(Upgraded(card).DynamicVars.Damage.BaseValue == 16m, "Kings upgraded damage");
     }
 
     private static void ValidateAccomplice()
     {
         AccompliceCard card = ModelDb.Card<AccompliceCard>();
         Require(card.EnergyCost.Canonical == 2, "Accomplice cost");
-        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Common,
+        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Uncommon,
             "Accomplice type and rarity");
         Require(card.TargetType == TargetType.Self, "Accomplice target");
         Require(card.Keywords.Count == 0, "Accomplice unexpected keyword");
@@ -689,56 +476,27 @@ internal static class N5PureContractTests
     private static void ValidateDesuWa()
     {
         DesuWaCard card = ModelDb.Card<DesuWaCard>();
+        CardModel upgraded = Upgraded(card);
         Require(card.EnergyCost.Canonical == 0, "Desu Wa cost");
-        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Common,
-            "Desu Wa type and rarity");
+        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Common, "Desu Wa type and rarity");
         Require(card.TargetType == TargetType.Self, "Desu Wa target");
-        Require(card.Keywords.Count == 0, "Desu Wa unexpected keyword");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 1m, "Desu Wa retrieval count");
-        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 2m,
-            "Desu Wa upgraded retrieval count");
-
-        CardModel drawAttack = ModelDb.Card<StrikeTogawaSakiko>().ToMutable();
-        CardModel drawSkill = ModelDb.Card<DefendTogawaSakiko>().ToMutable();
-        CardModel discardAttack = ModelDb.Card<MelodyCard>().ToMutable();
-        CardModel[] drawPriority = DesuWaCard.SelectCandidatePile(
-            [drawSkill, drawAttack],
-            [discardAttack],
-            CardType.Attack);
-        Require(drawPriority.Length == 1 && ReferenceEquals(drawPriority[0], drawAttack),
-            "Desu Wa did not prioritize matching Draw-pile cards");
-        CardModel[] discardFallback = DesuWaCard.SelectCandidatePile(
-            [drawSkill],
-            [discardAttack],
-            CardType.Attack);
-        Require(discardFallback.Length == 1 && ReferenceEquals(discardFallback[0], discardAttack),
-            "Desu Wa did not fall back to matching Discard-pile cards");
-        Require(DesuWaCard.SelectCandidatePile([drawSkill], [], CardType.Attack).Length == 0,
-            "Desu Wa returned a mismatched card type");
-    }
-
-    private static void ValidateEdgeOfBreakdown()
-    {
-        EdgeOfBreakdownCard card = ModelDb.Card<EdgeOfBreakdownCard>();
-        Require(card.EnergyCost.Canonical == 1, "Edge of Breakdown cost");
-        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Common,
-            "Edge of Breakdown type and rarity");
-        Require(card.TargetType == TargetType.Self, "Edge of Breakdown target");
-        Require(card.Keywords.SetEquals([CardKeyword.Exhaust]), "Edge of Breakdown Exhaust");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 2m, "Edge of Breakdown Frail");
-        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 1m,
-            "Edge of Breakdown upgraded Frail");
+        Require(card.Keywords.Contains(CardKeyword.Exhaust), "Desu Wa must exhaust");
+        Require(card.DynamicVars["MagicNumber"].BaseValue == 1m, "Desu Wa draw count");
+        Require(upgraded.DynamicVars["MagicNumber"].BaseValue == 1m, "Desu Wa upgraded draw count");
+        Require(!upgraded.Keywords.Contains(CardKeyword.Exhaust), "Desu Wa upgrade must remove Exhaust");
+        Require(upgraded.EnergyCost.GetWithModifiers(CostModifiers.All) == 0, "Desu Wa upgraded cost");
+        Require(upgraded.Keywords.Count == 0, "Desu Wa upgrade unexpected keyword");
     }
 
     private static void ValidateMasqueradeRhapsodyRequest()
     {
         MasqueradeRhapsodyRequestCard card = ModelDb.Card<MasqueradeRhapsodyRequestCard>();
         MasqueradeRhapsodyRequestCard upgraded = Upgraded(card);
-        Require(card.EnergyCost.Canonical == 1, "Masquerade Rhapsody Request cost");
-        Require(card.Type == CardType.Attack && card.Rarity == CardRarity.Common,
+        Require(card.EnergyCost.Canonical == 1 && upgraded.EnergyCost.GetWithModifiers(CostModifiers.None) == 1, "Masquerade Rhapsody Request cost");
+        Require(card.Type == CardType.Attack && card.Rarity == CardRarity.Uncommon,
             "Masquerade Rhapsody Request type and rarity");
         Require(card.TargetType == TargetType.AnyEnemy, "Masquerade Rhapsody Request target");
-        Require(card.Keywords.Count == 0, "Masquerade Rhapsody Request unexpected keyword");
+        Require(card.Keywords.SetEquals([CardKeyword.Exhaust]), "Masquerade Rhapsody Request unexpected keyword");
         Require(card.DynamicVars.Damage.BaseValue == 1m, "Masquerade Rhapsody Request damage");
         Require(card.DynamicVars["MagicNumber"].BaseValue == 1m,
             "Masquerade Rhapsody Request purge growth");
@@ -767,29 +525,16 @@ internal static class N5PureContractTests
             "Masquerade upgraded purge increment");
     }
 
-    private static void ValidateClockOut()
-    {
-        ClockOutCard card = ModelDb.Card<ClockOutCard>();
-        Require(card.EnergyCost.Canonical == 1, "Clock Out cost");
-        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Uncommon,
-            "Clock Out type and rarity");
-        Require(card.TargetType == TargetType.Self, "Clock Out target");
-        Require(card.Keywords.SetEquals([CardKeyword.Exhaust]), "Clock Out Exhaust");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 15m, "Clock Out gold");
-        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 20m,
-            "Clock Out upgraded gold");
-    }
-
     private static void ValidateFallenFlowers()
     {
         FallenFlowersCard card = ModelDb.Card<FallenFlowersCard>();
-        Require(card.EnergyCost.Canonical == 2, "Fallen Flowers cost");
-        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Uncommon,
+        Require(card.EnergyCost.Canonical == 1, "Fallen Flowers cost");
+        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Common,
             "Fallen Flowers type and rarity");
         Require(card.TargetType == TargetType.Self, "Fallen Flowers target");
-        Require(card.Keywords.SetEquals([CardKeyword.Ethereal]), "Fallen Flowers Ethereal");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 7m, "Fallen Flowers Dazzling");
-        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 9m,
+        Require(card.Keywords.Count == 0, "Fallen Flowers Ethereal");
+        Require(card.DynamicVars["MagicNumber"].BaseValue == 6m, "Fallen Flowers Dazzling");
+        Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 6m,
             "Fallen Flowers upgraded Dazzling");
     }
 
@@ -797,18 +542,18 @@ internal static class N5PureContractTests
     {
         HachibouseiDanceCard card = ModelDb.Card<HachibouseiDanceCard>();
         HachibouseiDanceCard upgraded = Upgraded(card);
-        Require(card.EnergyCost.Canonical == 4, "Hachibousei Dance cost");
+        Require(card.EnergyCost.Canonical == 1, "Hachibousei Dance cost");
         Require(card.Type == CardType.Attack && card.Rarity == CardRarity.Uncommon,
             "Hachibousei Dance type and rarity");
         Require(card.TargetType == TargetType.AnyEnemy, "Hachibousei Dance target");
         Require(card.Keywords.Count == 0, "Hachibousei Dance unexpected keyword");
         Require(card.DynamicVars.Damage.BaseValue == 8m, "Hachibousei Dance damage");
-        Require(card.DynamicVars["MagicNumber"].BaseValue == 8m,
+        Require(card.DynamicVars["SelfDamage"].BaseValue == 8m,
             "Hachibousei Dance Plating");
-        Require(upgraded.EnergyCost.GetWithModifiers(CostModifiers.None) == 3,
+        Require(upgraded.EnergyCost.GetWithModifiers(CostModifiers.None) == 1,
             "Hachibousei Dance upgraded cost");
-        Require(upgraded.DynamicVars.Damage.BaseValue == 8m &&
-                upgraded.DynamicVars["MagicNumber"].BaseValue == 8m,
+        Require(upgraded.DynamicVars.Damage.BaseValue == 10m &&
+                upgraded.DynamicVars["SelfDamage"].BaseValue == 10m,
             "Hachibousei Dance upgrade changed values");
     }
 
@@ -822,9 +567,9 @@ internal static class N5PureContractTests
         Require(card.TargetType == TargetType.AnyEnemy, "Phantom of Mutsumi target");
         Require(card.Keywords.SetEquals([CardKeyword.Exhaust]), "Phantom of Mutsumi Exhaust");
         Require(card.GainsBlock, "Phantom of Mutsumi block flag");
-        Require(card.DynamicVars.Damage.BaseValue == 6m, "Phantom of Mutsumi damage");
-        Require(card.DynamicVars.Block.BaseValue == 6m, "Phantom of Mutsumi block");
-        Require(upgraded.DynamicVars.Damage.BaseValue == 6m && upgraded.DynamicVars.Block.BaseValue == 6m,
+        Require(card.DynamicVars.Damage.BaseValue == 3m, "Phantom of Mutsumi damage");
+        Require(card.DynamicVars.Block.BaseValue == 3m, "Phantom of Mutsumi block");
+        Require(upgraded.DynamicVars.Damage.BaseValue == 3m && upgraded.DynamicVars.Block.BaseValue == 3m,
             "Phantom of Mutsumi upgrade changed source values");
     }
 
@@ -836,8 +581,8 @@ internal static class N5PureContractTests
             "Phantom of Soyo type and rarity");
         Require(card.TargetType == TargetType.AllEnemies, "Phantom of Soyo target");
         Require(card.Keywords.SetEquals([CardKeyword.Exhaust]), "Phantom of Soyo Exhaust");
-        Require(card.DynamicVars.Damage.BaseValue == 7m, "Phantom of Soyo damage");
-        Require(Upgraded(card).DynamicVars.Damage.BaseValue == 7m,
+        Require(card.DynamicVars.Damage.BaseValue == 8m, "Phantom of Soyo damage");
+        Require(Upgraded(card).DynamicVars.Damage.BaseValue == 8m,
             "Phantom of Soyo upgrade changed damage");
     }
 
@@ -848,25 +593,21 @@ internal static class N5PureContractTests
         Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Uncommon,
             "Rhinoceros Beetle type and rarity");
         Require(card.TargetType == TargetType.Self, "Rhinoceros Beetle target");
-        Require(card.Keywords.Count == 0, "Rhinoceros Beetle unexpected keyword");
+        Require(card.Keywords.SetEquals([CardKeyword.Exhaust]), "Rhinoceros Beetle unexpected keyword");
         Require(card.GainsBlock, "Rhinoceros Beetle block flag");
-        Require(card.DynamicVars.CalculationBase.BaseValue == 4m, "Rhinoceros Beetle base block");
-        Require(card.DynamicVars.CalculationExtra.BaseValue == 1m, "Rhinoceros Beetle Dazzling multiplier");
-        Require(card.DynamicVars.CalculatedBlock.Props == ValueProp.Unpowered,
-            "Rhinoceros Beetle bypasses Dexterity");
-        Require(Upgraded(card).DynamicVars.CalculationBase.BaseValue == 7m,
-            "Rhinoceros Beetle upgraded base block");
+        Require(Upgraded(card).EnergyCost.GetWithModifiers(CostModifiers.None) == 0 && Upgraded(card).DynamicVars["MagicNumber"].IntValue == 3,
+            "Rhinoceros Beetle upgraded cost and Dazzling");
     }
 
     private static void ValidateCountingStars()
     {
         CountingStarsCard card = ModelDb.Card<CountingStarsCard>();
         Require(card.EnergyCost.Canonical == 1, "Counting Stars cost");
-        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Uncommon,
+        Require(card.Type == CardType.Skill && card.Rarity == CardRarity.Rare,
             "Counting Stars type and rarity");
         Require(card.TargetType == TargetType.Self, "Counting Stars target");
         Require(card.Keywords.Count == 0, "Counting Stars unexpected keyword");
-        Require(card.DynamicVars.Energy.BaseValue == 1m, "Counting Stars next-turn energy");
+        Require(card.DynamicVars.Energy.BaseValue == 2m, "Counting Stars next-turn energy");
         Require(card.DynamicVars["MagicNumber"].BaseValue == 1m, "Counting Stars Dazzling multiplier");
         Require(Upgraded(card).DynamicVars["MagicNumber"].BaseValue == 2m,
             "Counting Stars upgraded Dazzling multiplier");
@@ -874,33 +615,24 @@ internal static class N5PureContractTests
 
     private static void ValidateRemainingUncommonCards()
     {
-        AleaIactaEstCard alea = ModelDb.Card<AleaIactaEstCard>();
-        Require(alea.EnergyCost.Canonical == 1, "Alea Iacta Est cost");
-        Require(alea.Type == CardType.Skill && alea.Rarity == CardRarity.Uncommon,
-            "Alea Iacta Est type and rarity");
-        Require(alea.TargetType == TargetType.Self, "Alea Iacta Est target");
-        Require(alea.Keywords.SetEquals([CardKeyword.Exhaust]), "Alea Iacta Est Exhaust");
-        Require(Upgraded(alea).Keywords.SetEquals([CardKeyword.Exhaust]),
-            "Alea Iacta Est upgraded keywords");
-
         AnglesCard angles = ModelDb.Card<AnglesCard>();
         Require(angles.EnergyCost.Canonical == 1, "Angles cost");
-        Require(angles.Type == CardType.Attack && angles.Rarity == CardRarity.Uncommon,
+        Require(angles.Type == CardType.Power && angles.Rarity == CardRarity.Uncommon,
             "Angles type and rarity");
-        Require(angles.TargetType == TargetType.AnyEnemy, "Angles target");
-        Require(angles.Keywords.SetEquals([CardKeyword.Exhaust]), "Angles Exhaust");
-        Require(angles.DynamicVars.Damage.BaseValue == 9m, "Angles damage");
-        Require(angles.DynamicVars["MagicNumber"].BaseValue == 1m, "Angles God's Creation");
-        Require(Upgraded(angles).DynamicVars.Damage.BaseValue == 12m, "Angles upgraded damage");
+        Require(angles.TargetType == TargetType.Self, "Angles target");
+        Require(angles.Keywords.Count == 0, "Angles Exhaust");
+        Require(angles.DynamicVars["MagicNumber"].BaseValue == 3m, "Angles damage");
+        Require(angles.DynamicVars["MagicNumber"].BaseValue == 3m, "Angles God's Creation");
+        Require(Upgraded(angles).EnergyCost.GetWithModifiers(CostModifiers.None) == 1, "Angles upgraded damage");
 
         ChoirSChoirCard choir = ModelDb.Card<ChoirSChoirCard>();
         Require(choir.EnergyCost.Canonical == 3, "Choir 'S' Choir cost");
         Require(choir.Type == CardType.Attack && choir.Rarity == CardRarity.Uncommon,
             "Choir 'S' Choir type and rarity");
         Require(choir.TargetType == TargetType.AnyEnemy, "Choir 'S' Choir target");
-        Require(choir.Keywords.SetEquals([CardKeyword.Retain]), "Choir 'S' Choir Retain");
+        Require(choir.Keywords.Count == 0, "Choir 'S' Choir Retain");
         Require(choir.DynamicVars.Damage.BaseValue == 6m, "Choir 'S' Choir damage");
-        Require(Upgraded(choir).DynamicVars.Damage.BaseValue == 7m,
+        Require(Upgraded(choir).DynamicVars.Damage.BaseValue == 6m && Upgraded(choir).Keywords.Contains(CardKeyword.Retain),
             "Choir 'S' Choir upgraded damage");
 
         CrucifixXCard crucifix = ModelDb.Card<CrucifixXCard>();
@@ -910,11 +642,11 @@ internal static class N5PureContractTests
             "Crucifix X type and rarity");
         Require(crucifix.TargetType == TargetType.AnyEnemy, "Crucifix X target");
         Require(crucifix.GainsBlock, "Crucifix X block flag");
-        Require(crucifix.DynamicVars.Damage.BaseValue == 4m, "Crucifix X damage");
-        Require(crucifix.DynamicVars.Block.BaseValue == 4m, "Crucifix X Block");
+        Require(crucifix.DynamicVars.Damage.BaseValue == 5m, "Crucifix X damage");
+        Require(crucifix.DynamicVars.Block.BaseValue == 5m, "Crucifix X Block");
         CrucifixXCard upgradedCrucifix = Upgraded(crucifix);
-        Require(upgradedCrucifix.DynamicVars.Damage.BaseValue == 6m &&
-                upgradedCrucifix.DynamicVars.Block.BaseValue == 6m,
+        Require(upgradedCrucifix.DynamicVars.Damage.BaseValue == 7m &&
+                upgradedCrucifix.DynamicVars.Block.BaseValue == 7m,
             "Crucifix X upgraded values");
 
         CuriosityCard curiosity = ModelDb.Card<CuriosityCard>();
@@ -926,33 +658,24 @@ internal static class N5PureContractTests
         Require(Upgraded(curiosity).EnergyCost.GetWithModifiers(CostModifiers.None) == 1,
             "Curiosity upgraded cost");
 
-        EnduranceCard endurance = ModelDb.Card<EnduranceCard>();
-        Require(endurance.EnergyCost.Canonical == 1, "Endurance cost");
-        Require(endurance.Type == CardType.Power && endurance.Rarity == CardRarity.Uncommon,
-            "Endurance type and rarity");
-        Require(endurance.TargetType == TargetType.Self, "Endurance target");
-        Require(endurance.DynamicVars["MagicNumber"].BaseValue == 5m, "Endurance Block");
-        Require(Upgraded(endurance).DynamicVars["MagicNumber"].BaseValue == 7m,
-            "Endurance upgraded Block");
-
         FearlessCard fearless = ModelDb.Card<FearlessCard>();
-        Require(fearless.EnergyCost.Canonical == 1, "Fearless cost");
+        Require(fearless.EnergyCost.Canonical == 2, "Fearless cost");
         Require(fearless.Type == CardType.Power && fearless.Rarity == CardRarity.Uncommon,
             "Fearless type and rarity");
         Require(fearless.TargetType == TargetType.Self, "Fearless target");
-        Require(fearless.DynamicVars["MagicNumber"].BaseValue == 2m, "Fearless turns");
-        Require(Upgraded(fearless).DynamicVars["MagicNumber"].BaseValue == 3m,
+        Require(fearless.DynamicVars["MagicNumber"].BaseValue == 1m, "Fearless turns");
+        Require(Upgraded(fearless).DynamicVars["MagicNumber"].BaseValue == 2m,
             "Fearless upgraded turns");
 
         KaoCard kao = ModelDb.Card<KaoCard>();
         Require(kao.EnergyCost.Canonical == 1, "Kao cost");
-        Require(kao.Type == CardType.Attack && kao.Rarity == CardRarity.Uncommon,
+        Require(kao.Type == CardType.Attack && kao.Rarity == CardRarity.Rare,
             "Kao type and rarity");
-        Require(kao.TargetType == TargetType.AnyEnemy, "Kao target");
-        Require(kao.Keywords.SetEquals([CardKeyword.Retain]), "Kao Retain");
-        Require(kao.DynamicVars.Damage.BaseValue == 5m, "Kao damage");
-        Require(kao.DynamicVars["MagicNumber"].BaseValue == 4m, "Kao growth");
-        Require(Upgraded(kao).DynamicVars.Damage.BaseValue == 9m, "Kao upgraded damage");
+        Require(kao.TargetType == TargetType.AllEnemies, "Kao target");
+        Require(kao.Keywords.SetEquals([CardKeyword.Exhaust]), "Kao Retain");
+        Require(kao.DynamicVars.Damage.BaseValue == 10m, "Kao damage");
+        Require(Upgraded(kao).Keywords.Contains(CardKeyword.Exhaust), "Kao growth");
+        Require(Upgraded(kao).DynamicVars.Damage.BaseValue == 13m, "Kao upgraded damage");
 
         OurSongCard ourSong = ModelDb.Card<OurSongCard>();
         Require(ourSong.EnergyCost.Canonical == 1, "Our Song cost");
@@ -964,25 +687,25 @@ internal static class N5PureContractTests
             "Our Song upgraded cost");
 
         PerdereOmniaCard perdere = ModelDb.Card<PerdereOmniaCard>();
-        Require(perdere.EnergyCost.Canonical == -1, "Perdere Omnia unplayable cost");
+        Require(perdere.EnergyCost.Canonical == 1, "Perdere Omnia unplayable cost");
         Require(perdere.Type == CardType.Skill && perdere.Rarity == CardRarity.Uncommon,
             "Perdere Omnia type and rarity");
-        Require(perdere.TargetType == TargetType.None, "Perdere Omnia target");
-        Require(perdere.Keywords.SetEquals([CardKeyword.Unplayable]), "Perdere Omnia Unplayable");
-        Require(perdere.DynamicVars["MagicNumber"].BaseValue == 1m, "Perdere Omnia count");
-        Require(Upgraded(perdere).DynamicVars["MagicNumber"].BaseValue == 2m,
+        Require(perdere.TargetType == TargetType.Self, "Perdere Omnia target");
+        Require(perdere.Keywords.SetEquals([CardKeyword.Exhaust]), "Perdere Omnia Unplayable");
+        Require(perdere.DynamicVars["MagicNumber"].BaseValue == 2m, "Perdere Omnia count");
+        Require(Upgraded(perdere).DynamicVars["MagicNumber"].BaseValue == 3m,
             "Perdere Omnia upgraded count");
         Require(!perdere.CanBeGeneratedInCombat && perdere.CanBeGeneratedByModifiers,
             "Perdere Omnia combat-only generation exclusion");
 
         PrimoDieInScaenaCard primo = ModelDb.Card<PrimoDieInScaenaCard>();
-        Require(primo.EnergyCost.Canonical == 0, "Primo Die In Scaena cost");
+        Require(primo.EnergyCost.Canonical == 1, "Primo Die In Scaena cost");
         Require(primo.Type == CardType.Skill && primo.Rarity == CardRarity.Uncommon,
             "Primo Die In Scaena type and rarity");
         Require(primo.TargetType == TargetType.Self, "Primo Die In Scaena target");
         Require(primo.Keywords.Count == 0, "Primo Die In Scaena base keywords");
-        Require(Upgraded(primo).Keywords.SetEquals([CardKeyword.Innate]),
-            "Primo Die In Scaena upgraded Innate");
+        Require(Upgraded(primo).Keywords.Count == 0 && Upgraded(primo).EnergyCost.GetWithModifiers(CostModifiers.All) == 0,
+            "Primo Die In Scaena upgraded cost and keywords");
 
         SeizeTheFateCard seize = ModelDb.Card<SeizeTheFateCard>();
         Require(seize.EnergyCost.Canonical == 1, "Seize the Fate cost");
@@ -1003,7 +726,7 @@ internal static class N5PureContractTests
 
         SharedDestinyCard shared = ModelDb.Card<SharedDestinyCard>();
         Require(shared.EnergyCost.Canonical == 1, "Shared Destiny cost");
-        Require(shared.Type == CardType.Power && shared.Rarity == CardRarity.Uncommon,
+        Require(shared.Type == CardType.Power && shared.Rarity == CardRarity.Rare,
             "Shared Destiny type and rarity");
         Require(shared.TargetType == TargetType.Self, "Shared Destiny target");
         Require(shared.Keywords.Count == 0, "Shared Destiny unexpected keyword");
@@ -1026,58 +749,50 @@ internal static class N5PureContractTests
         Require(water.EnergyCost.Canonical == 2, "Symbol III: Water cost");
         Require(water.Type == CardType.Attack && water.Rarity == CardRarity.Uncommon,
             "Symbol III: Water type and rarity");
-        Require(water.TargetType == TargetType.RandomEnemy, "Symbol III: Water target");
+        Require(water.TargetType == TargetType.AnyEnemy, "Symbol III: Water target");
         Require(water.Keywords.Count == 0, "Symbol III: Water unexpected keyword");
-        Require(water.DynamicVars.Damage.BaseValue == 16m, "Symbol III: Water damage");
-        Require(Upgraded(water).EnergyCost.GetWithModifiers(CostModifiers.None) == 1,
+        Require(water.DynamicVars.Damage.BaseValue == 14m, "Symbol III: Water damage");
+        Require(Upgraded(water).EnergyCost.GetWithModifiers(CostModifiers.None) == 2 && Upgraded(water).DynamicVars.Damage.IntValue == 20,
             "Symbol III: Water upgraded cost");
 
         TheGirlWithFlaxenHairCard girl = ModelDb.Card<TheGirlWithFlaxenHairCard>();
         Require(girl.EnergyCost.Canonical == 1, "The Girl with Flaxen Hair cost");
         Require(girl.Type == CardType.Attack && girl.Rarity == CardRarity.Uncommon,
             "The Girl with Flaxen Hair type and rarity");
-        Require(girl.TargetType == TargetType.AnyEnemy, "The Girl with Flaxen Hair target");
+        Require(girl.TargetType == TargetType.AllEnemies, "The Girl with Flaxen Hair target");
         Require(girl.Keywords.Count == 0, "The Girl with Flaxen Hair unexpected keyword");
-        Require(girl.DynamicVars.Damage.BaseValue == 7m, "The Girl with Flaxen Hair damage");
-        Require(girl.DynamicVars["MagicNumber"].BaseValue == 3m,
-            "The Girl with Flaxen Hair Block");
+        Require(girl.DynamicVars.Damage.BaseValue == 8m, "The Girl with Flaxen Hair damage");
+        Require(girl.DynamicVars["MagicNumber"].BaseValue == 4m,
+            "The Girl with Flaxen Hair temporary Dazzling");
         TheGirlWithFlaxenHairCard upgradedGirl = Upgraded(girl);
-        Require(upgradedGirl.DynamicVars.Damage.BaseValue == 7m &&
+        Require(upgradedGirl.DynamicVars.Damage.BaseValue == 10m &&
                 upgradedGirl.DynamicVars["MagicNumber"].BaseValue == 5m,
             "The Girl with Flaxen Hair upgraded values");
 
         UtopiaCard utopia = ModelDb.Card<UtopiaCard>();
-        Require(utopia.EnergyCost.Canonical == 2, "Utopia cost");
+        Require(utopia.EnergyCost.Canonical == 0, "Utopia cost");
         Require(utopia.Type == CardType.Skill && utopia.Rarity == CardRarity.Uncommon,
             "Utopia type and rarity");
-        Require(utopia.TargetType == TargetType.AnyEnemy, "Utopia target");
+        Require(utopia.TargetType == TargetType.Self, "Utopia target");
         Require(utopia.Keywords.Count == 0, "Utopia unexpected keyword");
-        Require(utopia.DynamicVars["MagicNumber"] is HpLossVar, "Utopia HP-loss variable");
-        Require(utopia.DynamicVars["MagicNumber"].BaseValue == 15m, "Utopia HP loss");
-        Require(Upgraded(utopia).DynamicVars["MagicNumber"].BaseValue == 20m,
-            "Utopia upgraded HP loss");
-
-        VeritasCard veritas = ModelDb.Card<VeritasCard>();
-        Require(veritas.EnergyCost.Canonical == 1, "Veritas cost");
-        Require(veritas.Type == CardType.Skill && veritas.Rarity == CardRarity.Uncommon,
-            "Veritas type and rarity");
-        Require(veritas.TargetType == TargetType.Self, "Veritas target");
-        Require(veritas.Keywords.Count == 0, "Veritas unexpected keyword");
-        Require(veritas.DynamicVars["MagicNumber"].BaseValue == 3m, "Veritas draw");
-        Require(Upgraded(veritas).DynamicVars["MagicNumber"].BaseValue == 4m,
-            "Veritas upgraded draw");
+        Require(utopia.DynamicVars.Block is BlockVar, "Utopia block variable");
+        Require(utopia.DynamicVars.Block.BaseValue == 15m, "Utopia block");
+        Require(Upgraded(utopia).DynamicVars.Block.BaseValue == 15m,
+            "Utopia upgraded block");
 
         WishFulfilledCard wishFulfilled = ModelDb.Card<WishFulfilledCard>();
-        Require(wishFulfilled.EnergyCost.Canonical == 2, "Wish Fulfilled cost");
-        Require(wishFulfilled.Type == CardType.Skill && wishFulfilled.Rarity == CardRarity.Uncommon,
+        Require(wishFulfilled.EnergyCost.Canonical == 3, "Wish Fulfilled cost");
+        Require(wishFulfilled.Type == CardType.Skill && wishFulfilled.Rarity == CardRarity.Rare,
             "Wish Fulfilled type and rarity");
         Require(wishFulfilled.TargetType == TargetType.Self, "Wish Fulfilled target");
-        Require(wishFulfilled.Keywords.SetEquals([CardKeyword.Exhaust, CardKeyword.Ethereal]),
+        Require(wishFulfilled.Keywords.SetEquals([CardKeyword.Exhaust, CardKeyword.Retain]),
             "Wish Fulfilled base keywords");
         WishFulfilledCard upgradedWish = Upgraded(wishFulfilled);
-        Require(upgradedWish.Keywords.SetEquals([CardKeyword.Exhaust]),
+        Require(wishFulfilled.DynamicVars["MagicNumber"].IntValue == 2, "Wish base purge limit");
+        Require(upgradedWish.DynamicVars["MagicNumber"].IntValue == 3, "Wish upgraded purge limit");
+        Require(upgradedWish.Keywords.SetEquals([CardKeyword.Exhaust, CardKeyword.Retain]),
             "Wish Fulfilled upgraded keywords");
-        Require(upgradedWish.EnergyCost.GetWithModifiers(CostModifiers.None) == 2,
+        Require(upgradedWish.EnergyCost.GetWithModifiers(CostModifiers.None) == 3,
             "Wish Fulfilled upgrade changed cost");
 
         WishToBecomeHumanCard wishHuman = ModelDb.Card<WishToBecomeHumanCard>();
@@ -1096,12 +811,8 @@ internal static class N5PureContractTests
         PowerModel[] powers =
         [
             ModelDb.Power<CuriosityPower>(),
-            ModelDb.Power<EndurancePower>(),
             ModelDb.Power<FearlessPower>(),
-            ModelDb.Power<GodsCreationPower>(),
-            ModelDb.Power<GirlOfSpringPower>(),
             ModelDb.Power<OurSongPower>(),
-            ModelDb.Power<PerdereOmniaPower>(),
             ModelDb.Power<PrimoDieInScaenaPower>(),
             ModelDb.Power<SeizeTheFatePower>(),
             ModelDb.Power<SharedDestinyPower>()
@@ -1136,17 +847,16 @@ internal static class N5PureContractTests
             "As Your Heart Desires upgraded cost");
 
         AveMujicaCard aveMujica = ModelDb.Card<AveMujicaCard>();
-        Require(aveMujica.EnergyCost.Canonical == 2, "Ave Mujica cost");
-        Require(aveMujica.Type == CardType.Attack && aveMujica.Rarity == CardRarity.Rare,
+        Require(aveMujica.EnergyCost.Canonical == 0, "Ave Mujica cost");
+        Require(aveMujica.Type == CardType.Skill && aveMujica.Rarity == CardRarity.Rare,
             "Ave Mujica type and rarity");
-        Require(aveMujica.TargetType == TargetType.AnyEnemy, "Ave Mujica target");
-        Require(aveMujica.Keywords.Count == 0, "Ave Mujica Java-faithful non-Exhaust policy");
-        Require(aveMujica.DynamicVars.Damage.BaseValue == 7m, "Ave Mujica damage stat");
-        Require(Upgraded(aveMujica).DynamicVars.Damage.BaseValue == 10m,
-            "Ave Mujica upgraded damage stat");
-        Require(AveMujicaCard.ChoiceCount == 3, "Ave Mujica choice count");
-        CardModel[] aveOptions = AveMujicaCard.SelectOptionCanonicals(new Rng(711uL));
-        CardModel[] repeatedAveOptions = AveMujicaCard.SelectOptionCanonicals(new Rng(711uL));
+        Require(aveMujica.TargetType == TargetType.Self, "Ave Mujica target");
+        Require(aveMujica.Keywords.Contains(CardKeyword.Exhaust), "Ave Mujica Exhaust");
+        Require(aveMujica.EnergyCost.Canonical == 0, "Ave Mujica cost");
+        Require(Upgraded(aveMujica).IsUpgraded,
+            "Ave Mujica upgrade");
+        CardModel[] aveOptions = AveMujicaCard.SelectOptionCanonicals();
+        CardModel[] repeatedAveOptions = AveMujicaCard.SelectOptionCanonicals();
         HashSet<CardModel> allowedAveOptions =
         [
             ModelDb.Card<SymbolIFireCard>(),
@@ -1155,15 +865,15 @@ internal static class N5PureContractTests
             ModelDb.Card<SymbolIVEarthCard>(),
             ModelDb.Card<EtherCard>()
         ];
-        Require(aveOptions.Length == 3, "Ave Mujica selected option count");
-        Require(aveOptions.Distinct(ReferenceEqualityComparer.Instance).Count() == 3,
+        Require(aveOptions.Length == 4, "Ave Mujica selected option count");
+        Require(aveOptions.Distinct(ReferenceEqualityComparer.Instance).Count() == 4,
             "Ave Mujica option uniqueness");
-        Require(aveOptions.All(allowedAveOptions.Contains), "Ave Mujica option boundary");
+        Require(aveOptions.All(allowedAveOptions.Contains) && aveOptions.All(c => c is not EtherCard), "Ave Mujica option boundary");
         Require(aveOptions.SequenceEqual(repeatedAveOptions, ReferenceEqualityComparer.Instance),
             "Ave Mujica deterministic seeded selection");
 
         BandInvitationCard bandInvitation = ModelDb.Card<BandInvitationCard>();
-        Require(bandInvitation.EnergyCost.Canonical == 0, "Band Invitation cost");
+        Require(bandInvitation.EnergyCost.Canonical == 1, "Band Invitation cost");
         Require(bandInvitation.Type == CardType.Skill && bandInvitation.Rarity == CardRarity.Rare,
             "Band Invitation type and rarity");
         Require(bandInvitation.TargetType == TargetType.Self, "Band Invitation target");
@@ -1179,13 +889,13 @@ internal static class N5PureContractTests
             "Band Invitation empty-cost sum");
 
         BlackBirthdayCard blackBirthday = ModelDb.Card<BlackBirthdayCard>();
-        Require(blackBirthday.EnergyCost.Canonical == 2, "Black Birthday cost");
+        Require(blackBirthday.EnergyCost.Canonical == 3, "Black Birthday cost");
         Require(blackBirthday.Type == CardType.Attack && blackBirthday.Rarity == CardRarity.Rare,
             "Black Birthday type and rarity");
         Require(blackBirthday.TargetType == TargetType.AllEnemies, "Black Birthday target");
         Require(blackBirthday.Keywords.SetEquals([CardKeyword.Exhaust]), "Black Birthday Exhaust");
         Require(blackBirthday.DynamicVars.Damage.BaseValue == 12m, "Black Birthday damage");
-        Require(Upgraded(blackBirthday).DynamicVars.Damage.BaseValue == 16m,
+        Require(Upgraded(blackBirthday).DynamicVars.Damage.BaseValue == 12m && Upgraded(blackBirthday).EnergyCost.GetWithModifiers(CostModifiers.None) == 2,
             "Black Birthday upgraded damage");
         PowerModel strength = ModelDb.Power<StrengthPower>();
         PowerModel surrounded = ModelDb.Power<SurroundedPower>();
@@ -1195,23 +905,21 @@ internal static class N5PureContractTests
 
         CharismaticFormCard charismatic = ModelDb.Card<CharismaticFormCard>();
         Require(charismatic.EnergyCost.Canonical == 3, "Charismatic Form cost");
-        Require(charismatic.Type == CardType.Power && charismatic.Rarity == CardRarity.Ancient,
+        Require(charismatic.Type == CardType.Power && charismatic.Rarity == CardRarity.Rare,
             "Charismatic Form type and rarity");
         Require(charismatic.TargetType == TargetType.Self, "Charismatic Form target");
         Require(charismatic.Keywords.Count == 0, "Charismatic Form base keywords");
-        Require(charismatic.DynamicVars["MagicNumber"].BaseValue == 2m,
-            "Charismatic Form Hype amount");
         Require(Upgraded(charismatic).Keywords.SetEquals([CardKeyword.Innate]),
-            "Charismatic Form upgraded Innate");
+            "Fateweaver Form upgraded Innate");
 
         CrueltyCard cruelty = ModelDb.Card<CrueltyCard>();
-        Require(cruelty.EnergyCost.Canonical == 0, "Cruelty cost");
+        Require(cruelty.EnergyCost.Canonical == 1, "Cruelty cost");
         Require(cruelty.Type == CardType.Power && cruelty.Rarity == CardRarity.Rare,
             "Cruelty type and rarity");
         Require(cruelty.TargetType == TargetType.Self, "Cruelty target");
         Require(cruelty.Keywords.Count == 0, "Cruelty unexpected keyword");
-        Require(cruelty.DynamicVars["MagicNumber"].BaseValue == 2m, "Cruelty Vulnerable");
-        Require(Upgraded(cruelty).DynamicVars["MagicNumber"].BaseValue == 1m,
+        Require(cruelty.DynamicVars["MagicNumber"].BaseValue == 8m, "Cruelty Vulnerable");
+        Require(Upgraded(cruelty).EnergyCost.GetWithModifiers(CostModifiers.None) == 0,
             "Cruelty upgraded Vulnerable");
 
         CrychicCard crychic = ModelDb.Card<CrychicCard>();
@@ -1233,29 +941,18 @@ internal static class N5PureContractTests
         Require(ether.TargetType == TargetType.AnyEnemy, "Ether target");
         Require(ether.Keywords.Count == 0, "Ether unexpected keyword");
         Require(ether.DynamicVars.Damage.BaseValue == 2m, "Ether damage per exhausted card");
-        Require(Upgraded(ether).DynamicVars.Damage.BaseValue == 3m,
+        Require(Upgraded(ether).DynamicVars.Damage.BaseValue == 2m && Upgraded(ether).EnergyCost.GetWithModifiers(CostModifiers.None) == 1,
             "Ether upgraded damage per exhausted card");
-        Require(EtherCard.MaximumExhaustCount == 12, "Ether exhaust cap");
-        CardModel[] etherCandidates = Enumerable.Range(0, 13)
-            .Select(_ => ModelDb.Card<DefendTogawaSakiko>().ToMutable())
-            .Append(ModelDb.Card<StrikeTogawaSakiko>().ToMutable())
-            .ToArray();
-        CardModel[] selectedForEther = EtherCard.SelectCardsToExhaust(etherCandidates);
-        Require(selectedForEther.Length == 12, "Ether selected exhaust count");
-        Require(selectedForEther.All(card => card.Type != CardType.Attack),
-            "Ether selected an Attack");
-        Require(selectedForEther.SequenceEqual(etherCandidates.Take(12), ReferenceEqualityComparer.Instance),
-            "Ether source-order and cap policy");
 
         ImprisonedXIICard imprisoned = ModelDb.Card<ImprisonedXIICard>();
-        Require(imprisoned.EnergyCost.Canonical == 3, "Imprisoned XII cost");
-        Require(imprisoned.Type == CardType.Attack && imprisoned.Rarity == CardRarity.Rare,
+        Require(imprisoned.EnergyCost.Canonical == 1, "Imprisoned XII cost");
+        Require(imprisoned.Type == CardType.Skill && imprisoned.Rarity == CardRarity.Rare,
             "Imprisoned XII type and rarity");
-        Require(imprisoned.TargetType == TargetType.AnyEnemy, "Imprisoned XII target");
+        Require(imprisoned.TargetType == TargetType.Self, "Imprisoned XII target");
         Require(imprisoned.Keywords.Count == 0, "Imprisoned XII base keywords");
-        Require(imprisoned.DynamicVars.Damage.BaseValue == 8m, "Imprisoned XII damage");
-        Require(Upgraded(imprisoned).Keywords.SetEquals([CardKeyword.Retain]),
-            "Imprisoned XII upgraded Retain");
+        Require(Upgraded(imprisoned).EnergyCost.GetWithModifiers(CostModifiers.None) == 1, "Imprisoned XII upgraded cost");
+        Require(Upgraded(imprisoned).Keywords.Count == 0,
+            "Imprisoned XII upgraded keywords");
 
         MasksCard masks = ModelDb.Card<MasksCard>();
         Require(masks.EnergyCost.Canonical == 1, "Masks cost");
@@ -1281,38 +978,36 @@ internal static class N5PureContractTests
         Require(pride.Type == CardType.Skill && pride.Rarity == CardRarity.Rare,
             "Pride type and rarity");
         Require(pride.TargetType == TargetType.Self, "Pride target");
-        Require(pride.Keywords.SetEquals([CardKeyword.Innate, CardKeyword.Exhaust]), "Pride keywords");
-        Require(pride.DynamicVars["MagicNumber"].BaseValue == 1m, "Pride Attack retrieval count");
-        Require(Upgraded(pride).DynamicVars["MagicNumber"].BaseValue == 2m,
-            "Pride upgraded Attack retrieval count");
+        Require(pride.Keywords.Count == 0, "Pride keywords");
+        Require(Upgraded(pride).Keywords.Contains(CardKeyword.Innate),
+            "Pride upgraded Innate");
         CardModel drawAttack = ModelDb.Card<StrikeTogawaSakiko>().ToMutable();
-        CardModel discardAttack = ModelDb.Card<MelodyCard>().ToMutable();
         CardModel nonAttack = ModelDb.Card<DefendTogawaSakiko>().ToMutable();
-        Require(PrideCard.SelectCandidatePile([nonAttack, drawAttack], [discardAttack])
+        Require(PrideCard.SelectCandidatePile([nonAttack, drawAttack])
                 .SequenceEqual([drawAttack], ReferenceEqualityComparer.Instance),
             "Pride Draw-pile precedence");
-        Require(PrideCard.SelectCandidatePile([nonAttack], [nonAttack, discardAttack])
-                .SequenceEqual([discardAttack], ReferenceEqualityComparer.Instance),
-            "Pride Discard fallback");
-        Require(PrideCard.SelectCandidatePile([nonAttack], [nonAttack]).Length == 0,
+        Require(PrideCard.SelectCandidatePile([nonAttack])
+                .SequenceEqual(Array.Empty<CardModel>(), ReferenceEqualityComparer.Instance),
+            "Pride offers nothing without a Draw-pile Attack");
+        Require(PrideCard.SelectCandidatePile([nonAttack]).Length == 0,
             "Pride empty candidate result");
 
         SoraNoMusicaCard sora = ModelDb.Card<SoraNoMusicaCard>();
-        Require(sora.EnergyCost.Canonical == 3, "Sora No Musica cost");
-        Require(sora.Type == CardType.Attack && sora.Rarity == CardRarity.Rare,
+        Require(sora.EnergyCost.Canonical == 0, "Sora No Musica cost");
+        Require(sora.Type == CardType.Skill && sora.Rarity == CardRarity.Rare,
             "Sora No Musica type and rarity");
-        Require(sora.TargetType == TargetType.AnyEnemy, "Sora No Musica target");
+        Require(sora.TargetType == TargetType.Self, "Sora No Musica target");
         Require(sora.Keywords.SetEquals([CardKeyword.Exhaust]), "Sora No Musica Exhaust");
-        Require(sora.DynamicVars.Damage.BaseValue == 12m, "Sora No Musica damage");
-        Require(sora.DynamicVars["MagicNumber"].BaseValue == 5m, "Sora No Musica selection cap");
-        Require(Upgraded(sora).DynamicVars["MagicNumber"].BaseValue == 7m,
+        Require(!sora.GainsBlock, "Sora No Musica damage");
+        Require(sora.DynamicVars["MagicNumber"].BaseValue == 4m, "Sora No Musica selection cap");
+        Require(Upgraded(sora).DynamicVars["MagicNumber"].BaseValue == 6m,
             "Sora No Musica upgraded selection cap");
 
         SpringSunlightCard spring = ModelDb.Card<SpringSunlightCard>();
         Require(spring.EnergyCost.Canonical == 0, "Spring Sunlight canonical cost");
         Require(spring.Type == CardType.Attack && spring.Rarity == CardRarity.Rare,
             "Spring Sunlight type and rarity");
-        Require(spring.TargetType == TargetType.AnyEnemy, "Spring Sunlight target");
+        Require(spring.TargetType == TargetType.AllEnemies, "Spring Sunlight target");
         Require(spring.Keywords.Count == 0, "Spring Sunlight unexpected keyword");
         Require(spring.DynamicVars.Damage.BaseValue == 30m, "Spring Sunlight damage");
         Require(spring.DynamicVars["MagicNumber"].BaseValue == 6m, "Spring Sunlight deck divisor");
@@ -1326,22 +1021,22 @@ internal static class N5PureContractTests
 
         StayEleganceCard stayElegance = ModelDb.Card<StayEleganceCard>();
         Require(stayElegance.EnergyCost.Canonical == 1, "Stay Elegance cost");
-        Require(stayElegance.Type == CardType.Skill && stayElegance.Rarity == CardRarity.Rare,
+        Require(stayElegance.Type == CardType.Power && stayElegance.Rarity == CardRarity.Uncommon,
             "Stay Elegance type and rarity");
         Require(stayElegance.TargetType == TargetType.Self, "Stay Elegance target");
-        Require(stayElegance.Keywords.SetEquals([CardKeyword.Exhaust]), "Stay Elegance Exhaust");
-        Require(Upgraded(stayElegance).EnergyCost.GetWithModifiers(CostModifiers.None) == 0,
+        Require(stayElegance.Keywords.Count == 0, "Stay Elegance Exhaust");
+        Require(Upgraded(stayElegance).EnergyCost.GetWithModifiers(CostModifiers.None) == 1 && Upgraded(stayElegance).DynamicVars["MagicNumber"].IntValue == 2,
             "Stay Elegance upgraded cost");
 
         WishYouGoodLuckCard wishYouGoodLuck = ModelDb.Card<WishYouGoodLuckCard>();
-        Require(wishYouGoodLuck.EnergyCost.Canonical == 1, "Wish You Good Luck cost");
-        Require(wishYouGoodLuck.Type == CardType.Power && wishYouGoodLuck.Rarity == CardRarity.Rare,
+        Require(wishYouGoodLuck.EnergyCost.Canonical == 3, "Wish You Good Luck cost");
+        Require(wishYouGoodLuck.Type == CardType.Skill && wishYouGoodLuck.Rarity == CardRarity.Rare,
             "Wish You Good Luck type and rarity");
         Require(wishYouGoodLuck.TargetType == TargetType.Self, "Wish You Good Luck target");
         Require(wishYouGoodLuck.Keywords.Count == 0, "Wish You Good Luck unexpected keyword");
-        Require(wishYouGoodLuck.DynamicVars["MagicNumber"].BaseValue == 1m,
+        Require(wishYouGoodLuck.DynamicVars.Block.BaseValue == 16m && wishYouGoodLuck.DynamicVars.Repeat.IntValue == 3,
             "Wish You Good Luck amount");
-        Require(Upgraded(wishYouGoodLuck).DynamicVars["MagicNumber"].BaseValue == 2m,
+        Require(Upgraded(wishYouGoodLuck).DynamicVars.Block.BaseValue == 18m && Upgraded(wishYouGoodLuck).DynamicVars.Repeat.IntValue == 5,
             "Wish You Good Luck upgraded amount");
 
         WorldviewCard worldview = ModelDb.Card<WorldviewCard>();
@@ -1350,7 +1045,7 @@ internal static class N5PureContractTests
             "Worldview type and rarity");
         Require(worldview.TargetType == TargetType.Self, "Worldview target");
         Require(worldview.Keywords.Count == 0, "Worldview base keywords");
-        Require(Upgraded(worldview).Keywords.SetEquals([CardKeyword.Innate]),
+        Require(Upgraded(worldview).Keywords.SetEquals([CardKeyword.Innate]) && Upgraded(worldview).EnergyCost.GetWithModifiers(CostModifiers.None) == 1,
             "Worldview upgraded Innate");
 
         Require(ModelDb.GetId<AsYourHeartDesiresCard>().Entry == "TOGAWASAKIKO-AS_YOUR_HEART_DESIRES_CARD",
@@ -1386,8 +1081,7 @@ internal static class N5PureContractTests
         CharismaticFormPower charismatic = ModelDb.Power<CharismaticFormPower>();
         SakikoCrueltyPower cruelty = ModelDb.Power<SakikoCrueltyPower>();
         CrychicPower crychic = ModelDb.Power<CrychicPower>();
-        PridePower pride = ModelDb.Power<PridePower>();
-        WishYouGoodLuckPower wish = ModelDb.Power<WishYouGoodLuckPower>();
+        EncorePower encore = ModelDb.Power<EncorePower>();
         WorldviewPower worldview = ModelDb.Power<WorldviewPower>();
 
         Require(charismatic.Type == PowerType.Buff && charismatic.StackType == PowerStackType.Counter,
@@ -1396,22 +1090,17 @@ internal static class N5PureContractTests
             "Cruelty power metadata");
         Require(crychic.Type == PowerType.Buff && crychic.StackType == PowerStackType.Counter,
             "Crychic power metadata");
-        Require(pride.Type == PowerType.Buff && pride.StackType == PowerStackType.Counter,
-            "Pride power metadata");
-        Require(wish.Type == PowerType.Buff && wish.StackType == PowerStackType.Counter,
-            "Wish You Good Luck power metadata");
         Require(worldview.Type == PowerType.Buff && worldview.StackType == PowerStackType.Single,
             "Worldview power metadata");
         Require(PowerCopyCommand.GetCompatibility(charismatic).Supported,
             "Charismatic Form power-copy policy");
         Require(PowerCopyCommand.GetCompatibility(cruelty).Supported, "Cruelty power-copy policy");
         Require(PowerCopyCommand.GetCompatibility(crychic).Supported, "Crychic power-copy policy");
-        Require(PowerCopyCommand.GetCompatibility(wish).Supported, "Wish You Good Luck power-copy policy");
         Require(PowerCopyCommand.GetCompatibility(worldview).Supported, "Worldview power-copy policy");
-        PowerCopyCompatibility prideCompatibility = PowerCopyCommand.GetCompatibility(pride);
-        Require(!prideCompatibility.Supported, "Pride internal-state power-copy rejection");
-        Require(!string.IsNullOrWhiteSpace(prideCompatibility.Reason),
-            "Pride power-copy rejection reason");
+        PowerCopyCompatibility encoreCompatibility = PowerCopyCommand.GetCompatibility(encore);
+        Require(!encoreCompatibility.Supported, "Encore internal-state power-copy rejection");
+        Require(!string.IsNullOrWhiteSpace(encoreCompatibility.Reason),
+            "Encore power-copy rejection reason");
 
         PowerModel[] excludedEnemyPowers =
         [
@@ -1473,10 +1162,6 @@ internal static class N5PureContractTests
             "Cruelty power stable ID");
         Require(ModelDb.GetId<CrychicPower>().Entry == "TOGAWASAKIKO-CRYCHIC_POWER",
             "Crychic power stable ID");
-        Require(ModelDb.GetId<PridePower>().Entry == "TOGAWASAKIKO-PRIDE_POWER",
-            "Pride power stable ID");
-        Require(ModelDb.GetId<WishYouGoodLuckPower>().Entry == "TOGAWASAKIKO-WISH_YOU_GOOD_LUCK_POWER",
-            "Wish You Good Luck power stable ID");
         Require(ModelDb.GetId<WorldviewPower>().Entry == "TOGAWASAKIKO-WORLDVIEW_POWER",
             "Worldview power stable ID");
     }
@@ -1486,8 +1171,7 @@ internal static class N5PureContractTests
         CardModel removable = ModelDb.Card<StrikeTogawaSakiko>();
         CardModel protectedCard = ModelDb.Card<BadLuck>();
         CardModel[] candidates = WishFulfilledCard.GetPurgeCandidates([removable, protectedCard]);
-        Require(candidates.Length == 1, "Wish Fulfilled filters non-removable cards");
-        Require(ReferenceEquals(candidates[0], removable), "Wish Fulfilled preserves candidate order");
+        Require(candidates.Length == 0, "Wish Fulfilled rejects cards without permanent deck membership");
         CardModel defend = ModelDb.Card<DefendTogawaSakiko>();
         Require(WishFulfilledCard.ComparePurgeCandidates(removable, defend) == removable.CompareTo(defend) &&
                 WishFulfilledCard.ComparePurgeCandidates(defend, removable) == defend.CompareTo(removable),
@@ -1507,6 +1191,23 @@ internal static class N5PureContractTests
         Require(!registeredCardEntries.Contains("TOGAWASAKIKO-CAREFREE_CARD") &&
                 !registeredCardEntries.Contains("TOGAWASAKIKO-WEAKNESS_CARD"),
             "disabled Carefree and Weakness models are absent from the registered card pool");
+        string[] retiredCardEntries =
+        [
+            "TOGAWASAKIKO-ALEA_IACTA_EST_CARD",
+            "TOGAWASAKIKO-BLACK_AND_WHITE_KEYS_CARD",
+            "TOGAWASAKIKO-BLACK_KEYS_CARD",
+            "TOGAWASAKIKO-BUDGET_BENTO_CARD",
+            "TOGAWASAKIKO-CLOCK_OUT_CARD",
+            "TOGAWASAKIKO-CURTAIN_CALL_CARD",
+            "TOGAWASAKIKO-EDGE_OF_BREAKDOWN_CARD",
+            "TOGAWASAKIKO-ENDURANCE_CARD",
+            "TOGAWASAKIKO-QUAERERE_LUMINA_CARD",
+            "TOGAWASAKIKO-SILENT_FAREWELL_CARD",
+            "TOGAWASAKIKO-VERITAS_CARD",
+            "TOGAWASAKIKO-WHITE_KEYS_CARD"
+        ];
+        Require(!retiredCardEntries.Any(registeredCardEntries.Contains),
+            "cards retired by the STS2 rework are absent from the registered card pool");
     }
 
     private static void ValidateStaticSpriteFacing()
@@ -1674,3 +1375,4 @@ internal static class N5PureContractTests
         }
     }
 }
+

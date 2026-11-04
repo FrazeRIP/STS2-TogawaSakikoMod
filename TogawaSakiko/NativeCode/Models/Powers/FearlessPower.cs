@@ -1,13 +1,13 @@
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.Diagnostics;
+using TogawaSakiko.NativeCode.Presentation;
 
 namespace TogawaSakiko.NativeCode.Models.Powers;
 
@@ -27,12 +27,11 @@ public sealed class FearlessPower : PowerModel
             return;
         }
 
-        CardModel[] candidates = PileType.Hand.GetPile(Owner.Player).Cards
-            .Where(card => card.IsRemovable)
-            .ToArray();
+        CardModel[] candidates = SakikoPurgeCommand.GetCandidates(Owner.Player);
         CardModel? selected = null;
         if (candidates.Length > 0)
         {
+            using var locationTips = PurgeCardLocationTips.ShowFor(candidates);
             selected = (await CardSelectCmd.FromSimpleGrid(
                     choiceContext,
                     candidates,
@@ -46,9 +45,7 @@ public sealed class FearlessPower : PowerModel
 
         if (selected is not null)
         {
-            SakikoPurgeResult result = await SakikoPurgeCommand.RemoveAsync(
-                selected,
-                choiceContext: choiceContext);
+            SakikoPurgeResult result = await SakikoPurgeCommand.RemoveAsync(selected);
             if (!result.Success && !result.Prevented)
             {
                 NativeSmokeTrace.N5Info(

@@ -283,7 +283,7 @@
       "path": "res://TogawaSakiko/images/card_portraits/charismaticformcard.png",
       "width": 606,
       "height": 852,
-      "sourceStatus": "Original"
+      "sourceStatus": "Resolution mismatch"
     },
     {
       "ownerType": "card",
@@ -292,7 +292,7 @@
       "path": "res://TogawaSakiko/images/card_portraits/big/charismaticformcard.png",
       "width": 606,
       "height": 852,
-      "sourceStatus": "Original"
+      "sourceStatus": "Resolution mismatch"
     },
     {
       "ownerType": "card",
@@ -3240,7 +3240,7 @@
       "path": "res://TogawaSakiko/audio/sakiko/carefree.wav"
     },
     {
-      "usage": "Active card voice",
+      "usage": "Retired-card voice; excluded",
       "path": "res://TogawaSakiko/audio/sakiko/clockout.wav"
     },
     {
@@ -3260,11 +3260,11 @@
       "path": "res://TogawaSakiko/audio/sakiko/doloris.wav"
     },
     {
-      "usage": "Active card voice",
+      "usage": "Retired-card voice; excluded",
       "path": "res://TogawaSakiko/audio/sakiko/edgeofbreakdown.wav"
     },
     {
-      "usage": "Active card voice",
+      "usage": "Retired-card voice; excluded",
       "path": "res://TogawaSakiko/audio/sakiko/endurance.wav"
     },
     {

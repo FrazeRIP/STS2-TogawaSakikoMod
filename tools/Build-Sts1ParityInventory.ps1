@@ -199,6 +199,33 @@ $outOfScopePowerNames = @(
     "UnfadingYearningPower",
     "VoicedGazePower"
 )
+# Enabled in STS1 but retired by the user-approved STS2 rework (docs/STS2_MECHANICS_CONFIRMED.md).
+# They have no native model; old saves load them as the game's Deprecated card.
+$retiredCardNames = @(
+    "AleaIactaEst",
+    "BlackAndWhiteKeys",
+    "BlackKeys",
+    "BudgetBento",
+    "ClockOut",
+    "EdgeOfBreakdown",
+    "Endurance",
+    "QuaerereLumina",
+    "SilentFarewell",
+    "Veritas",
+    "WhiteKeys"
+)
+# STS1 powers whose only appliers were reworked or retired in the STS2 rework.
+$retiredPowerNames = @(
+    "EndurancePower",
+    "GirlOfSpringPower",
+    "GodsCreationPower",
+    "KingsPower",
+    "MortisPower",
+    "PerdereOmniaPower",
+    "PridePower",
+    "TimorisPower",
+    "WishYouGoodLuckPower"
+)
 $outOfScopeDomainItems = @{
     actions = @(
         "AddCardsFromDiscardedToHandAction",
@@ -324,6 +351,10 @@ foreach ($file in $cardFiles) {
     $stableId = "TOGAWASAKIKO-$entry"
     $native = $nativeCards.ContainsKey($sts2Type)
     $legacy = $legacyCards.ContainsKey($sts2Type)
+    $retired = $name -in $retiredCardNames
+    if ($retired -and $native) {
+        throw "Retired card $name still has a native model."
+    }
 
     $audio = @(
         [regex]::Matches($active, 'new\s+PlayAudioAction\s*\(\s*(?:([A-Za-z0-9_]+)\.class\.getSimpleName\s*\(\s*\)|"([^"]+)")') |
@@ -367,7 +398,8 @@ foreach ($file in $cardFiles) {
     }
 
     $differences = [System.Collections.Generic.List[string]]::new()
-    if (-not $native) { $differences.Add("native behavior missing") }
+    if ($retired) { $differences.Add("retired by the STS2 rework; no native model by user decision") }
+    elseif (-not $native) { $differences.Add("native behavior missing") }
     if (-not ($nativeEngTitle -and $nativeEngDescription)) { $differences.Add("native English localization missing") }
     if (-not ($nativeZhsTitle -and $nativeZhsDescription)) { $differences.Add("native Simplified Chinese localization missing") }
     if (-not ($originalSmall -and $originalLarge)) { $differences.Add("STS1 original art missing") }
@@ -389,7 +421,7 @@ foreach ($file in $cardFiles) {
         sts1Id = "togawasakikomod:$name"
         sts2Type = $sts2Type
         sts2StableId = $stableId
-        portStatus = if ($enabled) { Get-PortStatus $native $legacy } else { "Excluded" }
+        portStatus = if (-not $enabled) { "Excluded" } elseif ($retired) { "Retired" } else { Get-PortStatus $native $legacy }
         nativeSource = if ($native) { $nativeCards[$sts2Type] } else { $null }
         legacyEvidence = if ($legacy) { $legacyCards[$sts2Type] } else { $null }
         sts1Source = Get-RelativePathNormalized $Sts1Root $file.FullName
@@ -427,6 +459,10 @@ foreach ($file in $powerFiles) {
     $name = $file.BaseName
     $native = $nativePowers.ContainsKey($name)
     $legacy = $legacyPowers.ContainsKey($name)
+    $retired = $name -in $retiredPowerNames
+    if ($retired -and $native) {
+        throw "Retired power $name still has a native model."
+    }
     $stableId = "TOGAWASAKIKO-$(ConvertTo-ModelEntry $name)"
     $locKey = '${modID}:' + $name
     $engRecord = Get-LocRecord $sts1Loc.eng["PowerStrings.json"] $locKey
@@ -454,7 +490,8 @@ foreach ($file in $powerFiles) {
         $nativeLoc.zhs.powers.ContainsKey("$stableId.description")
 
     $differences = [System.Collections.Generic.List[string]]::new()
-    if (-not $native) { $differences.Add("native behavior missing") }
+    if ($retired) { $differences.Add("retired by the STS2 rework; nothing applies it") }
+    elseif (-not $native) { $differences.Add("native behavior missing") }
     if ($null -eq $engRecord -or $null -eq $zhsRecord) {
         if ($inheritsBasePresentation) { $differences.Add("inherits base-game localization") }
         else { $differences.Add("STS1 localization missing") }
@@ -467,7 +504,7 @@ foreach ($file in $powerFiles) {
         name = $name
         group = $file.Directory.Name
         sts2StableId = $stableId
-        portStatus = Get-PortStatus $native $legacy
+        portStatus = if ($retired) { "Retired" } else { Get-PortStatus $native $legacy }
         nativeSource = if ($native) { $nativePowers[$name] } else { $null }
         legacyEvidence = if ($legacy) { $legacyPowers[$name] } else { $null }
         sts1Source = Get-RelativePathNormalized $Sts1Root $file.FullName
@@ -624,7 +661,7 @@ foreach ($file in $potionFiles) {
 $directCardVoiceKeys = @($cards.directVoiceKeys | ForEach-Object { $_ } | Sort-Object -Unique)
 $enabledDirectCardVoiceKeys = @(
     $cards |
-        Where-Object enabledInSts1 |
+        Where-Object { $_.enabledInSts1 -and $_.portStatus -ne "Retired" } |
         ForEach-Object directVoiceKeys |
         ForEach-Object { $_ } |
         Sort-Object -Unique
@@ -634,6 +671,14 @@ $disabledDirectCardVoiceKeys = @(
         Where-Object { -not $_.enabledInSts1 } |
         ForEach-Object directVoiceKeys |
         ForEach-Object { $_ } |
+        Sort-Object -Unique
+)
+$retiredDirectCardVoiceKeys = @(
+    $cards |
+        Where-Object portStatus -eq "Retired" |
+        ForEach-Object directVoiceKeys |
+        ForEach-Object { $_ } |
+        Where-Object { $_ -notin $enabledDirectCardVoiceKeys } |
         Sort-Object -Unique
 )
 $nativeCodeText = ((Get-ChildItem -LiteralPath (Join-Path $repoRoot "TogawaSakiko/NativeCode") -Recurse -File -Filter "*.cs" |
@@ -664,6 +709,7 @@ foreach ($file in Get-ChildItem -LiteralPath $sourceAudioRoot -Recurse -File | S
     $stem = $file.BaseName
     $usage = if ($relative.StartsWith("sakiko/", [System.StringComparison]::OrdinalIgnoreCase)) {
         if ($stem -in $disabledDirectCardVoiceKeys) { "Disabled-card voice; excluded" }
+        elseif ($stem -in $retiredDirectCardVoiceKeys) { "Retired-card voice; excluded" }
         elseif ($stem -in $enabledDirectCardVoiceKeys) { "Active card voice" }
         elseif ($stem -eq "Intro") { "Active character-select voice" }
         elseif ($stem -in @("Hurt1", "Hurt2")) { "Active hurt voice" }
@@ -685,6 +731,8 @@ foreach ($file in Get-ChildItem -LiteralPath $sourceAudioRoot -Recurse -File | S
         "Missing native route"
     } elseif ($stem -in $disabledDirectCardVoiceKeys) {
         "Excluded with its disabled card"
+    } elseif ($stem -in $retiredDirectCardVoiceKeys) {
+        "Excluded with its retired card"
     } elseif ($stem -eq "Hurt3") {
         "Preserved, intentionally unreachable like STS1"
     } elseif ($stem -eq "MusicPulseAttackEffect") {
@@ -901,7 +949,8 @@ $summary = [ordered]@{
         enabledInSts1 = @($cards | Where-Object enabledInSts1).Count
         disabledInSts1 = @($cards | Where-Object { -not $_.enabledInSts1 }).Count
         native = @($cards | Where-Object portStatus -eq "Native").Count
-        missingNative = @($cards | Where-Object { $_.enabledInSts1 -and $_.portStatus -ne "Native" }).Count
+        missingNative = @($cards | Where-Object { $_.enabledInSts1 -and $_.portStatus -notin @("Native", "Retired") }).Count
+        retired = @($cards | Where-Object portStatus -eq "Retired").Count
         excluded = @($cards | Where-Object portStatus -eq "Excluded").Count
         excludedWithNativeCompatibilityModel = @($cards | Where-Object { -not $_.enabledInSts1 -and $null -ne $_.nativeSource }).Count
         originalArtPairs = @($cards | Where-Object { $_.art.status -eq "Original" }).Count
@@ -911,7 +960,8 @@ $summary = [ordered]@{
     powers = [ordered]@{
         sts1 = $powers.Count
         native = @($powers | Where-Object portStatus -eq "Native").Count
-        missingNative = @($powers | Where-Object portStatus -ne "Native").Count
+        missingNative = @($powers | Where-Object portStatus -notin @("Native", "Retired")).Count
+        retired = @($powers | Where-Object portStatus -eq "Retired").Count
         customArtPairs = @($powers | Where-Object { $_.art.status -eq "Original" }).Count
         baseGamePresentation = @($powers | Where-Object inheritsBasePresentation).Count
         missingSts1Localization = @($powers | Where-Object { $null -eq $_.localization.sts1English -or $null -eq $_.localization.sts1SimplifiedChinese }).Count
@@ -984,13 +1034,15 @@ $md = [System.Text.StringBuilder]::new()
 [void]$md.AppendLine()
 [void]$md.AppendLine("Baseline: Slay the Spire 2 ``v0.111.0`` / ``41cef1ea``. Behavior and player-facing source truth: the STS1 project. Stable STS2 IDs follow the preserved ``TOGAWASAKIKO-`` policy.")
 [void]$md.AppendLine()
+[void]$md.AppendLine("Retired: cards and powers marked Retired were ported, then removed by the user-approved STS2 rework (``docs/STS2_MECHANICS_CONFIRMED.md``). Native-only cards and powers added by that rework are outside this STS1 inventory.")
+[void]$md.AppendLine()
 [void]$md.AppendLine("Scope boundary: the nine cards disabled in STS1 are skipped and excluded from completion. Custom acts, events, enemies, encounters, intents, enemy-compatibility powers, and their exclusive ending/audio/presentation support are also excluded and must not be copied, packaged, localized, registered, or counted toward completion.")
 [void]$md.AppendLine()
 [void]$md.AppendLine("## Scope totals and current gap")
 [void]$md.AppendLine()
 Add-MarkdownTable $md @("Domain", "STS1 concrete", "Native now", "Missing native", "Important correction") @(
-    @("Cards", $summary.cards.enabledInSts1, $summary.cards.native, $summary.cards.missingNative, "$($summary.cards.disabledInSts1) STS1-disabled cards are excluded"),
-    @("Powers", $summary.powers.sts1, $summary.powers.native, $summary.powers.missingNative, "25 player-card-relevant models"),
+    @("Cards", $summary.cards.enabledInSts1, $summary.cards.native, $summary.cards.missingNative, "$($summary.cards.disabledInSts1) STS1-disabled cards are excluded; $($summary.cards.retired) retired by the STS2 rework"),
+    @("Powers", $summary.powers.sts1, $summary.powers.native, $summary.powers.missingNative, "25 player-card-relevant models; $($summary.powers.retired) retired by the STS2 rework"),
     @("Relics", $summary.relics.sts1Concrete, $summary.relics.native, $summary.relics.missingNative, "11 concrete, not 12; BaseRelic is abstract scaffolding"),
     @("Potions", $summary.potions.sts1Concrete, $summary.potions.native, $summary.potions.missingNative, "6 concrete, not 7; BasePotion is abstract scaffolding")
 )
@@ -1120,8 +1172,8 @@ Add-MarkdownTable $md @("STS1 image", "Source dimensions", "STS2", "Planned/nati
 [System.IO.File]::WriteAllText($outputMarkdownPath, $md.ToString(), [System.Text.UTF8Encoding]::new($false))
 
 Write-Host "Parity inventory generated."
-Write-Host "Cards: $($summary.cards.native)/$($summary.cards.enabledInSts1) in-scope native; $($summary.cards.excluded) disabled cards excluded; art gaps or mismatches: $($summary.cards.missingOrWrongArtPairs)."
-Write-Host "Powers: $($summary.powers.native)/$($summary.powers.sts1) native."
+Write-Host "Cards: $($summary.cards.native)/$($summary.cards.enabledInSts1) in-scope native; $($summary.cards.retired) retired; $($summary.cards.excluded) disabled cards excluded; art gaps or mismatches: $($summary.cards.missingOrWrongArtPairs)."
+Write-Host "Powers: $($summary.powers.native)/$($summary.powers.sts1) native; $($summary.powers.retired) retired."
 Write-Host "Relics: $($summary.relics.native)/$($summary.relics.sts1Concrete) native."
 Write-Host "Potions: $($summary.potions.native)/$($summary.potions.sts1Concrete) native."
 Write-Host "Audio: $($summary.audio.copiedToSts2)/$($summary.audio.sourceFiles) copied; $($summary.audio.activeInScopeWired)/$($summary.audio.activeInScopeSourceFiles) active routes wired; $($summary.audio.registeredButMissingFromSts1Source) registered source file missing."

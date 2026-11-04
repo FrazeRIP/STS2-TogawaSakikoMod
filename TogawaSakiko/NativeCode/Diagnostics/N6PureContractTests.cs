@@ -13,7 +13,6 @@ using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.Unlocks;
 using MegaCrit.Sts2.Core.ValueProps;
-using TogawaSakiko.NativeCode.Content;
 using TogawaSakiko.NativeCode.Models.Cards;
 using TogawaSakiko.NativeCode.Models.Potions;
 using TogawaSakiko.NativeCode.Models.Pools;
@@ -121,7 +120,7 @@ internal static class N6PureContractTests
         CardModel[] characterCards = ModelDb.CardPool<TogawaSakikoCardPool>().AllCards.ToArray();
         CardModel[] curses = characterCards.Where(card => card.Type == CardType.Curse).ToArray();
         CardModel[] statuses = ModelDb.CardPool<StatusCardPool>().AllCards.ToArray();
-        Require(curses.Length == 5, "random generation probes cover all five registered Sakiko curses");
+        Require(curses.Length == 6, "random generation probes cover all six registered Sakiko curses");
         Require(statuses.Length > 0 && statuses.All(card => card.Type == CardType.Status),
             "random generation probes cover native statuses");
 
@@ -135,12 +134,12 @@ internal static class N6PureContractTests
         [
             ModelDb.Card<DesireCard>(), ModelDb.Card<TirednessCard>(), ModelDb.Card<MelodyCard>(),
             ModelDb.Card<IdealCard>(), ModelDb.Card<ProtectionCard>(), ModelDb.Card<RadianceCard>(),
-            ModelDb.Card<KindnessCard>(), ModelDb.Card<VoiceCard>(),
-            ModelDb.Card<BlackKeysCard>(), ModelDb.Card<WhiteKeysCard>()
+            ModelDb.Card<KindnessCard>(), ModelDb.Card<VoiceCard>()
         ];
         foreach (CardModel card in generatedOnlyCards)
         {
-            Require(card.Rarity == CardRarity.Token && characterCards.Contains(card),
+            // Tiredness is a generated Curse; every other generated-only card is a Token.
+            Require((card.Rarity == CardRarity.Token || card is TirednessCard) && characterCards.Contains(card),
                 $"generated-only {card.Id} remains registered as a token");
             Require(!card.CanBeGeneratedInCombat && !card.CanBeGeneratedByModifiers,
                 $"generated-only {card.Id} opts out of generic combat and modifier generation");
@@ -151,17 +150,17 @@ internal static class N6PureContractTests
         CardModel[] sourceHealingCards =
         [
             ModelDb.Card<AsYourHeartDesiresCard>(), ModelDb.Card<FearlessCard>(),
-            ModelDb.Card<BudgetBentoCard>(), ModelDb.Card<ClockOutCard>(),
             ModelDb.Card<WishFulfilledCard>(), ModelDb.Card<StayEleganceCard>(),
             ModelDb.Card<MementoMoriCard>(), ModelDb.Card<PerdereOmniaCard>(),
             ModelDb.Card<DatenCard>()
         ];
         foreach (CardModel card in sourceHealingCards)
         {
-            Require(!card.CanBeGeneratedInCombat && card.CanBeGeneratedByModifiers,
-                $"source Healing card {card.Id} opts out only from generic combat generation");
-            Require(!CardFactory.FilterForCombat([card]).Any(),
-                $"native combat generation excludes source Healing card {card.Id}");
+            // The reworked Memento Mori is the only source Healing card allowed back into combat generation.
+            Require(card.CanBeGeneratedInCombat == (card is MementoMoriCard) && card.CanBeGeneratedByModifiers,
+                $"source Healing card {card.Id} respects combat and modifier generation rules");
+            Require(CardFactory.FilterForCombat([card]).Any() == (card is MementoMoriCard),
+                $"native combat generation policy for source Healing card {card.Id}");
         }
 
         foreach ((string name, Func<CardModel, bool> filter) in new (string, Func<CardModel, bool>)[]
@@ -199,8 +198,8 @@ internal static class N6PureContractTests
 
         MasqueradeMask mask = (MasqueradeMask)ModelDb.Relic<MasqueradeMask>().ToMutable();
         (int firstRemaining, int firstRewards) = MasqueradeMask.AdvanceCounter(1, 1);
-        (int secondRemaining, int secondRewards) = MasqueradeMask.AdvanceCounter(2, 1);
-        (int multiRemaining, int multiRewards) = MasqueradeMask.AdvanceCounter(2, 7);
+        (int secondRemaining, int secondRewards) = MasqueradeMask.AdvanceCounter(4, 1);
+        (int multiRemaining, int multiRewards) = MasqueradeMask.AdvanceCounter(4, 11);
         Require(firstRemaining == 2 && firstRewards == 0, "Masquerade Mask partial counter");
         Require(secondRemaining == 0 && secondRewards == 1, "Masquerade Mask threshold");
         Require(multiRemaining == 0 && multiRewards == 3, "Masquerade Mask recursive thresholds");

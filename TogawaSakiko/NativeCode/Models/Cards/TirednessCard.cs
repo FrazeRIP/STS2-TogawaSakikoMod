@@ -1,10 +1,9 @@
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.Content;
+using TogawaSakiko.NativeCode.Tracking;
 
 namespace TogawaSakiko.NativeCode.Models.Cards;
 
@@ -14,25 +13,42 @@ public sealed class TirednessCard : CardModel
 
     public override bool CanBeGeneratedByModifiers => false;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
-
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override int MaxUpgradeLevel => 0;
 
     public override string PortraitPath => NativeAssetPaths.TirednessPortrait;
 
     public TirednessCard()
-        : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)
+        : base(0, CardType.Curse, CardRarity.Curse, TargetType.Self)
     {
+    }
+
+    public override Task BeforeCombatStart()
+    {
+        TirednessCostState.Refresh(Owner);
+        return Task.CompletedTask;
+    }
+
+    public override Task AfterCardEnteredCombat(CardModel card)
+    {
+        if (card is TirednessCard && card.Owner == Owner)
+        {
+            TirednessCostState.Refresh(Owner);
+        }
+
+        return Task.CompletedTask;
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        SakikoAudioCmd.TryPlayCardVoice(Owner, "Tiredness");
-        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
-    }
+        var player = Owner;
+        var persistent = DeckVersion;
+        SakikoAudioCmd.TryPlayCardVoice(player, "Tiredness");
+        // Temporary cards are not eligible for permanent removal, per the shared purge rule.
+        if (persistent is not null)
+        {
+            await SakikoPurgeCommand.RemoveAsync(persistent);
+        }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Cards.UpgradeValueBy(1m);
+        TirednessCostState.Increase(player);
     }
 }

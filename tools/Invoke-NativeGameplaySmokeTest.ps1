@@ -163,7 +163,6 @@ $vanillaLog = ''
 
 $selectionMarker = 'Selecting character: CHARACTER.TOGAWASAKIKO-TOGAWA_SAKIKO'
 $visualMarker = 'Native gameplay smoke: created the static combat portrait.'
-$moonlightMarker = 'Native gameplay smoke: Moonlight Sonata added a card-removal reward.'
 $dazzlingMarker = 'Native gameplay smoke: Dazzling dealt'
 $hairbandMarker = 'Native gameplay smoke: Monochrome Hairband added Desire to the deck; success=True.'
 $rewardsMarker = '[AutoSlay] Finished screen: NRewardsScreen'
@@ -215,7 +214,6 @@ try {
         $togawaComplete =
             $togawaLog.Contains($selectionMarker) -and
             $togawaLog.Contains($visualMarker) -and
-            $togawaLog.Contains($moonlightMarker) -and
             $togawaLog.Contains($dazzlingMarker) -and
             (Get-Count -Text $togawaLog -Needle $hairbandMarker) -ge 1 -and
             $togawaLog.Contains($rewardsMarker) -and
@@ -234,14 +232,13 @@ try {
 
     $selectionFound = $togawaLog.Contains($selectionMarker)
     $visualFound = $togawaLog.Contains($visualMarker)
-    $moonlightFound = $togawaLog.Contains($moonlightMarker)
     $dazzlingFound = $togawaLog.Contains($dazzlingMarker)
     $hairbandCount = Get-Count -Text $togawaLog -Needle $hairbandMarker
     $rewardsFound = $togawaLog.Contains($rewardsMarker)
     $saveContainsAllIds = $saveSnapshotValid -and
         $saveNeedles.Where({ -not $snapshotText.Contains($_) }).Count -eq 0
 
-    if (-not $selectionFound -or -not $visualFound -or -not $moonlightFound -or
+    if (-not $selectionFound -or -not $visualFound -or
         -not $dazzlingFound -or $hairbandCount -lt 1 -or -not $rewardsFound -or
         -not $saveContainsAllIds) {
         throw "The Togawa gameplay smoke did not complete within $GameplayTimeoutSeconds seconds. Inspect '$togawaLogPath'."
@@ -340,9 +337,8 @@ $vanillaIssueLines = @(
     TogawaSeed = $TogawaSeed
     TogawaCharacterSelected = $selectionFound
     StaticCombatPortraitCreated = $visualFound
-    MoonlightRewardCreated = $moonlightFound
     DazzlingTriggered = $dazzlingFound
-    HairbandVictoryCount = $hairbandCount
+    HairbandDesireAddCount = $hairbandCount
     RewardScreenFinished = $rewardsFound
     SaveContainsCharacterRelicAndDesire = $saveContainsAllIds
     ReloadDeserializedCustomModels = $reloadFound

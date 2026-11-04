@@ -15,7 +15,7 @@ public sealed class CrucifixXCard : CardModel
     protected override bool HasEnergyCostX => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(4m, ValueProp.Move), new BlockVar(4m, ValueProp.Move)];
+        [new DamageVar(5m, ValueProp.Move), new BlockVar(5m, ValueProp.Move)];
 
     public override string PortraitPath => NativeAssetPaths.CrucifixXPortrait;
 

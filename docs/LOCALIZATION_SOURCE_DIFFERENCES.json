@@ -5,11 +5,11 @@
     "sts1Localization": "X:\\Projects\\SlayTheSpire2\\0REPO\\STS1-TogawaSakikoMod\\src\\main\\resources\\togawasakikomod\\localization"
   },
   "generatedCountsPerLanguage": {
-    "cards": 197,
-    "powers": 85,
-    "relics": 37,
+    "cards": 257,
+    "powers": 121,
+    "relics": 40,
     "potions": 12,
-    "cardKeywords": 30
+    "cardKeywords": 37
   },
   "sourceKeywordKeys": {
     "eng": [

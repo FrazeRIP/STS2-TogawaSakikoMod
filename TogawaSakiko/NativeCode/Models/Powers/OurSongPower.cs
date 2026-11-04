@@ -1,4 +1,3 @@
-using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -71,17 +70,6 @@ public sealed class OurSongPower : PowerModel
             amount > 0)
         {
             await PowerCmd.Decrement(this);
-        }
-    }
-
-    public override async Task AfterSideTurnEnd(
-        PlayerChoiceContext choiceContext,
-        CombatSide side,
-        IEnumerable<Creature> participants)
-    {
-        if (participants.Contains(Owner))
-        {
-            await PowerCmd.Remove(this);
         }
     }
 }

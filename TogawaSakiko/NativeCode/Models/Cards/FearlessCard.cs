@@ -14,12 +14,12 @@ public sealed class FearlessCard : CardModel
     public override bool CanBeGeneratedInCombat => false;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar("MagicNumber", 2m)];
+        [new DynamicVar("MagicNumber", 1m)];
 
     public override string PortraitPath => NativeAssetPaths.FearlessPortrait;
 
     public FearlessCard()
-        : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+        : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
     {
     }
 

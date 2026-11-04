@@ -1,10 +1,7 @@
-using System.Threading;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves;
-using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Helpers;
 using TogawaSakiko.NativeCode.Diagnostics;
 using TogawaSakiko.NativeCode.Models.Cards;
 using TogawaSakiko.NativeCode.Models.Relics;
@@ -15,17 +12,30 @@ namespace TogawaSakiko.NativeCode.Patches;
 [HarmonyPatch(typeof(SaveManager), nameof(SaveManager.LoadRunSave))]
 internal static class NativeRunReloadSmokePatch
 {
-    private static readonly HashSet<string> DisabledSourceCardEntries =
+    // STS1-disabled cards and cards retired by the STS2 rework have no native model.
+    private static readonly HashSet<string> RemovedCardEntries =
     [
+        "TOGAWASAKIKO-ALEA_IACTA_EST_CARD",
         "TOGAWASAKIKO-ARE_THESE_LYRICS_CARD",
         "TOGAWASAKIKO-AUTHORITY_RESTORATION_CARD",
+        "TOGAWASAKIKO-BLACK_AND_WHITE_KEYS_CARD",
+        "TOGAWASAKIKO-BLACK_KEYS_CARD",
+        "TOGAWASAKIKO-BUDGET_BENTO_CARD",
         "TOGAWASAKIKO-CAREFREE_CARD",
+        "TOGAWASAKIKO-CLOCK_OUT_CARD",
+        "TOGAWASAKIKO-CURTAIN_CALL_CARD",
+        "TOGAWASAKIKO-EDGE_OF_BREAKDOWN_CARD",
+        "TOGAWASAKIKO-ENDURANCE_CARD",
         "TOGAWASAKIKO-I_WANT_TO_BE_YOUR_GOD_CARD",
         "TOGAWASAKIKO-NEVER_GIVE_YOU_UP_CARD",
         "TOGAWASAKIKO-NUMBERS_AND_FACES_CARD",
         "TOGAWASAKIKO-PASSION_CARD",
+        "TOGAWASAKIKO-QUAERERE_LUMINA_CARD",
         "TOGAWASAKIKO-RAISE_THE_BET_CARD",
-        "TOGAWASAKIKO-WEAKNESS_CARD"
+        "TOGAWASAKIKO-SILENT_FAREWELL_CARD",
+        "TOGAWASAKIKO-VERITAS_CARD",
+        "TOGAWASAKIKO-WEAKNESS_CARD",
+        "TOGAWASAKIKO-WHITE_KEYS_CARD"
     ];
 
     private static int _validationStarted;
@@ -34,7 +44,6 @@ internal static class NativeRunReloadSmokePatch
     {
         if ((!NativeSmokeTrace.ReloadEnabled &&
              !NativeSmokeTrace.ContractReloadEnabled &&
-             !NativeSmokeTrace.KingsReloadEnabled &&
              !NativeSmokeTrace.N6ReloadEnabled &&
              !NativeSmokeTrace.N7ReloadEnabled) ||
             Interlocked.CompareExchange(ref _validationStarted, 1, 0) != 0)
@@ -59,26 +68,18 @@ internal static class NativeRunReloadSmokePatch
                 throw new InvalidOperationException("The Phase N7 reloaded Sakiko deck is empty or contains an unresolved model ID.");
             }
 
-            int disabledSourceCards = player.Deck.Cards.Count(card =>
-                DisabledSourceCardEntries.Contains(card.Id.Entry));
-            if (disabledSourceCards != 0)
+            int removedCards = player.Deck.Cards.Count(card =>
+                RemovedCardEntries.Contains(card.Id.Entry));
+            if (removedCards != 0)
             {
                 throw new InvalidOperationException(
-                    $"The Phase N7 natural run generated {disabledSourceCards} disabled source card(s).");
+                    $"The Phase N7 natural run generated {removedCards} removed card(s).");
             }
 
             NativeSmokeTrace.N7Info(
                 $"reload deserialized Togawa Sakiko. Act={runState.CurrentActIndex + 1}, " +
                 $"Visited={runState.VisitedMapCoords.Count}, Deck={player.Deck.Cards.Count}, " +
                 $"Relics={player.Relics.Count}, Potions={player.PotionSlots.Count}.");
-            return;
-        }
-
-        if (NativeSmokeTrace.KingsReloadEnabled)
-        {
-            TaskHelper.RunSafely(KingsLifecycleDiagnostics.VerifyReloadedRewardAsync(
-                player,
-                __result.SaveData.PreFinishedRoom));
             return;
         }
 
@@ -98,17 +99,17 @@ internal static class NativeRunReloadSmokePatch
 
         if (NativeSmokeTrace.ContractReloadEnabled)
         {
-            int silentFarewellCount = player.Deck.Cards.Count(card => card is SilentFarewellCard);
+            int greetingsCount = player.Deck.Cards.Count(card => card is GreetingsCard);
             int twoMoonsCount = player.Deck.Cards.Count(card => card is TwoMoonsCard);
-            if (desireCount != 1 || silentFarewellCount != 1 || twoMoonsCount != 0)
+            if (desireCount != 1 || greetingsCount != 1 || twoMoonsCount != 0)
             {
                 throw new InvalidOperationException(
                     "The Phase N3 reloaded deck did not preserve exact add/removal results: " +
-                    $"Desire={desireCount}, SilentFarewell={silentFarewellCount}, TwoMoons={twoMoonsCount}.");
+                    $"Desire={desireCount}, Greetings={greetingsCount}, TwoMoons={twoMoonsCount}.");
             }
 
             NativeSmokeTrace.ContractInfo(
-                "reload preserved exactly one Hairband Desire, one added Silent Farewell, and no removed Two Moons.");
+                "reload preserved exactly one Hairband Desire, one added Greetings, and no removed Two Moons.");
         }
 
         if (NativeSmokeTrace.N6ReloadEnabled)
@@ -135,7 +136,7 @@ internal static class NativeRunReloadSmokePatch
             int purgeRewardCount = __result.SaveData.PreFinishedRoom?.ExtraRewards.Values
                 .SelectMany(rewards => rewards)
                 .Count(reward => reward.RewardType == MegaCrit.Sts2.Core.Rewards.RewardType.RemoveCard) ?? 0;
-            if (earlGreyCount != 1 || purgeRewardCount < 5)
+            if (earlGreyCount != 1 || purgeRewardCount < 1)
             {
                 throw new InvalidOperationException(
                     $"The N6 reload did not preserve its potion/rewards: EarlGrey={earlGreyCount}, PurgeRewards={purgeRewardCount}.");

@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Random;
@@ -47,22 +48,14 @@ public sealed class DatenCard : CardModel
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
         CardModel[] candidates = SelectPurgeCandidates(
-            PileType.Hand.GetPile(Owner).Cards
-                .Concat(PileType.Discard.GetPile(Owner).Cards)
-                .Concat(PileType.Draw.GetPile(Owner).Cards),
+            SakikoPurgeCommand.GetCandidates(Owner),
             CandidateCount,
             Owner.RunState.Rng.CombatCardSelection);
-        if (candidates.Length > 0)
-        {
-            CardModel? chosen = await CardSelectCmd.FromChooseACardScreen(
-                choiceContext,
-                candidates,
-                Owner);
-            if (chosen is not null)
-            {
-                await PurgeChosenCardAsync(choiceContext, chosen);
-            }
-        }
+        await WishFulfilledCard.ChooseFromCandidatesAsync(
+            choiceContext,
+            Owner,
+            new LocString("cards", "TOGAWASAKIKO-WISH_FULFILLED_CARD.selectionScreenPrompt"),
+            candidates);
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
@@ -74,19 +67,5 @@ public sealed class DatenCard : CardModel
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(4m);
-    }
-
-    private static async Task PurgeChosenCardAsync(PlayerChoiceContext choiceContext, CardModel chosen)
-    {
-        SakikoPurgeResult result = await SakikoPurgeCommand.RemoveAsync(
-            chosen,
-            choiceContext: choiceContext);
-        if (result.Success || result.Prevented)
-        {
-            return;
-        }
-
-        throw new InvalidOperationException(
-            $"Daten could not purge {chosen.Id}: {result.FailureReason}.");
     }
 }

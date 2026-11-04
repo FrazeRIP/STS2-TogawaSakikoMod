@@ -26,7 +26,7 @@ public sealed class RadianceCard : CardModel
     public override string PortraitPath => NativeAssetPaths.RadiancePortrait;
 
     public RadianceCard()
-        : base(1, CardType.Power, CardRarity.Token, TargetType.Self)
+        : base(0, CardType.Power, CardRarity.Token, TargetType.Self)
     {
     }
 

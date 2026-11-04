@@ -19,7 +19,7 @@ public sealed class AccompliceCard : CardModel
     public override string PortraitPath => NativeAssetPaths.AccomplicePortrait;
 
     public AccompliceCard()
-        : base(2, CardType.Skill, CardRarity.Common, TargetType.Self)
+        : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }
 

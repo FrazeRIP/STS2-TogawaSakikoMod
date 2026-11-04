@@ -13,21 +13,18 @@ public sealed class BandInvitationCard : CardModel
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("MagicNumber", 4m)];
 
-    protected override bool IsPlayable =>
-        Owner is null || PileType.Hand.GetPile(Owner).Cards.Count(card => card.Type == CardType.Skill) <= 1;
-
-    protected override bool ShouldGlowGoldInternal => IsPlayable;
-
     public override string PortraitPath => NativeAssetPaths.BandInvitationPortrait;
 
     public BandInvitationCard()
-        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 
     internal static int CountPositiveEnergy(IEnumerable<CardModel> cards)
     {
-        return cards.Sum(card => Math.Max(0, card.EnergyCost.GetWithModifiers(CostModifiers.All)));
+        return cards.Sum(card => card.EnergyCost.CostsX
+            ? 0
+            : Math.Max(0, card.EnergyCost.GetWithModifiers(CostModifiers.All)));
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -42,7 +39,7 @@ public sealed class BandInvitationCard : CardModel
                 break;
             }
 
-            accumulatedCost += Math.Max(0, drawn.EnergyCost.GetWithModifiers(CostModifiers.All));
+            accumulatedCost += CountPositiveEnergy([drawn]);
         }
     }
 

@@ -16,7 +16,7 @@ public sealed class PrimoDieInScaenaCard : CardModel
     public override string PortraitPath => NativeAssetPaths.PrimoDieInScaenaPortrait;
 
     public PrimoDieInScaenaCard()
-        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
@@ -33,6 +33,6 @@ public sealed class PrimoDieInScaenaCard : CardModel
 
     protected override void OnUpgrade()
     {
-        AddKeyword(CardKeyword.Innate);
+        EnergyCost.UpgradeBy(-1);
     }
 }

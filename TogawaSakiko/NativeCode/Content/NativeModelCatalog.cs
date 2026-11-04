@@ -9,7 +9,7 @@ namespace TogawaSakiko.NativeCode.Content;
 
 internal static class NativeModelCatalog
 {
-    public const int GameplayModelCount = 141;
+    public const int GameplayModelCount = 157;
 
     private static bool _registered;
 
@@ -31,7 +31,6 @@ internal static class NativeModelCatalog
         ModHelper.AddModelToPool<TogawaSakikoCardPool, ASplitMomentCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, DesireCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, TwoMoonsCard>();
-        ModHelper.AddModelToPool<TogawaSakikoCardPool, SilentFarewellCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, GreetingsCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, TirednessCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, MelodyCard>();
@@ -44,13 +43,9 @@ internal static class NativeModelCatalog
         ModHelper.AddModelToPool<TogawaSakikoCardPool, MortisCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, OblivionisCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, TimorisCard>();
-        ModHelper.AddModelToPool<TogawaSakikoCardPool, BlackKeysCard>();
-        ModHelper.AddModelToPool<TogawaSakikoCardPool, WhiteKeysCard>();
-        ModHelper.AddModelToPool<TogawaSakikoCardPool, BlackAndWhiteKeysCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, VoiceCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, InnerCryCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, MementoMoriCard>();
-        ModHelper.AddModelToPool<TogawaSakikoCardPool, BudgetBentoCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, PhantomOfSakikoCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, PhantomOfTakiCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, PhantomOfTomoriCard>();
@@ -61,25 +56,43 @@ internal static class NativeModelCatalog
         ModHelper.AddModelToPool<TogawaSakikoCardPool, DatenCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, KillKiSSCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, SymbolIVEarthCard>();
-        ModHelper.AddModelToPool<TogawaSakikoCardPool, QuaerereLuminaCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, KingsCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, AccompliceCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, DesuWaCard>();
-        ModHelper.AddModelToPool<TogawaSakikoCardPool, EdgeOfBreakdownCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, MasqueradeRhapsodyRequestCard>();
-        ModHelper.AddModelToPool<TogawaSakikoCardPool, ClockOutCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, FallenFlowersCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, HachibouseiDanceCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, PhantomOfMutsumiCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, PhantomOfSoyoCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, RhinocerosBeetleCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, CountingStarsCard>();
-        ModHelper.AddModelToPool<TogawaSakikoCardPool, AleaIactaEstCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, AnglesCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, ChoirSChoirCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, CrucifixXCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, CuriosityCard>();
-        ModHelper.AddModelToPool<TogawaSakikoCardPool, EnduranceCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, ForeverDreamCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, DivineCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, ImprovisationCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, InYourBlueEyesCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, ASongOfRomanceCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, TheWholeBlueWorldCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, SophieCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, GodsBloodCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, UnnamedTwoCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, SlashTheWayCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, UnnamedHypeCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, AllWillsBecomeOneCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, SweetDreamsCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, UnrestrainedCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, UnnamedFiveCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, UnnamedFourCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, UnnamedThreeCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, BaddyBaddyCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, SoftnessCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, EncoreCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, BandAffairsCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, UnceasingMelodyCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, UnnamedOneCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, FearlessCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, KaoCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, OurSongCard>();
@@ -91,7 +104,6 @@ internal static class NativeModelCatalog
         ModHelper.AddModelToPool<TogawaSakikoCardPool, SymbolIIIWaterCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, TheGirlWithFlaxenHairCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, UtopiaCard>();
-        ModHelper.AddModelToPool<TogawaSakikoCardPool, VeritasCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, WishFulfilledCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, WishToBecomeHumanCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, AsYourHeartDesiresCard>();
@@ -99,6 +111,7 @@ internal static class NativeModelCatalog
         ModHelper.AddModelToPool<TogawaSakikoCardPool, BandInvitationCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, BlackBirthdayCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, CharismaticFormCard>();
+        ModHelper.AddModelToPool<TogawaSakikoCardPool, SuccubusFormCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, CrueltyCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, CrychicCard>();
         ModHelper.AddModelToPool<TogawaSakikoCardPool, EtherCard>();

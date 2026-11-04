@@ -17,7 +17,7 @@ public sealed class SharedDestinyCard : CardModel
     public override string PortraitPath => NativeAssetPaths.SharedDestinyPortrait;
 
     public SharedDestinyCard()
-        : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+        : base(1, CardType.Power, CardRarity.Rare, TargetType.Self)
     {
     }
 

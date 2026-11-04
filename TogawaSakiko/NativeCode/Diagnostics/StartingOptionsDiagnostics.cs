@@ -3,9 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Events;
-using MegaCrit.Sts2.Core.Models.Modifiers;
 using MegaCrit.Sts2.Core.Random;
-using TogawaSakiko.NativeCode.Models.Modifiers;
 using TogawaSakiko.NativeCode.Models.Events;
 using TogawaSakiko.NativeCode.Patches;
 
@@ -16,8 +14,7 @@ internal static class StartingOptionsDiagnostics
     internal static void Validate(Player player)
     {
         ModifierModel[] originalModifiers = player.RunState.Modifiers.ToArray();
-        Require(originalModifiers.Length == 1 && originalModifiers[0] is KingsRewardCarrierModifier,
-            "standard Sakiko run must contain only its internal Kings carrier");
+        Require(originalModifiers.Length == 0, "standard Sakiko run must not carry run modifiers");
 
         Neow neow = (Neow)ModelDb.Event<Neow>().ToMutable();
         AccessTools.Property(typeof(EventModel), nameof(EventModel.Owner)).SetValue(neow, player);
@@ -25,11 +22,11 @@ internal static class StartingOptionsDiagnostics
         IReadOnlyList<EventOption> options = (IReadOnlyList<EventOption>)
             AccessTools.Method(typeof(Neow), "GenerateInitialOptions").Invoke(neow, null)!;
         Require(options.Count == 3 && options.All(option => option.Relic is not null),
-            "internal Kings carrier suppressed native Neow's three starting relic choices");
+            "native Neow lost its three starting relic choices for Sakiko");
         Require(neow.InitialDescription.LocEntryKey == "NEOW.pages.INITIAL.description",
-            "internal Kings carrier changed native Neow's starting description");
+            "native Neow changed its starting description for Sakiko");
         Require(player.RunState.Modifiers.SequenceEqual(originalModifiers),
-            "generating Neow choices mutated the persistent Kings carrier");
+            "generating Neow choices mutated the run modifiers");
 
         OceanOfMemories ocean = (OceanOfMemories)ModelDb.Event<OceanOfMemories>().ToMutable();
         AccessTools.Property(typeof(EventModel), nameof(EventModel.Owner)).SetValue(ocean, player);
@@ -54,19 +51,8 @@ internal static class StartingOptionsDiagnostics
 
         ValidateNativeChoices(player);
 
-        ModifierModel draft = ModelDb.Modifier<Draft>().ToMutable();
-        ModifierModel vintage = ModelDb.Modifier<Vintage>().ToMutable();
-        ModifierModel[] realModifiers = [draft, vintage];
-        Require(ReferenceEquals(KingsRewardCarrierNeowPatch.VisibleModifiers(realModifiers), realModifiers),
-            "a vanilla custom-run modifier list was replaced");
-        ModifierModel[] mixedModifiers = [draft, originalModifiers[0], vintage];
-        Require(KingsRewardCarrierNeowPatch.VisibleModifiers(mixedModifiers).SequenceEqual(realModifiers),
-            "filtering the Kings carrier removed or reordered real run modifiers");
-        Require(mixedModifiers.Length == 3 && ReferenceEquals(mixedModifiers[1], originalModifiers[0]),
-            "filtering the Kings carrier mutated its source modifier list");
-
         NativeSmokeTrace.N5Info(
-            "Starting options contract passed. SakikoChoices=3, VanillaNeowChoices=3, KingsCarrier=retained, RealModifiers=preserved.");
+            "Starting options contract passed. SakikoChoices=3, VanillaNeowChoices=3, RunModifiers=none.");
     }
 
     internal static void ValidateNativeChoices(Player player)

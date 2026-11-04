@@ -15,7 +15,7 @@ public sealed class VoiceCard : CardModel
 
     public override bool CanBeGeneratedByModifiers => false;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("MagicNumber", 2m)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("MagicNumber", 3m)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromPower<MelodiaPower>(), HoverTipFactory.FromPower<MonsterDivinityPower>()];
@@ -23,21 +23,18 @@ public sealed class VoiceCard : CardModel
     public override string PortraitPath => NativeAssetPaths.VoicePortrait;
 
     public VoiceCard()
-        : base(1, CardType.Power, CardRarity.Token, TargetType.Self)
+        : base(0, CardType.Power, CardRarity.Token, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        for (int i = 0; i < DynamicVars["MagicNumber"].IntValue; i++)
-        {
-            await PowerCmd.Apply<MelodiaPower>(
-                choiceContext,
-                Owner.Creature,
-                2m,
-                Owner.Creature,
-                this);
-        }
+        await PowerCmd.Apply<MelodiaPower>(
+            choiceContext,
+            Owner.Creature,
+            DynamicVars["MagicNumber"].BaseValue,
+            Owner.Creature,
+            this);
     }
 
     protected override void OnUpgrade()

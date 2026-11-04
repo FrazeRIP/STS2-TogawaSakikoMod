@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Relics;
-using MegaCrit.Sts2.Core.Random;
 using SakikoCharacter = TogawaSakiko.NativeCode.Models.Characters.TogawaSakiko;
 
 namespace TogawaSakiko.NativeCode.Patches;

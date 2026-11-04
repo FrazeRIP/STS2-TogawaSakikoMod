@@ -1,16 +1,11 @@
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using HarmonyLib;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Ancients;
 using MegaCrit.Sts2.Core.Events;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Events;
 using MegaCrit.Sts2.Core.Runs;
 using TogawaSakiko.NativeCode.Models.Events;
-using TogawaSakiko.NativeCode.Models.Relics;
 using SakikoCharacter = TogawaSakiko.NativeCode.Models.Characters.TogawaSakiko;
 
 namespace TogawaSakiko.NativeCode.Patches;
@@ -39,7 +34,7 @@ internal static class SakikoMultiplayerNeowPatch
         player.RunState.GameMode == GameMode.Standard &&
         player.RunState.CurrentActIndex == 0 &&
         player.RunState.ExtraFields.StartedWithNeow &&
-        KingsRewardCarrierNeowPatch.VisibleModifiers(player.RunState.Modifiers).Count == 0;
+        player.RunState.Modifiers.Count == 0;
 
     internal static IReadOnlyList<EventOption> CreateOptions(Neow neow) =>
         SakikoStartingRewards.CreateOptions(neow);

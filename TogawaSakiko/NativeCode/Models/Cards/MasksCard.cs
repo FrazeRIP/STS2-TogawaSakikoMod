@@ -36,7 +36,7 @@ public sealed class MasksCard : CardModel
             await PowerCmd.ModifyAmount(
                 choiceContext,
                 dazzling,
-                -DynamicVars["MagicNumber"].BaseValue,
+                -Math.Min(dazzling.Amount, DynamicVars["MagicNumber"].BaseValue),
                 Owner.Creature,
                 this);
         }

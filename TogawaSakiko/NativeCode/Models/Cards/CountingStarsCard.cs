@@ -16,7 +16,7 @@ public sealed class CountingStarsCard : CardModel
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new EnergyVar(1),
+        new EnergyVar(2),
         new DynamicVar("MagicNumber", 1m)
     ];
 
@@ -26,7 +26,7 @@ public sealed class CountingStarsCard : CardModel
     public override string PortraitPath => NativeAssetPaths.CountingStarsPortrait;
 
     public CountingStarsCard()
-        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 
@@ -40,7 +40,11 @@ public sealed class CountingStarsCard : CardModel
             Owner.Creature,
             this);
 
-        int buffCount = Owner.Creature.Powers.Count(power => power.TypeForCurrentAmount == PowerType.Buff);
+        int buffCount = Owner.Creature.Powers
+            .Where(power => power.TypeForCurrentAmount == PowerType.Buff)
+            .Select(power => power.Id)
+            .Distinct()
+            .Count();
         if (buffCount > 0)
         {
             await PowerCmd.Apply<DazzlingPower>(

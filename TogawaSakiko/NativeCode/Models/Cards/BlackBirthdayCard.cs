@@ -1,7 +1,6 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -9,6 +8,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using TogawaSakiko.NativeCode.Content;
+using TogawaSakiko.NativeCode.Models.Powers;
 
 namespace TogawaSakiko.NativeCode.Models.Cards;
 
@@ -22,7 +22,7 @@ public sealed class BlackBirthdayCard : CardModel
     public override string PortraitPath => NativeAssetPaths.BlackBirthdayPortrait;
 
     public BlackBirthdayCard()
-        : base(2, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
+        : base(3, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
     {
     }
 
@@ -54,10 +54,26 @@ public sealed class BlackBirthdayCard : CardModel
                 CardPreviewMode.None,
                 out _));
 
-        foreach (PowerModel power in powers.Reverse())
+        // Snapshot both damage and distinct effect count before any protection/clearing runs.
+        int hitCount = powers.Select(power => power.Id).Distinct().Count();
+        IEnumerable<PowerModel> removalOrder = powers.OrderBy(power => power switch
         {
-            await PowerCmd.Remove(power);
-            foreach (Creature target in targets)
+            KindnessPower => 3,
+            ForeverDreamPower => 1,
+            HypePower => 2,
+            _ => 0
+        });
+        foreach (PowerModel power in removalOrder)
+        {
+            if (Owner.Creature.Powers.Contains(power))
+            {
+                await PowerCmd.Remove(power);
+            }
+        }
+
+        for (int hit = 0; hit < hitCount; hit++)
+        {
+            foreach (Creature target in targets.Where(target => target.IsHittable))
             {
                 await CreatureCmd.Damage(
                     choiceContext,
@@ -73,6 +89,6 @@ public sealed class BlackBirthdayCard : CardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(4m);
+        EnergyCost.UpgradeBy(-1);
     }
 }

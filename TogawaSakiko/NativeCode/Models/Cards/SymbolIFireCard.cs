@@ -1,8 +1,6 @@
 using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -10,6 +8,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.Content;
+using TogawaSakiko.NativeCode.Models.Powers;
 
 namespace TogawaSakiko.NativeCode.Models.Cards;
 
@@ -28,17 +27,6 @@ public sealed class SymbolIFireCard : CardModel
     {
     }
 
-    internal static CardModel? SelectPreviousAttack(
-        IEnumerable<CardPlayStartedEntry> entries,
-        Player owner)
-    {
-        return entries.LastOrDefault(entry =>
-                entry.CardPlay.Player == owner &&
-                entry.CardPlay.Card.Type == CardType.Attack &&
-                entry.CardPlay.Card is not SymbolIFireCard)
-            ?.CardPlay.Card;
-    }
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         var combatState = CombatState
@@ -50,28 +38,17 @@ public sealed class SymbolIFireCard : CardModel
             .SpawningHitVfxOnEachCreature()
             .Execute(choiceContext);
 
-        CardModel? previousAttack = SelectPreviousAttack(
-            CombatManager.Instance.History.CardPlaysStarted,
-            Owner);
-        if (previousAttack is not null)
+        if (!CombatManager.Instance.IsOverOrEnding)
         {
-            for (int i = 0; i < DynamicVars["MagicNumber"].IntValue; i++)
-            {
-                if (CombatManager.Instance.IsOverOrEnding)
-                {
-                    break;
-                }
-
-                await CardCmd.AutoPlay(choiceContext, previousAttack.CreateDupe(Owner), null);
-            }
+            await PowerCmd.Apply<FireEchoPower>(
+                choiceContext,
+                Owner.Creature,
+                DynamicVars["MagicNumber"].BaseValue,
+                Owner.Creature,
+                this);
         }
 
-        PersistentDeckAndCombatAddResult addition =
-            await PersistentDeckMutation.AddCanonicalWithCombatCopyAsync<TimorisCard>(
-                Owner,
-                combatState,
-                PileType.Discard);
-        CardCmd.PreviewCardPileAdd(addition.PersistentResult);
+        await CombatRewardCardCommand.AddAsync<TimorisCard>(Owner, upgraded: false);
     }
 
     protected override void OnUpgrade()

@@ -1,6 +1,5 @@
 using Godot;
 using HarmonyLib;
-using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -22,7 +21,6 @@ using MegaCrit.Sts2.Core.Nodes.Cards;
 using TogawaSakiko.NativeCode.Content;
 using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
-using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Unlocks;
@@ -138,14 +136,14 @@ internal static class AncientRewardDiagnostics
         HashSet<CardModel> beforeTome = player.Deck.Cards.ToHashSet();
         await RelicCmd.Obtain(tome, player);
         CardModel tomeCard = player.Deck.Cards.Single(c => !beforeTome.Contains(c));
-        Require(tomeCard is CharismaticFormCard && tomeCard.IsUpgraded && tomeCard.Keywords.Contains(CardKeyword.Innate),
-            "Dusty Tome did not grant Charismatic Form+");
+        Require(tomeCard is SuccubusFormCard && tomeCard.IsUpgraded && tomeCard.Keywords.Contains(CardKeyword.Innate),
+            "Dusty Tome did not grant Succubus Form+");
         GD.Print("Ancient rewards: native Tooth and Tome pickups with serialized setup passed.");
 
         foreach (CardModel card in PileType.Hand.GetPile(player).Cards.ToArray())
             await CardPileCmd.Add(card, PileType.Discard);
 
-        foreach (CardModel original in player.Deck.Cards.Where(c => c is TheThirdMovementCard or CharismaticFormCard).ToArray())
+        foreach (CardModel original in player.Deck.Cards.Where(c => c is TheThirdMovementCard or SuccubusFormCard).ToArray())
         {
             CardModel handCard = combat.CloneCard(original);
             handCard.DeckVersion = original;
@@ -164,35 +162,38 @@ internal static class AncientRewardDiagnostics
         foreach (bool upgraded in new[] { false, true })
         {
             var addition = await PersistentDeckMutation.AddCanonicalWithCombatCopyAsync<StrikeTogawaSakiko>(
-                player, combat, PileType.Draw, skipPersistentVisuals: true);
-            CardModel victim = addition.CombatCard!;
+                player, skipPersistentVisuals: true);
+            // Purge candidates come from the permanent deck; removal also deletes the linked combat copy.
+            CardModel victim = addition.PersistentCard!;
             int blockBefore = target.Block;
             bool selectedBeforeDamage = false;
             TheThirdMovementCard played;
             using (CardSelectCmd.PushSelector(new Selector(victim, () => selectedBeforeDamage = target.Block == blockBefore)))
                 played = await PlayAsync<TheThirdMovementCard>(combat, player, context, target, upgraded);
-            Require(selectedBeforeDamage && !player.Deck.Cards.Contains(addition.PersistentCard!), "purge did not precede damage");
-            Require(blockBefore - target.Block == (upgraded ? 45 : 30), "Third Movement damage incorrect");
+            Require(selectedBeforeDamage && !player.Deck.Cards.Contains(victim) && addition.CombatCard!.HasBeenRemovedFromState,
+                "purge did not precede damage");
+            Require(blockBefore - target.Block == 30, "Third Movement damage incorrect");
             Require(played.Pile?.Type == PileType.Exhaust, "Third Movement did not Exhaust");
         }
-        foreach (PileType pile in new[] { PileType.Hand, PileType.Draw, PileType.Discard })
-            foreach (CardModel card in pile.GetPile(player).Cards.ToArray())
-                await CardPileCmd.Add(card, PileType.Exhaust);
-        int emptyBlockBefore = target.Block;
-        await PlayAsync<TheThirdMovementCard>(combat, player, context, target);
-        Require(emptyBlockBefore - target.Block == 30, "empty purge candidates suppressed damage");
+        int skippedBlockBefore = target.Block;
+        int skippedDeckSize = player.Deck.Cards.Count;
+        using (CardSelectCmd.PushSelector(new TestCardSelector()))
+            await PlayAsync<TheThirdMovementCard>(combat, player, context, target);
+        Require(skippedBlockBefore - target.Block == 30 && player.Deck.Cards.Count == skippedDeckSize,
+            "a skipped purge suppressed damage or still removed a card");
         Player reloaded = Player.FromSerializable(player.ToSerializable());
-        Require(reloaded.Deck.Cards.Count(c => c is TheThirdMovementCard or CharismaticFormCard) ==
-            player.Deck.Cards.Count(c => c is TheThirdMovementCard or CharismaticFormCard), "Ancient cards lost on player inventory reload");
+        Require(reloaded.Deck.Cards.Count(c => c is TheThirdMovementCard or SuccubusFormCard) ==
+            player.Deck.Cards.Count(c => c is TheThirdMovementCard or SuccubusFormCard), "Ancient cards lost on player inventory reload");
         await CaptureArtAsync(player);
 
         var lethalVictim = await PersistentDeckMutation.AddCanonicalWithCombatCopyAsync<StrikeTogawaSakiko>(
-            player, combat, PileType.Draw, skipPersistentVisuals: true);
+            player, skipPersistentVisuals: true);
         await CreatureCmd.LoseBlock(context, target, target.Block, player.Creature);
         await CreatureCmd.SetCurrentHp(target, 1m);
-        using (CardSelectCmd.PushSelector(new Selector(lethalVictim.CombatCard!)))
+        using (CardSelectCmd.PushSelector(new Selector(lethalVictim.PersistentCard!)))
             await PlayAsync<TheThirdMovementCard>(combat, player, context, target);
-        Require(target.IsDead && !player.Deck.Cards.Contains(lethalVictim.PersistentCard!), "killing blow skipped the purge");
+        Require(target.IsDead && !player.Deck.Cards.Contains(lethalVictim.PersistentCard!) &&
+                lethalVictim.CombatCard!.HasBeenRemovedFromState, "killing blow skipped the purge");
         GD.Print($"Ancient rewards: PASS ({_assertions} assertions). Pickups, pools, save round-trips, copying, purge order, damage and Exhaust verified.");
     }
 
@@ -209,7 +210,7 @@ internal static class AncientRewardDiagnostics
         CardModel[] cards =
         [
             player.RunState.CreateCard<TheThirdMovementCard>(player), player.RunState.CreateCard<TheThirdMovementCard>(player),
-            player.RunState.CreateCard<CharismaticFormCard>(player), player.RunState.CreateCard<CharismaticFormCard>(player)
+            player.RunState.CreateCard<SuccubusFormCard>(player), player.RunState.CreateCard<SuccubusFormCard>(player)
         ];
         for (int i = 0; i < cards.Length; i++)
         {
@@ -264,7 +265,7 @@ internal static class AncientRewardDiagnostics
         Require(vanillaTooth.SetupForPlayer(vanilla) && vanillaTooth.AncientCard!.Id == ModelDb.Card<MegaCrit.Sts2.Core.Models.Cards.Break>().Id,
             "vanilla Tooth mapping changed");
 
-        foreach (CardModel card in new CardModel[] { ModelDb.Card<TheThirdMovementCard>(), ModelDb.Card<CharismaticFormCard>() })
+        foreach (CardModel card in new CardModel[] { ModelDb.Card<TheThirdMovementCard>(), ModelDb.Card<SuccubusFormCard>() })
         {
             Require(card.Rarity == CardRarity.Ancient && !card.CanBeGeneratedInCombat && !card.CanBeGeneratedByModifiers,
                 "Ancient generation metadata");
@@ -274,12 +275,12 @@ internal static class AncientRewardDiagnostics
         }
         var choices = first.Character.CardPool.GetUnlockedCards(first.UnlockState, first.RunState.CardMultiplayerConstraint);
         Require(choices.Where(c => c.Rarity == CardRarity.Ancient && !ArchaicTooth.TranscendenceCards.Contains(c))
-            .SequenceEqual(new[] { ModelDb.Card<CharismaticFormCard>() }), "Tome must have exactly one eligible card");
+            .SequenceEqual(new[] { ModelDb.Card<SuccubusFormCard>() }), "Tome must have exactly one eligible card");
         for (int i = 0; i < 32; i++)
         {
             var tome = (DustyTome)ModelDb.Relic<DustyTome>().ToMutable();
             tome.SetupForPlayer(first);
-            Require(tome.AncientCard == ModelDb.Card<CharismaticFormCard>().Id, "Tome selected the wrong card");
+            Require(tome.AncientCard == ModelDb.Card<SuccubusFormCard>().Id, "Tome selected the wrong card");
         }
         CardModel[] combatPool = CardFactory.FilterForCombat(first.Character.CardPool.AllCards.Where(BlazingHairband.IsEligibleRandomCard)).ToArray();
         Require(combatPool.Length > 0 && combatPool.All(c => c.MaxUpgradeLevel > 0), "hairband pool contains a card without an upgrade");
@@ -296,7 +297,7 @@ internal static class AncientRewardDiagnostics
             foreach (DustyTome reward in options.Select(o => o.Relic).OfType<DustyTome>())
             {
                 sawTome = true;
-                Require(reward.AncientCard == ModelDb.Card<CharismaticFormCard>().Id, "Darv offered the wrong Tome card");
+                Require(reward.AncientCard == ModelDb.Card<SuccubusFormCard>().Id, "Darv offered the wrong Tome card");
             }
             Require(CardFactory.CreateForReward(first, 3, CardCreationOptions.ForRoom(first, RoomType.Monster))
                 .All(c => c.Card.Rarity != CardRarity.Ancient), "normal rewards admitted an Ancient card");

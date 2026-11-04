@@ -1,14 +1,12 @@
 using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using TogawaSakiko.NativeCode.Commands;
-using TogawaSakiko.NativeCode.Models.Cards;
 using TogawaSakiko.NativeCode.Models.Powers;
 
 namespace TogawaSakiko.NativeCode.Diagnostics;
@@ -31,7 +29,6 @@ internal static class CombatMultiplayerEdgeDiagnostics
         {
             enemy.GainBlockInternal(10000);
         }
-        await VerifyOwnerHistoryAsync(context, combat, players, enemies[0]);
         await VerifyDazzlingOwnerRngAsync(context, source, combat, players, enemies);
         await VerifyInstancedCopiesAsync(context, source, players, enemies[0]);
         foreach ((Creature creature, int block) in blocks)
@@ -39,52 +36,7 @@ internal static class CombatMultiplayerEdgeDiagnostics
             creature.LoseBlockInternal(creature.Block);
             creature.GainBlockInternal(block);
         }
-        GD.Print($"Multiplayer combat edges PASSED: {players.Length} owner histories, Dazzling RNG, instanced/per-applier copies.");
-    }
-
-    private static async Task VerifyOwnerHistoryAsync(
-        PlayerChoiceContext context, CombatState combat, Player[] players, Creature enemy)
-    {
-        List<CardModel> fixture = [];
-        Dictionary<Player, ImprisonedXIICard> attacks = [];
-        for (int slot = 0; slot < players.Length; slot++)
-        {
-            Player owner = players[slot];
-            int before = ImprisonedXIICard.CountDesiresPlayed(CombatManager.Instance.History.CardPlaysFinished, owner);
-            for (int copy = 0; copy <= slot; copy++)
-            {
-                fixture.Add(await PlayAsync<DesireCard>(context, combat, owner, null));
-            }
-            int desires = ImprisonedXIICard.CountDesiresPlayed(CombatManager.Instance.History.CardPlaysFinished, owner);
-            Require(desires == before + slot + 1, "owner Desire history included a teammate or lost a duplicate");
-            int[] energies = players.Select(player => player.PlayerCombatState!.Energy).ToArray();
-            ImprisonedXIICard attack = await PlayAsync<ImprisonedXIICard>(context, combat, owner, enemy);
-            fixture.Add(attack);
-            attacks.Add(owner, attack);
-            Require(owner.PlayerCombatState!.Energy == energies[slot] + desires,
-                "Imprisoned XII paid energy from another player's Desire history");
-            Require(players.Where(player => player != owner)
-                    .All(player => player.PlayerCombatState!.Energy == energies[Array.IndexOf(players, player)]),
-                "Imprisoned XII changed another player's energy");
-            await PlayerCmd.SetEnergy(energies[slot], owner);
-        }
-        // All owners played the same model; the latest global attack belongs to the last slot.
-        foreach (Player owner in players)
-        {
-            Require(ReferenceEquals(SymbolIFireCard.SelectPreviousAttack(
-                    CombatManager.Instance.History.CardPlaysStarted, owner), attacks[owner]),
-                "Symbol I: Fire selected another owner's identical attack from native history");
-        }
-        await CardPileCmd.RemoveFromCombat(fixture, skipVisuals: true);
-    }
-
-    private static async Task<T> PlayAsync<T>(
-        PlayerChoiceContext context, CombatState combat, Player owner, Creature? target) where T : CardModel
-    {
-        T card = combat.CreateCard<T>(owner);
-        await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Draw, owner, CardPilePosition.Top);
-        await CardCmd.AutoPlay(context, card, target, skipCardPileVisuals: true);
-        return card;
+        GD.Print($"Multiplayer combat edges PASSED: {players.Length} owners, Dazzling RNG, instanced/per-applier copies.");
     }
 
     private static async Task VerifyDazzlingOwnerRngAsync(

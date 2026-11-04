@@ -40,20 +40,6 @@
       "screens"
     ],
     "excludedJavaItems": {
-      "patches": [
-        "AltNeowPatch",
-        "CreditPatch",
-        "CutscenePatch",
-        "ForkEventPatch",
-        "GraveCardPatch",
-        "MusicMasterPatch",
-        "TheEndGoToTheOblivionEventPatch",
-        "TheOblivionMonsterPatch",
-        "UnremoveablePatcher"
-      ],
-      "rewards": [
-        "AltNeowReward"
-      ],
       "modifiers": [
         "SelfRetainModifier",
         "UnremoveableModifier"
@@ -70,6 +56,20 @@
         "RefreshMonsterIntentAction",
         "TemporalLongingAction",
         "TrueWaitAction"
+      ],
+      "rewards": [
+        "AltNeowReward"
+      ],
+      "patches": [
+        "AltNeowPatch",
+        "CreditPatch",
+        "CutscenePatch",
+        "ForkEventPatch",
+        "GraveCardPatch",
+        "MusicMasterPatch",
+        "TheEndGoToTheOblivionEventPatch",
+        "TheOblivionMonsterPatch",
+        "UnremoveablePatcher"
       ]
     },
     "excludedAudioPrefixes": [
@@ -94,12 +94,12 @@
         "${modID}:MutsumiAttackIntent",
         "${modID}:TheOblivion"
       ],
+      "PowerStrings.json": [
+        "${modID}:StrengthUpPower"
+      ],
       "CharacterStrings.json": [
         "${modID}:AltNeowEvent",
         "${modID}:AltNeowReward"
-      ],
-      "PowerStrings.json": [
-        "${modID}:StrengthUpPower"
       ]
     }
   },
@@ -108,18 +108,20 @@
       "sts1": 95,
       "enabledInSts1": 86,
       "disabledInSts1": 9,
-      "native": 86,
+      "native": 75,
       "missingNative": 0,
+      "retired": 11,
       "excluded": 9,
-      "excludedWithNativeCompatibilityModel": 2,
-      "originalArtPairs": 94,
+      "excludedWithNativeCompatibilityModel": 0,
+      "originalArtPairs": 93,
       "generatedPlaceholderPairs": 1,
-      "missingOrWrongArtPairs": 0
+      "missingOrWrongArtPairs": 1
     },
     "powers": {
       "sts1": 25,
-      "native": 25,
+      "native": 16,
       "missingNative": 0,
+      "retired": 9,
       "customArtPairs": 25,
       "baseGamePresentation": 0,
       "missingSts1Localization": 0
@@ -138,8 +140,8 @@
       "sourceFiles": 52,
       "copiedToSts2": 52,
       "missingFromSts2": 0,
-      "activeInScopeSourceFiles": 38,
-      "activeInScopeWired": 38,
+      "activeInScopeSourceFiles": 35,
+      "activeInScopeWired": 35,
       "activeInScopeMissingNativeRoute": 0,
       "registeredButMissingFromSts1Source": 1
     },
@@ -220,8 +222,8 @@
       "sts1Id": "togawasakikomod:AleaIactaEst",
       "sts2Type": "AleaIactaEstCard",
       "sts2StableId": "TOGAWASAKIKO-ALEA_IACTA_EST_CARD",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/AleaIactaEstCard.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/AleaIactaEstCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/AleaIactaEst.java",
       "customImports": [
@@ -264,7 +266,9 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; no native model by user decision"
+      ]
     },
     {
       "name": "Amoris",
@@ -754,8 +758,8 @@
       "sts1Id": "togawasakikomod:BlackAndWhiteKeys",
       "sts2Type": "BlackAndWhiteKeysCard",
       "sts2StableId": "TOGAWASAKIKO-BLACK_AND_WHITE_KEYS_CARD",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/BlackAndWhiteKeysCard.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/BlackAndWhiteKeysCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/BlackAndWhiteKeys.java",
       "customImports": [
@@ -797,7 +801,9 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; no native model by user decision"
+      ]
     },
     {
       "name": "BlackBirthday",
@@ -865,8 +871,8 @@
       "sts1Id": "togawasakikomod:BlackKeys",
       "sts2Type": "BlackKeysCard",
       "sts2StableId": "TOGAWASAKIKO-BLACK_KEYS_CARD",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/BlackKeysCard.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Token/BlackKeysCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Powers/BlackKeys.java",
       "customImports": [
@@ -908,7 +914,9 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; no native model by user decision"
+      ]
     },
     {
       "name": "BudgetBento",
@@ -921,8 +929,8 @@
       "sts1Id": "togawasakikomod:BudgetBento",
       "sts2Type": "BudgetBentoCard",
       "sts2StableId": "TOGAWASAKIKO-BUDGET_BENTO_CARD",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/BudgetBentoCard.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/BudgetBentoCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/BudgetBento.java",
       "customImports": [
@@ -965,7 +973,9 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; no native model by user decision"
+      ]
     },
     {
       "name": "Carefree",
@@ -1025,8 +1035,8 @@
         "requiredLarge": "500x380"
       },
       "differences": [
-        "disabled in STS1; excluded from the port by scope policy",
-        "native behavior missing"
+        "native behavior missing",
+        "disabled in STS1; excluded from the port by scope policy"
       ]
     },
     {
@@ -1068,25 +1078,27 @@
         "nativeSimplifiedChineseComplete": true
       },
       "art": {
-        "status": "Original",
+        "status": "Resolution mismatch",
         "originalSmall": "src/main/resources/togawasakikomod/images/cards/power/CharismaticForm.png",
         "originalLarge": "src/main/resources/togawasakikomod/images/cards/power/CharismaticForm_p.png",
         "sts2Small": "TogawaSakiko/TogawaSakiko/images/card_portraits/charismaticformcard.png",
         "sts2SmallDimensions": {
-          "width": 250,
-          "height": 190,
-          "text": "250x190"
+          "width": 606,
+          "height": 852,
+          "text": "606x852"
         },
         "sts2Large": "TogawaSakiko/TogawaSakiko/images/card_portraits/big/charismaticformcard.png",
         "sts2LargeDimensions": {
-          "width": 500,
-          "height": 380,
-          "text": "500x380"
+          "width": 606,
+          "height": 852,
+          "text": "606x852"
         },
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": []
+      "differences": [
+        "STS2 art resolution mismatch"
+      ]
     },
     {
       "name": "ChoirSChoir",
@@ -1155,8 +1167,8 @@
       "sts1Id": "togawasakikomod:ClockOut",
       "sts2Type": "ClockOutCard",
       "sts2StableId": "TOGAWASAKIKO-CLOCK_OUT_CARD",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/ClockOutCard.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/ClockOutCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/ClockOut.java",
       "customImports": [
@@ -1202,7 +1214,9 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; no native model by user decision"
+      ]
     },
     {
       "name": "CountingStars",
@@ -1831,8 +1845,8 @@
       "sts1Id": "togawasakikomod:EdgeOfBreakdown",
       "sts2Type": "EdgeOfBreakdownCard",
       "sts2StableId": "TOGAWASAKIKO-EDGE_OF_BREAKDOWN_CARD",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/EdgeOfBreakdownCard.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/EdgeOfBreakdownCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/EdgeOfBreakdown.java",
       "customImports": [
@@ -1876,7 +1890,9 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; no native model by user decision"
+      ]
     },
     {
       "name": "Endurance",
@@ -1889,8 +1905,8 @@
       "sts1Id": "togawasakikomod:Endurance",
       "sts2Type": "EnduranceCard",
       "sts2StableId": "TOGAWASAKIKO-ENDURANCE_CARD",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/EnduranceCard.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/EnduranceCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Powers/Endurance.java",
       "customImports": [
@@ -1934,7 +1950,9 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; no native model by user decision"
+      ]
     },
     {
       "name": "Ether",
@@ -3989,8 +4007,8 @@
       "sts1Id": "togawasakikomod:QuaerereLumina",
       "sts2Type": "QuaerereLuminaCard",
       "sts2StableId": "TOGAWASAKIKO-QUAERERE_LUMINA_CARD",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/QuaerereLuminaCard.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/QuaerereLuminaCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/QuaerereLumina.java",
       "customImports": [
@@ -4031,7 +4049,9 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; no native model by user decision"
+      ]
     },
     {
       "name": "Radiance",
@@ -4334,8 +4354,8 @@
       "sts1Id": "togawasakikomod:SilentFarewell",
       "sts2Type": "SilentFarewellCard",
       "sts2StableId": "TOGAWASAKIKO-SILENT_FAREWELL_CARD",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/SilentFarewellCard.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Common/SilentFarewellCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/SilentFarewell.java",
       "customImports": [
@@ -4375,7 +4395,9 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; no native model by user decision"
+      ]
     },
     {
       "name": "SoraNoMusica",
@@ -5180,8 +5202,8 @@
       "sts1Id": "togawasakikomod:Veritas",
       "sts2Type": "VeritasCard",
       "sts2StableId": "TOGAWASAKIKO-VERITAS_CARD",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/VeritasCard.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Uncommon/VeritasCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SakikoDeck/Skills/Veritas.java",
       "customImports": [
@@ -5222,7 +5244,9 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; no native model by user decision"
+      ]
     },
     {
       "name": "Voice",
@@ -5333,9 +5357,9 @@
         "requiredLarge": "500x380"
       },
       "differences": [
+        "native behavior missing",
         "STS1 original art missing",
-        "disabled in STS1; excluded from the port by scope policy",
-        "native behavior missing"
+        "disabled in STS1; excluded from the port by scope policy"
       ]
     },
     {
@@ -5349,8 +5373,8 @@
       "sts1Id": "togawasakikomod:WhiteKeys",
       "sts2Type": "WhiteKeysCard",
       "sts2StableId": "TOGAWASAKIKO-WHITE_KEYS_CARD",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Cards/WhiteKeysCard.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Cards/Token/WhiteKeysCard.cs",
       "sts1Source": "src/main/java/togawasakikomod/cards/SpecialDeck/Powers/WhiteKeys.java",
       "customImports": [
@@ -5392,7 +5416,9 @@
         "requiredSmall": "250x190",
         "requiredLarge": "500x380"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; no native model by user decision"
+      ]
     },
     {
       "name": "WishFulfilled",
@@ -5854,8 +5880,8 @@
       "name": "EndurancePower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-ENDURANCE_POWER",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/EndurancePower.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/EndurancePower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/EndurancePower.java",
       "inheritsBasePresentation": false,
@@ -5885,7 +5911,9 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; nothing applies it"
+      ]
     },
     {
       "name": "FearlessPower",
@@ -5965,8 +5993,8 @@
       "name": "GirlOfSpringPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-GIRL_OF_SPRING_POWER",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/GirlOfSpringPower.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/GirlOfSpringPower.java",
       "inheritsBasePresentation": false,
@@ -5996,14 +6024,16 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; nothing applies it"
+      ]
     },
     {
       "name": "GodsCreationPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-GODS_CREATION_POWER",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/GodsCreationPower.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/GodsCreationPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/GodsCreationPower.java",
       "inheritsBasePresentation": false,
@@ -6033,7 +6063,9 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; nothing applies it"
+      ]
     },
     {
       "name": "HypePower",
@@ -6074,8 +6106,8 @@
       "name": "KingsPower",
       "group": "debuffs",
       "sts2StableId": "TOGAWASAKIKO-KINGS_POWER",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/KingsPower.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/KingsPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/debuffs/KingsPower.java",
       "inheritsBasePresentation": false,
@@ -6103,7 +6135,9 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; nothing applies it"
+      ]
     },
     {
       "name": "MonsterDivinityPower",
@@ -6144,8 +6178,8 @@
       "name": "MortisPower",
       "group": "debuffs",
       "sts2StableId": "TOGAWASAKIKO-MORTIS_POWER",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/MortisPower.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/MortisPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/debuffs/MortisPower.java",
       "inheritsBasePresentation": false,
@@ -6173,7 +6207,9 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; nothing applies it"
+      ]
     },
     {
       "name": "OblivionisPower",
@@ -6249,8 +6285,8 @@
       "name": "PerdereOmniaPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-PERDERE_OMNIA_POWER",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/PerdereOmniaPower.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/PerdereOmniaPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/PerdereOmniaPower.java",
       "inheritsBasePresentation": false,
@@ -6280,14 +6316,16 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; nothing applies it"
+      ]
     },
     {
       "name": "PridePower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-PRIDE_POWER",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/PridePower.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/PridePower.java",
       "inheritsBasePresentation": false,
@@ -6317,7 +6355,9 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; nothing applies it"
+      ]
     },
     {
       "name": "PrimoDieInScaenaPower",
@@ -6434,8 +6474,8 @@
       "name": "TimorisPower",
       "group": "debuffs",
       "sts2StableId": "TOGAWASAKIKO-TIMORIS_POWER",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/TimorisPower.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": null,
       "sts1Source": "src/main/java/togawasakikomod/powers/debuffs/TimorisPower.java",
       "inheritsBasePresentation": false,
@@ -6463,14 +6503,16 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; nothing applies it"
+      ]
     },
     {
       "name": "WishYouGoodLuckPower",
       "group": "buffs",
       "sts2StableId": "TOGAWASAKIKO-WISH_YOU_GOOD_LUCK_POWER",
-      "portStatus": "Native",
-      "nativeSource": "TogawaSakiko/NativeCode/Models/Powers/WishYouGoodLuckPower.cs",
+      "portStatus": "Retired",
+      "nativeSource": null,
       "legacyEvidence": "TogawaSakiko/TogawaSakikoCode/Powers/WishYouGoodLuckPower.cs",
       "sts1Source": "src/main/java/togawasakikomod/powers/buffs/WishYouGoodLuckPower.java",
       "inheritsBasePresentation": false,
@@ -6500,7 +6542,9 @@
         "requiredSmall": "32x32",
         "requiredLarge": "84x84"
       },
-      "differences": []
+      "differences": [
+        "retired by the STS2 rework; nothing applies it"
+      ]
     },
     {
       "name": "WorldviewPower",
@@ -7752,19 +7796,19 @@
       "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/carefree.wav",
-      "referencedInNativeCode": true,
+      "referencedInNativeCode": false,
       "wiredInNativeCode": false,
       "nativeBehavior": "Excluded with its disabled card"
     },
     {
       "relativePath": "sakiko/ClockOut.wav",
-      "usage": "Active card voice",
-      "activeInScope": true,
+      "usage": "Retired-card voice; excluded",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/clockout.wav",
-      "referencedInNativeCode": true,
-      "wiredInNativeCode": true,
-      "nativeBehavior": "Wired"
+      "referencedInNativeCode": false,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Excluded with its retired card"
     },
     {
       "relativePath": "sakiko/CountingStars.wav",
@@ -7808,23 +7852,23 @@
     },
     {
       "relativePath": "sakiko/EdgeOfBreakdown.wav",
-      "usage": "Active card voice",
-      "activeInScope": true,
+      "usage": "Retired-card voice; excluded",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/edgeofbreakdown.wav",
-      "referencedInNativeCode": true,
-      "wiredInNativeCode": true,
-      "nativeBehavior": "Wired"
+      "referencedInNativeCode": false,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Excluded with its retired card"
     },
     {
       "relativePath": "sakiko/Endurance.wav",
-      "usage": "Active card voice",
-      "activeInScope": true,
+      "usage": "Retired-card voice; excluded",
+      "activeInScope": false,
       "copiedToSts2": true,
       "sts2Path": "TogawaSakiko/TogawaSakiko/audio/sakiko/endurance.wav",
-      "referencedInNativeCode": true,
-      "wiredInNativeCode": true,
-      "nativeBehavior": "Wired"
+      "referencedInNativeCode": false,
+      "wiredInNativeCode": false,
+      "nativeBehavior": "Excluded with its retired card"
     },
     {
       "relativePath": "sakiko/FallenFlowers.wav",

@@ -9,11 +9,13 @@ using MegaCrit.Sts2.Core.Models.Encounters;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
+using MegaCrit.Sts2.Core.Saves;
+using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.Unlocks;
 using TogawaSakiko.NativeCode.Content;
 using TogawaSakiko.NativeCode.Models.Cards;
-using TogawaSakiko.NativeCode.Models.Modifiers;
 using TogawaSakiko.NativeCode.Models.Pools;
+using TogawaSakiko.NativeCode.Patches;
 
 namespace TogawaSakiko.NativeCode.Diagnostics;
 
@@ -56,16 +58,17 @@ internal static class MultiplayerContentContractTests
             Require(!mutable.GetDescriptionForPile(PileType.Deck).Contains('{'), "upgrade description formats");
         }
 
-        KingsRewardCarrierModifier carrier = (KingsRewardCarrierModifier)
-            ModelDb.Modifier<KingsRewardCarrierModifier>().ToMutable();
-        carrier.SetPending(92, true);
-        carrier.SetPending(11, true);
-        carrier.SetPending(92, true);
-        Require(carrier.PendingPlayerIds == "11,92", "stable sorted duplicate-free saved owners");
-        carrier.SetPending(11, false);
-        Require(!carrier.IsPending(11) && carrier.IsPending(92), "clearing one player preserves another");
-        Require(KingsRewardCarrierModifier.ParsePendingPlayerIds("92,11,92,invalid")
-            .SequenceEqual(new ulong[] { 11, 92 }), "legacy save parsing retains valid owners");
+        SerializableRun legacySave = new()
+        {
+            Modifiers =
+            [
+                new SerializableModifier { Id = new ModelId("MODIFIER", SakikoRetiredModifierLoadPatch.RetiredKingsCarrierEntry) },
+                new SerializableModifier { Id = new ModelId("MODIFIER", "DRAFT") }
+            ]
+        };
+        Require(SakikoRetiredModifierLoadPatch.RemoveRetiredModifiers(legacySave) == 1 &&
+                legacySave.Modifiers.Single().Id?.Entry == "DRAFT",
+            "loading a pre-rework save drops only the retired Kings carrier");
         Require(NativePackageIdentity.HandshakeEntry.StartsWith("TogawaSakiko-package-sha256-", StringComparison.Ordinal),
             "exact deployed package identity available");
         Player first = Player.CreateForNewRun<Ironclad>(UnlockState.all, 7311);

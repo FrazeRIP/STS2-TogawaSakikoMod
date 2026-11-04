@@ -4,7 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.ValueProps;
+using MegaCrit.Sts2.Core.Models.Powers;
 using TogawaSakiko.NativeCode.Content;
 
 namespace TogawaSakiko.NativeCode.Models.Cards;
@@ -15,26 +15,24 @@ public sealed class SoraNoMusicaCard : CardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(12m, ValueProp.Move),
-        new DynamicVar("MagicNumber", 5m)
+        new DynamicVar("MagicNumber", 4m)
     ];
 
     public override string PortraitPath => NativeAssetPaths.SoraNoMusicaPortrait;
 
     public SoraNoMusicaCard()
-        : base(3, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this, cardPlay)
-            .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_heavy_blunt")
-            .Execute(choiceContext);
-
+        await PowerCmd.Apply<EnergyNextTurnPower>(
+            choiceContext,
+            Owner.Creature,
+            1,
+            Owner.Creature,
+            this);
         CardPile drawPile = PileType.Draw.GetPile(Owner);
         int maximum = Math.Min(DynamicVars["MagicNumber"].IntValue, drawPile.Cards.Count);
         if (maximum <= 0)

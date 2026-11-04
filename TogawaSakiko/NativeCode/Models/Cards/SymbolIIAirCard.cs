@@ -14,7 +14,7 @@ public sealed class SymbolIIAirCard : CardModel
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(14m, ValueProp.Move),
+        new DamageVar(16m, ValueProp.Move),
         new DynamicVar("MagicNumber", 3m)
     ];
 
@@ -23,31 +23,26 @@ public sealed class SymbolIIAirCard : CardModel
     public override string PortraitPath => NativeAssetPaths.SymbolIIAirPortrait;
 
     public SymbolIIAirCard()
-        : base(0, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+        : base(0, CardType.Attack, CardRarity.Common, TargetType.RandomEnemy)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target);
         var combatState = CombatState
             ?? throw new InvalidOperationException("Symbol II: Air requires an active combat.");
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
-            .Targeting(cardPlay.Target)
+            .TargetingRandomOpponents(combatState)
             .WithHitFx("vfx/vfx_heavy_blunt")
             .Execute(choiceContext);
         await CardPileCmd.Draw(choiceContext, DynamicVars["MagicNumber"].BaseValue, Owner);
-        PersistentDeckAndCombatAddResult addition =
-            await PersistentDeckMutation.AddCanonicalWithCombatCopyAsync<AmorisCard>(
-                Owner,
-                combatState,
-                PileType.Discard);
-        CardCmd.PreviewCardPileAdd(addition.PersistentResult);
+        await CombatRewardCardCommand.AddAsync<AmorisCard>(Owner, upgraded: false);
     }
 
     protected override void OnUpgrade()
     {
         DynamicVars["MagicNumber"].UpgradeValueBy(1m);
+        DynamicVars.Damage.UpgradeValueBy(4m);
     }
 }

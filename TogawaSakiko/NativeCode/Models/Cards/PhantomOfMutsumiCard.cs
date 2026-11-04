@@ -18,8 +18,8 @@ public sealed class PhantomOfMutsumiCard : CardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(6m, ValueProp.Move),
-        new BlockVar(6m, ValueProp.Move)
+        new DamageVar(3m, ValueProp.Move),
+        new BlockVar(3m, ValueProp.Move)
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<ProtectionCard>()];
@@ -34,8 +34,6 @@ public sealed class PhantomOfMutsumiCard : CardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        var combatState = CombatState
-            ?? throw new InvalidOperationException("Phantom of Mutsumi requires an active combat.");
         SakikoAudioCmd.TryPlayCardVoice(Owner, "PhantomOfMutsumi");
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
@@ -43,12 +41,6 @@ public sealed class PhantomOfMutsumiCard : CardModel
             .WithHitFx("vfx/vfx_heavy_blunt")
             .Execute(choiceContext);
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-        PersistentDeckAndCombatAddResult addition =
-            await PersistentDeckMutation.AddCanonicalWithCombatCopyAsync<ProtectionCard>(
-                Owner,
-                combatState,
-                PileType.Discard,
-                upgradeLevel: IsUpgraded ? 1 : 0);
-        CardCmd.PreviewCardPileAdd(addition.PersistentResult);
+        await CombatRewardCardCommand.AddAsync<ProtectionCard>(Owner, upgraded: IsUpgraded);
     }
 }

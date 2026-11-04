@@ -1,7 +1,6 @@
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using TogawaSakiko.NativeCode.Content;
 using TogawaSakiko.NativeCode.Models.Cards;
@@ -56,7 +55,7 @@ public sealed class TogawaSakiko : CharacterModel
 
     public override VfxColor SpeechBubbleColor => VfxColor.Cyan;
 
-    public override Color MapDrawingColor => new("8295A8");
+    public override Color MapDrawingColor => new("6084A8");
 
     public override Color RemoteTargetingLineColor => new("AFC3D7FF");
 

@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
+using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.Content;
 
 namespace TogawaSakiko.NativeCode.Models.Cards;
@@ -13,6 +14,8 @@ namespace TogawaSakiko.NativeCode.Models.Cards;
 public sealed class MasqueradeRhapsodyRequestCard : CardModel
 {
     private int _permanentDamageIncrease;
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -35,7 +38,7 @@ public sealed class MasqueradeRhapsodyRequestCard : CardModel
     }
 
     public MasqueradeRhapsodyRequestCard()
-        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 
@@ -47,36 +50,26 @@ public sealed class MasqueradeRhapsodyRequestCard : CardModel
             return 0;
         }
 
-        MasqueradeRhapsodyRequestCard[] activeCards = owner.PlayerCombatState.AllCards
-            .OfType<MasqueradeRhapsodyRequestCard>()
-            .Where(card => card.Pile?.Type is PileType.Hand or PileType.Draw or PileType.Discard)
-            .ToArray();
-        HashSet<MasqueradeRhapsodyRequestCard> updatedPersistentCards =
-            new(ReferenceEqualityComparer.Instance);
-        foreach (MasqueradeRhapsodyRequestCard card in activeCards)
+        var permanentCards = owner.Deck.Cards.OfType<MasqueradeRhapsodyRequestCard>().ToArray();
+        foreach (var permanent in permanentCards)
         {
-            if (card.DeckVersion is MasqueradeRhapsodyRequestCard persistentCard)
+            permanent.IncreaseFromPurge(permanent.DynamicVars["MagicNumber"].IntValue);
+            foreach (var copy in PersistentDeckMutation.SnapshotLinkedCombatCopies(permanent)
+                         .OfType<MasqueradeRhapsodyRequestCard>())
             {
-                if (updatedPersistentCards.Add(persistentCard))
-                {
-                    persistentCard.IncreaseFromPurge(persistentCard.DynamicVars["MagicNumber"].IntValue);
-                }
-            }
-            else
-            {
-                card.IncreaseFromPurge(card.DynamicVars["MagicNumber"].IntValue);
+                copy.PermanentDamageIncrease = permanent.PermanentDamageIncrease;
             }
         }
 
-        foreach (MasqueradeRhapsodyRequestCard card in activeCards)
+        // Temporary copies can grow during combat, but never mutate an unrelated permanent card.
+        foreach (var temporary in owner.PlayerCombatState.AllCards
+                     .OfType<MasqueradeRhapsodyRequestCard>()
+                     .Where(card => card.DeckVersion is null && card.Pile is not null))
         {
-            if (card.DeckVersion is MasqueradeRhapsodyRequestCard persistentCard)
-            {
-                card.PermanentDamageIncrease = persistentCard.PermanentDamageIncrease;
-            }
+            temporary.IncreaseFromPurge(temporary.DynamicVars["MagicNumber"].IntValue);
         }
 
-        return activeCards.Length;
+        return permanentCards.Length;
     }
 
     internal void IncreaseFromPurge(int amount)

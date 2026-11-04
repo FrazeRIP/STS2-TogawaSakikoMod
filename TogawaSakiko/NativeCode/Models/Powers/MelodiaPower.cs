@@ -1,6 +1,6 @@
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -45,6 +45,25 @@ public sealed class MelodiaPower : PowerModel
             return;
         }
 
+        await TriggerDivinityAsync(choiceContext, applier, cardSource);
+    }
+
+    public override async Task AfterPlayerTurnStart(
+        PlayerChoiceContext choiceContext,
+        Player player)
+    {
+        // Run after Kindness expires at BeforeSideTurnStart, independent of power order.
+        if (player.Creature == Owner && Amount >= SakikoStanceCmd.MelodiaThreshold)
+        {
+            await TriggerDivinityAsync(choiceContext, Owner, null);
+        }
+    }
+
+    private async Task TriggerDivinityAsync(
+        PlayerChoiceContext choiceContext,
+        Creature? applier,
+        CardModel? cardSource)
+    {
         Flash();
         await PowerCmd.ModifyAmount(
             choiceContext,

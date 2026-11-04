@@ -14,7 +14,7 @@ public sealed class PhantomOfSoyoCard : CardModel
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<KindnessCard>()];
 
@@ -35,12 +35,6 @@ public sealed class PhantomOfSoyoCard : CardModel
             .TargetingAllOpponents(combatState)
             .WithHitFx("vfx/vfx_heavy_blunt")
             .Execute(choiceContext);
-        PersistentDeckAndCombatAddResult addition =
-            await PersistentDeckMutation.AddCanonicalWithCombatCopyAsync<KindnessCard>(
-                Owner,
-                combatState,
-                PileType.Discard,
-                upgradeLevel: IsUpgraded ? 1 : 0);
-        CardCmd.PreviewCardPileAdd(addition.PersistentResult);
+        await CombatRewardCardCommand.AddAsync<KindnessCard>(Owner, upgraded: IsUpgraded);
     }
 }

@@ -1,51 +1,53 @@
-using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Combat.History.Entries;
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.ValueProps;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using TogawaSakiko.NativeCode.Content;
 
 namespace TogawaSakiko.NativeCode.Models.Cards;
 
 public sealed class ImprisonedXIICard : CardModel
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(8m, ValueProp.Move)];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromCard(ModelDb.Card<DesireCard>(), IsUpgraded)];
 
     public override string PortraitPath => NativeAssetPaths.ImprisonedXIIPortrait;
 
     public ImprisonedXIICard()
-        : base(3, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+        : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
-    }
-
-    internal static int CountDesiresPlayed(IEnumerable<CardPlayFinishedEntry> entries, Player owner)
-    {
-        return entries.Count(entry => entry.CardPlay.Player == owner && entry.CardPlay.Card is DesireCard);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this, cardPlay)
-            .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_heavy_blunt")
-            .Execute(choiceContext);
-
-        int desires = CountDesiresPlayed(CombatManager.Instance.History.CardPlaysFinished, Owner);
-        if (desires > 0)
+        var combatState = CombatState
+            ?? throw new InvalidOperationException("Imprisoned XII requires an active combat.");
+        int maximum = PileType.Hand.GetPile(Owner).Cards.Count;
+        if (maximum == 0)
         {
-            await PlayerCmd.GainEnergy(desires, Owner);
+            return;
         }
-    }
 
-    protected override void OnUpgrade()
-    {
-        AddKeyword(CardKeyword.Retain);
+        var selected = (await CardSelectCmd.FromHand(
+            choiceContext,
+            Owner,
+            new CardSelectorPrefs(SelectionScreenPrompt, 0, maximum) { Cancelable = true },
+            filter: null,
+            source: this)).ToArray();
+        foreach (var card in selected)
+        {
+            // Same create, upgrade, then transform sequence as the native Guards card.
+            var desire = combatState.CreateCard<DesireCard>(Owner);
+            if (IsUpgraded)
+            {
+                CardCmd.Upgrade(desire);
+            }
+
+            CardCmd.ApplyKeyword(desire, CardKeyword.Retain);
+            await CardCmd.Transform(card, desire, CardPreviewStyle.HorizontalLayout);
+        }
     }
 }

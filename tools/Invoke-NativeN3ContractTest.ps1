@@ -148,10 +148,10 @@ $requiredGameplayMarkers = @(
     'Phase N3 contract: power copy stack, instance, dynamic state, duration, and rejection checks passed.',
     'Phase N3 contract: Hype explicit loss, turn clear, damage, retention, owner, and teardown setup checks passed.',
     'Phase N3 contract: visual play-queue node and stale play action cleanup passed.',
-    'Phase N3 contract: all post-combat reset, outside removal, Hairband idempotence, and pre-save checks passed.',
+    'Phase N3 contract: all post-combat reset, outside removal, no Hairband victory add, and pre-save checks passed.',
     'Native gameplay smoke: Monochrome Hairband added Desire to the deck; success=True.'
 )
-$reloadMarker = 'Phase N3 contract: reload preserved exactly one Hairband Desire, one added Silent Farewell, and no removed Two Moons.'
+$reloadMarker = 'Phase N3 contract: reload preserved exactly one Hairband Desire, one added Greetings, and no removed Two Moons.'
 
 try {
     Write-Host "Starting isolated Phase N3 contract run with seed $Seed."
@@ -181,9 +181,9 @@ try {
             $saveText = Read-OpenTextFile -Path $runSave.FullName
             $candidateIds = Get-ValidatedDeckIds -SaveText $saveText
             $desireCount = Get-ExactCount -Values $candidateIds -Expected 'CARD.TOGAWASAKIKO-DESIRE_CARD'
-            $silentFarewellCount = Get-ExactCount -Values $candidateIds -Expected 'CARD.TOGAWASAKIKO-SILENT_FAREWELL_CARD'
+            $greetingsCount = Get-ExactCount -Values $candidateIds -Expected 'CARD.TOGAWASAKIKO-GREETINGS_CARD'
             $twoMoonsCount = Get-ExactCount -Values $candidateIds -Expected 'CARD.TOGAWASAKIKO-TWO_MOONS_CARD'
-            if ($desireCount -eq 1 -and $silentFarewellCount -eq 1 -and $twoMoonsCount -eq 0) {
+            if ($desireCount -eq 1 -and $greetingsCount -eq 1 -and $twoMoonsCount -eq 0) {
                 Copy-Item -LiteralPath $runSave.FullName -Destination $saveSnapshotPath -Force
                 $snapshotText = Read-OpenTextFile -Path $saveSnapshotPath
                 $deckIds = Get-ValidatedDeckIds -SaveText $snapshotText
@@ -261,7 +261,7 @@ $summary = [pscustomobject]@{
     GameplayMarkerCount = $requiredGameplayMarkers.Count
     GameplayMarkersPassed = $true
     ExactDesireCount = Get-ExactCount -Values $deckIds -Expected 'CARD.TOGAWASAKIKO-DESIRE_CARD'
-    ExactSilentFarewellCount = Get-ExactCount -Values $deckIds -Expected 'CARD.TOGAWASAKIKO-SILENT_FAREWELL_CARD'
+    ExactGreetingsCount = Get-ExactCount -Values $deckIds -Expected 'CARD.TOGAWASAKIKO-GREETINGS_CARD'
     ExactTwoMoonsCount = Get-ExactCount -Values $deckIds -Expected 'CARD.TOGAWASAKIKO-TWO_MOONS_CARD'
     ReloadPassed = $true
     GameplayManagedIssueCount = $gameplayIssueLines.Count

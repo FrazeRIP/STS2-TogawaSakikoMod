@@ -58,6 +58,19 @@ if ('BaseLib' -in $assemblyReferences) {
 $forbiddenRuntimeTypeNames = @(
     'CarefreeCard',
     'WeaknessCard',
+    # Cards retired by the STS2 rework must not come back as models.
+    'AleaIactaEstCard',
+    'BlackAndWhiteKeysCard',
+    'BlackKeysCard',
+    'BudgetBentoCard',
+    'ClockOutCard',
+    'CurtainCallCard',
+    'EdgeOfBreakdownCard',
+    'EnduranceCard',
+    'QuaerereLuminaCard',
+    'SilentFarewellCard',
+    'VeritasCard',
+    'WhiteKeysCard',
     'GetForked',
     'TheOblivion',
     'AltNeowEvent',
@@ -90,7 +103,7 @@ $foundForbiddenAssemblyTokens = @(
         Where-Object { $assemblyText.IndexOf($_, [System.StringComparison]::OrdinalIgnoreCase) -ge 0 }
 )
 if ($foundForbiddenAssemblyTokens.Count -gt 0) {
-    throw "DLL contains out-of-scope act/event/enemy model types: $($foundForbiddenAssemblyTokens -join ', ')"
+    throw "DLL contains out-of-scope or retired model types: $($foundForbiddenAssemblyTokens -join ', ')"
 }
 
 $pckPath = Join-Path $resolvedPackagePath 'TogawaSakiko.pck'

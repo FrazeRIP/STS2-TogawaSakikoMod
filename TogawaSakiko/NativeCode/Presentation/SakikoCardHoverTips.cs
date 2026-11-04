@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Nodes.HoverTips;
 using TogawaSakiko.NativeCode.Models.Cards;
+using TogawaSakiko.NativeCode.Models.Powers;
 
 namespace TogawaSakiko.NativeCode.Presentation;
 
@@ -42,6 +43,15 @@ internal static class SakikoCardHoverTips
         {
             tips.Add(HoverTipFactory.FromPower<StrengthPower>());
         }
+        if (text.Contains("气焰", StringComparison.Ordinal) ||
+            text.Contains("Ardor", StringComparison.OrdinalIgnoreCase))
+        {
+            tips.Add(HoverTipFactory.FromPower<ArdorPower>());
+        }
+        if (card is KingsCard)
+        {
+            tips.Add(HoverTipFactory.FromCard(ModelDb.Card<TirednessCard>()));
+        }
         if (card is AveMujicaCard or CrychicCard)
         {
             bool elements = card is AveMujicaCard;
@@ -62,8 +72,11 @@ internal static class SakikoCardHoverTips
     internal static IReadOnlyList<CardModel> CreateVariantPreviews(bool elements, bool upgraded)
     {
         CardModel[] canonicals = elements
-            ? [ModelDb.Card<SymbolIFireCard>(), ModelDb.Card<SymbolIIAirCard>(), ModelDb.Card<SymbolIIIWaterCard>(), ModelDb.Card<SymbolIVEarthCard>(), ModelDb.Card<EtherCard>()]
-            : [ModelDb.Card<PhantomOfMutsumiCard>(), ModelDb.Card<PhantomOfSakikoCard>(), ModelDb.Card<PhantomOfSoyoCard>(), ModelDb.Card<PhantomOfTakiCard>(), ModelDb.Card<PhantomOfTomoriCard>()];
+            ? [ModelDb.Card<SymbolIFireCard>(), ModelDb.Card<SymbolIIAirCard>(),
+                ModelDb.Card<SymbolIIIWaterCard>(), ModelDb.Card<SymbolIVEarthCard>()]
+            : [ModelDb.Card<PhantomOfMutsumiCard>(), ModelDb.Card<PhantomOfSakikoCard>(),
+                ModelDb.Card<PhantomOfSoyoCard>(), ModelDb.Card<PhantomOfTakiCard>(),
+                ModelDb.Card<PhantomOfTomoriCard>()];
         return canonicals.Select(canonical => ((CardHoverTip)HoverTipFactory.FromCard(canonical, upgraded)).Card).ToArray();
     }
 
@@ -81,6 +94,7 @@ internal static class SakikoCardHoverTipsPatch
         {
             __result = SakikoCardHoverTips.Append(__instance, __result);
         }
+        __result = PurgeCardLocationTips.Append(__instance, __result);
     }
 }
 

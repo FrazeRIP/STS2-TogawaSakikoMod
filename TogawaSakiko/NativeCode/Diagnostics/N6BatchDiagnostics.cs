@@ -13,12 +13,12 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.Relics;
-using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves;
+using MegaCrit.Sts2.Core.TestSupport;
 using MegaCrit.Sts2.Core.ValueProps;
 using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.Models.Cards;
@@ -97,7 +97,7 @@ internal static class N6BatchDiagnostics
         await VerifyCompassAsync(choiceContext, player, target);
         GoldenPocketWatch watch = await VerifyGoldenPocketWatchAsync(combatState, choiceContext, player);
         TheDoll doll = await VerifyDollAsync(combatState, choiceContext, player);
-        TheThirdMovement movement = await VerifyThirdMovementAsync(combatState, choiceContext, player, target, room);
+        TheThirdMovement movement = await VerifyThirdMovementAsync(combatState, choiceContext, player, target);
         await VerifyPorcelainCupAsync(player, room);
         MasqueradeMask mask = await VerifyMasqueradeMaskAsync(combatState, choiceContext, player, room);
         CuteAnimalBandAid bandAid = await RelicCmd.Obtain<CuteAnimalBandAid>(player);
@@ -251,7 +251,7 @@ internal static class N6BatchDiagnostics
             "Orange Milk Jelly did not apply native Double Tap");
         decimal targetBlockBefore = target.Block;
         await CreatureCmd.GainBlock(target, 100m, ValueProp.Unpowered, null, fast: true);
-        MelodyCard doubled = await CreateAndAutoPlayAsync<MelodyCard>(
+        StrikeTogawaSakiko doubled = await CreateAndAutoPlayAsync<StrikeTogawaSakiko>(
             combatState,
             player,
             choiceContext,
@@ -376,8 +376,7 @@ internal static class N6BatchDiagnostics
         CombatState combatState,
         PlayerChoiceContext choiceContext,
         Player player,
-        Creature target,
-        CombatRoom room)
+        Creature target)
     {
         await PowerCmd.Remove(player.Creature.GetPower<StrengthPower>());
         await PowerCmd.Remove(target.GetPower<VulnerablePower>());
@@ -386,14 +385,20 @@ internal static class N6BatchDiagnostics
         await CreatureCmd.GainBlock(target, 300m, ValueProp.Unpowered, null, fast: true);
         decimal[] expectedDamage = [45m, 45m, 45m, 15m];
 
+        int deckSizeBefore = player.Deck.Cards.Count;
         for (int index = 0; index < expectedDamage.Length; index++)
         {
             decimal blockBeforePlay = target.Block;
-            TheMoonlightSonataCard moonlight = await CreateAndAutoPlayAsync<TheMoonlightSonataCard>(
-                combatState,
-                player,
-                choiceContext,
-                target);
+            TheMoonlightSonataCard moonlight;
+            // An empty selection skips Moonlight Sonata's purge so only its damage is measured.
+            using (CardSelectCmd.PushSelector(new TestCardSelector()))
+            {
+                moonlight = await CreateAndAutoPlayAsync<TheMoonlightSonataCard>(
+                    combatState,
+                    player,
+                    choiceContext,
+                    target);
+            }
             Require(blockBeforePlay - target.Block == expectedDamage[index],
                 $"The Third Movement play {index + 1} dealt {blockBeforePlay - target.Block} instead of {expectedDamage[index]}");
             Require(movement.RemainingUses == Math.Max(0, 2 - index),
@@ -403,9 +408,8 @@ internal static class N6BatchDiagnostics
 
         Require(movement.IsUsedUp && movement.Status == MegaCrit.Sts2.Core.Entities.Relics.RelicStatus.Disabled,
             "The Third Movement did not enter its used-up presentation state");
-        Require(room.ExtraRewards.TryGetValue(player, out List<Reward>? rewards) &&
-                rewards.Count(reward => reward is CardRemovalReward) >= 4,
-            "Moonlight Sonata did not preserve its native purge-reward side effect during The Third Movement test");
+        Require(player.Deck.Cards.Count == deckSizeBefore,
+            "a skipped Moonlight Sonata purge changed the persistent deck during The Third Movement test");
         await RemoveAddedBlockAsync(choiceContext, target, targetBlockBefore);
 
         NativeSmokeTrace.N6Info("The Third Movement dealt 45/45/45/15 damage and consumed exactly three uses.");
@@ -415,8 +419,6 @@ internal static class N6BatchDiagnostics
     private static async Task VerifyPorcelainCupAsync(Player player, CombatRoom room)
     {
         WarmthInfusedPorcelainCup cup = await RelicCmd.Obtain<WarmthInfusedPorcelainCup>(player);
-        StarterRelicTogawaSakiko starter = player.Relics.OfType<StarterRelicTogawaSakiko>().Single();
-        starter.SetKingsRewardPending(true);
 
         List<CardCreationResult> options =
         [
@@ -434,14 +436,13 @@ internal static class N6BatchDiagnostics
             creationOptions,
             out List<AbstractModel> modifiers);
 
-        Require(modified && options.Count == 2,
-            "Porcelain Cup changed the Kings-reduced reward count");
+        Require(modified && options.Count == 3,
+            "Porcelain Cup changed the reward count");
         Require(options.Count(option => option.Card is HeartsBarrierCard) == 1 && modifiers.Contains(cup),
             "Porcelain Cup did not force exactly one Heart's Barrier through the native reward hook");
-        starter.SetKingsRewardPending(false);
         await RelicCmd.Remove(cup);
 
-        NativeSmokeTrace.N6Info("Porcelain Cup forced one Heart's Barrier while preserving the Kings two-card reward.");
+        NativeSmokeTrace.N6Info("Porcelain Cup forced one Heart's Barrier while preserving the three-card reward.");
     }
 
     private static async Task<MasqueradeMask> VerifyMasqueradeMaskAsync(
@@ -451,19 +452,19 @@ internal static class N6BatchDiagnostics
         CombatRoom room)
     {
         MasqueradeMask mask = await RelicCmd.Obtain<MasqueradeMask>(player);
-        mask.PurgedCards = 2;
+        mask.PurgedCards = MasqueradeMask.TriggerAmount - 1;
         int rewardsBefore = GetCardRemovalRewardCount(room, player);
-        DefendTogawaSakiko removable = combatState.CreateCard<DefendTogawaSakiko>(player);
-        await CardPileCmd.AddGeneratedCardToCombat(removable, PileType.Hand, player);
+        CardPileAddResult removable = await PersistentDeckMutation.AddCanonicalAsync<DefendTogawaSakiko>(
+            player,
+            skipVisuals: true);
         SakikoPurgeResult success = await SakikoPurgeCommand.RemoveAsync(
-            removable,
+            removable.cardAdded,
             showPersistentPreview: false,
-            skipCombatVisuals: true,
-            choiceContext: choiceContext);
+            skipCombatVisuals: true);
         Require(success.Success && success.MasqueradeRewardsAdded == 1 &&
                 mask.PurgedCards == 0 &&
                 GetCardRemovalRewardCount(room, player) == rewardsBefore + 1,
-            "Masquerade Mask did not add one native purge reward on the third successful purge");
+            "Masquerade Mask did not add one native purge reward on the fifth successful purge");
 
         AscendersBane eternal = combatState.CreateCard<AscendersBane>(player);
         await CardPileCmd.AddGeneratedCardToCombat(eternal, PileType.Hand, player);
@@ -471,14 +472,13 @@ internal static class N6BatchDiagnostics
         SakikoPurgeResult prevented = await SakikoPurgeCommand.RemoveAsync(
             eternal,
             showPersistentPreview: false,
-            skipCombatVisuals: true,
-            choiceContext: choiceContext);
+            skipCombatVisuals: true);
         Require(!prevented.Success && prevented.Prevented && mask.PurgedCards == 0 &&
                 GetCardRemovalRewardCount(room, player) == rewardsBeforeFailure,
             "Masquerade Mask counted a prevented purge");
         await CardPileCmd.RemoveFromCombat(eternal, skipVisuals: true);
 
-        NativeSmokeTrace.N6Info("Masquerade Mask counted only successful purges and added a native reward at 3.");
+        NativeSmokeTrace.N6Info("Masquerade Mask counted only successful purges and added a native reward at 5.");
         return mask;
     }
 

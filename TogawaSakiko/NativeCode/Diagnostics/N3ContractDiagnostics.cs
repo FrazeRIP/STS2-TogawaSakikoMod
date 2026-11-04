@@ -22,7 +22,6 @@ using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.GameActions;
 using TogawaSakiko.NativeCode.Models.Cards;
 using TogawaSakiko.NativeCode.Models.Powers;
-using TogawaSakiko.NativeCode.Models.Relics;
 using TogawaSakiko.NativeCode.Tracking;
 
 namespace TogawaSakiko.NativeCode.Diagnostics;
@@ -213,18 +212,11 @@ internal static class N3ContractDiagnostics
             "combat teardown consumed Hype before removing the power");
         Require(session.TeardownBlockAmount > 0, "combat teardown Hype probe did not retain positive block until power removal");
 
+        // Monochrome Hairband adds its Desire at combat start, so victory must not add another.
         int desireCount = session.Player.Deck.Cards.Count(card => card is DesireCard);
         Require(
-            desireCount == session.InitialDesireCount + 1,
-            $"Monochrome Hairband expected one Desire, found {desireCount - session.InitialDesireCount}");
-
-        StarterRelicTogawaSakiko hairband = session.Player.Relics
-            .OfType<StarterRelicTogawaSakiko>()
-            .Single();
-        await hairband.AfterCombatVictory(room);
-        Require(
-            session.Player.Deck.Cards.Count(card => card is DesireCard) == desireCount,
-            "Monochrome Hairband duplicated its reward on a repeated victory callback");
+            desireCount == session.InitialDesireCount,
+            $"Monochrome Hairband added {desireCount - session.InitialDesireCount} Desire at victory");
 
         CardModel outsideCombatCard = await AddPersistentAsync<TwoMoonsCard>(session.Player);
         PersistentDeckRemovalResult outsideResult = await VerifySuccessfulRemovalAsync(
@@ -235,14 +227,14 @@ internal static class N3ContractDiagnostics
         Require(outsideResult.RemovedCombatCopies.Count == 0, "outside-combat removal found a combat copy");
 
         Require(
-            session.Player.Deck.Cards.Count(card => card is SilentFarewellCard) == 1,
+            session.Player.Deck.Cards.Count(card => card is GreetingsCard) == 1,
             "the persistent save/reload probe card is missing before the native post-victory save");
         Require(
             !session.Player.Deck.Cards.Any(card => card is TwoMoonsCard),
             "a removed persistent Two Moons remained active in the deck");
 
         NativeSmokeTrace.ContractInfo(
-            "all post-combat reset, outside removal, Hairband idempotence, and pre-save checks passed.");
+            "all post-combat reset, outside removal, no Hairband victory add, and pre-save checks passed.");
     }
 
     private static async Task VerifyDeckContractsAsync(Session session, CombatState combatState)
@@ -334,7 +326,7 @@ internal static class N3ContractDiagnostics
         protectedPersistent.RemoveKeyword(CardKeyword.Eternal);
         await VerifySuccessfulRemovalAsync(session, protectedPersistent, 1, true);
 
-        CardPileAddResult saveProbeResult = await PersistentDeckMutation.AddCanonicalAsync<SilentFarewellCard>(
+        CardPileAddResult saveProbeResult = await PersistentDeckMutation.AddCanonicalAsync<GreetingsCard>(
             player,
             skipVisuals: true);
         Require(saveProbeResult.success, "persistent save/reload probe card add was prevented");
@@ -857,6 +849,14 @@ internal static class N3ContractDiagnostics
             skipVisuals: true);
         Require(result.success, $"native deck add for {typeof(TCard).Name} was prevented");
         Require(result.cardAdded.Pile?.Type == PileType.Deck, $"native deck add for {typeof(TCard).Name} missed the deck");
+
+        // In combat a permanent add also creates a linked Hand copy; fixtures place their own copies.
+        IReadOnlyList<CardModel> automaticCopies = PersistentDeckMutation.SnapshotLinkedCombatCopies(result.cardAdded);
+        if (automaticCopies.Count > 0)
+        {
+            await CardPileCmd.RemoveFromCombat(automaticCopies, true);
+        }
+
         return result.cardAdded;
     }
 

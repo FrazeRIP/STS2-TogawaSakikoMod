@@ -20,57 +20,77 @@ internal static class PowerPackedIconPathPatch
         {
             __result = NativeAssetPaths.HypeIcon;
         }
+        else if (__instance is ForeverDreamPower)
+        {
+            __result = NativeAssetPaths.GodsCreationIcon;
+        }
+        else if (__instance is KindnessPower)
+        {
+            __result = NativeAssetPaths.GirlOfSpringIcon;
+        }
+        else if (__instance is FreeNextCardPower)
+        {
+            __result = NativeAssetPaths.PrideIcon;
+        }
+        else if (__instance is StayElegancePower)
+        {
+            __result = NativeAssetPaths.EnduranceIcon;
+        }
+        else if (__instance is FireEchoPower)
+        {
+            __result = NativeAssetPaths.PerdereOmniaIcon;
+        }
+        else if (__instance is DarkHeavenPower)
+        {
+            __result = NativeAssetPaths.SeizeTheFateIcon;
+        }
+        else if (__instance is NextTurnArdorPower)
+        {
+            __result = NativeAssetPaths.CrychicIcon;
+        }
+        else if (__instance is EncorePower)
+        {
+            __result = NativeAssetPaths.CharismaticFormIcon;
+        }
+        else if (__instance is AnglesPower)
+        {
+            __result = NativeAssetPaths.KingsIcon;
+        }
+        else if (__instance is UnrestrainedPower)
+        {
+            __result = NativeAssetPaths.OurSongIcon;
+        }
+        else if (__instance is SweetDreamsPower)
+        {
+            __result = NativeAssetPaths.PrideIcon;
+        }
+        else if (__instance is AllWillsBecomeOnePower)
+        {
+            __result = NativeAssetPaths.WorldviewIcon;
+        }
         else if (__instance is DolorisPower)
         {
             __result = NativeAssetPaths.DolorisIcon;
-        }
-        else if (__instance is MortisPower)
-        {
-            __result = NativeAssetPaths.MortisIcon;
         }
         else if (__instance is OblivionisPower)
         {
             __result = NativeAssetPaths.OblivionisIcon;
         }
-        else if (__instance is TimorisPower)
-        {
-            __result = NativeAssetPaths.TimorisIcon;
-        }
         else if (__instance is MelodiaPower or MonsterDivinityPower)
         {
             __result = NativeAssetPaths.MonsterDivinityIcon;
         }
-        else if (__instance is KingsPower)
-        {
-            __result = NativeAssetPaths.KingsIcon;
-        }
-        else if (__instance is CuriosityPower)
+        else if (__instance is CuriosityPower or ArdorPower)
         {
             __result = ModelDb.Power<StrengthPower>().PackedIconPath;
-        }
-        else if (__instance is EndurancePower)
-        {
-            __result = NativeAssetPaths.EnduranceIcon;
         }
         else if (__instance is FearlessPower)
         {
             __result = NativeAssetPaths.FearlessIcon;
         }
-        else if (__instance is GodsCreationPower)
-        {
-            __result = NativeAssetPaths.GodsCreationIcon;
-        }
-        else if (__instance is GirlOfSpringPower)
-        {
-            __result = NativeAssetPaths.GirlOfSpringIcon;
-        }
         else if (__instance is OurSongPower)
         {
             __result = NativeAssetPaths.OurSongIcon;
-        }
-        else if (__instance is PerdereOmniaPower)
-        {
-            __result = NativeAssetPaths.PerdereOmniaIcon;
         }
         else if (__instance is PrimoDieInScaenaPower)
         {
@@ -96,14 +116,6 @@ internal static class PowerPackedIconPathPatch
         {
             __result = NativeAssetPaths.CrychicIcon;
         }
-        else if (__instance is PridePower)
-        {
-            __result = NativeAssetPaths.PrideIcon;
-        }
-        else if (__instance is WishYouGoodLuckPower)
-        {
-            __result = NativeAssetPaths.WishYouGoodLuckIcon;
-        }
         else if (__instance is WorldviewPower)
         {
             __result = NativeAssetPaths.WorldviewIcon;
@@ -124,57 +136,77 @@ internal static class PowerBigIconPathPatch
         {
             __result = NativeAssetPaths.HypeBigIcon;
         }
+        else if (__instance is ForeverDreamPower)
+        {
+            __result = NativeAssetPaths.GodsCreationBigIcon;
+        }
+        else if (__instance is KindnessPower)
+        {
+            __result = NativeAssetPaths.GirlOfSpringBigIcon;
+        }
+        else if (__instance is FreeNextCardPower)
+        {
+            __result = NativeAssetPaths.PrideBigIcon;
+        }
+        else if (__instance is StayElegancePower)
+        {
+            __result = NativeAssetPaths.EnduranceBigIcon;
+        }
+        else if (__instance is FireEchoPower)
+        {
+            __result = NativeAssetPaths.PerdereOmniaBigIcon;
+        }
+        else if (__instance is DarkHeavenPower)
+        {
+            __result = NativeAssetPaths.SeizeTheFateBigIcon;
+        }
+        else if (__instance is NextTurnArdorPower)
+        {
+            __result = NativeAssetPaths.CrychicBigIcon;
+        }
+        else if (__instance is EncorePower)
+        {
+            __result = NativeAssetPaths.CharismaticFormBigIcon;
+        }
+        else if (__instance is AnglesPower)
+        {
+            __result = NativeAssetPaths.KingsBigIcon;
+        }
+        else if (__instance is UnrestrainedPower)
+        {
+            __result = NativeAssetPaths.OurSongBigIcon;
+        }
+        else if (__instance is SweetDreamsPower)
+        {
+            __result = NativeAssetPaths.PrideBigIcon;
+        }
+        else if (__instance is AllWillsBecomeOnePower)
+        {
+            __result = NativeAssetPaths.WorldviewBigIcon;
+        }
         else if (__instance is DolorisPower)
         {
             __result = NativeAssetPaths.DolorisBigIcon;
-        }
-        else if (__instance is MortisPower)
-        {
-            __result = NativeAssetPaths.MortisBigIcon;
         }
         else if (__instance is OblivionisPower)
         {
             __result = NativeAssetPaths.OblivionisBigIcon;
         }
-        else if (__instance is TimorisPower)
-        {
-            __result = NativeAssetPaths.TimorisBigIcon;
-        }
         else if (__instance is MelodiaPower or MonsterDivinityPower)
         {
             __result = NativeAssetPaths.MonsterDivinityBigIcon;
         }
-        else if (__instance is KingsPower)
-        {
-            __result = NativeAssetPaths.KingsBigIcon;
-        }
-        else if (__instance is CuriosityPower)
+        else if (__instance is CuriosityPower or ArdorPower)
         {
             __result = ModelDb.Power<StrengthPower>().ResolvedBigIconPath;
-        }
-        else if (__instance is EndurancePower)
-        {
-            __result = NativeAssetPaths.EnduranceBigIcon;
         }
         else if (__instance is FearlessPower)
         {
             __result = NativeAssetPaths.FearlessBigIcon;
         }
-        else if (__instance is GodsCreationPower)
-        {
-            __result = NativeAssetPaths.GodsCreationBigIcon;
-        }
-        else if (__instance is GirlOfSpringPower)
-        {
-            __result = NativeAssetPaths.GirlOfSpringBigIcon;
-        }
         else if (__instance is OurSongPower)
         {
             __result = NativeAssetPaths.OurSongBigIcon;
-        }
-        else if (__instance is PerdereOmniaPower)
-        {
-            __result = NativeAssetPaths.PerdereOmniaBigIcon;
         }
         else if (__instance is PrimoDieInScaenaPower)
         {
@@ -199,14 +231,6 @@ internal static class PowerBigIconPathPatch
         else if (__instance is CrychicPower)
         {
             __result = NativeAssetPaths.CrychicBigIcon;
-        }
-        else if (__instance is PridePower)
-        {
-            __result = NativeAssetPaths.PrideBigIcon;
-        }
-        else if (__instance is WishYouGoodLuckPower)
-        {
-            __result = NativeAssetPaths.WishYouGoodLuckBigIcon;
         }
         else if (__instance is WorldviewPower)
         {
@@ -228,57 +252,77 @@ internal static class PowerBigBetaIconPathPatch
         {
             __result = NativeAssetPaths.HypeBigIcon;
         }
+        else if (__instance is ForeverDreamPower)
+        {
+            __result = NativeAssetPaths.GodsCreationBigIcon;
+        }
+        else if (__instance is KindnessPower)
+        {
+            __result = NativeAssetPaths.GirlOfSpringBigIcon;
+        }
+        else if (__instance is FreeNextCardPower)
+        {
+            __result = NativeAssetPaths.PrideBigIcon;
+        }
+        else if (__instance is StayElegancePower)
+        {
+            __result = NativeAssetPaths.EnduranceBigIcon;
+        }
+        else if (__instance is FireEchoPower)
+        {
+            __result = NativeAssetPaths.PerdereOmniaBigIcon;
+        }
+        else if (__instance is DarkHeavenPower)
+        {
+            __result = NativeAssetPaths.SeizeTheFateBigIcon;
+        }
+        else if (__instance is NextTurnArdorPower)
+        {
+            __result = NativeAssetPaths.CrychicBigIcon;
+        }
+        else if (__instance is EncorePower)
+        {
+            __result = NativeAssetPaths.CharismaticFormBigIcon;
+        }
+        else if (__instance is AnglesPower)
+        {
+            __result = NativeAssetPaths.KingsBigIcon;
+        }
+        else if (__instance is UnrestrainedPower)
+        {
+            __result = NativeAssetPaths.OurSongBigIcon;
+        }
+        else if (__instance is SweetDreamsPower)
+        {
+            __result = NativeAssetPaths.PrideBigIcon;
+        }
+        else if (__instance is AllWillsBecomeOnePower)
+        {
+            __result = NativeAssetPaths.WorldviewBigIcon;
+        }
         else if (__instance is DolorisPower)
         {
             __result = NativeAssetPaths.DolorisBigIcon;
-        }
-        else if (__instance is MortisPower)
-        {
-            __result = NativeAssetPaths.MortisBigIcon;
         }
         else if (__instance is OblivionisPower)
         {
             __result = NativeAssetPaths.OblivionisBigIcon;
         }
-        else if (__instance is TimorisPower)
-        {
-            __result = NativeAssetPaths.TimorisBigIcon;
-        }
         else if (__instance is MelodiaPower or MonsterDivinityPower)
         {
             __result = NativeAssetPaths.MonsterDivinityBigIcon;
         }
-        else if (__instance is KingsPower)
-        {
-            __result = NativeAssetPaths.KingsBigIcon;
-        }
-        else if (__instance is CuriosityPower)
+        else if (__instance is CuriosityPower or ArdorPower)
         {
             __result = ModelDb.Power<StrengthPower>().ResolvedBigIconPath;
-        }
-        else if (__instance is EndurancePower)
-        {
-            __result = NativeAssetPaths.EnduranceBigIcon;
         }
         else if (__instance is FearlessPower)
         {
             __result = NativeAssetPaths.FearlessBigIcon;
         }
-        else if (__instance is GodsCreationPower)
-        {
-            __result = NativeAssetPaths.GodsCreationBigIcon;
-        }
-        else if (__instance is GirlOfSpringPower)
-        {
-            __result = NativeAssetPaths.GirlOfSpringBigIcon;
-        }
         else if (__instance is OurSongPower)
         {
             __result = NativeAssetPaths.OurSongBigIcon;
-        }
-        else if (__instance is PerdereOmniaPower)
-        {
-            __result = NativeAssetPaths.PerdereOmniaBigIcon;
         }
         else if (__instance is PrimoDieInScaenaPower)
         {
@@ -303,14 +347,6 @@ internal static class PowerBigBetaIconPathPatch
         else if (__instance is CrychicPower)
         {
             __result = NativeAssetPaths.CrychicBigIcon;
-        }
-        else if (__instance is PridePower)
-        {
-            __result = NativeAssetPaths.PrideBigIcon;
-        }
-        else if (__instance is WishYouGoodLuckPower)
-        {
-            __result = NativeAssetPaths.WishYouGoodLuckBigIcon;
         }
         else if (__instance is WorldviewPower)
         {

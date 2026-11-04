@@ -1,23 +1,15 @@
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Random;
 using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.Content;
-using TogawaSakiko.NativeCode.Models.Powers;
 
 namespace TogawaSakiko.NativeCode.Models.Cards;
 
 public sealed class PrideCard : CardModel
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [CardKeyword.Innate, CardKeyword.Exhaust];
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar("MagicNumber", 1m)];
-
     public override string PortraitPath => NativeAssetPaths.PridePortrait;
 
     public PrideCard()
@@ -25,43 +17,42 @@ public sealed class PrideCard : CardModel
     {
     }
 
-    internal static CardModel[] SelectCandidatePile(
-        IEnumerable<CardModel> drawPile,
-        IEnumerable<CardModel> discardPile)
+    internal static CardModel[] SelectCandidatePile(IEnumerable<CardModel> drawPile)
     {
-        CardModel[] drawAttacks = drawPile.Where(card => card.Type == CardType.Attack).ToArray();
-        return drawAttacks.Length > 0
-            ? drawAttacks
-            : discardPile.Where(card => card.Type == CardType.Attack).ToArray();
+        return drawPile.Where(card => card.Type == CardType.Attack).ToArray();
+    }
+
+    protected override CardLocation GetResultLocationForCardPlay()
+    {
+        var normal = base.GetResultLocationForCardPlay();
+        return normal.pileType == PileType.Discard
+            ? new CardLocation(Owner, PileType.Draw, CardPilePosition.Top)
+            : normal;
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         SakikoAudioCmd.TryPlayCardVoice(Owner, "Pride");
-        Rng rng = Owner.RunState.Rng.CombatCardSelection;
-        for (int index = 0; index < DynamicVars["MagicNumber"].IntValue; index++)
+        var candidates = SelectCandidatePile(PileType.Draw.GetPile(Owner).Cards);
+        if (candidates.Length == 0)
         {
-            CardModel? attack = rng.NextItem(SelectCandidatePile(
-                PileType.Draw.GetPile(Owner).Cards,
-                PileType.Discard.GetPile(Owner).Cards));
-            if (attack is null)
-            {
-                break;
-            }
-            await CardPileCmd.Add(attack, PileType.Hand);
+            return;
         }
 
-        PridePower? power = await PowerCmd.Apply<PridePower>(
-            choiceContext,
-            Owner.Creature,
-            1,
-            Owner.Creature,
-            this);
-        power?.Register(this);
+        var chosen = (await CardSelectCmd.FromSimpleGrid(
+                choiceContext,
+                candidates,
+                Owner,
+                new CardSelectorPrefs(SelectionScreenPrompt, 1)))
+            .FirstOrDefault();
+        if (chosen is not null)
+        {
+            await CardPileCmd.Add(chosen, PileType.Hand);
+        }
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars["MagicNumber"].UpgradeValueBy(1m);
+        AddKeyword(CardKeyword.Innate);
     }
 }

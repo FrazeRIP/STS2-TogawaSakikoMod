@@ -19,8 +19,8 @@ public sealed class ASplitMomentCard : CardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(1m, ValueProp.Move),
-        new PowerVar<DazzlingPower>(1m)
+        new BlockVar(2m, ValueProp.Move),
+        new PowerVar<DazzlingPower>(2m)
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<DazzlingPower>()];
@@ -35,9 +35,9 @@ public sealed class ASplitMomentCard : CardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         SakikoAudioCmd.TryPlayCardVoice(Owner, "ASplitMoment");
+        await Sts2MechanicsDiagnostics.RunAsync(choiceContext, this);
         await N5BatchDiagnostics.RunInCombatAsync(choiceContext, this);
         await N3ContractDiagnostics.RunInCombatAsync(choiceContext, this);
-        await KingsLifecycleDiagnostics.ArmAsync(choiceContext, this);
         await N6BatchDiagnostics.RunInCombatAsync(choiceContext, this);
         await AncientRewardDiagnostics.RunAsync(choiceContext, this);
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);

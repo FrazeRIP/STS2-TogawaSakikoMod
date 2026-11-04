@@ -1,12 +1,9 @@
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Relics;
-using MegaCrit.Sts2.Core.Random;
-using MegaCrit.Sts2.Core.ValueProps;
 using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.Content;
 
@@ -14,29 +11,26 @@ namespace TogawaSakiko.NativeCode.Models.Cards;
 
 public sealed class AveMujicaCard : CardModel
 {
-    public const int ChoiceCount = 3;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(7m, ValueProp.Move)];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     public override string PortraitPath => NativeAssetPaths.AveMujicaPortrait;
 
     public AveMujicaCard()
-        : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 
-    internal static CardModel[] SelectOptionCanonicals(Rng rng)
+    internal static CardModel[] SelectOptionCanonicals()
     {
         CardModel[] symbols =
         [
             ModelDb.Card<SymbolIFireCard>(),
             ModelDb.Card<SymbolIIAirCard>(),
             ModelDb.Card<SymbolIIIWaterCard>(),
-            ModelDb.Card<SymbolIVEarthCard>(),
-            ModelDb.Card<EtherCard>()
+            ModelDb.Card<SymbolIVEarthCard>()
         ];
-        return symbols.TakeRandom(ChoiceCount, rng).ToArray();
+        return symbols;
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -44,7 +38,7 @@ public sealed class AveMujicaCard : CardModel
         var combatState = CombatState
             ?? throw new InvalidOperationException("Ave Mujica requires an active combat.");
         bool upgradeOptions = IsUpgraded || Owner.GetRelic<MoltenEgg>() is not null;
-        List<CardModel> options = SelectOptionCanonicals(Owner.RunState.Rng.CombatCardGeneration)
+        List<CardModel> options = SelectOptionCanonicals()
             .Select(canonical => combatState.CreateCard(canonical, Owner))
             .ToList();
         if (upgradeOptions)
@@ -56,12 +50,18 @@ public sealed class AveMujicaCard : CardModel
         }
 
         SakikoAudioCmd.TryPlayCardVoice(Owner, "AveMujica");
-        CardModel? selected = await CardSelectCmd.FromChooseACardScreen(
+        CardModel? selected = (await CardSelectCmd.FromSimpleGrid(
             choiceContext,
             options,
-            Owner);
+            Owner,
+            new CardSelectorPrefs(SelectionScreenPrompt, 1))).FirstOrDefault();
         if (selected is null)
         {
+            foreach (CardModel option in options)
+            {
+                combatState.RemoveCard(option);
+            }
+
             return;
         }
 
@@ -69,11 +69,15 @@ public sealed class AveMujicaCard : CardModel
             Owner,
             selected);
         CardCmd.PreviewCardPileAdd(persistent);
-        await CardCmd.AutoPlay(choiceContext, selected, cardPlay.Target);
+        // Only the linked hand copy is playable; discard the unchosen preview instances.
+        foreach (CardModel option in options)
+        {
+            combatState.RemoveCard(option);
+        }
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(3m);
+        // The selected element is upgraded when this card is upgraded.
     }
 }

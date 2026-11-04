@@ -21,14 +21,15 @@ public sealed class TheThirdMovementCard : CardModel
 
     public override string PortraitPath => NativeAssetPaths.ThirdMovementPortrait;
 
-    public TheThirdMovementCard() : base(1, CardType.Attack, CardRarity.Ancient, TargetType.AnyEnemy)
+    public TheThirdMovementCard()
+        : base(1, CardType.Attack, CardRarity.Ancient, TargetType.AnyEnemy)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await WishFulfilledCard.ChooseAndPurgeAsync(choiceContext, Owner, SelectionScreenPrompt);
+        await WishFulfilledCard.ChooseAndPurgeAsync(choiceContext, Owner, SelectionScreenPrompt, 3);
 
         // Purge replacements such as Utopia can resolve other cards before this attack.
         if (CombatManager.Instance.IsOverOrEnding || !cardPlay.Target.IsHittable)
@@ -43,5 +44,8 @@ public sealed class TheThirdMovementCard : CardModel
             .Execute(choiceContext);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(15m);
+    protected override void OnUpgrade()
+    {
+        EnergyCost.UpgradeBy(-1);
+    }
 }

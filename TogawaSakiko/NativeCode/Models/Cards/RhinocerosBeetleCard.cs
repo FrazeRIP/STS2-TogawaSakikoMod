@@ -1,6 +1,5 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -16,14 +15,9 @@ public sealed class RhinocerosBeetleCard : CardModel
 {
     public override bool GainsBlock => true;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new CalculationBaseVar(4m),
-        new CalculationExtraVar(1m),
-        new CalculatedBlockVar(ValueProp.Unpowered)
-            .WithMultiplier(static (CardModel card, Creature? _) =>
-                decimal.Floor((card.Owner.Creature.GetPower<DazzlingPower>()?.Amount ?? 0m) / 2m))
-    ];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("MagicNumber", 3m)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<DazzlingPower>()];
 
@@ -37,15 +31,21 @@ public sealed class RhinocerosBeetleCard : CardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         SakikoAudioCmd.TryPlayCardVoice(Owner, "RhinocerosBeetle");
+        await PowerCmd.Apply<DazzlingPower>(
+            choiceContext,
+            Owner.Creature,
+            DynamicVars["MagicNumber"].BaseValue,
+            Owner.Creature,
+            this);
         await CreatureCmd.GainBlock(
             Owner.Creature,
-            DynamicVars.CalculatedBlock.Calculate(null),
-            DynamicVars.CalculatedBlock.Props,
+            Owner.Creature.GetPower<DazzlingPower>()?.Amount ?? 0,
+            ValueProp.Unpowered,
             cardPlay);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.CalculationBase.UpgradeValueBy(3m);
+        EnergyCost.UpgradeBy(-1);
     }
 }

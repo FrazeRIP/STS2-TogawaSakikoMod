@@ -116,7 +116,7 @@ $runSave = $null
 $saveReady = $false
 
 $requiredGameplayMarkers = @(
-    'Phase N6 pure contract tests passed (191 assertions).',
+    'Phase N6 pure contract tests passed (179 assertions).',
     'Embarking on a singleplayer TOGAWASAKIKO-TOGAWA_SAKIKO run.',
     'Phase N6 contract: Darkstone Periapt direct acquisition was replaced by another Event relic.',
     'Phase N6 contract: Blazing Hairband boss swap, random persistent add, disabled-card exclusion, and combat idempotence passed.',
@@ -127,8 +127,8 @@ $requiredGameplayMarkers = @(
     'Phase N6 contract: Golden Pocket Watch persisted its count and triggered 2 Strength on card 12.',
     'Phase N6 contract: The Doll triggered exactly once for 2 Hype on player turn 2.',
     'Phase N6 contract: The Third Movement dealt 45/45/45/15 damage and consumed exactly three uses.',
-    "Phase N6 contract: Porcelain Cup forced one Heart's Barrier while preserving the Kings two-card reward.",
-    'Phase N6 contract: Masquerade Mask counted only successful purges and added a native reward at 3.',
+    "Phase N6 contract: Porcelain Cup forced one Heart's Barrier while preserving the three-card reward.",
+    'Phase N6 contract: Masquerade Mask counted only successful purges and added a native reward at 5.',
     'Phase N6 contract: native mid-combat save written with Watch=7, Mask=2, Doll=1, ThirdMovement=1, EarlGrey=1, and purge rewards.',
     'Phase N6 contract: Cute Animal Band-Aid healed exactly 1 only after successful post-combat reward selection.',
     'Phase N6 contract: all relic, potion, hook-order, reward, and save preparation checks passed. Relics=11/11, Potions=6/6.'
@@ -218,7 +218,7 @@ $reloadIssueLines = @(
 
 $summary = [pscustomobject]@{
     Seed = $Seed
-    PureAssertionCount = 191
+    PureAssertionCount = 179
     GameplayMarkerCount = $requiredGameplayMarkers.Count
     GameplayMarkersPassed = $true
     RelicsVerified = 11

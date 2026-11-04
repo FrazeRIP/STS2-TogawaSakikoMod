@@ -14,7 +14,7 @@ public sealed class MelodyCard : CardModel
 
     public override bool CanBeGeneratedByModifiers => false;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6m, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(80m, ValueProp.Move)];
 
     public override string PortraitPath => NativeAssetPaths.MelodyPortrait;
 
@@ -35,6 +35,6 @@ public sealed class MelodyCard : CardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(3m);
+        DynamicVars.Damage.UpgradeValueBy(20m);
     }
 }

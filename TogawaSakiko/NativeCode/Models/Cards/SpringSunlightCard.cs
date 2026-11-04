@@ -20,7 +20,7 @@ public sealed class SpringSunlightCard : CardModel
     public override string PortraitPath => NativeAssetPaths.SpringSunlightPortrait;
 
     public SpringSunlightCard()
-        : base(0, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+        : base(0, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
     {
     }
 
@@ -39,6 +39,7 @@ public sealed class SpringSunlightCard : CardModel
         int cost = CalculateCost(player.Deck.Cards.Count);
         foreach (SpringSunlightCard card in player.PlayerCombatState.AllCards.OfType<SpringSunlightCard>())
         {
+            // Only change the base: native free-attack and cost modifiers still apply afterward.
             card.EnergyCost.SetCustomBaseCost(cost);
         }
     }
@@ -75,11 +76,12 @@ public sealed class SpringSunlightCard : CardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target);
+        var combatState = CombatState
+            ?? throw new InvalidOperationException("Spring Sunlight requires an active combat.");
         RefreshCombatCosts(Owner);
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
-            .Targeting(cardPlay.Target)
+            .TargetingAllOpponents(combatState)
             .WithHitFx("vfx/vfx_heavy_blunt")
             .Execute(choiceContext);
     }

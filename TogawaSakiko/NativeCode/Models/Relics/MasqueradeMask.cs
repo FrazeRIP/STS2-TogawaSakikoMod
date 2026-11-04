@@ -7,7 +7,7 @@ namespace TogawaSakiko.NativeCode.Models.Relics;
 
 public sealed class MasqueradeMask : SakikoRelicModel
 {
-    internal const int TriggerAmount = 3;
+    internal const int TriggerAmount = 5;
 
     private int _purgedCards;
 

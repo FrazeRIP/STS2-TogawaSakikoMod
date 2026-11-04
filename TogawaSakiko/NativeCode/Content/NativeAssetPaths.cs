@@ -46,6 +46,17 @@ internal static class NativeAssetPaths
 
     public const string MomentMemoryPortrait = Root + "/images/card_portraits/big/momentmemorycard.png";
     public const string NovaHistoriaPortrait = Root + "/images/card_portraits/big/novahistoriacard.png";
+    public const string MomentMemorySmallPortrait = Root + "/images/card_portraits/momentmemorycard.png";
+    public const string NovaHistoriaSmallPortrait = Root + "/images/card_portraits/novahistoriacard.png";
+
+    // Art of STS1 cards with no native model, reused by cards added in the STS2 rework.
+    public const string AreTheseLyricsPortrait = Root + "/images/card_portraits/aretheselyricscard.png";
+    public const string AuthorityRestorationPortrait = Root + "/images/card_portraits/authorityrestorationcard.png";
+    public const string IWantToBeYourGodPortrait = Root + "/images/card_portraits/iwanttobeyourgodcard.png";
+    public const string NeverGiveYouUpPortrait = Root + "/images/card_portraits/nevergiveyouupcard.png";
+    public const string NumbersAndFacesPortrait = Root + "/images/card_portraits/numbersandfacescard.png";
+    public const string PassionPortrait = Root + "/images/card_portraits/passioncard.png";
+    public const string RaiseTheBetPortrait = Root + "/images/card_portraits/raisethebetcard.png";
 
     public const string StrikePortrait = Root + "/images/card_portraits/striketogawasakiko.png";
     public const string DefendPortrait = Root + "/images/card_portraits/defendtogawasakiko.png";

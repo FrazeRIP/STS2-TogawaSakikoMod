@@ -44,9 +44,9 @@ internal static class CombatMultiplayerContractDiagnostics
             GD.Print($"Multiplayer shared combat: deck identity owner={owner.NetId}.");
             int originalDeckCount = owner.Deck.Cards.Count;
             var first = await PersistentDeckMutation.AddCanonicalWithCombatCopyAsync<DesireCard>(
-                owner, combat, PileType.Draw, skipPersistentVisuals: true);
+                owner, skipPersistentVisuals: true);
             var second = await PersistentDeckMutation.AddCanonicalWithCombatCopyAsync<DesireCard>(
-                owner, combat, PileType.Discard, skipPersistentVisuals: true);
+                owner, skipPersistentVisuals: true);
             Require(first.Success && second.Success, "duplicate deck fixture could not be added");
             CardModel firstCard = first.PersistentCard!;
             CardModel secondCard = second.PersistentCard!;
@@ -80,7 +80,7 @@ internal static class CombatMultiplayerContractDiagnostics
                 rejectedOtherOwner = true;
             }
             Require(rejectedOtherOwner, "a packet could remove another player's persistent card");
-            Require(second.CombatCard!.Pile?.Type == PileType.Discard,
+            Require(second.CombatCard!.Pile?.Type == PileType.Hand && !second.CombatCard.HasBeenRemovedFromState,
                 "removing an identical card changed another linked copy");
             Require((await PersistentDeckMutation.RemoveAsync(secondCard, false, true)).Success,
                 "exact queued identity could not be removed");

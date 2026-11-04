@@ -11,8 +11,6 @@ namespace TogawaSakiko.NativeCode.Models.Cards;
 
 public sealed class ChoirSChoirCard : CardModel
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(6m, ValueProp.Move)];
 
@@ -50,6 +48,6 @@ public sealed class ChoirSChoirCard : CardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(1m);
+        AddKeyword(CardKeyword.Retain);
     }
 }

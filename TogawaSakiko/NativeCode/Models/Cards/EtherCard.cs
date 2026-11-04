@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -7,13 +8,13 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using TogawaSakiko.NativeCode.Commands;
 using TogawaSakiko.NativeCode.Content;
+using TogawaSakiko.NativeCode.Presentation;
 using TogawaSakiko.NativeCode.Presentation.Godot;
 
 namespace TogawaSakiko.NativeCode.Models.Cards;
 
 public sealed class EtherCard : CardModel
 {
-    public const int MaximumExhaustCount = 12;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(2m, ValueProp.Move)];
@@ -28,49 +29,53 @@ public sealed class EtherCard : CardModel
     {
     }
 
-    internal static CardModel[] SelectCardsToExhaust(IEnumerable<CardModel> drawPile)
-    {
-        return drawPile
-            .Where(card => card.Type != CardType.Attack)
-            .Take(MaximumExhaustCount)
-            .ToArray();
-    }
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        var combatState = CombatState
-            ?? throw new InvalidOperationException("Ether requires an active combat.");
-        int exhaustedCount = 0;
-        foreach (CardModel card in SelectCardsToExhaust(PileType.Draw.GetPile(Owner).Cards))
+        int removed = 0;
+        var candidates = SakikoPurgeCommand.GetCandidates(Owner).ToArray();
+        if (candidates.Length > 0)
         {
-            CardPileAddResult? result = await CardCmd.Exhaust(choiceContext, card);
-            if (result is { success: true })
+            using var tips = PurgeCardLocationTips.ShowFor(candidates);
+            var selected = (await CardSelectCmd.FromSimpleGrid(
+                choiceContext,
+                candidates,
+                Owner,
+                new CardSelectorPrefs(SelectionScreenPrompt, 0, 1) { Cancelable = true })).FirstOrDefault();
+            if (selected is not null)
             {
-                exhaustedCount++;
+                // Stable card identity is the name, independent of upgrades/enchantments/growth.
+                var matches = candidates.Where(c => c.Id == selected.Id).ToArray();
+                foreach (var card in matches)
+                {
+                    var result = await SakikoPurgeCommand.RemoveAsync(card);
+                    if (result.Success)
+                    {
+                        removed++;
+                    }
+                    else if (!result.Prevented)
+                    {
+                        throw new InvalidOperationException(result.FailureReason);
+                    }
+                }
             }
         }
 
-        if (exhaustedCount > 0)
+        if (removed > 0)
         {
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-                .WithHitCount(exhaustedCount)
+                .WithHitCount(removed)
                 .FromCard(this, cardPlay)
                 .Targeting(cardPlay.Target)
                 .WithHitVfxNode(target => SakikoDazzlingImpactVfxNode.Create(target))
                 .Execute(choiceContext);
         }
 
-        PersistentDeckAndCombatAddResult addition =
-            await PersistentDeckMutation.AddCanonicalWithCombatCopyAsync<OblivionisCard>(
-                Owner,
-                combatState,
-                PileType.Discard);
-        CardCmd.PreviewCardPileAdd(addition.PersistentResult);
+        await CombatRewardCardCommand.AddAsync<OblivionisCard>(Owner, upgraded: false);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(1m);
+        EnergyCost.UpgradeBy(-1);
     }
 }

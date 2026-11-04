@@ -1,4 +1,3 @@
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -70,7 +69,7 @@ public sealed class CharismaticFormPower : PowerModel
         CardModel? cardSource)
     {
         int copiedAmount = (int)amount;
-        if (copiedAmount <= 0 ||
+        if (copiedAmount <= 0 || power.Amount <= 0 ||
             power.Owner.Side == Owner.Side ||
             power.TypeForCurrentAmount != PowerType.Buff)
         {
